@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "LWTabBarVC_iPhone.h"
 @interface AppDelegate ()
 
 @end
@@ -20,6 +20,11 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    
+    
+    LWTabBarVC_iPhone *rootVC = [[LWTabBarVC_iPhone alloc]init];
+    self.window.rootViewController = rootVC;
     return YES;
 }
 

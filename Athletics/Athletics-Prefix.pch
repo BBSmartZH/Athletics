@@ -1,0 +1,230 @@
+//
+//  Athletics-Prefix.pch
+//  Athletics
+//
+//  Created by 李宛 on 16/4/9.
+//  Copyright © 2016年 李宛. All rights reserved.
+//
+
+#ifdef __OBJC__
+
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "AFNetworking.h"
+
+#import "LWGlobalUtil.h"
+#import "Masonry.h"
+
+#if DEBUG
+
+#define NSLog(FORMAT, ...) fprintf(stderr,"%s:%d\t%s\t\r%s\n",[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __LINE__, __FUNCTION__,[[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String])
+
+#else
+
+#define NSLog(...) {}
+
+#endif
+
+#import "LWGlobalUtil.h"
+#import "LWDateUtil.h"
+
+//字典
+#define kIsInvalidDict(objDict) (objDict==nil || ![objDict isKindOfClass:[NSDictionary class]])
+//数组
+#define kIsInvalidArray(objArray) (objArray == nil || ![objArray isKindOfClass:[NSArray class]])
+
+#define kNetworkErrorMsg @"网络服务出错"
+
+// 在使用block的地方，不能使用强引用
+#define kWeakObject(object) __weak typeof(object) weakObject = object;
+
+// 获取主线程
+#define kMainThread (dispatch_get_main_queue())
+// 全局线程
+#define kGlobalThread dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+
+// @{
+// @name 适配相关
+
+// 判断是否是ios6及其以上版本
+#define kIsIOS6OrLater ([UIDevice currentDevice].systemVersion.integerValue >= 6 ? YES : NO)
+// 判断是否是ios7及其以上版本
+#define kIsIOS7OrLater ([UIDevice currentDevice].systemVersion.integerValue >= 7 ? YES : NO)
+
+// 获取屏幕的高度
+#define kScreenHeight ([UIScreen mainScreen].bounds.size.height)
+// 获取屏幕的宽
+#define kScreenWidth ([UIScreen mainScreen].bounds.size.width)
+// 判断是否是iPhone5
+#define kIsIPhone5OrLater [[UIScreen mainScreen] currentMode].size.height > 960
+
+#define kIs3_5Screen (kScreenHeight == 480 && kScreenWidth == 320)
+
+#define k6Plus (kScreenHeight >= 667)
+#define k6 (kScreenHeight > 568 && kScreenHeight < 667)
+
+// 导航的高度
+#define kNavigationBarHeight  44.0
+#define kStatusBarHeight (kIsIOS7OrLater ? 20.0 : 0.0)
+// 标签栏的高度
+#define kTabBarHeight 49.0
+
+#define kHeigth(height) (height)
+#define kRect(rect) CGRectMake(kHeigth(rect.origin.x),kHeigth(rect.origin.y), kHeigth(rect.size.width), kHeigth(rect.size.height))
+// @} end
+
+// @{
+// @name 颜色相关宏
+
+///< 参数格式为：0xFFFFFF
+#define kColorWith16RGB(rgbValue) \
+[UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
+green:((float)((rgbValue & 0xFF00) >> 8)) / 255.0 \
+blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
+///< 参数格式：22,22,22
+#define kColorWithRGB(r, g, b) ([UIColor colorWithRed:(r) / 255.0  \
+green:(g) / 255.0  \
+blue:(b) / 255.0  \
+alpha:1])
+#define kRGBColor(r,g,b) kColorWithRGB(r, g, b)
+
+///< 参数格式：22,22,22,0.5
+#define kColorWithRGBA(r, g, b, a) ([UIColor colorWithRed:(r) / 255.0  \
+green:(g) / 255.0  \
+blue:(b) / 255.0  \
+alpha:(a)])
+
+// @} end
+
+// @{
+// @name 字体相关宏
+#define kFontWithSize(Size) ([UIFont systemFontOfSize:Size])
+#define kBoldFontWithSize(Size) [UIFont boldSystemFontOfSize:Size]
+// 使用自定义字体才调用此
+#define kFontWithNameAndSize(Name, Size) [UIFont fontWithName:Name size:Size]
+// @} end
+
+// @{
+// @name 生成图片相关
+#define kImageWithName(Name) ([UIImage imageNamed:Name])
+#define kBigImageWithName(Name) ([UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:Name ofType:nil]])
+// @} end
+
+
+// @{
+// @name 相关单例简化宏、通知
+
+#define kUserDefaults [NSUserDefaults standardUserDefaults]
+#define kNotificationCenter  [NSNotificationCenter defaultCenter]
+
+#define kPostNotificationWithName(notificationName) \
+[kNotificationCenter postNotificationName:notificationName object:nil userInfo:nil];
+
+#define kPostNotificationWithNameAndUserInfo(notificationName, userInfo) \
+[kNotificationCenter postNotificationName:notificationName object:nil userInfo:userInfo];
+// @} end
+
+// 判断空串
+#define kIsEmptyString(str) ( str == nil || !(str && ![str isKindOfClass:[NSNull class]] && [str isKindOfClass:[NSString class]] && str.length))
+// 判断是否是NSNull对象
+#define kIsNull(obj) ([obj isKindOfClass:[NSNull class]])
+
+// 打印JSON串，参数是OC对象
+#define kLogJSONObject(JSONObject) \
+NSLog(@"%@", [[NSString alloc] initWithData:[NSObject JSONDataWithObject:JSONObject] encoding:NSUTF8StringEncoding])
+// 打印JSON串，参数是OC对象
+#define kLogMsgJSONObject(Msg, JSONObject) \
+NSLog(@"%@\n%@", Msg, [[NSString alloc] initWithData:[NSObject JSONDataWithObject:JSONObject] encoding:NSUTF8StringEncoding])
+// 打印JOSN串，参数是二进制数据
+#define kLogJSONData(JSONData) \
+NSLog(@"%@", [[NSString alloc] initWithData:JSONData encoding:NSUTF8StringEncoding])
+// 打印JOSN串，参数是二进制数据
+#define kLogMsgJSONData(Msg, JSONData) \
+NSLog(@"%@\n%@", Msg, [[NSString alloc] initWithData:JSONData encoding:NSUTF8StringEncoding])
+
+
+//
+// 登录成功的通知
+#define kLoginSuccessfulNotification @"kLoginSuccessfulNotification"
+
+// 退出登录的通知
+#define kLogoutSuccessfulNotification @"kLogoutSuccessfulNotification"
+
+// 支付跳转回来的通知
+#define kPayOrderSuccessfulNotification @"kPayOrderSuccessfulNotification"
+
+// 广告有新更新的通知
+#define kUpdateAdNotification @"kUpdateAdNotification"
+
+#define kAddressChangeNotification @"kAddressChangeNotification"
+
+
+//**************************待处理
+// 主色
+//#define kNavColor kColorWith16RGB(0xff8cb3)
+
+#define kNavColor kColorWithRGB(232, 82, 128)
+
+
+// 按钮颜色
+//
+#define kButtonBlueColor kColorWithRGB(53, 176, 162)
+#define kButtonBlueHgColor kColorWithRGB(42, 133, 123)
+#define kButtonRedColor  kNavColor
+
+// 边框灰色
+#define kBorderColor k_Border_Color //kColorWith16RGB(0xcccccc)
+// 字体深黑
+#define kBoldFontColor kColorWith16RGB(0x424242)
+// 字体浅黑
+#define kFontColor kColorWith16RGB(0x6d6d6d)
+// 字体浅灰
+#define kFontLightColor kColorWith16RGB(0xa8a8a8)
+// 页面背景色
+#define kBgColor kColorWithRGB(240, 240, 240)
+// 线黑、icon背景色
+#define kLineColor kColorWithRGB(230, 230, 230)
+//#define kLineColor kColorWithRGB(240, 240, 240)
+
+/************************************************/
+
+//格式 #ffffff
+#define RGB_COLOR(_STR_) ([UIColor colorWithRed:[[NSString stringWithFormat:@"%lu", strtoul([[_STR_ substringWithRange:NSMakeRange(1, 2)] UTF8String], 0, 16)] intValue] / 255.0 green:[[NSString stringWithFormat:@"%lu", strtoul([[_STR_ substringWithRange:NSMakeRange(3, 2)] UTF8String], 0, 16)] intValue] / 255.0 blue:[[NSString stringWithFormat:@"%lu", strtoul([[_STR_ substringWithRange:NSMakeRange(5, 2)] UTF8String], 0, 16)] intValue] / 255.0 alpha:1.0])
+
+//字号px对应font
+#define kWord_Font_40px                 20.5f //[UIView transformHeight:20.5f]
+#define kWord_Font_36px                 19.0f //[UIView transformHeight:19.0f]
+#define kWord_Font_32px                 16.5f //[UIView transformHeight:16.5f]
+#define kWord_Font_30px                 16.0f //[UIView transformHeight:16.0f]
+#define kWord_Font_28px                 14.5f //[UIView transformHeight:14.5f]
+#define kWord_Font_24px                 12.5f //[UIView transformHeight:12.5f]
+#define kWord_Font_20px                 10.5f //[UIView transformHeight:10.5f]
+
+//字体颜色
+#define kWord_Color_High                RGB_COLOR(@"#333333")
+#define kWord_Color_Event               RGB_COLOR(@"#666666")
+#define kWord_Color_Low                 RGB_COLOR(@"#999999")
+
+#define k_Base_Color                    RGB_COLOR(@"#E85280")//玫红色按钮
+#define k_Border_Color                  RGB_COLOR(@"#dfdfdf")//描边
+#define k_Bg_Color                      RGB_COLOR(@"#f0f0f0")//全局背景颜色
+
+
+/************************************************/
+
+
+#define kLineHeight (0.5)
+// 所有的圆角都是这个
+#define kCornerRadius 4.0
+#define kBorderWidth kHeigth(0.5)
+
+#define kDefaultImgName @"mine-head-portrait"
+#define kDefaultProductImgName @"defaultProductImage"
+#define kDefaultAdProductImgName @"defaultAdProductImage"
+
+
+
+
+
+
+#endif
