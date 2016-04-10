@@ -93,6 +93,8 @@
 		826408A41CB95BEE00AF4126 /* LWCommunityVC_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 826408A31CB95BEE00AF4126 /* LWCommunityVC_iPhone.m */; };
 		826408A71CB95C0C00AF4126 /* LWScheduleVC_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 826408A61CB95C0C00AF4126 /* LWScheduleVC_iPhone.m */; };
 		826408AA1CB95C3C00AF4126 /* LWMineVC_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 826408A91CB95C3C00AF4126 /* LWMineVC_iPhone.m */; };
+		826408AD1CB9EBB200AF4126 /* XWDragCellCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 826408AC1CB9EBB200AF4126 /* XWDragCellCollectionView.m */; };
+		826408B01CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 826408AF1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -287,6 +289,10 @@
 		826408A61CB95C0C00AF4126 /* LWScheduleVC_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LWScheduleVC_iPhone.m; sourceTree = "<group>"; };
 		826408A81CB95C3C00AF4126 /* LWMineVC_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LWMineVC_iPhone.h; sourceTree = "<group>"; };
 		826408A91CB95C3C00AF4126 /* LWMineVC_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LWMineVC_iPhone.m; sourceTree = "<group>"; };
+		826408AB1CB9EBB200AF4126 /* XWDragCellCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XWDragCellCollectionView.h; sourceTree = "<group>"; };
+		826408AC1CB9EBB200AF4126 /* XWDragCellCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XWDragCellCollectionView.m; sourceTree = "<group>"; };
+		826408AE1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LWCustomizeVC_iPhone.h; sourceTree = "<group>"; };
+		826408AF1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LWCustomizeVC_iPhone.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -853,8 +859,12 @@
 		826408901CB95A7300AF4126 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				826408AB1CB9EBB200AF4126 /* XWDragCellCollectionView.h */,
+				826408AC1CB9EBB200AF4126 /* XWDragCellCollectionView.m */,
 				8264089F1CB95BC300AF4126 /* LWEventsVC_iPhone.h */,
 				826408A01CB95BC300AF4126 /* LWEventsVC_iPhone.m */,
+				826408AE1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.h */,
+				826408AF1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1130,6 +1140,7 @@
 				826408731CB92FB100AF4126 /* SCBaseRefreshVC_iPhone.m in Sources */,
 				826408441CB92C8A00AF4126 /* MBProgressHUD.m in Sources */,
 				8264084D1CB92C8A00AF4126 /* MJRefreshBackGifFooter.m in Sources */,
+				826408AD1CB9EBB200AF4126 /* XWDragCellCollectionView.m in Sources */,
 				8264083C1CB92C8A00AF4126 /* MASConstraintMaker.m in Sources */,
 				826408421CB92C8A00AF4126 /* View+MASAdditions.m in Sources */,
 				8264083D1CB92C8A00AF4126 /* MASLayoutConstraint.m in Sources */,
@@ -1148,6 +1159,7 @@
 				826408511CB92C8A00AF4126 /* MJRefreshNormalHeader.m in Sources */,
 				8264086D1CB92C8B00AF4126 /* LWDateUtil.m in Sources */,
 				8264084C1CB92C8A00AF4126 /* MJRefreshAutoStateFooter.m in Sources */,
+				826408B01CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m in Sources */,
 				826408461CB92C8A00AF4126 /* MJRefreshBackFooter.m in Sources */,
 				8264086F1CB92C8B00AF4126 /* LWPayManager.m in Sources */,
 				8264086A1CB92C8B00AF4126 /* LWBaseVC_iPhone.m in Sources */,
@@ -1314,7 +1326,7 @@
 				);
 				GCC_PREFIX_HEADER = "Athletics/Athletics-Prefix.pch";
 				INFOPLIST_FILE = Athletics/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1339,7 +1351,7 @@
 				);
 				GCC_PREFIX_HEADER = "Athletics/Athletics-Prefix.pch";
 				INFOPLIST_FILE = Athletics/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

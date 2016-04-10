@@ -7,7 +7,7 @@
 //
 
 #import "LWEventsVC_iPhone.h"
-
+#import "LWCustomizeVC_iPhone.h"
 @interface LWEventsVC_iPhone ()
 
 @end
@@ -16,9 +16,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    UIBarButtonItem *editingButton = [[UIBarButtonItem alloc] initWithTitle:@"+" style:UIBarButtonItemStylePlain target:self action:@selector(xwp_edting:)];
+    self.navigationItem.rightBarButtonItem = editingButton;
+
+   
 }
 
+-(void)xwp_edting:(UIBarButtonItem*)sender
+{
+    LWCustomizeVC_iPhone *customizeVC = [[LWCustomizeVC_iPhone alloc]init];
+    [self.navigationController pushViewController:customizeVC animated:YES];
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
