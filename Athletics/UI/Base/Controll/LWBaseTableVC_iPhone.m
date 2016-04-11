@@ -48,6 +48,7 @@
     _tableView.backgroundColor = [UIColor clearColor];
     
     self.tableView = _tableView;
+    [self.view addSubview:_tableView];
     
    
 }

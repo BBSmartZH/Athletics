@@ -18,9 +18,9 @@
     [super viewDidLoad];
     
 ////    使导航条有效
-//    [self setNavigationBarHidden:NO];
-////    隐藏导航条，但因为导航条有效，系统的返回按钮也有效，所以可以用系统的右滑手势返回。
-//    [self.navigationBar setHidden:YES];
+    [self setNavigationBarHidden:NO];
+//    隐藏导航条，但因为导航条有效，系统的返回按钮也有效，所以可以用系统的右滑手势返回。
+    [self.navigationBar setHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning {

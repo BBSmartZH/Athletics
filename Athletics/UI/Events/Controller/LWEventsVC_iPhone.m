@@ -8,7 +8,14 @@
 
 #import "LWEventsVC_iPhone.h"
 #import "LWCustomizeVC_iPhone.h"
+
+#import "SCEventsVC.h"
+
 @interface LWEventsVC_iPhone ()
+{
+    UIView *_topBarView;
+    UIScrollView *_topScrollView;
+}
 
 @end
 
@@ -16,15 +23,30 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIBarButtonItem *editingButton = [[UIBarButtonItem alloc] initWithTitle:@"+" style:UIBarButtonItemStylePlain target:self action:@selector(xwp_edting:)];
-    self.navigationItem.rightBarButtonItem = editingButton;
+    
+    UIButton *rightBarButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightBarButton.frame = CGRectMake(self.navigationController.navigationBar.bounds.size.width - 30, 27, 30, 30);
+    [rightBarButton addTarget:self action:@selector(rightBarButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [rightBarButton setTitle:@"+" forState:UIControlStateNormal];
+    [rightBarButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    rightBarButton.titleLabel.font = [UIFont systemFontOfSize:30];
+    [self.m_navBar addSubview:rightBarButton];
+    
+    
+    
+    _topScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(15, 27, self.view.frame.size.width - 45, 30)];
+    _topScrollView.backgroundColor = [UIColor redColor];
+    [self.m_navBar addSubview:_topScrollView];
 
    
 }
 
--(void)xwp_edting:(UIBarButtonItem*)sender
+-(void)rightBarButtonClicked:(UIButton *)sender
 {
-    LWCustomizeVC_iPhone *customizeVC = [[LWCustomizeVC_iPhone alloc]init];
+//    LWCustomizeVC_iPhone *customizeVC = [[LWCustomizeVC_iPhone alloc]init];
+//    [self.navigationController pushViewController:customizeVC animated:YES];
+    
+    SCEventsVC *customizeVC = [[SCEventsVC alloc]init];
     [self.navigationController pushViewController:customizeVC animated:YES];
     
 }

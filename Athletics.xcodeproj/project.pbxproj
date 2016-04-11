@@ -95,6 +95,10 @@
 		826408AA1CB95C3C00AF4126 /* LWMineVC_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 826408A91CB95C3C00AF4126 /* LWMineVC_iPhone.m */; };
 		826408AD1CB9EBB200AF4126 /* XWDragCellCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 826408AC1CB9EBB200AF4126 /* XWDragCellCollectionView.m */; };
 		826408B01CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 826408AF1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m */; };
+		9B82A1531CBA979A001EE35B /* SCTopScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A1521CBA979A001EE35B /* SCTopScrollView.m */; };
+		9B82A1571CBAB069001EE35B /* SCSmallEventVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A1561CBAB069001EE35B /* SCSmallEventVC.m */; };
+		9B82A15A1CBAB094001EE35B /* SCEventsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A1591CBAB094001EE35B /* SCEventsVC.m */; };
+		9B82A15E1CBAB54D001EE35B /* SCLargeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A15D1CBAB54D001EE35B /* SCLargeCollectionViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -293,6 +297,14 @@
 		826408AC1CB9EBB200AF4126 /* XWDragCellCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XWDragCellCollectionView.m; sourceTree = "<group>"; };
 		826408AE1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LWCustomizeVC_iPhone.h; sourceTree = "<group>"; };
 		826408AF1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LWCustomizeVC_iPhone.m; sourceTree = "<group>"; };
+		9B82A1511CBA979A001EE35B /* SCTopScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTopScrollView.h; sourceTree = "<group>"; };
+		9B82A1521CBA979A001EE35B /* SCTopScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTopScrollView.m; sourceTree = "<group>"; };
+		9B82A1551CBAB069001EE35B /* SCSmallEventVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSmallEventVC.h; sourceTree = "<group>"; };
+		9B82A1561CBAB069001EE35B /* SCSmallEventVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSmallEventVC.m; sourceTree = "<group>"; };
+		9B82A1581CBAB094001EE35B /* SCEventsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEventsVC.h; sourceTree = "<group>"; };
+		9B82A1591CBAB094001EE35B /* SCEventsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCEventsVC.m; sourceTree = "<group>"; };
+		9B82A15C1CBAB54D001EE35B /* SCLargeCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLargeCollectionViewCell.h; sourceTree = "<group>"; };
+		9B82A15D1CBAB54D001EE35B /* SCLargeCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLargeCollectionViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -361,6 +373,7 @@
 			children = (
 				8264075A1CB90B0300AF4126 /* AppDelegate.h */,
 				8264075B1CB90B0300AF4126 /* AppDelegate.m */,
+				9B82A14D1CBA843C001EE35B /* Resources */,
 				826407841CB92C7C00AF4126 /* Network */,
 				8264078A1CB92C8A00AF4126 /* Reference */,
 				826408171CB92C8A00AF4126 /* UI */,
@@ -774,6 +787,7 @@
 		826408211CB92C8A00AF4126 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9B82A1501CBA974F001EE35B /* TopScrollView */,
 				826408221CB92C8A00AF4126 /* LWNavigationBar.h */,
 				826408231CB92C8A00AF4126 /* LWNavigationBar.m */,
 				826408241CB92C8A00AF4126 /* SCProgressHUD.h */,
@@ -865,6 +879,7 @@
 				826408A01CB95BC300AF4126 /* LWEventsVC_iPhone.m */,
 				826408AE1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.h */,
 				826408AF1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m */,
+				9B82A1541CBAAFC9001EE35B /* Home */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -879,6 +894,7 @@
 		826408921CB95A7300AF4126 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9B82A15B1CBAB4FF001EE35B /* Home */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -980,6 +996,42 @@
 			children = (
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		9B82A14D1CBA843C001EE35B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9B82A1501CBA974F001EE35B /* TopScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				9B82A1511CBA979A001EE35B /* SCTopScrollView.h */,
+				9B82A1521CBA979A001EE35B /* SCTopScrollView.m */,
+			);
+			path = TopScrollView;
+			sourceTree = "<group>";
+		};
+		9B82A1541CBAAFC9001EE35B /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				9B82A1581CBAB094001EE35B /* SCEventsVC.h */,
+				9B82A1591CBAB094001EE35B /* SCEventsVC.m */,
+				9B82A1551CBAB069001EE35B /* SCSmallEventVC.h */,
+				9B82A1561CBAB069001EE35B /* SCSmallEventVC.m */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		9B82A15B1CBAB4FF001EE35B /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				9B82A15C1CBAB54D001EE35B /* SCLargeCollectionViewCell.h */,
+				9B82A15D1CBAB54D001EE35B /* SCLargeCollectionViewCell.m */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1148,9 +1200,12 @@
 				826408431CB92C8A00AF4126 /* ViewController+MASAdditions.m in Sources */,
 				8264086C1CB92C8B00AF4126 /* SCProgressHUD.m in Sources */,
 				826408521CB92C8A00AF4126 /* MJRefreshStateHeader.m in Sources */,
+				9B82A1531CBA979A001EE35B /* SCTopScrollView.m in Sources */,
 				826408A71CB95C0C00AF4126 /* LWScheduleVC_iPhone.m in Sources */,
 				826408691CB92C8B00AF4126 /* LWBaseTableVC_iPhone.m in Sources */,
+				9B82A15E1CBAB54D001EE35B /* SCLargeCollectionViewCell.m in Sources */,
 				8264084E1CB92C8A00AF4126 /* MJRefreshBackNormalFooter.m in Sources */,
+				9B82A1571CBAB069001EE35B /* SCSmallEventVC.m in Sources */,
 				8264086B1CB92C8B00AF4126 /* LWNavigationBar.m in Sources */,
 				826408561CB92C8A00AF4126 /* UIScrollView+MJRefresh.m in Sources */,
 				826408AA1CB95C3C00AF4126 /* LWMineVC_iPhone.m in Sources */,
@@ -1173,6 +1228,7 @@
 				826408481CB92C8A00AF4126 /* MJRefreshFooter.m in Sources */,
 				826408331CB92C8A00AF4126 /* AFSecurityPolicy.m in Sources */,
 				8264084F1CB92C8A00AF4126 /* MJRefreshBackStateFooter.m in Sources */,
+				9B82A15A1CBAB094001EE35B /* SCEventsVC.m in Sources */,
 				826408401CB92C8A00AF4126 /* NSArray+MASAdditions.m in Sources */,
 				826408491CB92C8A00AF4126 /* MJRefreshHeader.m in Sources */,
 				826408411CB92C8A00AF4126 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,

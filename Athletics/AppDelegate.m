@@ -25,6 +25,7 @@
     
     LWTabBarVC_iPhone *rootVC = [[LWTabBarVC_iPhone alloc]init];
     self.window.rootViewController = rootVC;
+    
     return YES;
 }
 
