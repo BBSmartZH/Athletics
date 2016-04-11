@@ -8,17 +8,41 @@
 
 #import <UIKit/UIKit.h>
 
+@class SCTopButton;
+@protocol SCTopScrollViewDelegate <NSObject>
+
+@optional
+- (void)topScrollButtonClicked:(SCTopButton *)sender;
+
+@end
+
 @interface SCTopScrollView : UIView
 
-@property (nonatomic, assign) CGFloat space;//Default 2.0
+@property (nonatomic, assign) id<SCTopScrollViewDelegate> delegate;
 
-@property (nonatomic, strong) UIColor *itemTextNorColor;
+@property (nonatomic, assign) CGFloat space;//Default 5.0
 
-@property (nonatomic, strong) UIColor *itemTextHighColor;
+//@property (nonatomic, strong) UIColor *itemTextNorColor;
+//
+//@property (nonatomic, strong) UIColor *itemTextHighColor;
 
 
 - (instancetype)initWithFrame:(CGRect)frame;
 
-- (void)update;
+- (void)updateWithTitleArray:(NSArray *)titleArray selectedIndex:(NSInteger)selectedIndex;
+
+- (void)topScrollViewScrollPart:(float)part page:(NSInteger)page;
+
+- (void)scrollToPage:(NSInteger)page;
+
+@end
+
+
+
+@interface SCTopButton : UIButton
+
+@property (nonatomic, assign) NSInteger index;
+@property (nonatomic, assign) CGFloat buttonWidth;
+@property (nonatomic, copy) NSString *subTitle;
 
 @end

@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^ColumEditBlock)(NSMutableArray *array);
+
 @interface LWCustomizeVC_iPhone : UIViewController
+
+@property (nonatomic, copy) ColumEditBlock editBlock;
+
+
 
 @end

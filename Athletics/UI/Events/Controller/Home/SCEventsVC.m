@@ -11,12 +11,18 @@
 #import "SCLargeCollectionViewCell.h"
 
 #import "SCSmallEventVC.h"
+#import "SCTopScrollView.h"
 
-@interface SCEventsVC ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+#import "LWCustomizeVC_iPhone.h"
+
+@interface SCEventsVC ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, SCTopScrollViewDelegate>
 {
     UICollectionView *_collectionView;
     NSMutableArray *_vcArray;
     NSMutableArray *_vcViewArray;
+    
+    SCTopScrollView *_topScrollView;
+    BOOL _isDragging;
 }
 
 @end
@@ -45,28 +51,44 @@ static NSString *collectionCellId = @"SCLargeCollectionViewCell";
     _vcArray = [NSMutableArray array];
     _vcViewArray = [NSMutableArray array];
     
-    SCSmallEventVC *smallVC1 = [[SCSmallEventVC alloc] init];
-//    smallVC1.view.backgroundColor = [UIColor redColor];
-    [_vcViewArray addObject:smallVC1.view];
-    [_vcArray addObject:smallVC1];
+    NSArray *titleArray = @[@"哈哈哈", @"Dota2", @"嘻嘻嘻嘻嘻", @"呵呵呵呵", @"啦啦啦啦", @"哈哈哈", @"NBA", @"嘻嘻嘻嘻嘻", @"呵呵呵呵", @"啦啦啦啦"];
+//    NSArray *titleArray = @[@"Dota2", @"Dota2", @"Dota2"];
+
     
-    SCSmallEventVC *smallVC2 = [[SCSmallEventVC alloc] init];
-//    smallVC2.view.backgroundColor = [UIColor greenColor];
-    [_vcViewArray addObject:smallVC2.view];
-    [_vcArray addObject:smallVC2];
+    for (int i = 0; i < titleArray.count; i++) {
+        SCSmallEventVC *smallVC = [[SCSmallEventVC alloc] init];
+        [_vcViewArray addObject:smallVC.view];
+        [_vcArray addObject:smallVC];
+    }
 
-    SCSmallEventVC *smallVC3 = [[SCSmallEventVC alloc] init];
-//    smallVC3.view.backgroundColor = [UIColor blueColor];
-    [_vcViewArray addObject:smallVC3.view];
-    [_vcArray addObject:smallVC3];
-
-    SCSmallEventVC *smallVC4 = [[SCSmallEventVC alloc] init];
-//    smallVC4.view.backgroundColor = [UIColor cyanColor];
-    [_vcViewArray addObject:smallVC4.view];
-    [_vcArray addObject:smallVC4];
-
-    _collectionView.contentSize = CGSizeMake(2000, _collectionView.bounds.size.height);
+//    _collectionView.contentSize = CGSizeMake(_collectionView.bounds.size.width * titleArray.count, _collectionView.bounds.size.height);
     
+    UIButton *rightBarButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightBarButton.frame = CGRectMake(self.navigationController.navigationBar.bounds.size.width - 30, 27, 30, 30);
+    [rightBarButton addTarget:self action:@selector(rightBarButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [rightBarButton setTitle:@"+" forState:UIControlStateNormal];
+    [rightBarButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    rightBarButton.titleLabel.font = [UIFont systemFontOfSize:20.0f];
+    [self.m_navBar addSubview:rightBarButton];
+    
+    _topScrollView = [[SCTopScrollView alloc] initWithFrame:CGRectMake(15, 27, self.view.frame.size.width - 45, 30)];
+    _topScrollView.delegate = self;
+    [self.m_navBar addSubview:_topScrollView];
+    
+    [_topScrollView updateWithTitleArray:titleArray selectedIndex:0];
+
+    
+}
+
+-(void)rightBarButtonClicked:(UIButton *)sender {
+    LWCustomizeVC_iPhone *customizeVC = [[LWCustomizeVC_iPhone alloc]init];
+    [self.navigationController pushViewController:customizeVC animated:YES];
+
+}
+
+- (void)topScrollButtonClicked:(SCTopButton *)sender {
+    
+    [_collectionView setContentOffset:CGPointMake(_collectionView.bounds.size.width * sender.index, 0) animated:NO];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -91,6 +113,31 @@ static NSString *collectionCellId = @"SCLargeCollectionViewCell";
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     return 0.0f;
+}
+
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    NSInteger pag = scrollView.contentOffset.x / scrollView.bounds.size.width;
+    [_topScrollView scrollToPage:pag];
+    _isDragging = NO;
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    _isDragging = YES;
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (_isDragging) {
+        NSInteger page = scrollView.contentOffset.x / scrollView.bounds.size.width;
+        if (scrollView == _collectionView) {
+            if (scrollView.contentOffset.x > 0 && scrollView.contentSize.width - scrollView.contentOffset.x - scrollView.bounds.size.width > 0) {
+                float part = scrollView.contentOffset.x / scrollView.contentSize.width;
+                [_topScrollView topScrollViewScrollPart:part page:page];
+            }
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {

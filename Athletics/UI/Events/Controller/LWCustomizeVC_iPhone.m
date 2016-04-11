@@ -71,11 +71,11 @@ static NSString * const reuseIdentifier = @"Cell";
 - (NSArray *)dataSourceArrayOfCollectionView:(XWDragCellCollectionView *)collectionView{
     return _data;
 }
+
 #pragma mark - <XWDragCellCollectionViewDelegate>
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-//    XWCellModel *model = _data[indexPath.section][indexPath.item];
-//    NSLog(@"点击了%@",model.title);
+    
 }
 
 - (void)dragCellCollectionView:(XWDragCellCollectionView *)collectionView newDataArrayAfterMove:(NSArray *)newDataArray{

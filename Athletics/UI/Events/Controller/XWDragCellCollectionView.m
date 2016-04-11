@@ -344,7 +344,7 @@ typedef NS_ENUM(NSUInteger, XWDragCellCollectionViewScrollDirection) {
 - (void)xw_enterEditingModel{
     _editing = YES;
     _oldMinimumPressDuration =  _longPressGesture.minimumPressDuration;
-    _longPressGesture.minimumPressDuration = 0;
+    _longPressGesture.minimumPressDuration = 0.5;
     if (_shakeWhenMoveing) {
         [self xwp_shakeAllCell];
         [self addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
