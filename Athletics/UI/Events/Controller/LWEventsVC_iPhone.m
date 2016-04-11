@@ -18,6 +18,9 @@
     [super viewDidLoad];
     UIBarButtonItem *editingButton = [[UIBarButtonItem alloc] initWithTitle:@"+" style:UIBarButtonItemStylePlain target:self action:@selector(xwp_edting:)];
     self.navigationItem.rightBarButtonItem = editingButton;
+    
+    
+    //这是我提交的代码
 
    
 }
