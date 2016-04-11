@@ -9,11 +9,14 @@
 #import "LWNewsTabVC.h"
 #import "LWNewsTypeNormalCell.h"
 #import "LWPhotosNormalCell.h"
+#import "LWNBACell.h"
 @interface LWNewsTabVC ()
 
 @end
 static NSString *newsTypeCell = @"newsTypeCell";
 static NSString *photosCell = @"photosCell";
+static NSString *NBACell = @"NBACell";
+
 @implementation LWNewsTabVC
 
 - (void)viewDidLoad {
@@ -23,6 +26,7 @@ static NSString *photosCell = @"photosCell";
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     [_tableView registerClass:[LWNewsTypeNormalCell class] forCellReuseIdentifier:newsTypeCell];
     [_tableView registerClass:[LWPhotosNormalCell class] forCellReuseIdentifier:photosCell];
+    [_tableView registerClass:[LWNBACell class] forCellReuseIdentifier:NBACell];
     
     [_tableView reloadData];
     
@@ -36,17 +40,23 @@ static NSString *photosCell = @"photosCell";
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 3;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
+        LWNBACell *cell = [tableView dequeueReusableCellWithIdentifier:NBACell forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell configLayoutWithModel:@1];
+        return cell;
+        
+    }else if(indexPath.section ==1){
         LWNewsTypeNormalCell *cell = [tableView dequeueReusableCellWithIdentifier:newsTypeCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell configLayoutWithModel:@1];
@@ -60,6 +70,7 @@ static NSString *photosCell = @"photosCell";
         
         return cell;
     }
+        
     return NULL;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -73,6 +84,8 @@ static NSString *photosCell = @"photosCell";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
+        return [LWNBACell heightForRow];
+    }else if (indexPath.section == 1) {
         return [LWNewsTypeNormalCell heightForRow];
     }else{
         return [LWPhotosNormalCell heightForRowWithPhotos];
