@@ -46,9 +46,9 @@
     _tableView.showsHorizontalScrollIndicator = NO;
     _tableView.showsVerticalScrollIndicator = NO;
     _tableView.backgroundColor = [UIColor clearColor];
-    
-    self.tableView = _tableView;
     [self.view addSubview:_tableView];
+
+    self.tableView = _tableView;
     
    
 }
@@ -61,8 +61,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return _datasource.count;
+    return 0;
 }
 
 

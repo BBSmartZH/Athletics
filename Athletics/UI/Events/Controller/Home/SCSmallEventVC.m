@@ -22,6 +22,9 @@
     
     _tableView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     
+    _tableView.backgroundColor = [UIColor yellowColor];
+    
+    [_tableView reloadData];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

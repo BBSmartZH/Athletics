@@ -47,6 +47,7 @@
 //    [self.navigationController pushViewController:customizeVC animated:YES];
     
     SCEventsVC *customizeVC = [[SCEventsVC alloc]init];
+    customizeVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:customizeVC animated:YES];
     
 }

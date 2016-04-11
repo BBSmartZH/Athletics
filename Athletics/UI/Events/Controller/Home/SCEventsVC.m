@@ -44,19 +44,19 @@ static NSString *collectionCellId = @"SCLargeCollectionViewCell";
     _vcArray = [NSMutableArray array];
     
     SCSmallEventVC *smallVC1 = [[SCSmallEventVC alloc] init];
-    smallVC1.view.backgroundColor = [UIColor redColor];
+//    smallVC1.view.backgroundColor = [UIColor redColor];
     [_vcArray addObject:smallVC1.view];
     
     SCSmallEventVC *smallVC2 = [[SCSmallEventVC alloc] init];
-    smallVC2.view.backgroundColor = [UIColor greenColor];
+//    smallVC2.view.backgroundColor = [UIColor greenColor];
     [_vcArray addObject:smallVC2.view];
     
     SCSmallEventVC *smallVC3 = [[SCSmallEventVC alloc] init];
-    smallVC3.view.backgroundColor = [UIColor blueColor];
+//    smallVC3.view.backgroundColor = [UIColor blueColor];
     [_vcArray addObject:smallVC3.view];
     
     SCSmallEventVC *smallVC4 = [[SCSmallEventVC alloc] init];
-    smallVC4.view.backgroundColor = [UIColor cyanColor];
+//    smallVC4.view.backgroundColor = [UIColor cyanColor];
     [_vcArray addObject:smallVC4.view];
     
     _collectionView.contentSize = CGSizeMake(2000, _collectionView.bounds.size.height);
