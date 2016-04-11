@@ -8,11 +8,17 @@
 
 #import "LWCustomizeVC_iPhone.h"
 #import "XWDragCellCollectionView.h"
-@interface LWCustomizeVC_iPhone ()<XWDragCellCollectionViewDataSource,XWDragCellCollectionViewDelegate>
 
-@property(nonatomic,strong)NSArray *data;
+#import "SCDragCollectionView.h"
+
+//@interface LWCustomizeVC_iPhone ()<XWDragCellCollectionViewDataSource,XWDragCellCollectionViewDelegate>
+@interface LWCustomizeVC_iPhone ()<SCDragCollectionViewDelegate,SCDragCollectionViewDatasource>
+
+@property(nonatomic,strong)NSMutableArray *data;
 @property(nonatomic,strong)NSArray *colorsArray ;
-@property(nonatomic,weak)XWDragCellCollectionView *mainView;
+//@property(nonatomic,weak)XWDragCellCollectionView *mainView;
+@property(nonatomic,weak)SCDragCollectionView *mainView;
+
 @end
 
 @implementation LWCustomizeVC_iPhone
@@ -26,15 +32,22 @@ static NSString * const reuseIdentifier = @"Cell";
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
     layout.itemSize = CGSizeMake((self.view.bounds.size.width-50)/3.0,(self.view.bounds.size.width-50)/3 );
     layout.sectionInset = UIEdgeInsetsMake(15, 15, 15, 15);
-    XWDragCellCollectionView *mainView = [[XWDragCellCollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+//    XWDragCellCollectionView *mainView = [[XWDragCellCollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+//    _mainView = mainView;
+//    mainView.delegate = self;
+//    mainView.dataSource = self;
+//    mainView.shakeLevel = 3.0f;
+//    mainView.backgroundColor = [UIColor whiteColor];
+//    [mainView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+//    调用方法
+//    [_mainView xw_enterEditingModel];
+    
+    SCDragCollectionView *mainView = [[SCDragCollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
     _mainView = mainView;
     mainView.delegate = self;
     mainView.dataSource = self;
-    mainView.shakeLevel = 3.0f;
     mainView.backgroundColor = [UIColor whiteColor];
     [mainView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
-//    调用方法
-    [_mainView xw_enterEditingModel];
 
     self.colorsArray = @[[UIColor redColor], [UIColor blueColor], [UIColor yellowColor], [UIColor orangeColor], [UIColor greenColor]];
     [self.view addSubview:mainView];
@@ -44,22 +57,25 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (NSArray *)data{
     if (!_data) {
-        NSMutableArray *temp = [NSMutableArray array];
-        for (int i = 0; i < 10; i ++) {
-            NSString *str = [NSString stringWithFormat:@"%d",i];
-            [temp addObject:str];
+        _data = [NSMutableArray array];
+        for (int i = 0; i < 2; i++) {
+            NSMutableArray *temp = [NSMutableArray array];
+            for (int i = 0; i < 10; i ++) {
+                NSString *str = [NSString stringWithFormat:@"%d",i];
+                [temp addObject:str];
+            }
+            [_data addObject:temp];
         }
-        _data = [NSArray arrayWithArray:temp];
     }
     return _data;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return 1;
+    return self.data.count;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.data.count;
+    return ((NSArray *)[self.data objectAtIndex:section]).count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -68,28 +84,65 @@ static NSString * const reuseIdentifier = @"Cell";
     return cell;
 }
 
-- (NSArray *)dataSourceArrayOfCollectionView:(XWDragCellCollectionView *)collectionView{
+
+- (NSArray *)dataSourceArrayOfCollectionView:(SCDragCollectionView *)collectionView{
     return _data;
+}
+
+- (void)dragCellCollectionView:(SCDragCollectionView *)collectionView newDataArrayAfterMove:(NSArray *)newDataArray{
+    _data = newDataArray.mutableCopy;
+}
+
+- (void)dragCellCollectionView:(SCDragCollectionView *)collectionView cellWillBeginMoveAtIndexPath:(NSIndexPath *)indexPath{
+    
+}
+
+- (void)dragCellCollectionViewCellEndMoving:(SCDragCollectionView *)collectionView{
+    
+}
+
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        NSMutableArray *sectionArray0 = [[_data objectAtIndex:0] mutableCopy];
+        
+        NSMutableArray *sectionArray1 = [[_data objectAtIndex:1] mutableCopy];
+        [sectionArray1 addObject:[sectionArray0 objectAtIndex:indexPath.item]];
+        
+        [sectionArray0 removeObjectAtIndex:indexPath.item];
+        
+        _data = @[sectionArray0, sectionArray1].mutableCopy;
+        [collectionView reloadData];
+    }else if (indexPath.section == 1) {
+        NSMutableArray *sectionArray1 = [[_data objectAtIndex:1] mutableCopy];
+
+        NSMutableArray *sectionArray0 = [[_data objectAtIndex:0] mutableCopy];
+        [sectionArray0 addObject:[sectionArray1 objectAtIndex:indexPath.item]];
+        
+        [sectionArray1 removeObjectAtIndex:indexPath.item];
+        _data = @[sectionArray0, sectionArray1].mutableCopy;
+        [collectionView reloadData];
+    }
 }
 
 #pragma mark - <XWDragCellCollectionViewDelegate>
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-}
+//- (NSArray *)dataSourceArrayOfCollectionView:(XWDragCellCollectionView *)collectionView{
+//    return _data;
+//}
 
-- (void)dragCellCollectionView:(XWDragCellCollectionView *)collectionView newDataArrayAfterMove:(NSArray *)newDataArray{
-    _data = newDataArray;
-}
 
-- (void)dragCellCollectionView:(XWDragCellCollectionView *)collectionView cellWillBeginMoveAtIndexPath:(NSIndexPath *)indexPath{
-    //拖动时候最后禁用掉编辑按钮的点击
-//    _editButton.enabled = NO;
-}
-
-- (void)dragCellCollectionViewCellEndMoving:(XWDragCellCollectionView *)collectionView{
-//    _editButton.enabled = YES;
-}
+//- (void)dragCellCollectionView:(XWDragCellCollectionView *)collectionView newDataArrayAfterMove:(NSArray *)newDataArray{
+//    _data = newDataArray;
+//}
+//
+//- (void)dragCellCollectionView:(XWDragCellCollectionView *)collectionView cellWillBeginMoveAtIndexPath:(NSIndexPath *)indexPath{
+//    
+//}
+//
+//- (void)dragCellCollectionViewCellEndMoving:(XWDragCellCollectionView *)collectionView{
+//    
+//}
 
 
 - (void)didReceiveMemoryWarning {

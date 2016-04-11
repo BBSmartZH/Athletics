@@ -103,6 +103,7 @@
 		9B82A1571CBAB069001EE35B /* SCSmallEventVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A1561CBAB069001EE35B /* SCSmallEventVC.m */; };
 		9B82A15A1CBAB094001EE35B /* SCEventsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A1591CBAB094001EE35B /* SCEventsVC.m */; };
 		9B82A15E1CBAB54D001EE35B /* SCLargeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A15D1CBAB54D001EE35B /* SCLargeCollectionViewCell.m */; };
+		9B82A1611CBBEBD3001EE35B /* SCDragCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A1601CBBEBD3001EE35B /* SCDragCollectionView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -317,6 +318,8 @@
 		9B82A1591CBAB094001EE35B /* SCEventsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCEventsVC.m; sourceTree = "<group>"; };
 		9B82A15C1CBAB54D001EE35B /* SCLargeCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLargeCollectionViewCell.h; sourceTree = "<group>"; };
 		9B82A15D1CBAB54D001EE35B /* SCLargeCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLargeCollectionViewCell.m; sourceTree = "<group>"; };
+		9B82A15F1CBBEBD3001EE35B /* SCDragCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCDragCollectionView.h; sourceTree = "<group>"; };
+		9B82A1601CBBEBD3001EE35B /* SCDragCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCDragCollectionView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1058,6 +1061,8 @@
 				825EED751CBB50F60099D41D /* LWNewsTypeNormalCell.m */,
 				825EED771CBB603F0099D41D /* LWPhotosNormalCell.h */,
 				825EED781CBB603F0099D41D /* LWPhotosNormalCell.m */,
+				9B82A15F1CBBEBD3001EE35B /* SCDragCollectionView.h */,
+				9B82A1601CBBEBD3001EE35B /* SCDragCollectionView.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1217,6 +1222,7 @@
 				826408A11CB95BC300AF4126 /* LWEventsVC_iPhone.m in Sources */,
 				8264088E1CB9568D00AF4126 /* LWTabBarVC_iPhone.m in Sources */,
 				8264083A1CB92C8A00AF4126 /* MASCompositeConstraint.m in Sources */,
+				9B82A1611CBBEBD3001EE35B /* SCDragCollectionView.m in Sources */,
 				826408471CB92C8A00AF4126 /* MJRefreshComponent.m in Sources */,
 				826408731CB92FB100AF4126 /* SCBaseRefreshVC_iPhone.m in Sources */,
 				826408441CB92C8A00AF4126 /* MBProgressHUD.m in Sources */,
