@@ -16,6 +16,7 @@
 {
     UICollectionView *_collectionView;
     NSMutableArray *_vcArray;
+    NSMutableArray *_vcViewArray;
 }
 
 @end
@@ -42,35 +43,40 @@ static NSString *collectionCellId = @"SCLargeCollectionViewCell";
     [_collectionView registerClass:[SCLargeCollectionViewCell class] forCellWithReuseIdentifier:collectionCellId];
     
     _vcArray = [NSMutableArray array];
+    _vcViewArray = [NSMutableArray array];
     
     SCSmallEventVC *smallVC1 = [[SCSmallEventVC alloc] init];
 //    smallVC1.view.backgroundColor = [UIColor redColor];
-    [_vcArray addObject:smallVC1.view];
+    [_vcViewArray addObject:smallVC1.view];
+    [_vcArray addObject:smallVC1];
     
     SCSmallEventVC *smallVC2 = [[SCSmallEventVC alloc] init];
 //    smallVC2.view.backgroundColor = [UIColor greenColor];
-    [_vcArray addObject:smallVC2.view];
-    
+    [_vcViewArray addObject:smallVC2.view];
+    [_vcArray addObject:smallVC2];
+
     SCSmallEventVC *smallVC3 = [[SCSmallEventVC alloc] init];
 //    smallVC3.view.backgroundColor = [UIColor blueColor];
-    [_vcArray addObject:smallVC3.view];
-    
+    [_vcViewArray addObject:smallVC3.view];
+    [_vcArray addObject:smallVC3];
+
     SCSmallEventVC *smallVC4 = [[SCSmallEventVC alloc] init];
 //    smallVC4.view.backgroundColor = [UIColor cyanColor];
-    [_vcArray addObject:smallVC4.view];
-    
+    [_vcViewArray addObject:smallVC4.view];
+    [_vcArray addObject:smallVC4];
+
     _collectionView.contentSize = CGSizeMake(2000, _collectionView.bounds.size.height);
     
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return _vcArray.count;
+    return _vcViewArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SCLargeCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:collectionCellId forIndexPath:indexPath];
     
-    cell.showView = [_vcArray objectAtIndex:indexPath.item];
+    cell.showView = [_vcViewArray objectAtIndex:indexPath.item];
     
     return cell;
 }
