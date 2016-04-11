@@ -1,5 +1,5 @@
 //
-//  LWNewsTypeNormalCell.h
+//  LWPhotosNormalCell.h
 //  Athletics
 //
 //  Created by 李宛 on 16/4/11.
@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LWNewsTypeNormalCell : UITableViewCell
+@interface LWPhotosNormalCell : UITableViewCell
+@property (nonatomic,assign) int  type;
 - (void)configLayoutWithModel:(id)model;
-+(CGFloat)heightForRow;
++(CGFloat)heightForRowWithPhotos;
 @end
