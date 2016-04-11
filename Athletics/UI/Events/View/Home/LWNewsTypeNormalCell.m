@@ -61,7 +61,7 @@ static CGFloat k_spacing = 8;
     _commentsImagV.backgroundColor = [UIColor greenColor];
     [self.contentView addSubview:_commentsImagV];
     _totalLabel = [[UILabel alloc]init];
-    _totalLabel.textColor = kWord_Color_Event;
+    _totalLabel.textColor = kWord_Color_Low;
     _totalLabel.hidden = YES;
     _totalLabel.font = [UIFont systemFontOfSize:kWord_Font_20px];
     [self.contentView addSubview:_totalLabel];

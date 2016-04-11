@@ -11,6 +11,7 @@
 		825EED791CBB603F0099D41D /* LWPhotosNormalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825EED781CBB603F0099D41D /* LWPhotosNormalCell.m */; };
 		825EED7C1CBB75A70099D41D /* LWNewsTabVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 825EED7B1CBB75A70099D41D /* LWNewsTabVC.m */; };
 		825EED801CBB7B830099D41D /* UITableView+FDTemplateLayoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825EED7F1CBB7B830099D41D /* UITableView+FDTemplateLayoutCell.m */; };
+		825EED861CBB8B370099D41D /* LWNBACell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825EED851CBB8B370099D41D /* LWNBACell.m */; };
 		826407591CB90B0300AF4126 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 826407581CB90B0300AF4126 /* main.m */; };
 		8264075C1CB90B0300AF4126 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8264075B1CB90B0300AF4126 /* AppDelegate.m */; };
 		8264075E1CB90B0300AF4126 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8264075D1CB90B0300AF4126 /* Assets.xcassets */; };
@@ -132,6 +133,8 @@
 		825EED7B1CBB75A70099D41D /* LWNewsTabVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LWNewsTabVC.m; sourceTree = "<group>"; };
 		825EED7E1CBB7B830099D41D /* UITableView+FDTemplateLayoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+FDTemplateLayoutCell.h"; sourceTree = "<group>"; };
 		825EED7F1CBB7B830099D41D /* UITableView+FDTemplateLayoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+FDTemplateLayoutCell.m"; sourceTree = "<group>"; };
+		825EED841CBB8B370099D41D /* LWNBACell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LWNBACell.h; sourceTree = "<group>"; };
+		825EED851CBB8B370099D41D /* LWNBACell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LWNBACell.m; sourceTree = "<group>"; };
 		826407541CB90B0300AF4126 /* Athletics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Athletics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		826407581CB90B0300AF4126 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8264075A1CB90B0300AF4126 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -1063,6 +1066,8 @@
 				825EED781CBB603F0099D41D /* LWPhotosNormalCell.m */,
 				9B82A15F1CBBEBD3001EE35B /* SCDragCollectionView.h */,
 				9B82A1601CBBEBD3001EE35B /* SCDragCollectionView.m */,
+				825EED841CBB8B370099D41D /* LWNBACell.h */,
+				825EED851CBB8B370099D41D /* LWNBACell.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1212,6 +1217,7 @@
 			files = (
 				826408551CB92C8A00AF4126 /* UIScrollView+MJExtension.m in Sources */,
 				825EED801CBB7B830099D41D /* UITableView+FDTemplateLayoutCell.m in Sources */,
+				825EED861CBB8B370099D41D /* LWNBACell.m in Sources */,
 				8264083F1CB92C8A00AF4126 /* MASViewConstraint.m in Sources */,
 				826408451CB92C8A00AF4126 /* MJRefreshAutoFooter.m in Sources */,
 				826408361CB92C8A00AF4126 /* AFURLSessionManager.m in Sources */,
