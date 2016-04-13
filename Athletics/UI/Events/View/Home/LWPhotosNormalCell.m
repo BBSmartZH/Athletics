@@ -10,6 +10,7 @@
 static CGFloat k_left = 15.0;
 static CGFloat k_spacing = 10.0;
 static CGFloat k_small = 5.0;
+static CGFloat k_WHratio = 0.7;
 
 @interface LWPhotosNormalCell ()
 {
@@ -21,6 +22,7 @@ static CGFloat k_small = 5.0;
     UIImageView      *_scanImageV;
     UILabel          *_commentsLabel;
     UILabel          *_scanLabel;
+    int               _imageCounts;
 
 }
 @end
@@ -36,7 +38,7 @@ static CGFloat k_small = 5.0;
 }
 
 -(void)p_config{
-    self.type = 0;
+    _imageCounts = 3;
     _titleLabel = [[UILabel alloc]init];
     _titleLabel.textColor = kWord_Color_High;
     _titleLabel.font = [UIFont systemFontOfSize:kWord_Font_24px];
@@ -46,7 +48,19 @@ static CGFloat k_small = 5.0;
     _leftImageV = [[UIImageView alloc]init];
     _leftImageV.contentMode = UIViewContentModeScaleAspectFill;
     _leftImageV.clipsToBounds = YES;
+    _leftImageV.hidden = YES;
     [self.contentView addSubview:_leftImageV];
+    
+    _middleImageV = [[UIImageView alloc]init];
+    _middleImageV.contentMode = UIViewContentModeScaleAspectFill;
+    _middleImageV.clipsToBounds = YES;
+    _middleImageV.hidden = YES;
+    [self.contentView addSubview:_middleImageV];
+    _rightImageV = [[UIImageView alloc]init];
+    _rightImageV.contentMode = UIViewContentModeScaleAspectFill;
+    _rightImageV.clipsToBounds = YES;
+    _rightImageV.hidden = YES;
+    [self.contentView addSubview:_rightImageV];
     
     _commentsImageV = [[UIImageView alloc]init];
     _commentsImageV.contentMode = UIViewContentModeScaleAspectFill;
@@ -95,8 +109,21 @@ static CGFloat k_small = 5.0;
     [_leftImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(ws.contentView).offset(k_left);
         make.top.equalTo(_titleLabel.mas_bottom).offset(k_spacing);
-        make.size.mas_equalTo(CGSizeMake(100, 100));
+        make.size.mas_equalTo(CGSizeMake((kScreenWidth-k_spacing*2-k_left*2)/3.0, (kScreenWidth-k_spacing*2-k_left*2)/3.0*k_WHratio));
     }];
+    
+    [_middleImageV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_leftImageV.mas_right).offset(k_spacing);
+        make.top.bottom.equalTo(_leftImageV);
+        make.size.equalTo(_leftImageV);
+    }];
+    
+    [_rightImageV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_middleImageV.mas_right).offset(k_spacing);
+        make.top.bottom.equalTo(_middleImageV);
+        make.size.equalTo(_middleImageV);
+    }];
+
     [_commentsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_leftImageV.mas_bottom).offset(k_spacing);
         make.right.equalTo(ws.contentView).offset(-k_left);
@@ -118,30 +145,24 @@ static CGFloat k_small = 5.0;
         make.size.mas_equalTo(CGSizeMake(9, 9));
     }];
     
-    if (self.type == 0) {
-        _middleImageV = [[UIImageView alloc]init];
-        _middleImageV.clipsToBounds = YES;
-        [self.contentView addSubview:_middleImageV];
-        _rightImageV = [[UIImageView alloc]init];
-        _rightImageV.clipsToBounds = YES;
-        [self.contentView addSubview:_rightImageV];
+    if (_imageCounts == 1) {
+        _leftImageV.hidden = NO;
+        _middleImageV.hidden = YES;
+        _rightImageV.hidden = YES;
         [_leftImageV mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(ws.contentView).offset(k_left);
             make.top.equalTo(_titleLabel.mas_bottom).offset(k_spacing);
-            make.size.mas_equalTo(CGSizeMake((kScreenWidth-k_spacing*2-k_left*2)/3.0, 100));
-        }];
-        [_middleImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_leftImageV.mas_right).offset(k_spacing);
-            make.top.bottom.equalTo(_leftImageV);
-            make.size.equalTo(_leftImageV);
+            make.size.mas_equalTo(CGSizeMake(180, 180*k_WHratio));
         }];
         
-        [_rightImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_middleImageV.mas_right).offset(k_spacing);
-            make.top.bottom.equalTo(_middleImageV);
-            make.size.equalTo(_middleImageV);
-        }];
-        
+    }else if(_imageCounts == 2){
+        _leftImageV.hidden = NO;
+        _middleImageV.hidden = NO;
+        _rightImageV.hidden = YES;
+    }else if (_imageCounts >2){
+        _leftImageV.hidden = NO;
+        _middleImageV.hidden = NO;
+        _rightImageV.hidden = NO;
     }
     
 }
@@ -160,7 +181,12 @@ static CGFloat k_small = 5.0;
     
 
 }
-+(CGFloat)heightForRowWithPhotos{
++(CGFloat)heightForRowWithPhotosWithCounts:(int)counts{
+    if (counts == 1) {
+        return 200;
+    }else if (counts >1){
+        return 135;
+    }
     return 170;
 }
 

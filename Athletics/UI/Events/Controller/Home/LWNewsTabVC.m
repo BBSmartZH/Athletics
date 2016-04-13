@@ -10,13 +10,14 @@
 #import "LWNewsTypeNormalCell.h"
 #import "LWPhotosNormalCell.h"
 #import "LWNBACell.h"
+#import "LWPostsCell.h"
 @interface LWNewsTabVC ()
 
 @end
 static NSString *newsTypeCell = @"newsTypeCell";
 static NSString *photosCell = @"photosCell";
 static NSString *NBACell = @"NBACell";
-
+static NSString *postsCell = @"postsCell";
 @implementation LWNewsTabVC
 
 - (void)viewDidLoad {
@@ -27,7 +28,7 @@ static NSString *NBACell = @"NBACell";
     [_tableView registerClass:[LWNewsTypeNormalCell class] forCellReuseIdentifier:newsTypeCell];
     [_tableView registerClass:[LWPhotosNormalCell class] forCellReuseIdentifier:photosCell];
     [_tableView registerClass:[LWNBACell class] forCellReuseIdentifier:NBACell];
-    
+    [_tableView registerClass:[LWPostsCell class] forCellReuseIdentifier:postsCell];
     [_tableView reloadData];
     
 }
@@ -40,7 +41,7 @@ static NSString *NBACell = @"NBACell";
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -63,12 +64,18 @@ static NSString *NBACell = @"NBACell";
         
         return cell;
 
-    }else{
+    }else if(indexPath.section == 2){
         LWPhotosNormalCell *cell = [tableView dequeueReusableCellWithIdentifier:photosCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell configLayoutWithModel:@1];
         
         return cell;
+    }else if (indexPath.section == 3){
+        LWPostsCell *cell = [tableView dequeueReusableCellWithIdentifier:postsCell forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell configLayoutWithModel:@1];
+        return cell;
+        
     }
         
     return NULL;
@@ -87,8 +94,10 @@ static NSString *NBACell = @"NBACell";
         return [LWNBACell heightForRow];
     }else if (indexPath.section == 1) {
         return [LWNewsTypeNormalCell heightForRow];
-    }else{
-        return [LWPhotosNormalCell heightForRowWithPhotos];
+    }else if(indexPath.section == 2){
+        return [LWPhotosNormalCell heightForRowWithPhotosWithCounts:3];
+    }else if (indexPath.section == 3){
+        return [LWPostsCell heightForRowWithImageCounts:0];
     }
     
     return 100;

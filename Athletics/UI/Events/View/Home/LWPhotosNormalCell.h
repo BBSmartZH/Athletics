@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface LWPhotosNormalCell : UITableViewCell
-@property (nonatomic,assign) int  type;
 - (void)configLayoutWithModel:(id)model;
-+(CGFloat)heightForRowWithPhotos;
++(CGFloat)heightForRowWithPhotosWithCounts:(int)counts;
 @end
