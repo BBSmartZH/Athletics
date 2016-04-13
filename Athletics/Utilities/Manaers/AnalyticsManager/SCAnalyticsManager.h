@@ -1,0 +1,39 @@
+//
+//  SCAnalyticsManager.h
+//  MrzjExpert
+//
+//  Created by shenchuang on 15/8/5.
+//  Copyright (c) 2015年 shenchuang. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface SCAnalyticsManager : NSObject
+
++ (instancetype)shared;
+- (instancetype)shared;
+
+/**
+ *  开启统计
+ */
++ (void)startAnalyticsManager;
+
+/**
+ *  页面统计
+ */
++ (void)beginLogPageViewClass:(__unsafe_unretained Class)pageViewClass;
++ (void)endLogPageViewClass:(__unsafe_unretained Class)pageViewClass;
+
++ (void)beginLogPageView:(NSString *)pageView;
++ (void)endLogPageView:(NSString *)pageView;
+
+/**
+ *  时间统计
+ */
++ (void)event:(NSString *)event;
++ (void)event:(NSString *)event label:(NSString *)label;
+
+
+
+
+@end

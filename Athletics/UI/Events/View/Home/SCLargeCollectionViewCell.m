@@ -32,4 +32,8 @@
     }
 }
 
++ (NSString *)cellIdentifier {
+    return @"SCLargeCollectionViewCell";
+}
+
 @end

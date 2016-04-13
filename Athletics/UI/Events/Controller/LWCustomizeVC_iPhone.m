@@ -13,12 +13,9 @@
 
 #import "SCDragCollectionViewCell.h"
 
-//@interface LWCustomizeVC_iPhone ()<XWDragCellCollectionViewDataSource,XWDragCellCollectionViewDelegate>
 @interface LWCustomizeVC_iPhone ()<SCDragCollectionViewDelegate,SCDragCollectionViewDatasource>
 
 @property(nonatomic,strong)NSMutableArray *data;
-@property(nonatomic,strong)NSArray *colorsArray ;
-//@property(nonatomic,weak)XWDragCellCollectionView *mainView;
 @property(nonatomic,weak)SCDragCollectionView *mainView;
 
 @end
@@ -31,28 +28,19 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"频道定制";
+    
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
     layout.itemSize = CGSizeMake((self.view.bounds.size.width-50)/3.0,(self.view.bounds.size.width-50)/3 );
     layout.sectionInset = UIEdgeInsetsMake(15, 15, 15, 15);
-//    XWDragCellCollectionView *mainView = [[XWDragCellCollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
-//    _mainView = mainView;
-//    mainView.delegate = self;
-//    mainView.dataSource = self;
-//    mainView.shakeLevel = 3.0f;
-//    mainView.backgroundColor = [UIColor whiteColor];
-//    [mainView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
-//    调用方法
-//    [_mainView xw_enterEditingModel];
     
-    SCDragCollectionView *mainView = [[SCDragCollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+    SCDragCollectionView *mainView = [[SCDragCollectionView alloc] initWithFrame:CGRectMake(0, self.m_navBar.bottom, self.view.fWidth, self.view.fHeight - self.m_navBar.fHeight) collectionViewLayout:layout];
     _mainView = mainView;
     mainView.delegate = self;
     mainView.dataSource = self;
-    mainView.backgroundColor = [UIColor whiteColor];
-//    [mainView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    mainView.backgroundColor = [UIColor clearColor];
     [mainView registerClass:[SCDragCollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
 
-    self.colorsArray = @[[UIColor redColor], [UIColor blueColor], [UIColor yellowColor], [UIColor orangeColor], [UIColor greenColor]];
+
     [self.view addSubview:mainView];
     
     
@@ -81,8 +69,11 @@ static NSString * const reuseIdentifier = @"Cell";
     SCDragCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     cell.title = [((NSArray *)[_data objectAtIndex:indexPath.section]) objectAtIndex:indexPath.item];
-    
-    cell.contentView.backgroundColor = self.colorsArray[indexPath.item%3];
+    if (indexPath.section == 0) {
+        cell.isChoose = YES;
+    }else {
+        cell.isChoose = NO;
+    }
     return cell;
 }
 
@@ -149,25 +140,6 @@ static NSString * const reuseIdentifier = @"Cell";
         [collectionView reloadData];
     }
 }
-
-#pragma mark - <XWDragCellCollectionViewDelegate>
-
-//- (NSArray *)dataSourceArrayOfCollectionView:(XWDragCellCollectionView *)collectionView{
-//    return _data;
-//}
-
-
-//- (void)dragCellCollectionView:(XWDragCellCollectionView *)collectionView newDataArrayAfterMove:(NSArray *)newDataArray{
-//    _data = newDataArray;
-//}
-//
-//- (void)dragCellCollectionView:(XWDragCellCollectionView *)collectionView cellWillBeginMoveAtIndexPath:(NSIndexPath *)indexPath{
-//    
-//}
-//
-//- (void)dragCellCollectionViewCellEndMoving:(XWDragCellCollectionView *)collectionView{
-//    
-//}
 
 
 - (void)didReceiveMemoryWarning {

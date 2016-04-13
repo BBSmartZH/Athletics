@@ -10,6 +10,8 @@
 
 #import "SCVideoVC.h"
 
+#import "SCShareManager.h"
+
 @interface SCSmallEventVC ()
 
 @end
@@ -29,7 +31,6 @@
     
     _tableView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     
-    _tableView.backgroundColor = [UIColor yellowColor];
     
     [_tableView reloadData];
 }
@@ -51,8 +52,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    SCVideoVC *videoVC = [[SCVideoVC alloc] init];
-    [self.parentVC.navigationController pushViewController:videoVC animated:YES];
+//    SCVideoVC *videoVC = [[SCVideoVC alloc] init];
+//    [self.parentVC.navigationController pushViewController:videoVC animated:YES];
+    
+    [[SCShareManager shared] qqLoginAuth];
+    
 }
 
 - (void)didReceiveMemoryWarning {

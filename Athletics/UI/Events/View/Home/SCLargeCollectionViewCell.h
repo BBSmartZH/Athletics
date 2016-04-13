@@ -12,4 +12,6 @@
 
 @property (nonatomic, strong) UIView *showView;
 
++ (NSString *)cellIdentifier;
+
 @end

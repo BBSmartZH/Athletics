@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface LWPostsCell : UITableViewCell
-- (void)configLayoutWithModel:(id)model;
+
++ (NSString *)cellIdentifier;
+
+- (void)createLayoutWith:(id)model;
+
 +(CGFloat)heightForRowWithImageCounts:(int)counts;
+
 @end

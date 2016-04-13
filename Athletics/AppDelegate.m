@@ -8,6 +8,10 @@
 
 #import "AppDelegate.h"
 #import "LWTabBarVC_iPhone.h"
+
+#import "SCAnalyticsManager.h"
+#import "SCShareManager.h"
+
 @interface AppDelegate ()
 
 @end
@@ -16,11 +20,11 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    
 //    static dispatch_once_t onceToken;
 //    dispatch_once(&onceToken, ^{
 //        NSArray *titleDataArray = @[@[@"Dota 2", @"LOL", @"CS", @"Smite", @"星际争霸2", @"Dota", @"FIFA", @"使命召唤"], @[@"风暴英雄", @"炉石传说", @"超级街霸", @"魔兽争霸", @"DNF", @"CF"]];
@@ -28,11 +32,16 @@
 //        [[NSUserDefaults standardUserDefaults] synchronize];
 //    });
     
-    LWTabBarVC_iPhone *rootVC = [[LWTabBarVC_iPhone alloc]init];
+    [SCAnalyticsManager startAnalyticsManager];
+    [SCShareManager startSocialShare];
+    
+    
+    LWTabBarVC_iPhone *rootVC = [[LWTabBarVC_iPhone alloc] init];
     self.window.rootViewController = rootVC;
     
     return YES;
 }
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

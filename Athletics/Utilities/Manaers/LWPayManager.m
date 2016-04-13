@@ -51,7 +51,7 @@
 +(void)aliPayWithPaysign:(NSString *)paysign completion:(LWPayResultBlock)completion
 {
     [[self shared]setResultBlock:completion];
-    if (![LWGlobalUtil isEmpty:paysign]) {
+    if (![SCGlobaUtil isEmpty:paysign]) {
         [[AlipaySDK defaultService]payOrder:paysign fromScheme:@"XiaoYaoUserUrlSchemes" callback:^(NSDictionary *resultDic) {
             [self aliPayResult:resultDic];
         }];
@@ -93,7 +93,7 @@
         }
         return;
         
-    }else if (![LWGlobalUtil isEmpty:model.sign]){
+    }else if (![SCGlobaUtil isEmpty:model.sign]){
         if (completion) {
             completion(LWPayResultError);
         }
@@ -102,7 +102,7 @@
     
     PayReq *request = [[PayReq alloc]init];
     request.openID = model.openId;
-    request.package = ![LWGlobalUtil isEmpty:model.packageInfo] ?model.packageInfo:@"Sign=WXPay";
+    request.package = ![SCGlobaUtil isEmpty:model.packageInfo] ?model.packageInfo:@"Sign=WXPay";
     request.partnerId = model.partnerId;
     request.nonceStr = model.nonce_str;
     request.prepayId = model.prepayId;

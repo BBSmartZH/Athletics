@@ -8,6 +8,6 @@
 
 #import "SCBaseRefreshVC_iPhone.h"
 
-@interface LWMineVC_iPhone : SCBaseRefreshVC_iPhone
+@interface LWMineVC_iPhone : LWBaseTableVC_iPhone
 
 @end

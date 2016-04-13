@@ -11,5 +11,6 @@
 @interface SCDragCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, copy) NSString *title;
+@property (nonatomic, assign) BOOL isChoose;
 
 @end

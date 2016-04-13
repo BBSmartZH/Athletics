@@ -26,25 +26,24 @@
     int           _imageCounts;
 }
 @end
-static CGFloat k_left = 15.0;
-static CGFloat k_spacing = 10.0;
+static CGFloat k_left = 10.0;
 static CGFloat k_small = 5.0;
-static CGFloat k_WHratio = 0.7;
+static CGFloat k_WHratio = 0.8;
 @implementation LWPostsCell
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self p_config];
     }
     return self;
 }
 -(void)p_config{
     
-    _imageCounts = 0;
     _headImageV = [[UIImageView alloc]init];
     _headImageV.contentMode = UIViewContentModeScaleAspectFill;
-    _headImageV.layer.cornerRadius = 8;
+    _headImageV.layer.cornerRadius = 12;
     _headImageV.clipsToBounds = YES;
     [self.contentView addSubview:_headImageV];
     
@@ -112,20 +111,24 @@ static CGFloat k_WHratio = 0.7;
     [self.contentView addSubview:_dateLabel];
     
     [_thumbNumLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
+    [_messageNumLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
+
     [_thumbNumLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
-    [_thumbImagev setContentCompressionResistancePriority:750 forAxis:UILayoutConstraintAxisHorizontal];
+    [_messageNumLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
+    
+    
     _WEAKSELF(ws);
     
     [_headImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(ws.contentView).offset(k_left);
         make.top.equalTo(ws.contentView).offset(k_left);
-        make.size.mas_equalTo(CGSizeMake(16, 16));
+        make.size.mas_equalTo(CGSizeMake(24, 24));
     }];
     
     [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_headImageV.mas_right).offset(k_small);
         make.centerY.equalTo(_headImageV);
-        make.width.mas_equalTo(@80);
+        make.right.equalTo(_thumbImagev.mas_left).offset(-k_left);
     }];
     
     [_messageNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -140,7 +143,7 @@ static CGFloat k_WHratio = 0.7;
     }];
     
     [_thumbNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_messageImageV.mas_left).offset(-k_spacing);
+        make.right.equalTo(_messageNumLabel.mas_left).offset(-2 * k_left);
         make.centerY.equalTo(_messageImageV);
     }];
     
@@ -151,93 +154,138 @@ static CGFloat k_WHratio = 0.7;
     }];
     
     [_tilteLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(_headImageV.mas_bottom).offset(k_spacing);
+        make.top.equalTo(_headImageV.mas_bottom).offset(k_left);
         make.left.equalTo(_headImageV);
         make.right.equalTo(ws.contentView).offset(-k_left);
     }];
     
     [_summaryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_tilteLable);
-        make.top.equalTo(_tilteLable.mas_bottom).offset(k_spacing);
-        make.right.equalTo(ws.contentView).offset(-k_left);
+        make.left.right.equalTo(_tilteLable);
+        make.top.equalTo(_tilteLable.mas_bottom).offset(k_left);
+        make.bottom.lessThanOrEqualTo(ws.contentView).offset(-k_left);
     }];
     
+    CGFloat imageWidth = ([UIScreen mainScreen].bounds.size.width - 4 * k_left) / 3.0f;
+    
     [_leftImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_summaryLabel.mas_bottom).offset(k_spacing);
-        make.left.equalTo(_summaryLabel);
-        make.size.mas_equalTo(CGSizeMake((kScreenWidth-2*(k_left+k_spacing))/3.0,(kScreenWidth-2*(k_left+k_spacing))/3.0*k_WHratio));
+        make.top.equalTo(_summaryLabel.mas_bottom).offset(k_left);
+        make.left.equalTo(_headImageV);
+        make.size.mas_equalTo(CGSizeMake(imageWidth,imageWidth * k_WHratio));
+        make.bottom.equalTo(_dateLabel.mas_top).offset(-k_left);
     }];
     
     [_middleImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_leftImageV.mas_right).offset(k_spacing);
+        make.left.equalTo(_leftImageV.mas_right).offset(k_left);
         make.top.equalTo(_leftImageV);
         make.size.equalTo(_leftImageV);
     }];
     
     [_rightImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_middleImageV.mas_right).offset(k_spacing);
+        make.left.equalTo(_middleImageV.mas_right).offset(k_left);
         make.top.equalTo(_middleImageV);
         make.size.equalTo(_middleImageV);
-//        make.right.equalTo(ws.contentView).offset(-k_left);
     }];
     
     [_dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(_leftImageV.mas_bottom).offset(k_spacing);
+        make.top.greaterThanOrEqualTo(_summaryLabel.mas_bottom).offset(k_left);
         make.right.equalTo(ws.contentView).offset(-k_left);
         make.bottom.equalTo(ws.contentView).offset(-k_left);
     }];
     
+}
+
++ (NSString *)cellIdentifier {
+    return @"LWPostsCellIdentifier";
+}
+
+- (void)createLayoutWith:(id)model {
+    
+    _imageCounts = ((NSNumber *)model).intValue;
     if (_imageCounts == 0) {
         _leftImageV.hidden = YES;
         _rightImageV.hidden = YES;
         _middleImageV.hidden = YES;
+        [_leftImageV mas_remakeConstraints:^(MASConstraintMaker *make) {
+            
+        }];
+        [_middleImageV mas_remakeConstraints:^(MASConstraintMaker *make) {
+            
+        }];
+        [_rightImageV mas_remakeConstraints:^(MASConstraintMaker *make) {
+            
+        }];
     }else if (_imageCounts == 1) {
         _leftImageV.hidden = NO;
         _rightImageV.hidden = YES;
         _middleImageV.hidden = YES;
+        
+        CGFloat imageWidth = ([UIScreen mainScreen].bounds.size.width - 3 * k_left) / 2.0f;
+
         [_leftImageV mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(ws.contentView).offset(k_left);
             make.top.equalTo(_summaryLabel.mas_bottom).offset(k_left);
-            make.size.mas_equalTo(CGSizeMake(180, 180*k_WHratio));
+            make.left.equalTo(_headImageV);
+            make.size.mas_equalTo(CGSizeMake(imageWidth,imageWidth * k_WHratio));
+            make.bottom.equalTo(_dateLabel.mas_top).offset(-k_left);
         }];
-    }else if (_imageCounts == 2){
+        [_middleImageV mas_remakeConstraints:^(MASConstraintMaker *make) {
+            
+        }];
+        [_rightImageV mas_remakeConstraints:^(MASConstraintMaker *make) {
+            
+        }];
+    }else if (_imageCounts >= 2){
+        CGFloat imageWidth = ([UIScreen mainScreen].bounds.size.width - 4 * k_left) / 3.0f;
+        
+        [_leftImageV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_summaryLabel.mas_bottom).offset(k_left);
+            make.left.equalTo(_headImageV);
+            make.size.mas_equalTo(CGSizeMake(imageWidth,imageWidth * k_WHratio));
+            make.bottom.equalTo(_dateLabel.mas_top).offset(-k_left);
+        }];
+        
+        [_middleImageV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_leftImageV.mas_right).offset(k_left);
+            make.top.equalTo(_leftImageV);
+            make.size.equalTo(_leftImageV);
+        }];
+        
+        [_rightImageV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_middleImageV.mas_right).offset(k_left);
+            make.top.equalTo(_middleImageV);
+            make.size.equalTo(_middleImageV);
+        }];
+        
+        if (_imageCounts == 2) {
+            _rightImageV.hidden = YES;
+        }else {
+            _rightImageV.hidden = NO;
+        }
         _leftImageV.hidden = NO;
-        _rightImageV.hidden = YES;
-        _middleImageV.hidden = NO;
-    }else if (_imageCounts >2){
-        _leftImageV.hidden = NO;
-        _rightImageV.hidden = NO;
         _middleImageV.hidden = NO;
     }
     
-    
-}
-
--(void)configLayoutWithModel:(id)model
-{
     _headImageV.backgroundColor = k_Base_Color;
     _nameLabel.text = @"小怪咖UI";
-    _thumbImagev.backgroundColor = k_Bg_Color;
+    _thumbImagev.backgroundColor = k_Base_Color;
     _thumbNumLabel.text = @"123";
-    _messageImageV.backgroundColor = k_Bg_Color;
+    _messageImageV.backgroundColor = k_Base_Color;
     _messageNumLabel.text = @"3546";
     _tilteLable.text = @"你的级沙发上浪费那你干嘛";
-    _summaryLabel.text = @"你但买房快疯了改变真服你了接口没那么那加大非标准版mkdfjdµvdjh速度快放假光和热";
+    _summaryLabel.text = @"你但买房快疯了改变真服你了接口没那么那加大非标准接口没那么那加大非标准接口没那么那加大非标准版速度快放假光和热";
     _leftImageV.backgroundColor = [UIColor cyanColor];
     _middleImageV.backgroundColor = [UIColor cyanColor];
     _rightImageV.backgroundColor = [UIColor cyanColor];
-    _dateLabel.text = @"2016.04.12 16:15";
+    _dateLabel.text = @"2016-04-12 16:15";
 }
 
 +(CGFloat)heightForRowWithImageCounts:(int)counts
 {
     if (counts == 1) {
-        return 275;
+        return 283;
     }else if (counts >= 2){
-        return 210;
+        return 218;
     }else{
-        return 130;
+        return 138;
     }
 }
 - (void)awakeFromNib {

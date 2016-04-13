@@ -6,11 +6,11 @@
 //  Copyright © 2016年 李宛. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "LWBaseVC_iPhone.h"
 
 typedef void(^ColumEditBlock)(BOOL result);
 
-@interface LWCustomizeVC_iPhone : UIViewController
+@interface LWCustomizeVC_iPhone : LWBaseVC_iPhone
 
 @property (nonatomic, copy) ColumEditBlock editBlock;
 

@@ -29,6 +29,7 @@
     }
     return self;
 }
+
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -38,6 +39,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.view.backgroundColor = k_Bg_Color;
     UIView *tempView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 0)];
     [self.view addSubview:tempView];

@@ -53,7 +53,7 @@ static CGFloat bgInset = 2.0f;
     [self addSubview:_scrollView];
     
     _bgView = [[UIView alloc] init];
-    _bgView.backgroundColor = [UIColor lightGrayColor];
+    _bgView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.4];
     [_scrollView addSubview:_bgView];
     
     _titleArray = [NSMutableArray array];
@@ -265,8 +265,7 @@ static CGFloat bgInset = 2.0f;
         
         SCTopButton *button = [SCTopButton buttonWithType:UIButtonTypeCustom];
         [button setTitle:title forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-//        [button setTitleColor:[UIColor yellowColor] forState:UIControlStateSelected];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(topButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         button.frame = CGRectMake(_totalWidth, (_scrollView.bounds.size.height - buttonHeight), buttonWith, buttonHeight);
         button.titleLabel.font = [UIFont systemFontOfSize:textFont];

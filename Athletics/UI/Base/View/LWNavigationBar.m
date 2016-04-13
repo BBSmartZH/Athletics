@@ -49,13 +49,13 @@ static NSString *backImageName = @"icon_back_normal";
     _m_leftButton = [[self class] createNavButtonByImageNormal:backImageName imageSelected:backImageName target:self action:@selector(p_backButtonClicked:)];
     
     _m_titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _m_titleLabel.textColor = kWord_Color_High;
+    _m_titleLabel.textColor = [UIColor whiteColor];
     _m_titleLabel.backgroundColor = [UIColor clearColor];
     _m_titleLabel.font = [UIFont systemFontOfSize:20];
     _m_titleLabel.textAlignment = NSTextAlignmentCenter;
     
     _m_bgImageV = [[UIImageView alloc] init];
-    UIImage *bgImage = [self imageWithColor:[UIColor whiteColor]];
+    UIImage *bgImage = [self imageWithColor:k_Base_Color];
     _m_bgImageV.image = [bgImage resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     _m_bgImageV.alpha = 0.95;
     _m_bgImageV.frame = self.bounds;

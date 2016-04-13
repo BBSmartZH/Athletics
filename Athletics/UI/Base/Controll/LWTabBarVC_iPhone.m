@@ -9,9 +9,13 @@
 #import "LWTabBarVC_iPhone.h"
 #import "LWBaseNavVC_iPhone.h"
 #import "LWEventsVC_iPhone.h"
-#import "LWCommunityVC_iPhone.h"
-#import "LWScheduleVC_iPhone.h"
-#import "LWMineVC_iPhone.h"
+
+
+#import "SCNewsVC.h"//资讯
+#import "LWCommunityVC_iPhone.h"//论坛
+#import "LWScheduleVC_iPhone.h"//赛事
+#import "SCVideoVC.h"//视频
+#import "LWMineVC_iPhone.h"//我的
 
 @interface LWTabBarVC_iPhone ()
 {
@@ -19,6 +23,7 @@
     UITabBarItem *_secondItem;
     UITabBarItem *_thirdItem;
     UITabBarItem *_fourthItem;
+    UITabBarItem *_fifthItem;
     UITabBarItem *_selectedItem;
 }
 
@@ -29,8 +34,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    LWEventsVC_iPhone *eventsVC = [[LWEventsVC_iPhone alloc]init];
-    LWBaseNavVC_iPhone *eventsNC = [[LWBaseNavVC_iPhone alloc]initWithRootViewController:eventsVC];
+//    LWEventsVC_iPhone *eventsVC = [[LWEventsVC_iPhone alloc]init];
+//    LWBaseNavVC_iPhone *eventsNC = [[LWBaseNavVC_iPhone alloc]initWithRootViewController:eventsVC];
+    
+    SCNewsVC *newsVC = [[SCNewsVC alloc]init];
+    LWBaseNavVC_iPhone *newsNC = [[LWBaseNavVC_iPhone alloc]initWithRootViewController:newsVC];
     
     LWCommunityVC_iPhone *communityVC = [[LWCommunityVC_iPhone alloc]init];
     LWBaseNavVC_iPhone *communityNC = [[LWBaseNavVC_iPhone alloc]initWithRootViewController:communityVC];
@@ -38,10 +46,13 @@
     LWScheduleVC_iPhone *scheduleVC = [[LWScheduleVC_iPhone alloc]init];
     LWBaseNavVC_iPhone *scheduleNC = [[LWBaseNavVC_iPhone alloc]initWithRootViewController:scheduleVC];
     
+    SCVideoVC *videoVC = [[SCVideoVC alloc]init];
+    LWBaseNavVC_iPhone *videoNC = [[LWBaseNavVC_iPhone alloc]initWithRootViewController:videoVC];
+    
     LWMineVC_iPhone *mineVC = [[LWMineVC_iPhone alloc]init];
     LWBaseNavVC_iPhone *mineNC = [[LWBaseNavVC_iPhone alloc]initWithRootViewController:mineVC];
     
-    self.viewControllers = @[eventsNC,communityNC,scheduleNC,mineNC];
+    self.viewControllers = @[newsNC,communityNC,scheduleNC, videoNC,mineNC];
     //    设置tabbar的字体颜色
     self.tabBar.tintColor = [UIColor blueColor];
     
@@ -54,16 +65,18 @@
     _secondItem = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"tab_live_nor"] selectedImage:[UIImage imageNamed:@"tab_live_highlight"]];
     _thirdItem = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"tab_live_nor"] selectedImage:[UIImage imageNamed:@"tab_live_highlight"]];
     _fourthItem = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"tab_live_nor"] selectedImage:[UIImage imageNamed:@"tab_live_highlight"]];
+    _fifthItem = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"tab_live_nor"] selectedImage:[UIImage imageNamed:@"tab_live_highlight"]];
 
     
 
-    eventsNC.tabBarItem = _firstItem;
+    newsNC.tabBarItem = _firstItem;
     _selectedItem = _firstItem;
     communityNC.tabBarItem = _secondItem;
     scheduleNC.tabBarItem = _thirdItem;
-    mineNC.tabBarItem = _fourthItem;
+    videoNC.tabBarItem = _fourthItem;
+    mineNC.tabBarItem = _fifthItem;
     
-    //    统一设置背景
+    //统一设置背景
     UINavigationBar *bar = [UINavigationBar appearance];
     [bar setBackgroundColor:[UIColor whiteColor]];
     self.tabBar.translucent = NO;
@@ -86,7 +99,10 @@
 
     }else if (item == _fourthItem) {
         NSLog(@"点击了 _fourthItem");
-
+        
+    }else if (item == _fifthItem) {
+        NSLog(@"点击了 _fifthItem");
+        
     }
 }
 

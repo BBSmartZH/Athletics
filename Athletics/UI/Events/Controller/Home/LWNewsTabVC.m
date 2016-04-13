@@ -73,7 +73,7 @@ static NSString *postsCell = @"postsCell";
     }else if (indexPath.section == 3){
         LWPostsCell *cell = [tableView dequeueReusableCellWithIdentifier:postsCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell configLayoutWithModel:@1];
+        [cell createLayoutWith:@1];
         return cell;
         
     }
