@@ -163,6 +163,8 @@
 		9BAA20E31CBE89DA0053F1C0 /* SCAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA20E21CBE89DA0053F1C0 /* SCAdView.m */; };
 		9BAA20E71CBEAAC90053F1C0 /* SCNewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA20E61CBEAAC90053F1C0 /* SCNewsCell.m */; };
 		9BAA20EA1CBEB8EB0053F1C0 /* SCCommuntityContentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA20E91CBEB8EB0053F1C0 /* SCCommuntityContentVC.m */; };
+		9BAA20ED1CBECA2B0053F1C0 /* SCScheduleContentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA20EC1CBECA2B0053F1C0 /* SCScheduleContentVC.m */; };
+		9BAA20F11CBECBE60053F1C0 /* SCScheduleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA20F01CBECBE60053F1C0 /* SCScheduleCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -492,6 +494,10 @@
 		9BAA20E61CBEAAC90053F1C0 /* SCNewsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNewsCell.m; sourceTree = "<group>"; };
 		9BAA20E81CBEB8EB0053F1C0 /* SCCommuntityContentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCCommuntityContentVC.h; sourceTree = "<group>"; };
 		9BAA20E91CBEB8EB0053F1C0 /* SCCommuntityContentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCCommuntityContentVC.m; sourceTree = "<group>"; };
+		9BAA20EB1CBECA2B0053F1C0 /* SCScheduleContentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCScheduleContentVC.h; sourceTree = "<group>"; };
+		9BAA20EC1CBECA2B0053F1C0 /* SCScheduleContentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCScheduleContentVC.m; sourceTree = "<group>"; };
+		9BAA20EF1CBECBE60053F1C0 /* SCScheduleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCScheduleCell.h; sourceTree = "<group>"; };
+		9BAA20F01CBECBE60053F1C0 /* SCScheduleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCScheduleCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1130,6 +1136,8 @@
 			children = (
 				826408A51CB95C0C00AF4126 /* LWScheduleVC_iPhone.h */,
 				826408A61CB95C0C00AF4126 /* LWScheduleVC_iPhone.m */,
+				9BAA20EB1CBECA2B0053F1C0 /* SCScheduleContentVC.h */,
+				9BAA20EC1CBECA2B0053F1C0 /* SCScheduleContentVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1144,6 +1152,7 @@
 		8264089E1CB95A7300AF4126 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9BAA20EE1CBECBCD0053F1C0 /* ScheduleCell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1572,6 +1581,15 @@
 			path = NewsCell;
 			sourceTree = "<group>";
 		};
+		9BAA20EE1CBECBCD0053F1C0 /* ScheduleCell */ = {
+			isa = PBXGroup;
+			children = (
+				9BAA20EF1CBECBE60053F1C0 /* SCScheduleCell.h */,
+				9BAA20F01CBECBE60053F1C0 /* SCScheduleCell.m */,
+			);
+			path = ScheduleCell;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1755,6 +1773,7 @@
 				9B82A1611CBBEBD3001EE35B /* SCDragCollectionView.m in Sources */,
 				826408471CB92C8A00AF4126 /* MJRefreshComponent.m in Sources */,
 				826408731CB92FB100AF4126 /* SCBaseRefreshVC_iPhone.m in Sources */,
+				9BAA20F11CBECBE60053F1C0 /* SCScheduleCell.m in Sources */,
 				826408441CB92C8A00AF4126 /* MBProgressHUD.m in Sources */,
 				8264084D1CB92C8A00AF4126 /* MJRefreshBackGifFooter.m in Sources */,
 				826408AD1CB9EBB200AF4126 /* XWDragCellCollectionView.m in Sources */,
@@ -1815,6 +1834,7 @@
 				825EED891CBC96630099D41D /* LWPostsCell.m in Sources */,
 				9BAA20AA1CBE31180053F1C0 /* UIView+WebCacheOperation.m in Sources */,
 				8264084A1CB92C8A00AF4126 /* MJRefreshAutoGifFooter.m in Sources */,
+				9BAA20ED1CBECA2B0053F1C0 /* SCScheduleContentVC.m in Sources */,
 				9BAA20D81CBE50AE0053F1C0 /* SCVideoContentVC.m in Sources */,
 				826408481CB92C8A00AF4126 /* MJRefreshFooter.m in Sources */,
 				9BAA20781CBE30B10053F1C0 /* UIView+Distribute.m in Sources */,
