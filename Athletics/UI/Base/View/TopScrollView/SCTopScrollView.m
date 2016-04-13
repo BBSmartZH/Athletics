@@ -289,6 +289,7 @@ static CGFloat bgInset = 2.0f;
         _scrollView.contentSize = CGSizeMake(_totalWidth, _scrollView.bounds.size.height);
     }else {
         _scrollView.frame = CGRectMake((self.bounds.size.width - _totalWidth) / 2.0, 0, _totalWidth, self.bounds.size.height);
+        _scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width, _scrollView.bounds.size.height);
     }
     
     if (_selectedIndex < _buttonArray.count) {

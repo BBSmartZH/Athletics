@@ -223,7 +223,7 @@ NSLog(@"%@\n%@", Msg, [[NSString alloc] initWithData:JSONData encoding:NSUTF8Str
 #define kDefaultAdProductImgName @"defaultAdProductImage"
 
 
-
+#define kAllChannelArrayKey @"AllChannelArrayKey"
 
 
 

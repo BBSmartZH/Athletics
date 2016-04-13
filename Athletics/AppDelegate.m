@@ -21,7 +21,12 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        NSArray *titleDataArray = @[@[@"Dota 2", @"LOL", @"CS", @"Smite", @"星际争霸2", @"Dota", @"FIFA", @"使命召唤"], @[@"风暴英雄", @"炉石传说", @"超级街霸", @"魔兽争霸", @"DNF", @"CF"]];
+//        [[NSUserDefaults standardUserDefaults] setObject:titleDataArray forKey:kAllChannelArrayKey];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+//    });
     
     LWTabBarVC_iPhone *rootVC = [[LWTabBarVC_iPhone alloc]init];
     self.window.rootViewController = rootVC;

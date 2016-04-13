@@ -8,6 +8,8 @@
 
 #import "SCSmallEventVC.h"
 
+#import "SCVideoVC.h"
+
 @interface SCSmallEventVC ()
 
 @end
@@ -21,6 +23,9 @@
     // Do any additional setup after loading the view.
     
     self.m_navBar.hidden = YES;
+    
+    
+    
     
     _tableView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     
@@ -41,6 +46,13 @@
     }
     cell.textLabel.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    SCVideoVC *videoVC = [[SCVideoVC alloc] init];
+    [self.parentVC.navigationController pushViewController:videoVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

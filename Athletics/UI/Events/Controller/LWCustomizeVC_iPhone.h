@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^ColumEditBlock)(NSMutableArray *array);
+typedef void(^ColumEditBlock)(BOOL result);
 
 @interface LWCustomizeVC_iPhone : UIViewController
 

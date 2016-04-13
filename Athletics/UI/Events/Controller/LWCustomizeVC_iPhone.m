@@ -11,6 +11,8 @@
 
 #import "SCDragCollectionView.h"
 
+#import "SCDragCollectionViewCell.h"
+
 //@interface LWCustomizeVC_iPhone ()<XWDragCellCollectionViewDataSource,XWDragCellCollectionViewDelegate>
 @interface LWCustomizeVC_iPhone ()<SCDragCollectionViewDelegate,SCDragCollectionViewDatasource>
 
@@ -47,25 +49,22 @@ static NSString * const reuseIdentifier = @"Cell";
     mainView.delegate = self;
     mainView.dataSource = self;
     mainView.backgroundColor = [UIColor whiteColor];
-    [mainView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+//    [mainView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    [mainView registerClass:[SCDragCollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
 
     self.colorsArray = @[[UIColor redColor], [UIColor blueColor], [UIColor yellowColor], [UIColor orangeColor], [UIColor greenColor]];
     [self.view addSubview:mainView];
-
+    
+    
+    
 
 }
 
 - (NSArray *)data{
     if (!_data) {
-        _data = [NSMutableArray array];
-        for (int i = 0; i < 2; i++) {
-            NSMutableArray *temp = [NSMutableArray array];
-            for (int i = 0; i < 10; i ++) {
-                NSString *str = [NSString stringWithFormat:@"%d",i];
-                [temp addObject:str];
-            }
-            [_data addObject:temp];
-        }
+        
+        NSArray *titleDataArray = [[NSUserDefaults standardUserDefaults] objectForKey:kAllChannelArrayKey];
+        _data = titleDataArray.mutableCopy;
     }
     return _data;
 }
@@ -79,7 +78,10 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    SCDragCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    
+    cell.title = [((NSArray *)[_data objectAtIndex:indexPath.section]) objectAtIndex:indexPath.item];
+    
     cell.contentView.backgroundColor = self.colorsArray[indexPath.item%3];
     return cell;
 }
@@ -91,6 +93,12 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)dragCellCollectionView:(SCDragCollectionView *)collectionView newDataArrayAfterMove:(NSArray *)newDataArray{
     _data = newDataArray.mutableCopy;
+    
+    [[NSUserDefaults standardUserDefaults] setObject:newDataArray forKey:kAllChannelArrayKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    if (_editBlock) {
+        _editBlock(YES);
+    }
 }
 
 - (void)dragCellCollectionView:(SCDragCollectionView *)collectionView cellWillBeginMoveAtIndexPath:(NSIndexPath *)indexPath{
@@ -105,13 +113,23 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         NSMutableArray *sectionArray0 = [[_data objectAtIndex:0] mutableCopy];
-        
+        if (sectionArray0.count <= 1) {
+            NSLog(@"亲，留一个吧~~");
+            return;
+        }
         NSMutableArray *sectionArray1 = [[_data objectAtIndex:1] mutableCopy];
         [sectionArray1 addObject:[sectionArray0 objectAtIndex:indexPath.item]];
         
         [sectionArray0 removeObjectAtIndex:indexPath.item];
         
         _data = @[sectionArray0, sectionArray1].mutableCopy;
+        
+        [[NSUserDefaults standardUserDefaults] setObject:_data forKey:kAllChannelArrayKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        if (_editBlock) {
+            _editBlock(YES);
+        }
+        
         [collectionView reloadData];
     }else if (indexPath.section == 1) {
         NSMutableArray *sectionArray1 = [[_data objectAtIndex:1] mutableCopy];
@@ -121,6 +139,13 @@ static NSString * const reuseIdentifier = @"Cell";
         
         [sectionArray1 removeObjectAtIndex:indexPath.item];
         _data = @[sectionArray0, sectionArray1].mutableCopy;
+        
+        [[NSUserDefaults standardUserDefaults] setObject:_data forKey:kAllChannelArrayKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        if (_editBlock) {
+            _editBlock(YES);
+        }
+        
         [collectionView reloadData];
     }
 }

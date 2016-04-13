@@ -48,19 +48,10 @@ static NSString *collectionCellId = @"SCLargeCollectionViewCell";
     
     [_collectionView registerClass:[SCLargeCollectionViewCell class] forCellWithReuseIdentifier:collectionCellId];
     
+    
     _vcArray = [NSMutableArray array];
     _vcViewArray = [NSMutableArray array];
     
-    NSArray *titleArray = @[@"哈哈哈", @"Dota2", @"嘻嘻嘻嘻嘻", @"呵呵呵呵", @"啦啦啦啦", @"哈哈哈", @"NBA", @"嘻嘻嘻嘻嘻", @"呵呵呵呵", @"啦啦啦啦"];
-//    NSArray *titleArray = @[@"Dota2", @"Dota2", @"Dota2"];
-
-    
-    for (int i = 0; i < titleArray.count; i++) {
-        SCSmallEventVC *smallVC = [[SCSmallEventVC alloc] init];
-        [_vcViewArray addObject:smallVC.view];
-        [_vcArray addObject:smallVC];
-    }
-
 //    _collectionView.contentSize = CGSizeMake(_collectionView.bounds.size.width * titleArray.count, _collectionView.bounds.size.height);
     
     UIButton *rightBarButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -75,13 +66,53 @@ static NSString *collectionCellId = @"SCLargeCollectionViewCell";
     _topScrollView.delegate = self;
     [self.m_navBar addSubview:_topScrollView];
     
-    [_topScrollView updateWithTitleArray:titleArray selectedIndex:0];
+    
+//    NSMutableArray *titleArray = @[@"视频", @"关注"].mutableCopy;
+//    
+//    NSArray *followArray = ((NSArray *)[[NSUserDefaults standardUserDefaults] objectForKey:kAllChannelArrayKey]).firstObject;
+//    [titleArray addObjectsFromArray:followArray];
+//    
+//    
+//    for (int i = 0; i < titleArray.count; i++) {
+//        SCSmallEventVC *smallVC = [[SCSmallEventVC alloc] init];
+//        [_vcViewArray addObject:smallVC.view];
+//        [_vcArray addObject:smallVC];
+//    }
+//    
+    [self handleTitleArray];
+
 
     
 }
 
+- (void)handleTitleArray{
+    [_vcViewArray removeAllObjects];
+    [_vcArray removeAllObjects];
+    NSMutableArray *titleArray = @[@"视频", @"关注"].mutableCopy;
+    
+    NSArray *followArray = ((NSArray *)[[NSUserDefaults standardUserDefaults] objectForKey:kAllChannelArrayKey]).firstObject;
+    [titleArray addObjectsFromArray:followArray];
+    
+    
+    for (int i = 0; i < titleArray.count; i++) {
+        SCSmallEventVC *smallVC = [[SCSmallEventVC alloc] init];
+        smallVC.parentVC = self;
+        [_vcViewArray addObject:smallVC.view];
+        [_vcArray addObject:smallVC];
+    }
+    
+    [_topScrollView updateWithTitleArray:titleArray selectedIndex:0];
+    [_collectionView reloadData];
+}
+
 -(void)rightBarButtonClicked:(UIButton *)sender {
     LWCustomizeVC_iPhone *customizeVC = [[LWCustomizeVC_iPhone alloc]init];
+    typeof(self) __block weakSelf = self;
+    customizeVC.editBlock = ^(BOOL result) {
+        if (result) {
+            [weakSelf handleTitleArray];
+        }
+    };
     [self.navigationController pushViewController:customizeVC animated:YES];
 
 }
