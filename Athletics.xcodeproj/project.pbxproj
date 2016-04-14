@@ -165,6 +165,14 @@
 		9BAA20EA1CBEB8EB0053F1C0 /* SCCommuntityContentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA20E91CBEB8EB0053F1C0 /* SCCommuntityContentVC.m */; };
 		9BAA20ED1CBECA2B0053F1C0 /* SCScheduleContentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA20EC1CBECA2B0053F1C0 /* SCScheduleContentVC.m */; };
 		9BAA20F11CBECBE60053F1C0 /* SCScheduleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA20F01CBECBE60053F1C0 /* SCScheduleCell.m */; };
+		9BAA20F51CBF482C0053F1C0 /* SCVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA20F41CBF482C0053F1C0 /* SCVideoCell.m */; };
+		9BAA20F81CBF48410053F1C0 /* SCVideoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA20F71CBF48410053F1C0 /* SCVideoCollectionViewCell.m */; };
+		9BAA20FE1CBF7F620053F1C0 /* SCPostsImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA20FD1CBF7F620053F1C0 /* SCPostsImageCell.m */; };
+		9BAA21011CBF7F980053F1C0 /* SCPostsTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21001CBF7F980053F1C0 /* SCPostsTextCell.m */; };
+		9BAA21061CBF95DF0053F1C0 /* SCScheduleListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21051CBF95DF0053F1C0 /* SCScheduleListVC.m */; };
+		9BAA21091CBF96130053F1C0 /* SCScheduleDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21081CBF96130053F1C0 /* SCScheduleDetailVC.m */; };
+		9BAA21111CBF96660053F1C0 /* SCScheduleListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21101CBF96660053F1C0 /* SCScheduleListCell.m */; };
+		9BAA21151CBFAE4A0053F1C0 /* SCCommuntityPostedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21141CBFAE4A0053F1C0 /* SCCommuntityPostedVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -498,6 +506,22 @@
 		9BAA20EC1CBECA2B0053F1C0 /* SCScheduleContentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCScheduleContentVC.m; sourceTree = "<group>"; };
 		9BAA20EF1CBECBE60053F1C0 /* SCScheduleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCScheduleCell.h; sourceTree = "<group>"; };
 		9BAA20F01CBECBE60053F1C0 /* SCScheduleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCScheduleCell.m; sourceTree = "<group>"; };
+		9BAA20F31CBF482C0053F1C0 /* SCVideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCVideoCell.h; sourceTree = "<group>"; };
+		9BAA20F41CBF482C0053F1C0 /* SCVideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCVideoCell.m; sourceTree = "<group>"; };
+		9BAA20F61CBF48410053F1C0 /* SCVideoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCVideoCollectionViewCell.h; sourceTree = "<group>"; };
+		9BAA20F71CBF48410053F1C0 /* SCVideoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCVideoCollectionViewCell.m; sourceTree = "<group>"; };
+		9BAA20FC1CBF7F620053F1C0 /* SCPostsImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPostsImageCell.h; sourceTree = "<group>"; };
+		9BAA20FD1CBF7F620053F1C0 /* SCPostsImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPostsImageCell.m; sourceTree = "<group>"; };
+		9BAA20FF1CBF7F980053F1C0 /* SCPostsTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPostsTextCell.h; sourceTree = "<group>"; };
+		9BAA21001CBF7F980053F1C0 /* SCPostsTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPostsTextCell.m; sourceTree = "<group>"; };
+		9BAA21041CBF95DF0053F1C0 /* SCScheduleListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCScheduleListVC.h; sourceTree = "<group>"; };
+		9BAA21051CBF95DF0053F1C0 /* SCScheduleListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCScheduleListVC.m; sourceTree = "<group>"; };
+		9BAA21071CBF96130053F1C0 /* SCScheduleDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCScheduleDetailVC.h; sourceTree = "<group>"; };
+		9BAA21081CBF96130053F1C0 /* SCScheduleDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCScheduleDetailVC.m; sourceTree = "<group>"; };
+		9BAA210F1CBF96660053F1C0 /* SCScheduleListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCScheduleListCell.h; sourceTree = "<group>"; };
+		9BAA21101CBF96660053F1C0 /* SCScheduleListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCScheduleListCell.m; sourceTree = "<group>"; };
+		9BAA21131CBFAE4A0053F1C0 /* SCCommuntityPostedVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCCommuntityPostedVC.h; sourceTree = "<group>"; };
+		9BAA21141CBFAE4A0053F1C0 /* SCCommuntityPostedVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCCommuntityPostedVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1101,6 +1125,7 @@
 				826408A31CB95BEE00AF4126 /* LWCommunityVC_iPhone.m */,
 				9BAA20E81CBEB8EB0053F1C0 /* SCCommuntityContentVC.h */,
 				9BAA20E91CBEB8EB0053F1C0 /* SCCommuntityContentVC.m */,
+				9BAA21121CBFAE0B0053F1C0 /* CommuntityPosted */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1117,6 +1142,10 @@
 			children = (
 				825EED871CBC96630099D41D /* LWPostsCell.h */,
 				825EED881CBC96630099D41D /* LWPostsCell.m */,
+				9BAA20FF1CBF7F980053F1C0 /* SCPostsTextCell.h */,
+				9BAA21001CBF7F980053F1C0 /* SCPostsTextCell.m */,
+				9BAA20FC1CBF7F620053F1C0 /* SCPostsImageCell.h */,
+				9BAA20FD1CBF7F620053F1C0 /* SCPostsImageCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1138,6 +1167,8 @@
 				826408A61CB95C0C00AF4126 /* LWScheduleVC_iPhone.m */,
 				9BAA20EB1CBECA2B0053F1C0 /* SCScheduleContentVC.h */,
 				9BAA20EC1CBECA2B0053F1C0 /* SCScheduleContentVC.m */,
+				9BAA21031CBF95690053F1C0 /* ScheduleList */,
+				9BAA21021CBF95690053F1C0 /* ScheduleDetail */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1152,6 +1183,7 @@
 		8264089E1CB95A7300AF4126 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9BAA210E1CBF964A0053F1C0 /* ScheduleListCell */,
 				9BAA20EE1CBECBCD0053F1C0 /* ScheduleCell */,
 			);
 			path = View;
@@ -1541,6 +1573,7 @@
 		9BAA20CB1CBE4F120053F1C0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9BAA20F21CBF47CE0053F1C0 /* VideoCell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1588,6 +1621,53 @@
 				9BAA20F01CBECBE60053F1C0 /* SCScheduleCell.m */,
 			);
 			path = ScheduleCell;
+			sourceTree = "<group>";
+		};
+		9BAA20F21CBF47CE0053F1C0 /* VideoCell */ = {
+			isa = PBXGroup;
+			children = (
+				9BAA20F31CBF482C0053F1C0 /* SCVideoCell.h */,
+				9BAA20F41CBF482C0053F1C0 /* SCVideoCell.m */,
+				9BAA20F61CBF48410053F1C0 /* SCVideoCollectionViewCell.h */,
+				9BAA20F71CBF48410053F1C0 /* SCVideoCollectionViewCell.m */,
+			);
+			path = VideoCell;
+			sourceTree = "<group>";
+		};
+		9BAA21021CBF95690053F1C0 /* ScheduleDetail */ = {
+			isa = PBXGroup;
+			children = (
+				9BAA21071CBF96130053F1C0 /* SCScheduleDetailVC.h */,
+				9BAA21081CBF96130053F1C0 /* SCScheduleDetailVC.m */,
+			);
+			path = ScheduleDetail;
+			sourceTree = "<group>";
+		};
+		9BAA21031CBF95690053F1C0 /* ScheduleList */ = {
+			isa = PBXGroup;
+			children = (
+				9BAA21041CBF95DF0053F1C0 /* SCScheduleListVC.h */,
+				9BAA21051CBF95DF0053F1C0 /* SCScheduleListVC.m */,
+			);
+			path = ScheduleList;
+			sourceTree = "<group>";
+		};
+		9BAA210E1CBF964A0053F1C0 /* ScheduleListCell */ = {
+			isa = PBXGroup;
+			children = (
+				9BAA210F1CBF96660053F1C0 /* SCScheduleListCell.h */,
+				9BAA21101CBF96660053F1C0 /* SCScheduleListCell.m */,
+			);
+			path = ScheduleListCell;
+			sourceTree = "<group>";
+		};
+		9BAA21121CBFAE0B0053F1C0 /* CommuntityPosted */ = {
+			isa = PBXGroup;
+			children = (
+				9BAA21131CBFAE4A0053F1C0 /* SCCommuntityPostedVC.h */,
+				9BAA21141CBFAE4A0053F1C0 /* SCCommuntityPostedVC.m */,
+			);
+			path = CommuntityPosted;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1749,6 +1829,7 @@
 			files = (
 				9BAA209F1CBE31180053F1C0 /* SDWebImageDecoder.m in Sources */,
 				9BAA1FEF1CBCA4720053F1C0 /* SCDragCollectionViewCell.m in Sources */,
+				9BAA21061CBF95DF0053F1C0 /* SCScheduleListVC.m in Sources */,
 				826408551CB92C8A00AF4126 /* UIScrollView+MJExtension.m in Sources */,
 				825EED801CBB7B830099D41D /* UITableView+FDTemplateLayoutCell.m in Sources */,
 				825EED861CBB8B370099D41D /* LWNBACell.m in Sources */,
@@ -1770,6 +1851,7 @@
 				8264083A1CB92C8A00AF4126 /* MASCompositeConstraint.m in Sources */,
 				9BAA20A11CBE31180053F1C0 /* SDWebImageDownloaderOperation.m in Sources */,
 				9BAA20DB1CBE50C40053F1C0 /* SCVideoVC.m in Sources */,
+				9BAA21151CBFAE4A0053F1C0 /* SCCommuntityPostedVC.m in Sources */,
 				9B82A1611CBBEBD3001EE35B /* SCDragCollectionView.m in Sources */,
 				826408471CB92C8A00AF4126 /* MJRefreshComponent.m in Sources */,
 				826408731CB92FB100AF4126 /* SCBaseRefreshVC_iPhone.m in Sources */,
@@ -1784,6 +1866,7 @@
 				9BAA209B1CBE31180053F1C0 /* MKAnnotationView+WebCache.m in Sources */,
 				9BAA20681CBE2F900053F1C0 /* SCLoginVC.m in Sources */,
 				825EED791CBB603F0099D41D /* LWPhotosNormalCell.m in Sources */,
+				9BAA21091CBF96130053F1C0 /* SCScheduleDetailVC.m in Sources */,
 				8264083D1CB92C8A00AF4126 /* MASLayoutConstraint.m in Sources */,
 				826408571CB92C8A00AF4126 /* UIView+MJExtension.m in Sources */,
 				9BAA20A31CBE31180053F1C0 /* SDWebImagePrefetcher.m in Sources */,
@@ -1794,6 +1877,7 @@
 				9B82A1531CBA979A001EE35B /* SCTopScrollView.m in Sources */,
 				9BAA20E31CBE89DA0053F1C0 /* SCAdView.m in Sources */,
 				9BAA20A21CBE31180053F1C0 /* SDWebImageManager.m in Sources */,
+				9BAA20FE1CBF7F620053F1C0 /* SCPostsImageCell.m in Sources */,
 				9BAA20BC1CBE38400053F1C0 /* SCUserInfoManager.m in Sources */,
 				9BAA20EA1CBEB8EB0053F1C0 /* SCCommuntityContentVC.m in Sources */,
 				9BAA20DF1CBE53140053F1C0 /* SCVideoDetailVC.m in Sources */,
@@ -1802,6 +1886,7 @@
 				826408691CB92C8B00AF4126 /* LWBaseTableVC_iPhone.m in Sources */,
 				9B82A15E1CBAB54D001EE35B /* SCLargeCollectionViewCell.m in Sources */,
 				8264084E1CB92C8A00AF4126 /* MJRefreshBackNormalFooter.m in Sources */,
+				9BAA20F51CBF482C0053F1C0 /* SCVideoCell.m in Sources */,
 				9BAA20021CBCED780053F1C0 /* CDPButton.m in Sources */,
 				9B82A1571CBAB069001EE35B /* SCSmallEventVC.m in Sources */,
 				9BAA209D1CBE31180053F1C0 /* SDImageCache.m in Sources */,
@@ -1814,6 +1899,7 @@
 				8264083B1CB92C8A00AF4126 /* MASConstraint.m in Sources */,
 				826408511CB92C8A00AF4126 /* MJRefreshNormalHeader.m in Sources */,
 				9BAA20641CBDF2F20053F1C0 /* SCShareManager.m in Sources */,
+				9BAA21111CBF96660053F1C0 /* SCScheduleListCell.m in Sources */,
 				9BAA20A61CBE31180053F1C0 /* UIImage+MultiFormat.m in Sources */,
 				9BAA200F1CBCED780053F1C0 /* CDPVideoPlayer.m in Sources */,
 				8264084C1CB92C8A00AF4126 /* MJRefreshAutoStateFooter.m in Sources */,
@@ -1822,8 +1908,10 @@
 				8264086F1CB92C8B00AF4126 /* LWPayManager.m in Sources */,
 				8264086A1CB92C8B00AF4126 /* LWBaseVC_iPhone.m in Sources */,
 				8264088B1CB9491E00AF4126 /* UIView+TKCategory.m in Sources */,
+				9BAA20F81CBF48410053F1C0 /* SCVideoCollectionViewCell.m in Sources */,
 				826408681CB92C8B00AF4126 /* LWBaseNavVC_iPhone.m in Sources */,
 				826408501CB92C8A00AF4126 /* MJRefreshGifHeader.m in Sources */,
+				9BAA21011CBF7F980053F1C0 /* SCPostsTextCell.m in Sources */,
 				8264088A1CB9491E00AF4126 /* TKAlertCenter.m in Sources */,
 				826407591CB90B0300AF4126 /* main.m in Sources */,
 				9BAA20C01CBE44540053F1C0 /* SCSettingVC.m in Sources */,

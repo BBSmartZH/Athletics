@@ -16,6 +16,8 @@
 
 #import "LWCustomizeVC_iPhone.h"
 
+#import "SCCommuntityPostedVC.h"
+
 @interface LWCommunityVC_iPhone ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, SCTopScrollViewDelegate>
 {
     UICollectionView *_collectionView;
@@ -24,6 +26,8 @@
     
     SCTopScrollView *_topScrollView;
     BOOL _isDragging;
+    
+    UIButton *_postedButton;
 }
 
 @end
@@ -32,6 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.m_navBar.frame), self.view.fWidth, self.view.fHeight - self.m_navBar.fHeight - 49) collectionViewLayout:layout];
@@ -62,6 +67,14 @@
     _topScrollView.delegate = self;
     [self.m_navBar addSubview:_topScrollView];
     
+    _postedButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_postedButton setTitle:@"发帖" forState:UIControlStateNormal];
+    [_postedButton addTarget:self action:@selector(postedButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    _postedButton.frame = CGRectMake(self.view.fWidth - 44 - 10, self.view.fHeight - 49 - 40 - 44, 44, 44);
+    _postedButton.layer.cornerRadius = 22.0f;
+    _postedButton.backgroundColor = [UIColor colorWithRed:88.0 / 255.0 green:88.0/ 255.0 blue:250.0 / 255.0 alpha:0.4];
+    _postedButton.titleLabel.font = [UIFont systemFontOfSize:17.0f];
+    [self.view addSubview:_postedButton];
     
     [self handleTitleArray];
     
@@ -101,6 +114,12 @@
 //    LWNewsTabVC *vc = [[LWNewsTabVC alloc]init];
 //    [self.navigationController pushViewController:vc animated:YES];
     
+}
+
+- (void)postedButtonClicked:(UIButton *)sender {
+    SCCommuntityPostedVC *postedVC = [[SCCommuntityPostedVC alloc] init];
+    postedVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:postedVC animated:YES];
 }
 
 - (void)topScrollButtonClicked:(SCTopButton *)sender {

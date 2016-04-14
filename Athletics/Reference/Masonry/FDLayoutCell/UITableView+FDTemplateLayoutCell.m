@@ -497,12 +497,6 @@ static CGFloat const _FDTemplateLayoutCellHeightCacheAbsentValue = -1;
     } else {
         [self fd_debugLog:[NSString stringWithFormat:@"calculate using frame layout - %@", @(fittingSize.height)]];
     }
-    /**
-     *  chuangge change 0.5
-     */
-    if (kIsIOS6OrLater) {
-        return fittingSize.height + 0.5;
-    }
     return fittingSize.height;
 }
 

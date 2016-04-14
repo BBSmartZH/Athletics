@@ -10,4 +10,6 @@
 
 @interface SCVideoContentVC : SCBaseRefreshVC_iPhone
 
+@property (nonatomic, assign) UIViewController *parentVC;
+
 @end

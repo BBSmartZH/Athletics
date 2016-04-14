@@ -128,7 +128,7 @@ alpha:(a)])
 #define kWord_Color_Event               RGB_COLOR(@"#666666")
 #define kWord_Color_Low                 RGB_COLOR(@"#999999")
 
-#define k_Base_Color                    RGB_COLOR(@"#5858FA")//玫红色按钮
+#define k_Base_Color                    RGB_COLOR(@"#5858FA")//88, 88, 250
 #define k_Border_Color                  RGB_COLOR(@"#dfdfdf")//描边
 #define k_Bg_Color                      RGB_COLOR(@"#f0f0f0")//全局背景颜色
 
