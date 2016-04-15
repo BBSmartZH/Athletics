@@ -11,6 +11,8 @@
 #import "SCPostsTextCell.h"
 #import "SCPostsImageCell.h"
 
+#import "SCPostsDetailVC.h"
+
 @interface SCCommuntityContentVC ()
 {
     UIView *_selectedView;
@@ -135,7 +137,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    
+    SCPostsDetailVC *detailVC = [[SCPostsDetailVC alloc] init];
+    detailVC.hidesBottomBarWhenPushed = YES;
+    [self.parentVC.navigationController pushViewController:detailVC animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

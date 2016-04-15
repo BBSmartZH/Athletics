@@ -173,6 +173,13 @@
 		9BAA21091CBF96130053F1C0 /* SCScheduleDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21081CBF96130053F1C0 /* SCScheduleDetailVC.m */; };
 		9BAA21111CBF96660053F1C0 /* SCScheduleListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21101CBF96660053F1C0 /* SCScheduleListCell.m */; };
 		9BAA21151CBFAE4A0053F1C0 /* SCCommuntityPostedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21141CBFAE4A0053F1C0 /* SCCommuntityPostedVC.m */; };
+		9BAA21191CBFCFE00053F1C0 /* SCPostsInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21181CBFCFE00053F1C0 /* SCPostsInputView.m */; };
+		9BAA211C1CBFE6AD0053F1C0 /* SCPostedChooseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA211B1CBFE6AD0053F1C0 /* SCPostedChooseView.m */; };
+		9BAA211F1CBFEAE30053F1C0 /* SCPostedImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA211E1CBFEAE30053F1C0 /* SCPostedImageCell.m */; };
+		9BAA21231CBFFAF50053F1C0 /* SCPostsDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21221CBFFAF50053F1C0 /* SCPostsDetailVC.m */; };
+		9BAA212D1CBFFFC50053F1C0 /* SCPostsAdCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA212C1CBFFFC50053F1C0 /* SCPostsAdCell.m */; };
+		9BAA21311CC08DCE0053F1C0 /* SCPostsTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21301CC08DCE0053F1C0 /* SCPostsTopView.m */; };
+		9BAA21371CC0C8EF0053F1C0 /* SCPostsTextImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21361CC0C8EF0053F1C0 /* SCPostsTextImageCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -522,6 +529,20 @@
 		9BAA21101CBF96660053F1C0 /* SCScheduleListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCScheduleListCell.m; sourceTree = "<group>"; };
 		9BAA21131CBFAE4A0053F1C0 /* SCCommuntityPostedVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCCommuntityPostedVC.h; sourceTree = "<group>"; };
 		9BAA21141CBFAE4A0053F1C0 /* SCCommuntityPostedVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCCommuntityPostedVC.m; sourceTree = "<group>"; };
+		9BAA21171CBFCFE00053F1C0 /* SCPostsInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPostsInputView.h; sourceTree = "<group>"; };
+		9BAA21181CBFCFE00053F1C0 /* SCPostsInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPostsInputView.m; sourceTree = "<group>"; };
+		9BAA211A1CBFE6AD0053F1C0 /* SCPostedChooseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPostedChooseView.h; sourceTree = "<group>"; };
+		9BAA211B1CBFE6AD0053F1C0 /* SCPostedChooseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPostedChooseView.m; sourceTree = "<group>"; };
+		9BAA211D1CBFEAE30053F1C0 /* SCPostedImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPostedImageCell.h; sourceTree = "<group>"; };
+		9BAA211E1CBFEAE30053F1C0 /* SCPostedImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPostedImageCell.m; sourceTree = "<group>"; };
+		9BAA21211CBFFAF50053F1C0 /* SCPostsDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPostsDetailVC.h; sourceTree = "<group>"; };
+		9BAA21221CBFFAF50053F1C0 /* SCPostsDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPostsDetailVC.m; sourceTree = "<group>"; };
+		9BAA212B1CBFFFC50053F1C0 /* SCPostsAdCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPostsAdCell.h; sourceTree = "<group>"; };
+		9BAA212C1CBFFFC50053F1C0 /* SCPostsAdCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPostsAdCell.m; sourceTree = "<group>"; };
+		9BAA212F1CC08DCE0053F1C0 /* SCPostsTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPostsTopView.h; sourceTree = "<group>"; };
+		9BAA21301CC08DCE0053F1C0 /* SCPostsTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPostsTopView.m; sourceTree = "<group>"; };
+		9BAA21351CC0C8EF0053F1C0 /* SCPostsTextImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPostsTextImageCell.h; sourceTree = "<group>"; };
+		9BAA21361CC0C8EF0053F1C0 /* SCPostsTextImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPostsTextImageCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -955,6 +976,7 @@
 		826408211CB92C8A00AF4126 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9BAA21161CBFCF660053F1C0 /* PostsInputView */,
 				9BAA20B51CBE367F0053F1C0 /* CommonCell */,
 				826408221CB92C8A00AF4126 /* LWNavigationBar.h */,
 				826408231CB92C8A00AF4126 /* LWNavigationBar.m */,
@@ -1125,6 +1147,7 @@
 				826408A31CB95BEE00AF4126 /* LWCommunityVC_iPhone.m */,
 				9BAA20E81CBEB8EB0053F1C0 /* SCCommuntityContentVC.h */,
 				9BAA20E91CBEB8EB0053F1C0 /* SCCommuntityContentVC.m */,
+				9BAA21201CBFFAA00053F1C0 /* PostedDetail */,
 				9BAA21121CBFAE0B0053F1C0 /* CommuntityPosted */,
 			);
 			path = Controller;
@@ -1146,6 +1169,12 @@
 				9BAA21001CBF7F980053F1C0 /* SCPostsTextCell.m */,
 				9BAA20FC1CBF7F620053F1C0 /* SCPostsImageCell.h */,
 				9BAA20FD1CBF7F620053F1C0 /* SCPostsImageCell.m */,
+				9BAA211A1CBFE6AD0053F1C0 /* SCPostedChooseView.h */,
+				9BAA211B1CBFE6AD0053F1C0 /* SCPostedChooseView.m */,
+				9BAA211D1CBFEAE30053F1C0 /* SCPostedImageCell.h */,
+				9BAA211E1CBFEAE30053F1C0 /* SCPostedImageCell.m */,
+				9BAA212E1CC08DA70053F1C0 /* PostsHeaderView */,
+				9BAA21241CBFFE230053F1C0 /* PostedDetailCell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1670,6 +1699,44 @@
 			path = CommuntityPosted;
 			sourceTree = "<group>";
 		};
+		9BAA21161CBFCF660053F1C0 /* PostsInputView */ = {
+			isa = PBXGroup;
+			children = (
+				9BAA21171CBFCFE00053F1C0 /* SCPostsInputView.h */,
+				9BAA21181CBFCFE00053F1C0 /* SCPostsInputView.m */,
+			);
+			path = PostsInputView;
+			sourceTree = "<group>";
+		};
+		9BAA21201CBFFAA00053F1C0 /* PostedDetail */ = {
+			isa = PBXGroup;
+			children = (
+				9BAA21211CBFFAF50053F1C0 /* SCPostsDetailVC.h */,
+				9BAA21221CBFFAF50053F1C0 /* SCPostsDetailVC.m */,
+			);
+			path = PostedDetail;
+			sourceTree = "<group>";
+		};
+		9BAA21241CBFFE230053F1C0 /* PostedDetailCell */ = {
+			isa = PBXGroup;
+			children = (
+				9BAA212B1CBFFFC50053F1C0 /* SCPostsAdCell.h */,
+				9BAA212C1CBFFFC50053F1C0 /* SCPostsAdCell.m */,
+				9BAA21351CC0C8EF0053F1C0 /* SCPostsTextImageCell.h */,
+				9BAA21361CC0C8EF0053F1C0 /* SCPostsTextImageCell.m */,
+			);
+			path = PostedDetailCell;
+			sourceTree = "<group>";
+		};
+		9BAA212E1CC08DA70053F1C0 /* PostsHeaderView */ = {
+			isa = PBXGroup;
+			children = (
+				9BAA212F1CC08DCE0053F1C0 /* SCPostsTopView.h */,
+				9BAA21301CC08DCE0053F1C0 /* SCPostsTopView.m */,
+			);
+			path = PostsHeaderView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1859,6 +1926,7 @@
 				826408441CB92C8A00AF4126 /* MBProgressHUD.m in Sources */,
 				8264084D1CB92C8A00AF4126 /* MJRefreshBackGifFooter.m in Sources */,
 				826408AD1CB9EBB200AF4126 /* XWDragCellCollectionView.m in Sources */,
+				9BAA211F1CBFEAE30053F1C0 /* SCPostedImageCell.m in Sources */,
 				8264083C1CB92C8A00AF4126 /* MASConstraintMaker.m in Sources */,
 				9BAA20CE1CBE4F320053F1C0 /* SCNewsVC.m in Sources */,
 				9BAA20A01CBE31180053F1C0 /* SDWebImageDownloader.m in Sources */,
@@ -1866,11 +1934,13 @@
 				9BAA209B1CBE31180053F1C0 /* MKAnnotationView+WebCache.m in Sources */,
 				9BAA20681CBE2F900053F1C0 /* SCLoginVC.m in Sources */,
 				825EED791CBB603F0099D41D /* LWPhotosNormalCell.m in Sources */,
+				9BAA21371CC0C8EF0053F1C0 /* SCPostsTextImageCell.m in Sources */,
 				9BAA21091CBF96130053F1C0 /* SCScheduleDetailVC.m in Sources */,
 				8264083D1CB92C8A00AF4126 /* MASLayoutConstraint.m in Sources */,
 				826408571CB92C8A00AF4126 /* UIView+MJExtension.m in Sources */,
 				9BAA20A31CBE31180053F1C0 /* SDWebImagePrefetcher.m in Sources */,
 				826408431CB92C8A00AF4126 /* ViewController+MASAdditions.m in Sources */,
+				9BAA21191CBFCFE00053F1C0 /* SCPostsInputView.m in Sources */,
 				8264086C1CB92C8B00AF4126 /* SCProgressHUD.m in Sources */,
 				826408521CB92C8A00AF4126 /* MJRefreshStateHeader.m in Sources */,
 				9BAA20A71CBE31180053F1C0 /* UIImage+WebP.m in Sources */,
@@ -1902,10 +1972,12 @@
 				9BAA21111CBF96660053F1C0 /* SCScheduleListCell.m in Sources */,
 				9BAA20A61CBE31180053F1C0 /* UIImage+MultiFormat.m in Sources */,
 				9BAA200F1CBCED780053F1C0 /* CDPVideoPlayer.m in Sources */,
+				9BAA212D1CBFFFC50053F1C0 /* SCPostsAdCell.m in Sources */,
 				8264084C1CB92C8A00AF4126 /* MJRefreshAutoStateFooter.m in Sources */,
 				826408B01CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m in Sources */,
 				826408461CB92C8A00AF4126 /* MJRefreshBackFooter.m in Sources */,
 				8264086F1CB92C8B00AF4126 /* LWPayManager.m in Sources */,
+				9BAA211C1CBFE6AD0053F1C0 /* SCPostedChooseView.m in Sources */,
 				8264086A1CB92C8B00AF4126 /* LWBaseVC_iPhone.m in Sources */,
 				8264088B1CB9491E00AF4126 /* UIView+TKCategory.m in Sources */,
 				9BAA20F81CBF48410053F1C0 /* SCVideoCollectionViewCell.m in Sources */,
@@ -1923,6 +1995,7 @@
 				9BAA20AA1CBE31180053F1C0 /* UIView+WebCacheOperation.m in Sources */,
 				8264084A1CB92C8A00AF4126 /* MJRefreshAutoGifFooter.m in Sources */,
 				9BAA20ED1CBECA2B0053F1C0 /* SCScheduleContentVC.m in Sources */,
+				9BAA21311CC08DCE0053F1C0 /* SCPostsTopView.m in Sources */,
 				9BAA20D81CBE50AE0053F1C0 /* SCVideoContentVC.m in Sources */,
 				826408481CB92C8A00AF4126 /* MJRefreshFooter.m in Sources */,
 				9BAA20781CBE30B10053F1C0 /* UIView+Distribute.m in Sources */,
@@ -1935,6 +2008,7 @@
 				9BAA20D51CBE4FD10053F1C0 /* SCNewsDetailVC.m in Sources */,
 				9BAA20601CBDEE1F0053F1C0 /* SCAnalyticsManager.m in Sources */,
 				826408411CB92C8A00AF4126 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
+				9BAA21231CBFFAF50053F1C0 /* SCPostsDetailVC.m in Sources */,
 				826408A41CB95BEE00AF4126 /* LWCommunityVC_iPhone.m in Sources */,
 				825EED761CBB50F60099D41D /* LWNewsTypeNormalCell.m in Sources */,
 				826408341CB92C8A00AF4126 /* AFURLRequestSerialization.m in Sources */,
