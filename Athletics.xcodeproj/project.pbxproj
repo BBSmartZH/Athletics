@@ -181,6 +181,7 @@
 		9BAA212D1CBFFFC50053F1C0 /* SCPostsAdCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA212C1CBFFFC50053F1C0 /* SCPostsAdCell.m */; };
 		9BAA21311CC08DCE0053F1C0 /* SCPostsTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21301CC08DCE0053F1C0 /* SCPostsTopView.m */; };
 		9BAA21371CC0C8EF0053F1C0 /* SCPostsTextImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21361CC0C8EF0053F1C0 /* SCPostsTextImageCell.m */; };
+		9BAA213A1CC172990053F1C0 /* SCNewsImageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21391CC172990053F1C0 /* SCNewsImageVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -546,6 +547,8 @@
 		9BAA21301CC08DCE0053F1C0 /* SCPostsTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPostsTopView.m; sourceTree = "<group>"; };
 		9BAA21351CC0C8EF0053F1C0 /* SCPostsTextImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPostsTextImageCell.h; sourceTree = "<group>"; };
 		9BAA21361CC0C8EF0053F1C0 /* SCPostsTextImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPostsTextImageCell.m; sourceTree = "<group>"; };
+		9BAA21381CC172990053F1C0 /* SCNewsImageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNewsImageVC.h; sourceTree = "<group>"; };
+		9BAA21391CC172990053F1C0 /* SCNewsImageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNewsImageVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1625,6 +1628,8 @@
 			children = (
 				9BAA20D31CBE4FD10053F1C0 /* SCNewsDetailVC.h */,
 				9BAA20D41CBE4FD10053F1C0 /* SCNewsDetailVC.m */,
+				9BAA21381CC172990053F1C0 /* SCNewsImageVC.h */,
+				9BAA21391CC172990053F1C0 /* SCNewsImageVC.m */,
 			);
 			path = NewsDetail;
 			sourceTree = "<group>";
@@ -1928,6 +1933,7 @@
 				9BAA209C1CBE31180053F1C0 /* NSData+ImageContentType.m in Sources */,
 				9BAA20761CBE30B10053F1C0 /* UIAlertView+Blocks.m in Sources */,
 				8264088E1CB9568D00AF4126 /* LWTabBarVC_iPhone.m in Sources */,
+				9BAA213A1CC172990053F1C0 /* SCNewsImageVC.m in Sources */,
 				8264083A1CB92C8A00AF4126 /* MASCompositeConstraint.m in Sources */,
 				9BAA20A11CBE31180053F1C0 /* SDWebImageDownloaderOperation.m in Sources */,
 				9BAA20DB1CBE50C40053F1C0 /* SCVideoVC.m in Sources */,

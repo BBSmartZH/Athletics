@@ -18,12 +18,15 @@
 }
 @end
 static CGFloat k_left = 10.0f;
+static CGFloat headerImageH = 24.0f;
 
 @implementation LWCommentListCell
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = [UIColor whiteColor];
         [self p_config];
     }
     return self;
@@ -34,6 +37,7 @@ static CGFloat k_left = 10.0f;
     _headerImageV = [[UIImageView alloc]init];
     _headerImageV.clipsToBounds = YES;
     _headerImageV.contentMode = UIViewContentModeScaleAspectFill;
+    _headerImageV.layer.cornerRadius = headerImageH / 2.0;
     [self.contentView addSubview:_headerImageV];
     
     _nameLabel = [[UILabel alloc]init];
@@ -43,6 +47,7 @@ static CGFloat k_left = 10.0f;
     
     _detailLabel = [[UILabel alloc]init];
     _detailLabel.textColor = kWord_Color_Event;
+    _detailLabel.numberOfLines = 0;
     _detailLabel.font = [UIFont systemFontOfSize:kWord_Font_24px];
     [self.contentView addSubview:_detailLabel];
     
@@ -52,35 +57,31 @@ static CGFloat k_left = 10.0f;
     [self.contentView addSubview:_numLabel];
     
     _praiseButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_praiseButton setImage:[UIImage imageNamed:@""]forState:UIControlStateNormal];
-    [_praiseButton setImage:[UIImage imageNamed:@""] forState:UIControlStateSelected];
+    [_praiseButton setImage:[UIImage imageNamed:@"live_btn_support_left_press"]forState:UIControlStateNormal];
+    [_praiseButton setImage:[UIImage imageNamed:@"live_btn_support_left_sel"] forState:UIControlStateSelected];
     [self.contentView addSubview:_praiseButton];
     
     
     _WEAKSELF(ws);
     [_headerImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-       [_headerImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-           make.left.equalTo(ws.contentView).offset(k_left);
-           make.right.equalTo(ws.contentView).offset(-k_left);
-           make.top.equalTo(ws.contentView).offset(k_left);
-           make.size.mas_equalTo(CGSizeMake(16, 16));
-       }];
+        make.left.equalTo(ws.contentView).offset(k_left);
+        make.top.equalTo(ws.contentView).offset(k_left);
+        make.size.mas_equalTo(CGSizeMake(headerImageH, headerImageH));
     }];
     
     [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_headerImageV.mas_right).offset(k_left);
         make.centerY.equalTo(_headerImageV);
-
     }];
     
     [_praiseButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(ws.contentView).offset(-k_left);
         make.centerY.equalTo(_headerImageV);
-        make.size.mas_equalTo(CGSizeMake(9, 9));
+        make.size.mas_equalTo(CGSizeMake(16, 16));
     }];
-    
+    [_numLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
     [_numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_praiseButton.mas_left);
+        make.right.equalTo(_praiseButton.mas_left).offset(-2);
         make.centerY.equalTo(_headerImageV);
         make.left.equalTo(_nameLabel.mas_right).offset(k_left);
     }];
@@ -89,6 +90,7 @@ static CGFloat k_left = 10.0f;
         make.top.equalTo(_headerImageV.mas_bottom).offset(k_left);
         make.left.equalTo(_nameLabel);
         make.right.equalTo(ws.contentView).offset(-k_left);
+        make.bottom.equalTo(ws.contentView).offset(-k_left);
     }];
     
     
@@ -96,12 +98,16 @@ static CGFloat k_left = 10.0f;
 
 -(void)createLayoutWith:(id)model
 {
-    _praiseButton.backgroundColor = [UIColor blueColor];
     _headerImageV.backgroundColor = k_Base_Color;
     _nameLabel.text = @"第三方你是";
     _detailLabel.text = @"南方你vbhVBV的吗他怒吼热价女女不发达让湖人女警花你的呢是干活定不反弹后安防尽快的丧失姑奶奶";
     _numLabel.text = @"1234";
 }
+
++ (NSString *)cellidentifier {
+    return @"LWCommentListCellidentifier";
+}
+
 - (void)awakeFromNib {
     // Initialization code
 }

@@ -9,19 +9,30 @@
 #import "SCVideoDetailVC.h"
 
 #import "CDPVideoPlayer.h"
+#import "LWCommentListCell.h"
+#import "SCVideoCollectionViewCell.h"
 
-
-@interface SCVideoDetailVC ()<CDPVideoPlayerDelegate>
+@interface SCVideoDetailVC ()<CDPVideoPlayerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
     CDPVideoPlayer *_player;
     CGFloat   _playerHeight;
     UIButton  *_playButton;
     BOOL _statusBarHidden;
+    UICollectionView *_collectionView;
+    UIView *_headerView;
+    UILabel *_titleLabel;
 }
 
 @end
 
 @implementation SCVideoDetailVC
+
+- (instancetype)initWithStyle:(UITableViewStyle)style {
+    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+        
+    }
+    return self;
+}
 
 - (void)dealloc {
     [_player close];
@@ -65,6 +76,7 @@
     self.m_navBar.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_32px];
     [self.view bringSubviewToFront:self.m_navBar];
     
+    [_tableView registerClass:[LWCommentListCell class] forCellReuseIdentifier:[LWCommentListCell cellidentifier]];
     _tableView.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight);
     _tableView.separatorColor = k_Border_Color;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
@@ -81,6 +93,34 @@
     _playButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
     
     [self.m_navBar addSubview:_playButton];
+    
+    
+    _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _tableView.fWidth, 44)];
+    _headerView.backgroundColor = [UIColor whiteColor];
+    _tableView.tableHeaderView = _headerView;
+    
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 12, _headerView.fWidth - 20, 20)];
+    _titleLabel.textColor = kWord_Color_High;
+    _titleLabel.font = [UIFont systemFontOfSize:kWord_Font_30px];
+    [_headerView addSubview:_titleLabel];
+    
+    _titleLabel.text = @"这是标题啊啊啊啊啊啊啊啊啊啊啊啊";
+    
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, _titleLabel.bottom + 12, _headerView.fWidth, SCVideoCollectionViewCellHeight) collectionViewLayout:layout];
+    _collectionView.delegate = self;
+    _collectionView.dataSource = self;
+    _collectionView.showsVerticalScrollIndicator = NO;
+    _collectionView.showsHorizontalScrollIndicator = NO;
+    _collectionView.backgroundColor = [UIColor whiteColor];
+    [_headerView addSubview:_collectionView];
+    [_collectionView setContentSize:CGSizeMake(_collectionView.fWidth + 1, _collectionView.fHeight)];
+    [_collectionView registerClass:[SCVideoCollectionViewCell class] forCellWithReuseIdentifier:[SCVideoCollectionViewCell cellIdentifier]];
+    
+    _headerView.frame = CGRectMake(0, 0, _headerView.fWidth, _collectionView.bottom + 15);
+    _tableView.tableHeaderView = _headerView;
 }
 
 - (void)playButtonClicked:(UIButton *)sender {
@@ -102,12 +142,27 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *cellId = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-    }
+    LWCommentListCell *cell = [tableView dequeueReusableCellWithIdentifier:[LWCommentListCell cellidentifier] forIndexPath:indexPath];
+    
+    [cell createLayoutWith:@1];
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [tableView fd_heightForCellWithIdentifier:[LWCommentListCell cellidentifier] cacheByIndexPath:indexPath configuration:^(LWCommentListCell *cell) {
+        [cell createLayoutWith:@1];
+    }];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return 10.0f;
+    }
+    return 0.01f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.01f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -116,13 +171,47 @@
     
 }
 
+#pragma mark - CollectionViewDelegate
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return 20;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    SCVideoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[SCVideoCollectionViewCell cellIdentifier] forIndexPath:indexPath];
+    
+    
+    [cell createLayoutWith:@1];
+    return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(SCVideoCollectionViewCellWidth, SCVideoCollectionViewCellHeight);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 10.0f;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 10.0f;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
 - (void)updatePlayerStatus:(CDPVideoPlayerStatus)status {
     if (status == CDPVideoPlayerPlay) {
         [UIView animateWithDuration:0.15 animations:^{
             _player.frame = CGRectMake(0, 0, _player.fWidth, _player.fHeight);
         }];
+    }else if (status == CDPVideoPlayerEnd) {
+        //播放下一个
+        [_player playWithNewUrl:@"http://msgpush.dota2.com.cn/m3u8/1460455034449.m3u8"];
     }
 }
+
+
 
 - (void)switchSizeClickToFullScreen:(BOOL)toFullScreen {
     if (toFullScreen) {

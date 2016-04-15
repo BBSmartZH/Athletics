@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+static CGFloat SCVideoCollectionViewCellHeight = 120;
+static CGFloat SCVideoCollectionViewCellWidth = 100;
+
 @interface SCVideoCollectionViewCell : UICollectionViewCell
+
+- (void)createLayoutWith:(id)model;
+
++ (NSString *)cellIdentifier;
 
 @end

@@ -11,4 +11,6 @@
 @interface LWCommentListCell : UITableViewCell
 - (void)createLayoutWith:(id)model;
 
++ (NSString *)cellidentifier;
+
 @end

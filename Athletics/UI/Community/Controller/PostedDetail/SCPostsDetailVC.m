@@ -17,12 +17,21 @@
 {
     UILabel *_testLabel;
     SCPostsTopView *_headerView;
-    UIView *view;
+    
+    UIButton *_supportButton;
+    UILabel  *_supportLabel;
 }
 
 @end
 
 @implementation SCPostsDetailVC
+
+- (instancetype)initWithStyle:(UITableViewStyle)style {
+    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+        
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -112,7 +121,46 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == 0) {
+        return 110.0f;
+    }
     return 0.01f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (section == 0) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.fWidth, 0)];
+        view.backgroundColor = [UIColor whiteColor];
+        _supportLabel = [[UILabel alloc] init];
+        _supportLabel.font = [UIFont systemFontOfSize:kWord_Font_20px];
+        _supportLabel.textAlignment = NSTextAlignmentCenter;
+        _supportLabel.textColor = kWord_Color_Low;
+        _supportLabel.text = @"20000";
+        [view addSubview:_supportLabel];
+        
+        _supportButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_supportButton setImage:[UIImage imageNamed:@"news_suppourt_nor"] forState:UIControlStateNormal];
+        [_supportButton setImage:[UIImage imageNamed:@"news_suppourt_press"] forState:UIControlStateSelected];
+        [_supportButton addTarget:self action:@selector(supportButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        _supportButton.layer.cornerRadius = 25;
+        _supportButton.layer.borderColor = k_Border_Color.CGColor;
+        _supportButton.layer.borderWidth = .5f;
+        [view addSubview:_supportButton];
+        
+        [_supportLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
+        [_supportLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(view).offset(20);
+            make.centerX.equalTo(view);
+        }];
+        [_supportButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(view).offset(-20);
+            make.centerX.equalTo(view);
+            make.size.mas_equalTo(CGSizeMake(50, 50));
+        }];
+        
+        return view;
+    }
+    return NULL;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -126,6 +174,12 @@
     }
 }
 
+- (void)supportButtonClicked:(UIButton *)sender {
+    if (!sender.isSelected) {
+        sender.selected = YES;
+        sender.layer.borderColor = [UIColor yellowColor].CGColor;
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

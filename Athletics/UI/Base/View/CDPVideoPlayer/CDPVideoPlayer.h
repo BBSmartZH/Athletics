@@ -125,6 +125,9 @@ typedef enum{
 //frame高度最好大过200,haveOriginalUI是否创建默认交互UI
 -(instancetype)initWithFrame:(CGRect)frame url:(NSString *)url delegate:(id <CDPVideoPlayerDelegate>)delegate haveOriginalUI:(BOOL)haveOriginalUI;
 
+//播放新的url资源
+- (void)playWithNewUrl:(NSString *)url;
+
 //播放并判断是否重新加载当前url资源
 -(void)play;
 

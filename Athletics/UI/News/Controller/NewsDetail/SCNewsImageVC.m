@@ -1,36 +1,26 @@
 //
-//  SCNewsDetailVC.m
+//  SCNewsImageVC.m
 //  Athletics
 //
-//  Created by mrzj_sc on 16/4/13.
+//  Created by mrzj_sc on 16/4/16.
 //  Copyright © 2016年 李宛. All rights reserved.
 //
 
-#import "SCNewsDetailVC.h"
+#import "SCNewsImageVC.h"
 
-@interface SCNewsDetailVC ()
-{
-    UIView *_inputView;
-    UIScrollView *_scrollView;
-}
+@interface SCNewsImageVC ()
 
 @end
 
-@implementation SCNewsDetailVC
+@implementation SCNewsImageVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    
     self.title = @"资讯";
     
-    
-    _inputView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.fHeight - 44, self.view.fWidth, 44)];
-    _inputView.backgroundColor = [UIColor cyanColor];
-    _inputView.layer.borderWidth = .5f;
-    _inputView.layer.borderColor = k_Border_Color.CGColor;
-    [self.view addSubview:_inputView];
-
 }
 
 - (void)didReceiveMemoryWarning {

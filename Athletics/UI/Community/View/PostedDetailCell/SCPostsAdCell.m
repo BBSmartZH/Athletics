@@ -130,7 +130,7 @@ static CGFloat k_top = 15.0f;
     if (number == 1) {
         imageSize = CGSizeMake(349, 250);
     }else {
-        imageSize = CGSizeMake(690, 120);
+        imageSize = CGSizeMake(690, 300);
     }
     
     height = ([UIScreen mainScreen].bounds.size.width - 2 * k_left) * (imageSize.height / imageSize.width);

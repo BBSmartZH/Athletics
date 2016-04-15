@@ -462,6 +462,15 @@
 }
 
 #pragma mark - CDPVideoPlayer外部交互
+//播放新的url资源
+- (void)playWithNewUrl:(NSString *)url {
+    AVPlayerItem *playerItem=[self getPlayItemWithUrl:url];
+    [_player replaceCurrentItemWithPlayerItem:playerItem];
+    
+    //开始播放
+    [self checkAndUpdateStatus:CDPVideoPlayerReadyPlay];
+    [_player play];
+}
 //播放
 -(void)play{
     //记录最后一次显示开始时间
