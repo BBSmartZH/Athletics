@@ -34,7 +34,6 @@
     [_tableView registerClass:[SCPostsAdCell class] forCellReuseIdentifier:[SCPostsAdCell cellIdentifier]];
     
     _tableView.frame = CGRectMake(0, self.m_navBar.bottom, self.view.fWidth, self.view.fHeight - self.m_navBar.fHeight);
-    _tableView.backgroundColor = [UIColor yellowColor];
     _headerView = [[SCPostsTopView alloc] initWithFrame:CGRectMake(0, 0, _tableView.fWidth, 0)];
     _headerView.delegate = self;
     [_headerView setModel:@1];
@@ -47,12 +46,14 @@
 }
 
 - (void)postsTopViewHeightChanged {
+    
     [UIView animateWithDuration:0.25 animations:^{
         _headerView.frame = CGRectMake(_headerView.left, _headerView.top, _headerView.fWidth, [_headerView topViewHeight]);
-        _tableView.tableHeaderView = _headerView;
-    } completion:^(BOOL finished) {
-        _tableView.tableHeaderView = _headerView;
     }];
+
+    [_tableView beginUpdates];
+    [_tableView setTableHeaderView:_headerView];
+    [_tableView endUpdates];
 }
 
 
@@ -107,17 +108,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 10.01f;
+    return 0.01f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 0.01f;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _tableView.fWidth, 0)];
-    view.backgroundColor = [UIColor redColor];
-    return view;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

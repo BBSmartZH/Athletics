@@ -119,6 +119,8 @@ typedef enum{
 
 @property (nonatomic,weak) id <CDPVideoPlayerDelegate> delegate;
 
+@property (nonatomic, assign, readonly) BOOL isPlaying;
+
 //初始化
 //frame高度最好大过200,haveOriginalUI是否创建默认交互UI
 -(instancetype)initWithFrame:(CGRect)frame url:(NSString *)url delegate:(id <CDPVideoPlayerDelegate>)delegate haveOriginalUI:(BOOL)haveOriginalUI;

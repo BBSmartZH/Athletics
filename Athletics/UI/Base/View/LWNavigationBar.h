@@ -17,6 +17,7 @@
 @property (nonatomic, assign) CGFloat         bg_alpha;
 @property (nonatomic, assign) BOOL            hiddenLine;
 
+@property (nonatomic, strong, readonly) UILabel *titleLabel;
 @property (nonatomic, strong, readonly) UIButton *backButton;
 @property (nonatomic, strong, readonly) UIButton *rightButton;
 

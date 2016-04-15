@@ -137,6 +137,10 @@ static NSString *backImageName = @"icon_back_normal";
     _bottomLine.hidden = hiddenLine;
 }
 
+- (UILabel *)titleLabel {
+    return _m_titleLabel;
+}
+
 - (UIButton *)backButton {
     return _m_leftButton;
 }

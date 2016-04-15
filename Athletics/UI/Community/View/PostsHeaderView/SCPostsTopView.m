@@ -113,7 +113,7 @@ static CGFloat showButtonH = 22.0f;
     [self addSubview:_showMoreView];
     
     _showMoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_showMoreButton setTitle:@"全文" forState:UIControlStateNormal];
+    [_showMoreButton setTitle:@"查看全文" forState:UIControlStateNormal];
     [_showMoreButton setTitle:@"收起" forState:UIControlStateSelected];
     [_showMoreButton addTarget:self action:@selector(showMoreButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_showMoreButton setTitleColor:k_Base_Color forState:UIControlStateNormal];
@@ -163,7 +163,7 @@ static CGFloat showButtonH = 22.0f;
     }];
     
     [_showMoreButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_showMoreView).offset(k_top);
+        make.top.equalTo(_showMoreView).offset(5);
         make.size.mas_equalTo(CGSizeMake(60, showButtonH));
         make.centerX.equalTo(_showMoreView);
         make.bottom.equalTo(_showMoreView).offset(-k_top);
@@ -248,7 +248,7 @@ static CGFloat showButtonH = 22.0f;
         }else {
             height += _contentTempHeight;
         }
-        height += k_top;
+        height += 5;
         height += showButtonH;
     }else {
         height += _contentHeight;

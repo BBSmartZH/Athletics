@@ -9,6 +9,7 @@
 #import "SCVideoContentVC.h"
 
 #import "SCVideoCell.h"
+#import "SCVideoDetailVC.h"
 
 @interface SCVideoContentVC ()
 {
@@ -117,6 +118,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    SCVideoDetailVC *detailVC = [[SCVideoDetailVC alloc] init];
+    detailVC.hidesBottomBarWhenPushed = YES;
+    [self.parentVC.navigationController pushViewController:detailVC animated:YES];
     
 }
 

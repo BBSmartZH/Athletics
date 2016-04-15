@@ -14,7 +14,8 @@
 #define CDPSHEIGHT  [UIScreen mainScreen].bounds.size.height
 
 //上下导航栏高(全屏时上导航栏高+20)
-#define CDPTOPHEIGHT(FullScreen) ((FullScreen==YES)?60:40)
+//#define CDPTOPHEIGHT(FullScreen) ((FullScreen==YES)?60:40)
+#define CDPTOPHEIGHT(FullScreen) ((FullScreen==YES)?40:40)
 #define CDPFOOTHEIGHT 40
 
 //导航栏上button的宽高
@@ -406,6 +407,7 @@
         _titleLabel.textColor=[UIColor whiteColor];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.font=[UIFont systemFontOfSize:14];
+        _titleLabel.alpha=0.0;
         [self addSubview:_titleLabel];
     }
 }
@@ -491,6 +493,14 @@
         [self removeFromSuperview];
     }
 }
+
+- (BOOL)isPlaying {
+    if (_status == CDPVideoPlayerPlay || _status == CDPVideoPlayerBuffer || _status == CDPVideoPlayerReadyPlay) {
+        return YES;
+    }
+    return NO;
+}
+
 //切换\取消全屏状态
 -(void)setIsFullScreen:(BOOL)isFullScreen{
     //记录最后一次显示开始时间
@@ -907,7 +917,11 @@
     if (restore==YES) {
         _topBar.alpha=b;
         _backButton.alpha=c;
-        _titleLabel.alpha=c;
+        if (_isFullScreen) {
+            _titleLabel.alpha=c;
+        }else {
+            _titleLabel.alpha=a;
+        }
         
         _footBar.alpha=b;
         _playButton.alpha=c;

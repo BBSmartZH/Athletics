@@ -61,11 +61,11 @@
 //    UITabBarItem *item3 = [[UITabBarItem alloc]initWithTitle:@"赛程" image:[UIImage imageNamed:@"iconfont-bofang(1).png"] tag:102];
 //     UITabBarItem *item4 = [[UITabBarItem alloc]initWithTitle:@"我的" image:[UIImage imageNamed:@"iconfont-bofang(1).png"] tag:103];
     
-    _firstItem = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"tab_live_nor"] selectedImage:[UIImage imageNamed:@"tab_live_highlight"]];
-    _secondItem = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"tab_live_nor"] selectedImage:[UIImage imageNamed:@"tab_live_highlight"]];
+    _firstItem = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"tab_news_nor"] selectedImage:[UIImage imageNamed:@"tab_news_highlight"]];
+    _secondItem = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"tab_community_nor"] selectedImage:[UIImage imageNamed:@"tab_community_highlight"]];
     _thirdItem = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"tab_live_nor"] selectedImage:[UIImage imageNamed:@"tab_live_highlight"]];
-    _fourthItem = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"tab_live_nor"] selectedImage:[UIImage imageNamed:@"tab_live_highlight"]];
-    _fifthItem = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"tab_live_nor"] selectedImage:[UIImage imageNamed:@"tab_live_highlight"]];
+    _fourthItem = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"tab_schedule_nor"] selectedImage:[UIImage imageNamed:@"tab_schedule_highlight"]];
+    _fifthItem = [[UITabBarItem alloc] initWithTitle:@"" image:[UIImage imageNamed:@"tab_me_nor"] selectedImage:[UIImage imageNamed:@"tab_me_highlight"]];
 
     
 
