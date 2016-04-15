@@ -13,6 +13,7 @@
 		825EED801CBB7B830099D41D /* UITableView+FDTemplateLayoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825EED7F1CBB7B830099D41D /* UITableView+FDTemplateLayoutCell.m */; };
 		825EED861CBB8B370099D41D /* LWNBACell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825EED851CBB8B370099D41D /* LWNBACell.m */; };
 		825EED891CBC96630099D41D /* LWPostsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825EED881CBC96630099D41D /* LWPostsCell.m */; };
+		825EED8D1CC12B640099D41D /* LWCommentListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825EED8C1CC12B640099D41D /* LWCommentListCell.m */; };
 		826407591CB90B0300AF4126 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 826407581CB90B0300AF4126 /* main.m */; };
 		8264075C1CB90B0300AF4126 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8264075B1CB90B0300AF4126 /* AppDelegate.m */; };
 		8264075E1CB90B0300AF4126 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8264075D1CB90B0300AF4126 /* Assets.xcassets */; };
@@ -212,6 +213,8 @@
 		825EED851CBB8B370099D41D /* LWNBACell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LWNBACell.m; sourceTree = "<group>"; };
 		825EED871CBC96630099D41D /* LWPostsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LWPostsCell.h; path = Athletics/UI/Events/View/Home/LWPostsCell.h; sourceTree = SOURCE_ROOT; };
 		825EED881CBC96630099D41D /* LWPostsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LWPostsCell.m; path = Athletics/UI/Events/View/Home/LWPostsCell.m; sourceTree = SOURCE_ROOT; };
+		825EED8B1CC12B640099D41D /* LWCommentListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LWCommentListCell.h; sourceTree = "<group>"; };
+		825EED8C1CC12B640099D41D /* LWCommentListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LWCommentListCell.m; sourceTree = "<group>"; };
 		826407541CB90B0300AF4126 /* Athletics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Athletics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		826407581CB90B0300AF4126 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8264075A1CB90B0300AF4126 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -596,6 +599,15 @@
 				825EED7F1CBB7B830099D41D /* UITableView+FDTemplateLayoutCell.m */,
 			);
 			path = FDLayoutCell;
+			sourceTree = "<group>";
+		};
+		825EED8A1CC12B4F0099D41D /* CommentListCell */ = {
+			isa = PBXGroup;
+			children = (
+				825EED8B1CC12B640099D41D /* LWCommentListCell.h */,
+				825EED8C1CC12B640099D41D /* LWCommentListCell.m */,
+			);
+			path = CommentListCell;
 			sourceTree = "<group>";
 		};
 		8264074B1CB90B0300AF4126 = {
@@ -1565,6 +1577,7 @@
 		9BAA20C71CBE4F120053F1C0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				825EED8A1CC12B4F0099D41D /* CommentListCell */,
 				9BAA20E41CBEAAAE0053F1C0 /* NewsCell */,
 			);
 			path = View;
@@ -1954,6 +1967,7 @@
 				9BAA20B01CBE31E20053F1C0 /* SCDateUtil.m in Sources */,
 				826408A71CB95C0C00AF4126 /* LWScheduleVC_iPhone.m in Sources */,
 				826408691CB92C8B00AF4126 /* LWBaseTableVC_iPhone.m in Sources */,
+				825EED8D1CC12B640099D41D /* LWCommentListCell.m in Sources */,
 				9B82A15E1CBAB54D001EE35B /* SCLargeCollectionViewCell.m in Sources */,
 				8264084E1CB92C8A00AF4126 /* MJRefreshBackNormalFooter.m in Sources */,
 				9BAA20F51CBF482C0053F1C0 /* SCVideoCell.m in Sources */,
