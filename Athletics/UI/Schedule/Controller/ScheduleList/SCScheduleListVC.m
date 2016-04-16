@@ -10,6 +10,8 @@
 
 #import "SCScheduleListCell.h"
 
+#import "SCScheduleDetailVC.h"
+
 @interface SCScheduleListVC ()
 
 @end
@@ -75,6 +77,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 0.01f;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SCScheduleDetailVC *detailVC = [[SCScheduleDetailVC alloc]init];
+    [self.navigationController pushViewController:detailVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
