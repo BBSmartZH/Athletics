@@ -74,7 +74,7 @@
 - (void)handleTitleArray{
     [_vcViewArray removeAllObjects];
     [_vcArray removeAllObjects];
-    NSMutableArray *titleArray = @[@"视频", @"关注"].mutableCopy;
+    NSMutableArray *titleArray = @[@"推荐"].mutableCopy;
     
     NSArray *followArray = ((NSArray *)[[NSUserDefaults standardUserDefaults] objectForKey:kAllChannelArrayKey]).firstObject;
     [titleArray addObjectsFromArray:followArray];

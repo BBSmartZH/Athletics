@@ -20,6 +20,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.title = @"上海特锦赛";
+    
     [_tableView registerClass:[SCScheduleListCell class] forCellReuseIdentifier:[SCScheduleListCell cellIdentifier]];
 
     _tableView.frame = CGRectMake(0, self.m_navBar.bottom, self.view.fWidth, self.view.fHeight - self.m_navBar.fHeight);
