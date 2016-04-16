@@ -57,8 +57,8 @@ static CGFloat showButtonH = 22.0f;
 
 - (void)uiConfig {
     
-    _titleFont = [UIFont fontWithName:@"Helvetica-Bold" size:kWord_Font_28px];
-    _contentFont = [UIFont systemFontOfSize:kWord_Font_24px];
+    _titleFont = [UIFont fontWithName:@"Helvetica-Bold" size:kWord_Font_32px];
+    _contentFont = [UIFont systemFontOfSize:kWord_Font_28px];
     
     _titleStyle = [[NSMutableParagraphStyle alloc] init];
     [_titleStyle setLineSpacing:titleLineSpace];
@@ -97,13 +97,13 @@ static CGFloat showButtonH = 22.0f;
     [self addSubview:_timeLabel];
     
     _titleLabel = [[UILabel alloc] init];
-    _titleLabel.textColor = kWord_Color_Event;
+    _titleLabel.textColor = kWord_Color_High;
     _titleLabel.font = _titleFont;
     _titleLabel.numberOfLines = 0;
     [self addSubview:_titleLabel];
     
     _contentLabel = [[UILabel alloc] init];
-    _contentLabel.textColor = kWord_Color_Event;
+    _contentLabel.textColor = kWord_Color_High;
     _contentLabel.font = _contentFont;
     _contentLabel.numberOfLines = 0;
     [self addSubview:_contentLabel];

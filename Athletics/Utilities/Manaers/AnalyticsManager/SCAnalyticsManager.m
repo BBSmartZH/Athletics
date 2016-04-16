@@ -47,7 +47,6 @@
     
     [MobClick startWithAppkey:k_UMAppReleaseKey reportPolicy:BATCH channelId:@"Athletics_inhouse"];
     [MobClick setAppVersion:version];
-    [MobClick updateOnlineConfig];
 #endif
     
 }

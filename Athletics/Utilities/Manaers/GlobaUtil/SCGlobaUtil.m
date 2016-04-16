@@ -353,6 +353,19 @@
     return [outstring uppercaseString];
 }
 
++ (CGSize)sizeWithText:(NSString *)text width:(CGFloat)width attributes:(NSDictionary *)attributes {
+    CGSize size = CGSizeZero;
+    if (kIsIOS7OrLater) {
+        // 计算文本的大小  ios7.0
+        size = [text boundingRectWithSize:CGSizeMake(width, MAXFLOAT) // 用于计算文本绘制时占据的矩形块
+                                  options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading // 文本绘制时的附加选项
+                               attributes:attributes        // 文字的属性
+                                  context:nil].size;
+    }
+    
+    return size;
+}
+
 + (CGFloat)heightOfLineWithFont:(CGFloat)font {
     NSString *str = @"测试CeShi9999！!@~——#";
     // 计算文本的大小  ios7.0

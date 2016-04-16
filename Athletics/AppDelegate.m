@@ -21,6 +21,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    }
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
@@ -30,7 +34,7 @@
     if (!objc) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
-            NSArray *titleDataArray = @[@[@"Dota 2", @"LOL", @"CS", @"Smite", @"星际争霸2", @"Dota", @"FIFA", @"使命召唤"], @[@"风暴英雄", @"炉石传说", @"超级街霸", @"魔兽争霸", @"DNF", @"CF"]];
+            NSArray *titleDataArray = @[@[@"Dota 2", @"LOL", @"炉石传说"], @[@"风暴英雄", @"CS", @"超级街霸", @"魔兽争霸", @"DNF", @"CF", @"Smite", @"星际争霸2", @"Dota", @"FIFA", @"使命召唤"]];
             [[NSUserDefaults standardUserDefaults] setObject:titleDataArray forKey:kAllChannelArrayKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
         });

@@ -12,8 +12,9 @@
 #import "SCDragCollectionView.h"
 
 #import "SCDragCollectionViewCell.h"
+#import "SCCustomizeHeaderView.h"
 
-@interface LWCustomizeVC_iPhone ()<SCDragCollectionViewDelegate,SCDragCollectionViewDatasource>
+@interface LWCustomizeVC_iPhone ()<SCDragCollectionViewDelegate,SCDragCollectionViewDatasource, UICollectionViewDelegateFlowLayout>
 
 @property(nonatomic,strong)NSMutableArray *data;
 @property(nonatomic,weak)SCDragCollectionView *mainView;
@@ -29,9 +30,9 @@ static NSString * const reuseIdentifier = @"Cell";
     [super viewDidLoad];
     self.title = @"频道定制";
     
-    UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
-    layout.itemSize = CGSizeMake((self.view.bounds.size.width-50)/3.0,(self.view.bounds.size.width-50)/3 );
-    layout.sectionInset = UIEdgeInsetsMake(15, 15, 15, 15);
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.itemSize = CGSizeMake((self.view.bounds.size.width-40)/3.0,(self.view.bounds.size.width-40)/3 );
+    layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
     
     SCDragCollectionView *mainView = [[SCDragCollectionView alloc] initWithFrame:CGRectMake(0, self.m_navBar.bottom, self.view.fWidth, self.view.fHeight - self.m_navBar.fHeight) collectionViewLayout:layout];
     _mainView = mainView;
@@ -39,8 +40,9 @@ static NSString * const reuseIdentifier = @"Cell";
     mainView.dataSource = self;
     mainView.backgroundColor = [UIColor clearColor];
     [mainView registerClass:[SCDragCollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
-
-
+    [mainView registerClass:[SCCustomizeHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[SCCustomizeHeaderView headerIdentifier]];
+    [mainView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"TempFotterViewIdentifier"];
+    
     [self.view addSubview:mainView];
     
     
@@ -77,6 +79,42 @@ static NSString * const reuseIdentifier = @"Cell";
     return cell;
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+    return CGSizeMake(collectionView.fWidth, 44);
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
+    if (section == 1) {
+        return CGSizeMake(collectionView.fWidth, 44);
+    }
+    return CGSizeZero;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    UICollectionReusableView *reusableview = nil;
+    
+    if (kind == UICollectionElementKindSectionHeader) {
+        SCCustomizeHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[SCCustomizeHeaderView headerIdentifier] forIndexPath:indexPath];
+        if (indexPath.section == 0) {
+            headerView.leftTitle = @"已定制";
+            headerView.rightTitle = @"长按可拖动排序";
+        }else {
+            headerView.leftTitle = @"未定制";
+            headerView.rightTitle = @"";
+        }
+        
+        reusableview = headerView;
+    }
+    
+    if (kind == UICollectionElementKindSectionFooter) {
+        UICollectionReusableView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"TempFotterViewIdentifier" forIndexPath:indexPath];
+        footerView.backgroundColor = [UIColor clearColor];
+        
+        reusableview = footerView;
+    }
+    
+    return reusableview;
+}
 
 - (NSArray *)dataSourceArrayOfCollectionView:(SCDragCollectionView *)collectionView{
     return _data;

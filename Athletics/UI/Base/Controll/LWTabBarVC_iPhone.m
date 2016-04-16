@@ -25,6 +25,8 @@
     UITabBarItem *_fourthItem;
     UITabBarItem *_fifthItem;
     UITabBarItem *_selectedItem;
+    
+    LWBaseNavVC_iPhone  *_currentNav;
 }
 
 @end
@@ -71,6 +73,7 @@
 
     newsNC.tabBarItem = _firstItem;
     _selectedItem = _firstItem;
+    _currentNav = newsNC;
     communityNC.tabBarItem = _secondItem;
     scheduleNC.tabBarItem = _thirdItem;
     videoNC.tabBarItem = _fourthItem;
@@ -84,7 +87,24 @@
     
 }
 
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    
+    if (item == _firstItem) {
+        _currentNav = [self.viewControllers objectAtIndex:0];
+    }else if (item == _secondItem) {
+        _currentNav = [self.viewControllers objectAtIndex:1];
+    }else if (item == _thirdItem) {
+        _currentNav = [self.viewControllers objectAtIndex:2];
+    }else if (item == _fourthItem) {
+        _currentNav = [self.viewControllers objectAtIndex:3];
+    }else if (item == _fifthItem) {
+        _currentNav = [self.viewControllers objectAtIndex:4];
+    }
+    
     if (item != _selectedItem) {
         _selectedItem = item;
         return;

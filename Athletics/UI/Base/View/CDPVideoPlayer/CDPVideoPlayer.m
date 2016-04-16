@@ -14,8 +14,7 @@
 #define CDPSHEIGHT  [UIScreen mainScreen].bounds.size.height
 
 //上下导航栏高(全屏时上导航栏高+20)
-//#define CDPTOPHEIGHT(FullScreen) ((FullScreen==YES)?60:40)
-#define CDPTOPHEIGHT(FullScreen) ((FullScreen==YES)?40:40)
+#define CDPTOPHEIGHT(FullScreen) ((FullScreen==YES)?60:40)
 #define CDPFOOTHEIGHT 40
 
 //导航栏上button的宽高
@@ -60,6 +59,8 @@
     BOOL _dragSlider;//是否正在拖动slider
     UIProgressView *_progressView;//缓冲进度条
     
+    UIView *_superView;
+    CGRect _windowRect;
 }
 
 -(instancetype)initWithFrame:(CGRect)frame url:(NSString *)url delegate:(id <CDPVideoPlayerDelegate>)delegate haveOriginalUI:(BOOL)haveOriginalUI{
@@ -205,7 +206,6 @@
             
             if (_haveOriginalUI==YES&&weakSlider&&_dragSlider==NO) {
                 weakSlider.value=_currentTime/_totalTime;
-                
                 [weakSelf updateTime:current];
             }
             if ([weakSelf.delegate respondsToSelector:@selector(updateProgressWithCurrentTime:totalTime:)]) {
@@ -464,9 +464,28 @@
 #pragma mark - CDPVideoPlayer外部交互
 //播放新的url资源
 - (void)playWithNewUrl:(NSString *)url {
+    
+    _urlStr = url;
+    
+    if (_player) {
+        
+        [self removeObserver];
+        [self removeNotification];
+        
+        [_player.currentItem cancelPendingSeeks];
+        [_player.currentItem.asset cancelLoading];
+        
+        [_player removeTimeObserver:_playerTimeObserver];
+        _playerTimeObserver=nil;
+        
+        [_player cancelPendingPrerolls];
+    }
+    
     AVPlayerItem *playerItem=[self getPlayItemWithUrl:url];
     [_player replaceCurrentItemWithPlayerItem:playerItem];
-    
+    [self addObserver];
+    [self addNotification];
+    [self addProgressObserver];
     //开始播放
     [self checkAndUpdateStatus:CDPVideoPlayerReadyPlay];
     [_player play];
@@ -523,8 +542,19 @@
     _isSwitch=YES;
     if (_isFullScreen==YES) {
         //全屏
-//        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
+        if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
+            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
+            [[UIApplication sharedApplication] setStatusBarHidden:NO];
+        }
 
+        _superView = self.superview;
+        
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        _windowRect = [self convertRect:self.bounds toView:window];
+        
+        self.frame = _windowRect;
+        [window addSubview:self];
+        
         [UIView animateWithDuration:0.3 animations:^{
             self.transform = CGAffineTransformMakeRotation(M_PI_2);
             [self updateFrame];
@@ -535,14 +565,17 @@
     }
     else{
         //非全屏
-//        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
-
+        if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
+            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
+        }
         [UIView animateWithDuration:0.3 animations:^{
             self.transform=CGAffineTransformIdentity;
             [self updateFrame];
         }completion:^(BOOL finished) {
             _backButton.hidden = YES;
             _isSwitch=NO;
+            self.frame = _initFrame;
+            [_superView addSubview:self];
         }];
     }
 }
@@ -610,15 +643,18 @@
     }
 }
 //更新播放器frame
--(void)updateFrame{
+-(void)updateFrame {
 //    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     if (_isFullScreen==YES) {
         //全屏
-//        NSInteger systemVersion=[[UIDevice currentDevice].systemVersion integerValue];
-//        self.frame=(systemVersion<8.0 && systemVersion>=7.0)?CGRectMake(0,0,CDPSWIDTH,CDPSHEIGHT):CGRectMake(0,0,CDPSHEIGHT,CDPSWIDTH);
+        float systemVersion=[[UIDevice currentDevice].systemVersion floatValue];
         
-        self.frame = CGRectMake(0,0,CDPSWIDTH,CDPSHEIGHT);
+        if (systemVersion < 9.0) {
+            self.frame = CGRectMake(0,0,CDPSHEIGHT,CDPSWIDTH);
+        }else {
+            self.frame = CGRectMake(0,0,CDPSWIDTH,CDPSHEIGHT);
+        }
 
         _playerLayer.frame=self.bounds;
         self.center=self.window.center;
@@ -630,11 +666,12 @@
             
             _switchButton.selected=YES;
         }
+        
     }
     else{
         //非全屏
-        self.frame=_initFrame;
-        _playerLayer.frame=self.bounds;
+        self.frame = _windowRect;
+        _playerLayer.frame = self.bounds;
         
         if (_haveOriginalUI==YES&&_topBar&&_footBar) {
             [self restoreOrChangeTransForm:YES];

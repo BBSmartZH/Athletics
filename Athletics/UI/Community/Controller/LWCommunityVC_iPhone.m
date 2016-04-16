@@ -68,11 +68,11 @@
     [self.m_navBar addSubview:_topScrollView];
     
     _postedButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_postedButton setTitle:@"发帖" forState:UIControlStateNormal];
+    [_postedButton setImage:[UIImage imageNamed:@"community_icon_publish"] forState:UIControlStateNormal];
+    [_postedButton setImage:[UIImage imageNamed:@"community_icon_publish_press"] forState:UIControlStateHighlighted];
     [_postedButton addTarget:self action:@selector(postedButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    _postedButton.frame = CGRectMake(self.view.fWidth - 44 - 10, self.view.fHeight - 49 - 40 - 44, 44, 44);
+    _postedButton.frame = CGRectMake(self.view.fWidth - 64, self.view.fHeight - 49 - 20 - 64, 64, 64);
     _postedButton.layer.cornerRadius = 22.0f;
-    _postedButton.backgroundColor = [UIColor colorWithRed:88.0 / 255.0 green:88.0/ 255.0 blue:250.0 / 255.0 alpha:0.4];
     _postedButton.titleLabel.font = [UIFont systemFontOfSize:17.0f];
     [self.view addSubview:_postedButton];
     

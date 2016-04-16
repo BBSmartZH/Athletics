@@ -71,7 +71,7 @@ static CGFloat k_top = 15.0f;
     [_descLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
 
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(ws.contentView).offset(5);
+        make.top.equalTo(ws.contentView).offset(10);
         make.centerX.equalTo(ws.contentView);
     }];
     [leftLine mas_makeConstraints:^(MASConstraintMaker *make) {

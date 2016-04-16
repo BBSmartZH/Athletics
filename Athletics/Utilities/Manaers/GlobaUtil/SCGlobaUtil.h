@@ -128,6 +128,7 @@ typedef void (^SCStringResultBlock)(NSString *result);
 /**
  *  取得高度
  */
++ (CGSize)sizeWithText:(NSString *)text width:(CGFloat)width attributes:(NSDictionary *)attributes;
 + (CGFloat)heightOfLineWithFont:(CGFloat)font;
 + (CGSize)sizeOfLabelWith:(NSString *)text font:(CGFloat)font width:(CGFloat)width;
 

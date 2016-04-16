@@ -69,12 +69,13 @@
     
     _player = [[CDPVideoPlayer alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, _playerHeight) url:@"http://v.theonion.com/onionstudios/video/3158/640.mp4" delegate:self haveOriginalUI:YES];
     [self.view addSubview:_player];
+    [self.view bringSubviewToFront:self.m_navBar];
+
     _player.title = @"上海特级赛EHOME";
     
     self.title = @"上海特级赛EHOME";
     self.m_navBar.titleLabel.alpha = 0.0f;
     self.m_navBar.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_32px];
-    [self.view bringSubviewToFront:self.m_navBar];
     
     [_tableView registerClass:[LWCommentListCell class] forCellReuseIdentifier:[LWCommentListCell cellidentifier]];
     _tableView.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight);
@@ -121,6 +122,7 @@
     
     _headerView.frame = CGRectMake(0, 0, _headerView.fWidth, _collectionView.bottom + 15);
     _tableView.tableHeaderView = _headerView;
+    
 }
 
 - (void)playButtonClicked:(UIButton *)sender {
@@ -213,14 +215,19 @@
 
 
 
-- (void)switchSizeClickToFullScreen:(BOOL)toFullScreen {
-    if (toFullScreen) {
-        _statusBarHidden = YES;
-    }else {
-        _statusBarHidden = NO;
-    }
-    [self setNeedsStatusBarAppearanceUpdate];
-}
+//- (void)switchSizeClickToFullScreen:(BOOL)toFullScreen {
+//    if (toFullScreen) {
+//        if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
+//            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
+//            [[UIApplication sharedApplication] setStatusBarHidden:NO];
+//        }
+//    }else {
+//        if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
+//            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
+//        }
+//    }
+////    [self setNeedsStatusBarAppearanceUpdate];
+//}
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if (scrollView == _tableView) {

@@ -7,8 +7,7 @@
 //
 
 #import "LWPhotosNormalCell.h"
-static CGFloat k_left = 15.0;
-static CGFloat k_spacing = 10.0;
+static CGFloat k_left = 10.0;
 static CGFloat k_small = 5.0;
 static CGFloat k_WHratio = 0.7;
 
@@ -108,24 +107,24 @@ static CGFloat k_WHratio = 0.7;
     
     [_leftImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(ws.contentView).offset(k_left);
-        make.top.equalTo(_titleLabel.mas_bottom).offset(k_spacing);
-        make.size.mas_equalTo(CGSizeMake((kScreenWidth-k_spacing*2-k_left*2)/3.0, (kScreenWidth-k_spacing*2-k_left*2)/3.0*k_WHratio));
+        make.top.equalTo(_titleLabel.mas_bottom).offset(k_left);
+        make.size.mas_equalTo(CGSizeMake((kScreenWidth-k_left*2-k_left*2)/3.0, (kScreenWidth-k_left*2-k_left*2)/3.0*k_WHratio));
     }];
     
     [_middleImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_leftImageV.mas_right).offset(k_spacing);
+        make.left.equalTo(_leftImageV.mas_right).offset(k_left);
         make.top.bottom.equalTo(_leftImageV);
         make.size.equalTo(_leftImageV);
     }];
     
     [_rightImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_middleImageV.mas_right).offset(k_spacing);
+        make.left.equalTo(_middleImageV.mas_right).offset(k_left);
         make.top.bottom.equalTo(_middleImageV);
         make.size.equalTo(_middleImageV);
     }];
 
     [_commentsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_leftImageV.mas_bottom).offset(k_spacing);
+        make.top.equalTo(_leftImageV.mas_bottom).offset(k_left);
         make.right.equalTo(ws.contentView).offset(-k_left);
 //        make.width.mas_equalTo(@30);
     }];
@@ -136,7 +135,7 @@ static CGFloat k_WHratio = 0.7;
     }];
     [_scanLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_commentsLabel);
-        make.right.equalTo(_commentsImageV.mas_left).offset(-k_spacing);
+        make.right.equalTo(_commentsImageV.mas_left).offset(-k_left);
 //        make.width.mas_equalTo(@30);
     }];
     [_scanImageV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -151,8 +150,8 @@ static CGFloat k_WHratio = 0.7;
         _rightImageV.hidden = YES;
         [_leftImageV mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(ws.contentView).offset(k_left);
-            make.top.equalTo(_titleLabel.mas_bottom).offset(k_spacing);
-            make.size.mas_equalTo(CGSizeMake(180, 180*k_WHratio));
+            make.top.equalTo(_titleLabel.mas_bottom).offset(k_left);
+            make.size.mas_equalTo(CGSizeMake((kScreenWidth-k_left-k_left*2)/2.0, (kScreenWidth-k_left-k_left*2)/2.0*k_WHratio));
         }];
         
     }else if(_imageCounts == 2){
@@ -177,17 +176,26 @@ static CGFloat k_WHratio = 0.7;
     _rightImageV.backgroundColor = k_Bg_Color;
     _scanLabel.text = @"114";
 
-
-    
-
 }
 +(CGFloat)heightForRowWithPhotosWithCounts:(int)counts{
+    
+    CGFloat height = 0.0f;
+    
+    height += k_left;
+    height += [SCGlobaUtil heightOfLineWithFont:kWord_Font_28px];
+    height += k_left;
+
     if (counts == 1) {
-        return 200;
+        height += (kScreenWidth - k_left - k_left * 2) / 2.0 * k_WHratio;
     }else if (counts >1){
-        return 155;
+        height += (kScreenWidth - k_left * 2 - k_left * 2) / 3.0 * k_WHratio;
     }
-    return 170;
+    
+    height += k_left;
+    height += [SCGlobaUtil heightOfLineWithFont:kWord_Font_20px];
+    height += k_left;
+
+    return height;
 }
 
 + (NSString *)cellIdentifier {
