@@ -10,6 +10,10 @@
 
 #import "SCAdView.h"
 #import "SCNewsCell.h"
+#import "SCNewsImageVC.h"
+#import "SCNewsDetailVC.h"
+
+#import "LWPhotosNormalCell.h"
 
 @interface SCNewsContentVC ()
 {
@@ -28,6 +32,7 @@
     
     
     [_tableView registerClass:[SCNewsCell class] forCellReuseIdentifier:[SCNewsCell cellIdentifier]];
+    [_tableView registerClass:[LWPhotosNormalCell class] forCellReuseIdentifier:[LWPhotosNormalCell cellIdentifier]];
 
     _tableView.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight - self.m_navBar.fHeight - 49);
     _tableView.separatorColor = k_Border_Color;
@@ -41,25 +46,6 @@
         NSLog(@"%ld", (long)index);
     };
     _tableView.tableHeaderView = _adView;
-    
-    
-    [_tableView reloadData];
-    
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 30;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    SCNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsCell cellIdentifier] forIndexPath:indexPath];
-    [cell createLayoutWith:@1];
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     NSArray *imagesURL = @[
                            @"https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a41eb338dd33c895a62bcb3bb72e47c2/5fdf8db1cb134954a2192ccb524e9258d1094a1e.jpg",
@@ -75,13 +61,54 @@
     _adView.adTitleArray = titles;
     _adView.imageLinkURL = imagesURL;
     
+    [_tableView reloadData];
+    
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 30;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    if (indexPath.row % 2 == 0) {
+        SCNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsCell cellIdentifier] forIndexPath:indexPath];
+        [cell createLayoutWith:@1];
+        return cell;
+    }
+    LWPhotosNormalCell *cell = [tableView dequeueReusableCellWithIdentifier:[LWPhotosNormalCell cellIdentifier] forIndexPath:indexPath];
+    [cell createLayoutWith:@1];
+    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [tableView fd_heightForCellWithIdentifier:[SCNewsCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCNewsCell *cell) {
-        [cell createLayoutWith:@1];
-    }];
+    if (indexPath.row % 2 == 0) {
+        return [tableView fd_heightForCellWithIdentifier:[SCNewsCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCNewsCell *cell) {
+            [cell createLayoutWith:@1];
+        }];
+    }
+//    return [tableView fd_heightForCellWithIdentifier:[LWPhotosNormalCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(LWPhotosNormalCell *cell) {
+//        [cell createLayoutWith:@1];
+//    }];
+    return [LWPhotosNormalCell heightForRowWithPhotosWithCounts:2];
 }
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.row % 2 == 0) {
+        SCNewsDetailVC *detailVC = [[SCNewsDetailVC alloc] init];
+        detailVC.hidesBottomBarWhenPushed = YES;
+        [self.parentVC.navigationController pushViewController:detailVC animated:YES];
+    }else {
+        SCNewsImageVC *imageVC = [[SCNewsImageVC alloc] init];
+        imageVC.hidesBottomBarWhenPushed = YES;
+        [self.parentVC.navigationController pushViewController:imageVC animated:YES];
+    }
+    
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

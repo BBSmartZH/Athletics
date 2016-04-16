@@ -41,7 +41,7 @@ static CGFloat k_WHratio = 0.7;
     _imageCounts = 3;
     _titleLabel = [[UILabel alloc]init];
     _titleLabel.textColor = kWord_Color_High;
-    _titleLabel.font = [UIFont systemFontOfSize:kWord_Font_24px];
+    _titleLabel.font = [UIFont systemFontOfSize:kWord_Font_28px];
     _titleLabel.numberOfLines = 1;
     [self.contentView addSubview:_titleLabel];
     
@@ -166,7 +166,7 @@ static CGFloat k_WHratio = 0.7;
     }
     
 }
--(void)configLayoutWithModel:(id)model
+-(void)createLayoutWith:(id)model
 {
     _titleLabel.text = @"女的你看大哥哥结果多个不放假的开关和发规范梵蒂冈";
     _leftImageV.backgroundColor = k_Bg_Color;
@@ -185,9 +185,13 @@ static CGFloat k_WHratio = 0.7;
     if (counts == 1) {
         return 200;
     }else if (counts >1){
-        return 135;
+        return 155;
     }
     return 170;
+}
+
++ (NSString *)cellIdentifier {
+    return @"LWPhotosNormalCellIdentifier";
 }
 
 - (void)awakeFromNib {

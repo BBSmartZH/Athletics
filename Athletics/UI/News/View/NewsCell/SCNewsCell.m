@@ -54,7 +54,7 @@ static float scale = 0.65;
     
     _titleLabel = [[UILabel alloc]init];
     _titleLabel.textColor = kWord_Color_High;
-    _titleLabel.font = [UIFont systemFontOfSize:kWord_Font_30px];
+    _titleLabel.font = [UIFont systemFontOfSize:kWord_Font_28px];
     [self.contentView addSubview:_titleLabel];
     
     _descLabel = [[UILabel alloc]init];

@@ -182,6 +182,7 @@
 		9BAA21311CC08DCE0053F1C0 /* SCPostsTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21301CC08DCE0053F1C0 /* SCPostsTopView.m */; };
 		9BAA21371CC0C8EF0053F1C0 /* SCPostsTextImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21361CC0C8EF0053F1C0 /* SCPostsTextImageCell.m */; };
 		9BAA213A1CC172990053F1C0 /* SCNewsImageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21391CC172990053F1C0 /* SCNewsImageVC.m */; };
+		9BAA213E1CC23C7E0053F1C0 /* SCCommentListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA213D1CC23C7E0053F1C0 /* SCCommentListVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -549,6 +550,8 @@
 		9BAA21361CC0C8EF0053F1C0 /* SCPostsTextImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPostsTextImageCell.m; sourceTree = "<group>"; };
 		9BAA21381CC172990053F1C0 /* SCNewsImageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNewsImageVC.h; sourceTree = "<group>"; };
 		9BAA21391CC172990053F1C0 /* SCNewsImageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNewsImageVC.m; sourceTree = "<group>"; };
+		9BAA213C1CC23C7E0053F1C0 /* SCCommentListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCCommentListVC.h; sourceTree = "<group>"; };
+		9BAA213D1CC23C7E0053F1C0 /* SCCommentListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCCommentListVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1565,6 +1568,7 @@
 				9BAA20CD1CBE4F320053F1C0 /* SCNewsVC.m */,
 				9BAA20CF1CBE4F7A0053F1C0 /* SCNewsContentVC.h */,
 				9BAA20D01CBE4F7A0053F1C0 /* SCNewsContentVC.m */,
+				9BAA213B1CC23C670053F1C0 /* CommentList */,
 				9BAA20D21CBE4F970053F1C0 /* NewsDetail */,
 			);
 			path = Controller;
@@ -1753,6 +1757,15 @@
 				9BAA21301CC08DCE0053F1C0 /* SCPostsTopView.m */,
 			);
 			path = PostsHeaderView;
+			sourceTree = "<group>";
+		};
+		9BAA213B1CC23C670053F1C0 /* CommentList */ = {
+			isa = PBXGroup;
+			children = (
+				9BAA213C1CC23C7E0053F1C0 /* SCCommentListVC.h */,
+				9BAA213D1CC23C7E0053F1C0 /* SCCommentListVC.m */,
+			);
+			path = CommentList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1946,6 +1959,7 @@
 				8264084D1CB92C8A00AF4126 /* MJRefreshBackGifFooter.m in Sources */,
 				826408AD1CB9EBB200AF4126 /* XWDragCellCollectionView.m in Sources */,
 				9BAA211F1CBFEAE30053F1C0 /* SCPostedImageCell.m in Sources */,
+				9BAA213E1CC23C7E0053F1C0 /* SCCommentListVC.m in Sources */,
 				8264083C1CB92C8A00AF4126 /* MASConstraintMaker.m in Sources */,
 				9BAA20CE1CBE4F320053F1C0 /* SCNewsVC.m in Sources */,
 				9BAA20A01CBE31180053F1C0 /* SDWebImageDownloader.m in Sources */,
@@ -2199,6 +2213,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.meirongzongjian.Athletics;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5bea8683-9c93-44ec-a6ff-e33f9ad3fc7e";
 			};
 			name = Debug;
 		};
@@ -2229,6 +2244,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.meirongzongjian.Athletics;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5bea8683-9c93-44ec-a6ff-e33f9ad3fc7e";
 			};
 			name = Release;
 		};

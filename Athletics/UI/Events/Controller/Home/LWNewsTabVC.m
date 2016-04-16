@@ -67,7 +67,7 @@ static NSString *postsCell = @"postsCell";
     }else if(indexPath.section == 2){
         LWPhotosNormalCell *cell = [tableView dequeueReusableCellWithIdentifier:photosCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell configLayoutWithModel:@1];
+        [cell createLayoutWith:@1];
         
         return cell;
     }else if (indexPath.section == 3){

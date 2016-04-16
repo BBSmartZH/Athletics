@@ -229,7 +229,7 @@ static CGFloat k_WHratio = 0.8;
     _middleImageV.image = nil;
     _rightImageV.image = nil;
     
-    _WEAKSELF(ws);
+//    _WEAKSELF(ws);
 
     _imageCounts = ((NSNumber *)model).intValue;
 //    _imageCounts = 0;

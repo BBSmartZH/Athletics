@@ -8,11 +8,18 @@
 
 #import "SCNewsDetailVC.h"
 
+#import "SCCommentListVC.h"
+
 @interface SCNewsDetailVC ()
 {
+    
     UIView *_inputView;
-    UIScrollView *_scrollView;
+
+    //Test
+    UIButton *_commentButton;
+
 }
+
 
 @end
 
@@ -24,13 +31,26 @@
     
     self.title = @"资讯";
     
-    
     _inputView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.fHeight - 44, self.view.fWidth, 44)];
     _inputView.backgroundColor = [UIColor cyanColor];
     _inputView.layer.borderWidth = .5f;
     _inputView.layer.borderColor = k_Border_Color.CGColor;
     [self.view addSubview:_inputView];
+    
+    _commentButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _commentButton.backgroundColor = [UIColor redColor];
+    [_commentButton setTitle:@"334评" forState:UIControlStateNormal];
+    _commentButton.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_28px];
+    _commentButton.frame = CGRectMake(_inputView.fWidth - 10 - 60, 7, 60, 30);
+    [_commentButton addTarget:self action:@selector(commentButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_inputView addSubview:_commentButton];
+    
 
+}
+
+- (void)commentButtonClicked:(UIButton *)sender {
+    SCCommentListVC *commentVC = [[SCCommentListVC alloc] init];
+    [self.navigationController pushViewController:commentVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
