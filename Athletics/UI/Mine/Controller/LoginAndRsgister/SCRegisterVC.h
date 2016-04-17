@@ -9,5 +9,6 @@
 #import "LWBaseTableVC_iPhone.h"
 
 @interface SCRegisterVC : LWBaseTableVC_iPhone
+@property(nonatomic,assign) int  type;// 1注册 2 忘记密码
 
 @end

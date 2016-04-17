@@ -20,6 +20,8 @@
     UIButton    *_loginButton;
     UIButton    *_showPwdBtn;
     UIView      *_line;
+    UIButton    *_registButton;
+    UIButton    *_forPassWordButton;
     LoginSuccessBlock _completionBlock;
 }
 
@@ -72,24 +74,24 @@
     [tableFootView addSubview:_loginButton];
     
     //忘记密码
-    UIButton *forPassWordButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    forPassWordButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    forPassWordButton.frame = CGRectMake(_loginButton.left, _loginButton.bottom + 15, 70, 30);
-    [forPassWordButton setTitle:@"忘记密码>" forState:UIControlStateNormal];
-    forPassWordButton.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_28px];
-    [forPassWordButton addTarget:self action:@selector(p_findPasswordButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [forPassWordButton setTitleColor:kWord_Color_Low forState:UIControlStateNormal];
-    [tableFootView addSubview:forPassWordButton];
+    _forPassWordButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _forPassWordButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _forPassWordButton.frame = CGRectMake(_loginButton.left, _loginButton.bottom + 15, 70, 30);
+    [_forPassWordButton setTitle:@"忘记密码>" forState:UIControlStateNormal];
+    _forPassWordButton.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_28px];
+    [_forPassWordButton addTarget:self action:@selector(p_registButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_forPassWordButton setTitleColor:kWord_Color_Low forState:UIControlStateNormal];
+    [tableFootView addSubview:_forPassWordButton];
     
     //注册
-    UIButton *registButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    registButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    registButton.frame = CGRectMake(_loginButton.right - 70, _loginButton.bottom + 15, 70, 30);
-    [registButton setTitle:@"手机注册>" forState:UIControlStateNormal];
-    registButton.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_28px];
-    [registButton addTarget:self action:@selector(p_registButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [registButton setTitleColor:kWord_Color_Low forState:UIControlStateNormal];
-    [tableFootView addSubview:registButton];
+    _registButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _registButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _registButton.frame = CGRectMake(_loginButton.right - 70, _loginButton.bottom + 15, 70, 30);
+    [_registButton setTitle:@"手机注册>" forState:UIControlStateNormal];
+    _registButton.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_28px];
+    [_registButton addTarget:self action:@selector(p_registButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_registButton setTitleColor:kWord_Color_Low forState:UIControlStateNormal];
+    [tableFootView addSubview:_registButton];
     
     _tableView.tableFooterView = tableFootView;
     
@@ -151,12 +153,15 @@
     [presentController presentViewController:nav animated:YES completion:NULL];
 }
 
-- (void)p_findPasswordButtonClicked:(UIButton *)sender {
-    
-}
-
 - (void)p_registButtonClicked:(UIButton *)sender {
     SCRegisterVC *registerVC = [[SCRegisterVC alloc] init];
+    if (sender == _registButton) {
+        registerVC.type = 1;
+
+    }else{
+        registerVC.type = 2;
+
+    }
     [self.navigationController pushViewController:registerVC animated:YES];
 }
 
