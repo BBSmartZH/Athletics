@@ -23,6 +23,10 @@
     [self.navigationBar setHidden:YES];
 }
 
+-(BOOL)shouldAutorotate{
+    return self.topViewController.shouldAutorotate;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -87,8 +87,8 @@
     
 }
 
-- (BOOL)shouldAutorotate {
-    return NO;
+- (BOOL)shouldAutorotate{
+    return self.selectedViewController.shouldAutorotate;
 }
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {

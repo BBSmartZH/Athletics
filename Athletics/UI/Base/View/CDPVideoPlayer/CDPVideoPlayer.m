@@ -367,22 +367,22 @@
 }
 //创建缓冲view
 -(void)createBufferView{
-    _bufferView=[[UIView alloc] initWithFrame:CGRectMake(_initFrame.size.width/2-60,_initFrame.size.height/2-30,120,80)];
-    _bufferView.backgroundColor=[UIColor blackColor];
+    _bufferView=[[UIView alloc] initWithFrame:CGRectMake(_initFrame.size.width/2-60,_initFrame.size.height/2-40,120,80)];
+    _bufferView.backgroundColor=[UIColor clearColor];
     _bufferView.alpha=0.6;
     _bufferView.layer.cornerRadius=10;
     _bufferView.layer.masksToBounds=YES;
     
     //缓冲旋转菊花
-     _activityView=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(_bufferView.frame.origin.x+41,_bufferView.frame.origin.y+11,38,38)];
+     _activityView=[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(_bufferView.frame.origin.x+41,_bufferView.frame.origin.y+11,24,24)];
     [_activityView stopAnimating];
     
     //缓冲label
     _bufferLabel=[[UILabel alloc] initWithFrame:CGRectMake(_bufferView.frame.origin.x,CGRectGetMaxY(_activityView.frame),120,20)];
     _bufferLabel.textColor=[UIColor whiteColor];
     _bufferLabel.textAlignment=NSTextAlignmentCenter;
-    _bufferLabel.font=[UIFont systemFontOfSize:16];
-    _bufferLabel.text=@"缓冲中...";
+    _bufferLabel.font=[UIFont systemFontOfSize:12];
+    _bufferLabel.text=@"正在缓冲，请稍后...";
 }
 //创建topBar
 -(void)createTopBar{
@@ -479,6 +479,7 @@
         _playerTimeObserver=nil;
         
         [_player cancelPendingPrerolls];
+        [_player pause];
     }
     
     AVPlayerItem *playerItem=[self getPlayItemWithUrl:url];
@@ -542,10 +543,10 @@
     _isSwitch=YES;
     if (_isFullScreen==YES) {
         //全屏
-        if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
+//        if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
             [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
             [[UIApplication sharedApplication] setStatusBarHidden:NO];
-        }
+//        }
 
         _superView = self.superview;
         
@@ -565,9 +566,9 @@
     }
     else{
         //非全屏
-        if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
+//        if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
             [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
-        }
+//        }
         [UIView animateWithDuration:0.3 animations:^{
             self.transform=CGAffineTransformIdentity;
             [self updateFrame];
@@ -648,13 +649,8 @@
     
     if (_isFullScreen==YES) {
         //全屏
-        float systemVersion=[[UIDevice currentDevice].systemVersion floatValue];
         
-        if (systemVersion < 9.0) {
-            self.frame = CGRectMake(0,0,CDPSHEIGHT,CDPSWIDTH);
-        }else {
-            self.frame = CGRectMake(0,0,CDPSWIDTH,CDPSHEIGHT);
-        }
+        self.frame = CGRectMake(0,0,CDPSHEIGHT,CDPSWIDTH);
 
         _playerLayer.frame=self.bounds;
         self.center=self.window.center;
@@ -666,7 +662,6 @@
             
             _switchButton.selected=YES;
         }
-        
     }
     else{
         //非全屏
@@ -677,7 +672,8 @@
             [self restoreOrChangeTransForm:YES];
             
             [self restoreOrChangeFrame:YES];
-            
+            [self restoreOrChangeAlpha:YES];
+
             _switchButton.selected=NO;
         }
     }

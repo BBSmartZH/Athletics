@@ -39,20 +39,8 @@
     _player = nil;
 }
 
-- (BOOL)shouldAutorotate {
-    return NO;
-}
-
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscapeRight;
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
-}
-
-- (BOOL)prefersStatusBarHidden {
-    return _statusBarHidden;
+-(BOOL)shouldAutorotate{
+    return !_player.isSwitch;
 }
 
 - (void)viewDidLoad {
@@ -209,25 +197,24 @@
         }];
     }else if (status == CDPVideoPlayerEnd) {
         //播放下一个
-        [_player playWithNewUrl:@"http://msgpush.dota2.com.cn/m3u8/1460455034449.m3u8"];
+        [_player playWithNewUrl:@"http://v.theonion.com/onionstudios/video/3158/640.mp4"];
     }
 }
 
 
 
-//- (void)switchSizeClickToFullScreen:(BOOL)toFullScreen {
-//    if (toFullScreen) {
-//        if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
-//            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
-//            [[UIApplication sharedApplication] setStatusBarHidden:NO];
-//        }
-//    }else {
-//        if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
-//            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
-//        }
-//    }
-////    [self setNeedsStatusBarAppearanceUpdate];
-//}
+- (void)switchSizeClickToFullScreen:(BOOL)toFullScreen {
+    if (toFullScreen) {
+        if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
+            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
+            [[UIApplication sharedApplication] setStatusBarHidden:NO];
+        }
+    }else {
+        if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
+            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
+        }
+    }
+}
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if (scrollView == _tableView) {

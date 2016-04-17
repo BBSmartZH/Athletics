@@ -187,6 +187,7 @@
 		9BAA21451CC248310053F1C0 /* SCNewsDetailImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21441CC248310053F1C0 /* SCNewsDetailImageCell.m */; };
 		9BAA21481CC248420053F1C0 /* SCNewsDetailVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21471CC248420053F1C0 /* SCNewsDetailVideoCell.m */; };
 		9BAA214B1CC26D3A0053F1C0 /* SCCustomizeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA214A1CC26D3A0053F1C0 /* SCCustomizeHeaderView.m */; };
+		9BAA214F1CC333110053F1C0 /* SCCommentInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA214E1CC333110053F1C0 /* SCCommentInputView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -564,6 +565,8 @@
 		9BAA21471CC248420053F1C0 /* SCNewsDetailVideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNewsDetailVideoCell.m; sourceTree = "<group>"; };
 		9BAA21491CC26D3A0053F1C0 /* SCCustomizeHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCCustomizeHeaderView.h; sourceTree = "<group>"; };
 		9BAA214A1CC26D3A0053F1C0 /* SCCustomizeHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCCustomizeHeaderView.m; sourceTree = "<group>"; };
+		9BAA214D1CC333110053F1C0 /* SCCommentInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCCommentInputView.h; sourceTree = "<group>"; };
+		9BAA214E1CC333110053F1C0 /* SCCommentInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCCommentInputView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1006,6 +1009,7 @@
 		826408211CB92C8A00AF4126 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9BAA214C1CC332F70053F1C0 /* CommentInputView */,
 				9BAA21161CBFCF660053F1C0 /* PostsInputView */,
 				9BAA20B51CBE367F0053F1C0 /* CommonCell */,
 				826408221CB92C8A00AF4126 /* LWNavigationBar.h */,
@@ -1796,6 +1800,15 @@
 			path = NewsDetailCell;
 			sourceTree = "<group>";
 		};
+		9BAA214C1CC332F70053F1C0 /* CommentInputView */ = {
+			isa = PBXGroup;
+			children = (
+				9BAA214D1CC333110053F1C0 /* SCCommentInputView.h */,
+				9BAA214E1CC333110053F1C0 /* SCCommentInputView.m */,
+			);
+			path = CommentInputView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2076,6 +2089,7 @@
 				826408411CB92C8A00AF4126 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				9BAA21231CBFFAF50053F1C0 /* SCPostsDetailVC.m in Sources */,
 				826408A41CB95BEE00AF4126 /* LWCommunityVC_iPhone.m in Sources */,
+				9BAA214F1CC333110053F1C0 /* SCCommentInputView.m in Sources */,
 				825EED761CBB50F60099D41D /* LWNewsTypeNormalCell.m in Sources */,
 				826408341CB92C8A00AF4126 /* AFURLRequestSerialization.m in Sources */,
 				826408351CB92C8A00AF4126 /* AFURLResponseSerialization.m in Sources */,
@@ -2223,6 +2237,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2255,6 +2271,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
