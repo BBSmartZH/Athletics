@@ -11,7 +11,7 @@
 #import "SCCommonCell.h"
 #import "SCAboutVC.h"
 #import "SCLoginVC.h"
-
+#import "LWModifyPswdVC.h"
 @interface SCSettingVC ()
 
 @end
@@ -105,18 +105,25 @@ static NSString *commonCellId = @"SCCommonCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
-        if ([SCUserInfoManager isLogin]) {
-            //退出登录？
-            
-        }else {
-            //登录
-            SCLoginVC *loginVC = [[SCLoginVC alloc] init];
-            [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
-                if (result) {
-                    [_tableView reloadData];
-                }
-            }];
+        if (indexPath.row == 0) {
+            if ([SCUserInfoManager isLogin]) {
+                //退出登录？
+                
+            }else {
+                //登录
+                SCLoginVC *loginVC = [[SCLoginVC alloc] init];
+                [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+                    if (result) {
+                        [_tableView reloadData];
+                    }
+                }];
+            }
+
+        }else if (indexPath.row == 1) {
+            LWModifyPswdVC *modifyVC = [[LWModifyPswdVC alloc]init];
+            [self.navigationController pushViewController:modifyVC animated:YES];
         }
+
     }else if (indexPath.section == 1) {
         //清除缓存
         
