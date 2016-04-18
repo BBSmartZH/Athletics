@@ -11,7 +11,7 @@
 #import "SCAdView.h"
 #import "SCNewsCell.h"
 #import "SCNewsImageVC.h"
-#import "SCNewsDetailVC.h"
+#import "SCNewsArticlePackVC.h"
 
 #import "LWPhotosNormalCell.h"
 
@@ -98,9 +98,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.row % 2 == 0) {
-        SCNewsDetailVC *detailVC = [[SCNewsDetailVC alloc] init];
-        detailVC.hidesBottomBarWhenPushed = YES;
-        [self.parentVC.navigationController pushViewController:detailVC animated:YES];
+        SCNewsArticlePackVC *articleVC = [[SCNewsArticlePackVC alloc] init];
+        articleVC.hidesBottomBarWhenPushed = YES;
+        [self.parentVC.navigationController pushViewController:articleVC animated:YES];
     }else {
         SCNewsImageVC *imageVC = [[SCNewsImageVC alloc] init];
         imageVC.hidesBottomBarWhenPushed = YES;

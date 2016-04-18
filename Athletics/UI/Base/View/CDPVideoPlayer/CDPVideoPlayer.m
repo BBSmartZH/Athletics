@@ -9,6 +9,7 @@
 #import "CDPVideoPlayer.h"
 #import "CDPButton.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "MBProgressHUD.h"
 
 #define CDPSWIDTH   [UIScreen mainScreen].bounds.size.width
 #define CDPSHEIGHT  [UIScreen mainScreen].bounds.size.height
@@ -59,6 +60,8 @@
     BOOL _dragSlider;//是否正在拖动slider
     UIProgressView *_progressView;//缓冲进度条
     
+    MBProgressHUD *_progressHUD;
+
     UIView *_superView;
     CGRect _windowRect;
 }

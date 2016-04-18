@@ -17,7 +17,7 @@
 #import "UMSocialSinaSSOHandler.h"
 
 
-@interface SCShareManager ()<TencentSessionDelegate>
+@interface SCShareManager ()
 {
     TencentOAuth *_tencentOAuth;
 }
@@ -64,9 +64,9 @@
 }
 
 - (void)qqLoginAuth {
-    _tencentOAuth = [[TencentOAuth alloc] initWithAppId:k_qqAppId andDelegate:self];
-    
-    [_tencentOAuth authorize:@[@"get_user_info"] inSafari:NO];
+//    _tencentOAuth = [[TencentOAuth alloc] initWithAppId:k_qqAppId andDelegate:self];
+//    
+//    [_tencentOAuth authorize:@[@"get_user_info"] inSafari:NO];
     
     
     

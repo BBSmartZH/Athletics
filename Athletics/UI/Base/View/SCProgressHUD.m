@@ -23,12 +23,10 @@
     if (delay) {
         HUD.graceTime = 1.0f;
         HUD.minShowTime = 1.0f;
-        HUD.taskInProgress = YES;
     }else
     {
         HUD.graceTime = 0.0f;
         HUD.minShowTime = 1.0f;
-        HUD.taskInProgress = NO;
     }
     [view addSubview:HUD];
     [HUD showAnimated:YES];
@@ -42,15 +40,13 @@
     if (delay) {
         HUD.graceTime = 1.0f;
         HUD.minShowTime = 1.0f;
-        HUD.taskInProgress = YES;
     }else
     {
         HUD.graceTime = 0.0f;
         HUD.minShowTime = 1.0f;
-        HUD.taskInProgress = NO;
     }
     [view addSubview:HUD];
-    [HUD show:YES];
+    [HUD showAnimated:YES];
     return HUD;
 }
 

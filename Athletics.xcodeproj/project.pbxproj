@@ -87,6 +87,12 @@
 		826408AA1CB95C3C00AF4126 /* LWMineVC_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 826408A91CB95C3C00AF4126 /* LWMineVC_iPhone.m */; };
 		826408AD1CB9EBB200AF4126 /* XWDragCellCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 826408AC1CB9EBB200AF4126 /* XWDragCellCollectionView.m */; };
 		826408B01CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 826408AF1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m */; };
+		9B2A3CEA1CC478FD003D22C6 /* SCMessageTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2A3CE91CC478FD003D22C6 /* SCMessageTextView.m */; };
+		9B2A3CF01CC47DB7003D22C6 /* NSString+Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2A3CED1CC47DB7003D22C6 /* NSString+Message.m */; };
+		9B2A3CF11CC47DB7003D22C6 /* NSString+SCMD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2A3CEF1CC47DB7003D22C6 /* NSString+SCMD5.m */; };
+		9B2A3CF41CC4B8F2003D22C6 /* SCNewsDetailPackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2A3CF31CC4B8F2003D22C6 /* SCNewsDetailPackVC.m */; };
+		9B2A3CFA1CC4BC25003D22C6 /* SCNewsArticlePackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2A3CF91CC4BC25003D22C6 /* SCNewsArticlePackVC.m */; };
+		9B2A3CFD1CC4BC52003D22C6 /* SCNewsPhotosPackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2A3CFC1CC4BC52003D22C6 /* SCNewsPhotosPackVC.m */; };
 		9B82A1531CBA979A001EE35B /* SCTopScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A1521CBA979A001EE35B /* SCTopScrollView.m */; };
 		9B82A1571CBAB069001EE35B /* SCSmallEventVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A1561CBAB069001EE35B /* SCSmallEventVC.m */; };
 		9B82A15A1CBAB094001EE35B /* SCEventsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A1591CBAB094001EE35B /* SCEventsVC.m */; };
@@ -367,6 +373,18 @@
 		826408AC1CB9EBB200AF4126 /* XWDragCellCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XWDragCellCollectionView.m; sourceTree = "<group>"; };
 		826408AE1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LWCustomizeVC_iPhone.h; sourceTree = "<group>"; };
 		826408AF1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LWCustomizeVC_iPhone.m; sourceTree = "<group>"; };
+		9B2A3CE81CC478FD003D22C6 /* SCMessageTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMessageTextView.h; sourceTree = "<group>"; };
+		9B2A3CE91CC478FD003D22C6 /* SCMessageTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMessageTextView.m; sourceTree = "<group>"; };
+		9B2A3CEC1CC47DB7003D22C6 /* NSString+Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Message.h"; sourceTree = "<group>"; };
+		9B2A3CED1CC47DB7003D22C6 /* NSString+Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Message.m"; sourceTree = "<group>"; };
+		9B2A3CEE1CC47DB7003D22C6 /* NSString+SCMD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SCMD5.h"; sourceTree = "<group>"; };
+		9B2A3CEF1CC47DB7003D22C6 /* NSString+SCMD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SCMD5.m"; sourceTree = "<group>"; };
+		9B2A3CF21CC4B8F2003D22C6 /* SCNewsDetailPackVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNewsDetailPackVC.h; sourceTree = "<group>"; };
+		9B2A3CF31CC4B8F2003D22C6 /* SCNewsDetailPackVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNewsDetailPackVC.m; sourceTree = "<group>"; };
+		9B2A3CF81CC4BC25003D22C6 /* SCNewsArticlePackVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNewsArticlePackVC.h; sourceTree = "<group>"; };
+		9B2A3CF91CC4BC25003D22C6 /* SCNewsArticlePackVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNewsArticlePackVC.m; sourceTree = "<group>"; };
+		9B2A3CFB1CC4BC52003D22C6 /* SCNewsPhotosPackVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNewsPhotosPackVC.h; sourceTree = "<group>"; };
+		9B2A3CFC1CC4BC52003D22C6 /* SCNewsPhotosPackVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNewsPhotosPackVC.m; sourceTree = "<group>"; };
 		9B82A1511CBA979A001EE35B /* SCTopScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTopScrollView.h; sourceTree = "<group>"; };
 		9B82A1521CBA979A001EE35B /* SCTopScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTopScrollView.m; sourceTree = "<group>"; };
 		9B82A1551CBAB069001EE35B /* SCSmallEventVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSmallEventVC.h; sourceTree = "<group>"; };
@@ -1036,6 +1054,7 @@
 		826408271CB92C8A00AF4126 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				9B2A3CEB1CC47DB7003D22C6 /* NSString+Message */,
 				9BAA206D1CBE30B10053F1C0 /* UIAlertView+Block */,
 				9BAA20701CBE30B10053F1C0 /* UIImageView+SCImageCache */,
 				9BAA20731CBE30B10053F1C0 /* UIView+Distribute */,
@@ -1252,6 +1271,17 @@
 				9BAA20EE1CBECBCD0053F1C0 /* ScheduleCell */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		9B2A3CEB1CC47DB7003D22C6 /* NSString+Message */ = {
+			isa = PBXGroup;
+			children = (
+				9B2A3CEC1CC47DB7003D22C6 /* NSString+Message.h */,
+				9B2A3CED1CC47DB7003D22C6 /* NSString+Message.m */,
+				9B2A3CEE1CC47DB7003D22C6 /* NSString+SCMD5.h */,
+				9B2A3CEF1CC47DB7003D22C6 /* NSString+SCMD5.m */,
+			);
+			path = "NSString+Message";
 			sourceTree = "<group>";
 		};
 		9B82A14D1CBA843C001EE35B /* Resources */ = {
@@ -1586,6 +1616,8 @@
 				9BAA20CD1CBE4F320053F1C0 /* SCNewsVC.m */,
 				9BAA20CF1CBE4F7A0053F1C0 /* SCNewsContentVC.h */,
 				9BAA20D01CBE4F7A0053F1C0 /* SCNewsContentVC.m */,
+				9B2A3CF21CC4B8F2003D22C6 /* SCNewsDetailPackVC.h */,
+				9B2A3CF31CC4B8F2003D22C6 /* SCNewsDetailPackVC.m */,
 				9BAA213B1CC23C670053F1C0 /* CommentList */,
 				9BAA20D21CBE4F970053F1C0 /* NewsDetail */,
 			);
@@ -1649,8 +1681,12 @@
 		9BAA20D21CBE4F970053F1C0 /* NewsDetail */ = {
 			isa = PBXGroup;
 			children = (
+				9B2A3CF81CC4BC25003D22C6 /* SCNewsArticlePackVC.h */,
+				9B2A3CF91CC4BC25003D22C6 /* SCNewsArticlePackVC.m */,
 				9BAA20D31CBE4FD10053F1C0 /* SCNewsDetailVC.h */,
 				9BAA20D41CBE4FD10053F1C0 /* SCNewsDetailVC.m */,
+				9B2A3CFB1CC4BC52003D22C6 /* SCNewsPhotosPackVC.h */,
+				9B2A3CFC1CC4BC52003D22C6 /* SCNewsPhotosPackVC.m */,
 				9BAA21381CC172990053F1C0 /* SCNewsImageVC.h */,
 				9BAA21391CC172990053F1C0 /* SCNewsImageVC.m */,
 			);
@@ -1805,6 +1841,8 @@
 			children = (
 				9BAA214D1CC333110053F1C0 /* SCCommentInputView.h */,
 				9BAA214E1CC333110053F1C0 /* SCCommentInputView.m */,
+				9B2A3CE81CC478FD003D22C6 /* SCMessageTextView.h */,
+				9B2A3CE91CC478FD003D22C6 /* SCMessageTextView.m */,
 			);
 			path = CommentInputView;
 			sourceTree = "<group>";
@@ -1968,10 +2006,13 @@
 			files = (
 				9BAA209F1CBE31180053F1C0 /* SDWebImageDecoder.m in Sources */,
 				9BAA1FEF1CBCA4720053F1C0 /* SCDragCollectionViewCell.m in Sources */,
+				9B2A3CF11CC47DB7003D22C6 /* NSString+SCMD5.m in Sources */,
 				9BAA21061CBF95DF0053F1C0 /* SCScheduleListVC.m in Sources */,
 				826408551CB92C8A00AF4126 /* UIScrollView+MJExtension.m in Sources */,
 				825EED801CBB7B830099D41D /* UITableView+FDTemplateLayoutCell.m in Sources */,
 				825EED861CBB8B370099D41D /* LWNBACell.m in Sources */,
+				9B2A3CFA1CC4BC25003D22C6 /* SCNewsArticlePackVC.m in Sources */,
+				9B2A3CF01CC47DB7003D22C6 /* NSString+Message.m in Sources */,
 				9BAA209E1CBE31180053F1C0 /* SDWebImageCompat.m in Sources */,
 				8264083F1CB92C8A00AF4126 /* MASViewConstraint.m in Sources */,
 				9BAA21481CC248420053F1C0 /* SCNewsDetailVideoCell.m in Sources */,
@@ -2011,6 +2052,7 @@
 				9BAA20681CBE2F900053F1C0 /* SCLoginVC.m in Sources */,
 				825EED791CBB603F0099D41D /* LWPhotosNormalCell.m in Sources */,
 				9BAA21371CC0C8EF0053F1C0 /* SCPostsTextImageCell.m in Sources */,
+				9B2A3CF41CC4B8F2003D22C6 /* SCNewsDetailPackVC.m in Sources */,
 				9BAA21091CBF96130053F1C0 /* SCScheduleDetailVC.m in Sources */,
 				8264083D1CB92C8A00AF4126 /* MASLayoutConstraint.m in Sources */,
 				826408571CB92C8A00AF4126 /* UIView+MJExtension.m in Sources */,
@@ -2027,6 +2069,7 @@
 				9BAA20BC1CBE38400053F1C0 /* SCUserInfoManager.m in Sources */,
 				9BAA20EA1CBEB8EB0053F1C0 /* SCCommuntityContentVC.m in Sources */,
 				9BAA20DF1CBE53140053F1C0 /* SCVideoDetailVC.m in Sources */,
+				9B2A3CEA1CC478FD003D22C6 /* SCMessageTextView.m in Sources */,
 				9BAA20B01CBE31E20053F1C0 /* SCDateUtil.m in Sources */,
 				826408A71CB95C0C00AF4126 /* LWScheduleVC_iPhone.m in Sources */,
 				826408691CB92C8B00AF4126 /* LWBaseTableVC_iPhone.m in Sources */,
@@ -2096,6 +2139,7 @@
 				9BAA20A41CBE31180053F1C0 /* UIButton+WebCache.m in Sources */,
 				9BAA20A91CBE31180053F1C0 /* UIImageView+WebCache.m in Sources */,
 				9BAA20B11CBE31E20053F1C0 /* SCGlobaUtil.m in Sources */,
+				9B2A3CFD1CC4BC52003D22C6 /* SCNewsPhotosPackVC.m in Sources */,
 				826408311CB92C8A00AF4126 /* AFHTTPSessionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

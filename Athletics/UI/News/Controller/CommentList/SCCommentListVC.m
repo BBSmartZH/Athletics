@@ -27,6 +27,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.m_navBar.hidden = YES;
     self.title = @"评论";
     
     _inputView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.fHeight - 44, self.view.fWidth, 44)];
@@ -44,7 +45,7 @@
     [_inputView addSubview:_commentButton];
     
     [_tableView registerClass:[LWCommentListCell class] forCellReuseIdentifier:[LWCommentListCell cellidentifier]];
-    _tableView.frame = CGRectMake(0, self.m_navBar.bottom, self.view.fWidth, self.view.fHeight - self.m_navBar.fHeight - _inputView.fHeight);
+    _tableView.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight - _inputView.fHeight);
     _tableView.separatorColor = k_Border_Color;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     

@@ -80,10 +80,11 @@
     paragraphStyle.alignment = NSTextAlignmentCenter;
     if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0"] != NSOrderedAscending) {
         [_messageText drawInRect:_messageRect withAttributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:14], NSParagraphStyleAttributeName: paragraphStyle, NSForegroundColorAttributeName: [UIColor whiteColor]}];
-    }else {
-        [[UIColor whiteColor] set];
-        [_messageText drawInRect:_messageRect withFont:[UIFont boldSystemFontOfSize:14.0]];
     }
+//    else {
+//        [[UIColor whiteColor] set];
+//        [_messageText drawInRect:_messageRect withFont:[UIFont boldSystemFontOfSize:14.0]];
+//    }
 	
 	CGRect r = CGRectZero;
 	r.origin.y = 15;
@@ -104,9 +105,10 @@
                                        context:nil].size;
         [_messageText sizeWithAttributes:@{ NSFontAttributeName: [UIFont boldSystemFontOfSize:14]}];
 
-    }else {
-        s = [_messageText sizeWithFont:[UIFont boldSystemFontOfSize:14] forWidth:160 lineBreakMode:NSLineBreakByWordWrapping];
     }
+//    else {
+//        s = [_messageText sizeWithFont:[UIFont boldSystemFontOfSize:14] forWidth:160 lineBreakMode:NSLineBreakByWordWrapping];
+//    }
 	
 	float imageAdjustment = 0;
 	if (_image) {

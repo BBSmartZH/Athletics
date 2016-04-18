@@ -25,7 +25,6 @@
 
 static CGFloat k_left = 10.0;
 static CGFloat k_small = 2.0;
-static CGFloat k_WHratio = 0.8;
 
 @implementation SCPostsTextCell
 
