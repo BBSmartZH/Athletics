@@ -37,7 +37,7 @@ static NSString *commonCellId = @"SCCommonCell";
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     [_tableView registerClass:[SCCommonCell class] forCellReuseIdentifier:commonCellId];
     
-    
+    [SCUserInfoManager setIsLogin:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -45,7 +45,12 @@ static NSString *commonCellId = @"SCCommonCell";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0 || section == 1) {
+    if (section == 0) {
+        if ([SCUserInfoManager isLogin]) {
+            return 2;
+        }
+        return 1;
+    }else if (section == 1) {
         return 1;
     }
     return 3;
@@ -59,8 +64,12 @@ static NSString *commonCellId = @"SCCommonCell";
     cell.rightLabel.text = @"";
     if (indexPath.section == 0) {
         if ([SCUserInfoManager isLogin]) {
-            cell.leftLabel.text = @"账户";
-            cell.rightLabel.text = @"昵称";
+            if (indexPath.row == 0) {
+                cell.leftLabel.text = @"账户";
+                cell.rightLabel.text = @"点击登录";
+            }else {
+                cell.leftLabel.text = @"修改密码";
+            }
         }else {
             cell.leftLabel.text = @"账户";
             cell.rightLabel.text = @"点击登录";

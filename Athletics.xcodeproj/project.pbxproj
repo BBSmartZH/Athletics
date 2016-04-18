@@ -2306,7 +2306,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.meirongzongjian.inhouse.mrzjathletics;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "2ed88f67-89a9-47d1-b6fb-13d338b427d1";
 			};
 			name = Debug;
 		};
@@ -2340,7 +2340,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.meirongzongjian.inhouse.mrzjathletics;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "2ed88f67-89a9-47d1-b6fb-13d338b427d1";
 			};
 			name = Release;
 		};
