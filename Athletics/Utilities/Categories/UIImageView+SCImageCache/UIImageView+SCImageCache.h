@@ -15,10 +15,12 @@ static NSString *scDefaultAvatarImage = @"mine_default_avatar";
 
 @interface UIImageView (SCImageCache)
 
-- (void)scImageWithURL:(NSURL *)url;
+- (void)scImageWithURL:(NSString *)url;
 
-- (void)scImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placehoder;
+- (void)scImageWithURL:(NSString *)url placeholderImage:(UIImage *)placehoder;
 
-- (void)scImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placehoder completed:(SDWebImageCompletionBlock)completedBlock;
+- (void)scImageWithURL:(NSString *)url placeholderImage:(UIImage *)placehoder completed:(SDWebImageCompletionBlock)completedBlock;
+
+- (void)scImageWithURL:(NSString *)url placeholderImage:(UIImage *)placeholder progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock;
 
 @end

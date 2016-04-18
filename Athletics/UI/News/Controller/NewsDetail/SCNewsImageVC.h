@@ -8,6 +8,12 @@
 
 #import "LWBaseVC_iPhone.h"
 
+typedef void(^TapHiddenBlack)(BOOL isHidden);
+
 @interface SCNewsImageVC : LWBaseVC_iPhone
+
+@property (nonatomic, assign) LWBaseVC_iPhone *parentVC;
+
+@property (nonatomic, copy) TapHiddenBlack tapBlock;
 
 @end

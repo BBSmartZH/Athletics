@@ -15,10 +15,10 @@
 @interface SCNewsPhotosPackVC ()<SCCommentInputViewDelegate, UIScrollViewDelegate>
 {
     UIScrollView *_scrollView;
-    SCCommentInputView *_inputView;
 }
+@property (nonatomic, strong) SCCommentInputView *inputView;
 
-@property (nonatomic, strong) SCNewsImageVC *articleVC;
+@property (nonatomic, strong) SCNewsImageVC *photosVC;
 @property (nonatomic, strong) SCCommentListVC *commentVC;
 
 @end
@@ -44,9 +44,10 @@
     
     self.title = @"资讯";
     
-    self.m_navBar.current_color = [UIColor lightGrayColor];
+    self.m_navBar.current_color = [UIColor colorWithWhite:0.0 alpha:0.6];
+    self.m_navBar.hiddenLine = YES;
     
-    _inputView = [[SCCommentInputView alloc] initWithFrame:CGRectMake(0, self.view.fHeight - 44, self.view.fWidth, 44)];
+    self.inputView = [[SCCommentInputView alloc] initWithFrame:CGRectMake(0, self.view.fHeight - 44, self.view.fWidth, 44)];
     _inputView.backgroundColor = k_Bg_Color;
     _inputView.delegate = self;
     _inputView.layer.borderWidth = .5f;
@@ -54,6 +55,8 @@
     _inputView.isComment = YES;
     _inputView.inputTextView.placeHolder = @"我来说两句..";
     [self.view addSubview:_inputView];
+    
+    
     
     NSString *norStr = @"1234评";
     NSMutableAttributedString *norAttStr = [[NSMutableAttributedString alloc] initWithString:norStr];
@@ -67,23 +70,42 @@
     NSAttributedString *selAttStr = [[NSAttributedString alloc] initWithString:@"原文" attributes:@{NSForegroundColorAttributeName : k_Base_Color, NSFontAttributeName : [UIFont systemFontOfSize:kWord_Font_28px]}];
     [_inputView.commentButton setAttributedTitle:selAttStr forState:UIControlStateSelected];
     
-    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, self.view.fHeight - _inputView.fHeight)];
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, self.view.fHeight)];
     _scrollView.showsVerticalScrollIndicator = NO;
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.pagingEnabled = YES;
     _scrollView.scrollsToTop = NO;
     _scrollView.delegate = self;
+    
     _scrollView.contentSize = CGSizeMake(_scrollView.fWidth * 2, _scrollView.fHeight);
     [self.view addSubview:_scrollView];
     [self.view bringSubviewToFront:_inputView];
     
-    self.articleVC = [[SCNewsImageVC alloc] init];
-    self.articleVC.view.frame = CGRectMake(0, 0, _scrollView.fWidth, _scrollView.fHeight);
-    [_scrollView addSubview:self.articleVC.view];
+    self.photosVC = [[SCNewsImageVC alloc] init];
+    self.photosVC.parentVC = self;
+    __weak typeof(self) weakSelf = self;
+
+    self.photosVC.tapBlock = ^(BOOL isHidden) {
+        if (isHidden) {
+            [UIView animateWithDuration:0.25 animations:^{
+                weakSelf.m_navBar.alpha = 0.0f;
+                weakSelf.inputView.alpha = 0.0f;
+            }];
+        }else {
+            [UIView animateWithDuration:0.25 animations:^{
+                weakSelf.m_navBar.alpha = 1.0f;
+                weakSelf.inputView.alpha = 1.0f;
+            }];
+        }
+    };
+    self.photosVC.view.frame = CGRectMake(0, 0, _scrollView.fWidth, _scrollView.fHeight);
+    [_scrollView addSubview:self.photosVC.view];
     
     self.commentVC = [[SCCommentListVC alloc] init];
     self.commentVC.view.frame = CGRectMake(_scrollView.fWidth, self.m_navBar.bottom, _scrollView.fWidth, _scrollView.fHeight - self.m_navBar.fHeight);
     [_scrollView addSubview:self.commentVC.view];
+    
+    [self.view bringSubviewToFront:self.m_navBar];
 }
 
 

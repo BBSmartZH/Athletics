@@ -9,10 +9,16 @@
 #import "SCNewsImageVC.h"
 
 #import "SCCommentListVC.h"
+#import "SCPhotosScrollView.h"
+#import "SCPhotoZoomView.h"
 
-@interface SCNewsImageVC ()<UIScrollViewDelegate>
+#import "SCPhotoCollectionViewCell.h"
+
+@interface SCNewsImageVC ()<UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
-    UIScrollView *_scrollView;
+    SCPhotosScrollView *_scrollView;
+    
+    UICollectionView *_collectionView;
     
     CGRect imageFrameRect;
     NSInteger _number;
@@ -30,6 +36,8 @@
 
 @end
 
+static CGFloat imageSpace = 10.0f;
+
 @implementation SCNewsImageVC
 
 - (void)viewDidLoad {
@@ -39,29 +47,31 @@
     
     self.m_navBar.hidden = YES;
     
-    
-    _imageArray = @[@"http://pic14.nipic.com/20110522/7411759_164157418126_2.jpg", @"http://inews.gtimg.com/newsapp_match/0/253743855/0", @"http://inews.gtimg.com/newsapp_match/0/253743856/0", @"http://inews.gtimg.com/newsapp_match/0/253743857/0", @"http://inews.gtimg.com/newsapp_match/0/253743858/0", @"http://sports.gtimg.com/newsapp_bt/0/253843325/1000?tp=webp", @"http://sports.gtimg.com/newsapp_bt/0/253843326/1000?tp=webp"];
+    _imageArray = @[@"http://pic14.nipic.com/20110522/7411759_164157418126_2.jpg", @"http://inews.gtimg.com/newsapp_match/0/253743855/0", @"http://inews.gtimg.com/newsapp_match/0/253743856/0", @"http://inews.gtimg.com/newsapp_match/0/253743857/0", @"http://inews.gtimg.com/newsapp_match/0/253743858/0", @"http://inews.gtimg.com/newsapp_match/0/253743855/0", @"http://inews.gtimg.com/newsapp_match/0/253743856/0"];
     _textArray = @[@"aksnsanda", @"腾讯体育4月16日讯 湖人在科比退役时赠送给科比和瓦妮莎两枚退役戒指，戒指上刻着科比的名字，两侧则是20年和黑曼巴的图样，简直太奢华。", @"两枚戒指闪闪发光，都刻着科比-布莱恩特的名字。", @"在总冠军奖杯的前面刻着湖人的字样。", @"戒指的侧面是黑曼巴的字样，刻着2006-2016，这是科比改穿24号的十年。", @"另一侧刻着1996-2005，这是科比穿8号的十年，很有纪念意义。", @"看上去甚至比总冠军戒指还要奢华。"];
     _number = _imageArray.count;
-    
     
     _offset = 0.0;
     _scale = 1.0;
     
-    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(-10, 0, self.view.fWidth + 20, self.view.fHeight - self.m_navBar.fHeight - 44)];
-    _scrollView.backgroundColor = [UIColor clearColor];
-    _scrollView.scrollEnabled = YES;
-    _scrollView.pagingEnabled = YES;
-    _scrollView.delegate = self;
-    _scrollView.bounces = NO;
-    _scrollView.showsHorizontalScrollIndicator = NO;
-    _scrollView.showsVerticalScrollIndicator = NO;
-    _scrollView.contentSize = CGSizeMake(_scrollView.fWidth * _number, _scrollView.fHeight);
-    [self.view addSubview:_scrollView];
+    
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, self.view.fHeight) collectionViewLayout:layout];
+    _collectionView.delegate = self;
+    _collectionView.dataSource = self;
+    _collectionView.pagingEnabled = YES;
+    _collectionView.showsVerticalScrollIndicator = NO;
+    _collectionView.showsHorizontalScrollIndicator = NO;
+    _collectionView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:_collectionView];
+    
+    [_collectionView registerClass:[SCPhotoCollectionViewCell class] forCellWithReuseIdentifier:[SCPhotoCollectionViewCell cellIdentifier]];
     
     UITapGestureRecognizer *clickTap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleClickTap:)];
     [clickTap setNumberOfTapsRequired:1];
-    [_scrollView addGestureRecognizer:clickTap];
+    [_collectionView addGestureRecognizer:clickTap];
     
     _titleView = [[UIView alloc] init];
     _titleView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.8];
@@ -78,7 +88,7 @@
     _WEAKSELF(ws);
     [_titleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(ws.view);
-        make.bottom.equalTo(_scrollView.mas_bottom);
+        make.bottom.equalTo(_collectionView.mas_bottom).offset(-44);
     }];
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(_titleView);
@@ -86,127 +96,56 @@
         make.right.bottom.equalTo(_titleView).offset(-10);
     }];
     
-    
-    imageFrameRect = CGRectMake(10, self.m_navBar.fHeight, _scrollView.fWidth - 20, _scrollView.fHeight - self.m_navBar.fHeight - 44);
-    
-    for (int i = 0; i < _number; i++) {
-        UITapGestureRecognizer *doubleTap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
-        [doubleTap setNumberOfTapsRequired:2];
-        
-        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(_scrollView.fWidth * i, 0, _scrollView.fWidth, _scrollView.fHeight)];
-        scrollView.backgroundColor = [UIColor blackColor];
-        scrollView.contentSize = CGSizeMake(scrollView.fWidth, scrollView.fHeight);
-        scrollView.showsHorizontalScrollIndicator = NO;
-        scrollView.showsVerticalScrollIndicator = NO;
-        scrollView.delegate = self;
-        scrollView.minimumZoomScale = 1.0;
-        scrollView.maximumZoomScale = 2.0;
-        [scrollView setZoomScale:1.0];
-        
-        UIImageView *imageview = [[UIImageView alloc] init];
-        imageview.backgroundColor = [UIColor clearColor];
-        imageview.frame = imageFrameRect;
-        [imageview setContentMode:UIViewContentModeScaleAspectFit];
-        imageview.userInteractionEnabled = YES;
-        [imageview addGestureRecognizer:doubleTap];
-        [scrollView addSubview:imageview];
-        
-        [imageview scImageWithURL:[NSURL URLWithString:[_imageArray objectAtIndex:i]]];
-
-        [_scrollView addSubview:scrollView];
-    }
-    
-    
 }
-
-#pragma mark - ScrollView delegate
--(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
-    
-    for (UIView *view in scrollView.subviews){
-        return view;
-    }
-    return nil;
-}
-
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    
-    if (scrollView == _scrollView){
-        CGFloat x = scrollView.contentOffset.x;
-        if (x == _offset){
-            
-        } else {
-            _offset = x;
-            for (UIScrollView *scro in scrollView.subviews){
-                if ([scro isKindOfClass:[UIScrollView class]]){
-                    [scro setZoomScale:1.0];
-                    UIImageView *image = [[scro subviews] objectAtIndex:0];
-                    image.frame = imageFrameRect;
-                }
-            }
-        }
-    }
-}
-
--(void)scrollViewDidZoom:(UIScrollView *)scrollView{
-    NSLog(@"Did zoom!");
-    UIView *v = [scrollView.subviews objectAtIndex:0];
-    if ([v isKindOfClass:[UIImageView class]]){
-        if (scrollView.zoomScale <= 1.0){
-            _isLarge = NO;
-        }else {
-            _isLarge = YES;
-        }
-    }
-}
-
-#pragma mark -
 
 - (void)handleClickTap:(UIGestureRecognizer *)gesture {
     if (!_isHidden) {
         _isHidden = YES;
-        [UIView animateWithDuration:0.15 animations:^{
-            self.m_navBar.alpha = 0.0f;
+        [UIView animateWithDuration:0.25 animations:^{
             _titleView.alpha = 0.0f;
         }];
     }else {
         _isHidden = NO;
-        [UIView animateWithDuration:0.15 animations:^{
-            self.m_navBar.alpha = 1.0f;
+        [UIView animateWithDuration:0.25 animations:^{
             _titleView.alpha = 1.0f;
         }];
     }
-}
-
--(void)handleDoubleTap:(UIGestureRecognizer *)gesture{
-    float newScale;
-    if (!_isLarge) {
-        newScale = [(UIScrollView*)gesture.view.superview zoomScale] * 2.0;
-        _isLarge = YES;
-    }else {
-        newScale = [(UIScrollView*)gesture.view.superview zoomScale] * 0.5;
-        _isLarge = NO;
-    }
-    CGRect zoomRect = [self zoomRectForScale:newScale  inView:(UIScrollView*)gesture.view.superview withCenter:[gesture locationInView:gesture.view]];
-    UIView *view = gesture.view.superview;
-    if ([view isKindOfClass:[UIScrollView class]]){
-        UIScrollView *s = (UIScrollView *)view;
-        [s zoomToRect:zoomRect animated:YES];
+    if (_tapBlock) {
+        _tapBlock(_isHidden);
     }
 }
 
-#pragma mark - Utility methods
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return _imageArray.count;
+}
 
--(CGRect)zoomRectForScale:(float)scale inView:(UIScrollView*)scrollView withCenter:(CGPoint)center {
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    SCPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[SCPhotoCollectionViewCell cellIdentifier] forIndexPath:indexPath];
+    [cell revertZoom];
+    cell.photoUrl = [_imageArray objectAtIndex:indexPath.item];
     
-    CGRect zoomRect;
-    
-    zoomRect.size.height = [scrollView frame].size.height / scale;
-    zoomRect.size.width  = [scrollView frame].size.width  / scale;
-    
-    zoomRect.origin.x    = center.x - (zoomRect.size.width  / 2.0);
-    zoomRect.origin.y    = center.y - (zoomRect.size.height / 2.0);
-    
-    return zoomRect;
+    return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(collectionView.bounds.size.width, collectionView.bounds.size.height);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 0.0f;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 0.0f;
+}
+
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if (scrollView == _collectionView) {
+        NSInteger pag = scrollView.contentOffset.x / scrollView.bounds.size.width;
+        _titleLabel.text = [_textArray objectAtIndex:pag];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
