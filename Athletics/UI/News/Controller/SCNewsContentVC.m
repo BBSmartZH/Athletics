@@ -10,10 +10,9 @@
 
 #import "SCAdView.h"
 #import "SCNewsCell.h"
-#import "SCNewsImageVC.h"
-#import "SCNewsArticlePackVC.h"
-
 #import "LWPhotosNormalCell.h"
+#import "SCNewsPhotosPackVC.h"
+#import "SCNewsArticlePackVC.h"
 
 @interface SCNewsContentVC ()
 {
@@ -102,9 +101,9 @@
         articleVC.hidesBottomBarWhenPushed = YES;
         [self.parentVC.navigationController pushViewController:articleVC animated:YES];
     }else {
-        SCNewsImageVC *imageVC = [[SCNewsImageVC alloc] init];
-        imageVC.hidesBottomBarWhenPushed = YES;
-        [self.parentVC.navigationController pushViewController:imageVC animated:YES];
+        SCNewsPhotosPackVC *photosVC = [[SCNewsPhotosPackVC alloc] init];
+        photosVC.hidesBottomBarWhenPushed = YES;
+        [self.parentVC.navigationController pushViewController:photosVC animated:YES];
     }
     
 }

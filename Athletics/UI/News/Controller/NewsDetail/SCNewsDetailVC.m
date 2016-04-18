@@ -40,8 +40,6 @@
     // Do any additional setup after loading the view.
     
     self.m_navBar.hidden = YES;
-
-    self.title = @"资讯";
     
     [_tableView registerClass:[SCNewsDetailTextCell class] forCellReuseIdentifier:[SCNewsDetailTextCell cellIdentifier]];
     [_tableView registerClass:[SCNewsDetailImageCell class] forCellReuseIdentifier:[SCNewsDetailImageCell cellIdentifier]];
