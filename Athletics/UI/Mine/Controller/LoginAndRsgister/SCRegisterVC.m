@@ -21,7 +21,6 @@
 }
 @end
 
-static CGFloat k_left = 15;
 static  NSString *cellId = @"cellId";
 @implementation SCRegisterVC
 
@@ -44,7 +43,7 @@ static  NSString *cellId = @"cellId";
     }
     
     CGFloat rowHeihht = 121;
-    CGFloat footerHeight = self.view.fHeight - rowHeihht;
+    CGFloat footerHeight = 60;
     _tableView.rowHeight = rowHeihht;
 
     UIView *tableFootView = [[UIView alloc] init];
@@ -61,6 +60,10 @@ static  NSString *cellId = @"cellId";
     [tableFootView addSubview:_nextButton];
     
     _tableView.tableFooterView = tableFootView;
+    
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fingerTapped:)];
+    
+    [self.view addGestureRecognizer:singleTap];
 
 }
 
@@ -216,6 +219,11 @@ static  NSString *cellId = @"cellId";
     [self.view endEditing:YES];
 }
 
+//回收键盘
+-(void)fingerTapped:(UITapGestureRecognizer*)sender
+{
+    [self.view endEditing:YES];
+}
 
 
 - (void)didReceiveMemoryWarning {

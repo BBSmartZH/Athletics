@@ -19,11 +19,19 @@
 static NSString *cellID = @"cellID";
 @implementation LWModifyPswdVC
 
+-(instancetype)initWithStyle:(UITableViewStyle)style
+{
+    self = [super initWithStyle:UITableViewStyleGrouped];
+    if (self) {
+        
+    }
+    return self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"修改密码";
     CGFloat rowHeihht = 121;
-    CGFloat footerHeight = self.view.fHeight - rowHeihht;
+    CGFloat footerHeight = 60;
     _tableView.rowHeight = rowHeihht;
     
     UIView *tableFootView = [[UIView alloc] init];
@@ -41,6 +49,9 @@ static NSString *cellID = @"cellID";
     
     _tableView.tableFooterView = tableFootView;
 
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fingerTapped:)];
+    
+    [self.view addGestureRecognizer:singleTap];
     
     // Do any additional setup after loading the view.
 }
@@ -111,7 +122,6 @@ static NSString *cellID = @"cellID";
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     textField.returnKeyType = type == 1 ? UIReturnKeyNext : UIReturnKeyDone;
-    
     textField.leftViewMode = UITextFieldViewModeAlways;
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 60, textField.fHeight)];
     label.textAlignment = NSTextAlignmentCenter;
@@ -130,7 +140,7 @@ static NSString *cellID = @"cellID";
     [textField.leftView addSubview:label];
     return textField;
 }
-
+         
 #pragma mark 限制手机和密码输入长度
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
@@ -147,12 +157,17 @@ static NSString *cellID = @"cellID";
 
 - (void)p_saveButtonClicked:(UIButton *)sender {
     if ([SCGlobaUtil isEmpty:_primaryCodeTextF.text]) {
-        [self postErrorMessage:@"请输原密码"];
+        [self postErrorMessage:@"原密码不能为空"];
+        return;
+    }else if (_primaryCodeTextF.text.length < 6){
+        [self postErrorMessage:@"原密码少于6位"];
         return;
     }
     if ([SCGlobaUtil isEmpty:_newCodeTextF.text]) {
         [self postErrorMessage:@"请输新密码"];
         return;
+    }else if (_newCodeTextF.text.length < 6){
+        [self postErrorMessage:@"新密码少于6位"];
     }
     
     if ([SCGlobaUtil isEmpty:_confirmCodeTextF.text]) {
@@ -170,7 +185,12 @@ static NSString *cellID = @"cellID";
     [self.view endEditing:YES];
 }
 
+//回收键盘
 
+-(void)fingerTapped:(UITapGestureRecognizer*)sender
+{
+    [self.view endEditing:YES];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
