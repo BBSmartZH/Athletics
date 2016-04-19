@@ -7,7 +7,7 @@
 //
 
 #import "SCTeletextListVC.h"
-
+#import "SCTeletexListCell.h"
 @interface SCTeletextListVC ()
 
 @end
@@ -20,11 +20,38 @@
     
     self.m_navBar.hidden = YES;
     
-    self.view.backgroundColor = k_Base_Color;
+    self.view.backgroundColor = [UIColor clearColor];
     
     _tableView.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight - _topHeight);
+    [_tableView registerClass:[SCTeletexListCell class] forCellReuseIdentifier:[SCTeletexListCell cellIdentifier]];
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 10;
+}
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SCTeletexListCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCTeletexListCell cellIdentifier]forIndexPath:indexPath];
+    if (!cell) {
+        cell = [[SCTeletexListCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[SCTeletexListCell cellIdentifier]];
+    }
+    
+    [cell creatLayoutWith:@1];
+    return cell;
+    
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [tableView fd_heightForCellWithIdentifier:[SCTeletexListCell cellIdentifier] configuration:^(id cell) {
+        [cell creatLayoutWith:@1];
+    }];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

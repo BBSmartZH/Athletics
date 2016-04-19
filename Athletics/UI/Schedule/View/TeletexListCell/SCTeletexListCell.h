@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface SCTeletexListCell : UITableViewCell
-
+-(void)creatLayoutWith:(id)model;
++(NSString*)cellIdentifier;
 @end
