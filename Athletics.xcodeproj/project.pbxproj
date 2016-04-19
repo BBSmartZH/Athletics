@@ -114,6 +114,9 @@
 		9B68BE581CC5DB8E006EE4B9 /* IQToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B68BE461CC5DB8E006EE4B9 /* IQToolbar.m */; };
 		9B68BE591CC5DB8E006EE4B9 /* IQUIView+IQKeyboardToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B68BE481CC5DB8E006EE4B9 /* IQUIView+IQKeyboardToolbar.m */; };
 		9B68BE5A1CC5DB8E006EE4B9 /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9B68BE4B1CC5DB8E006EE4B9 /* IQKeyboardManager.bundle */; };
+		9B68BE601CC63654006EE4B9 /* SCGuessListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B68BE5F1CC63654006EE4B9 /* SCGuessListVC.m */; };
+		9B68BE631CC6366A006EE4B9 /* SCScheduleVideoListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B68BE621CC6366A006EE4B9 /* SCScheduleVideoListVC.m */; };
+		9B68BE6A1CC63760006EE4B9 /* SCTeletextListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B68BE691CC63760006EE4B9 /* SCTeletextListVC.m */; };
 		9B82A1531CBA979A001EE35B /* SCTopScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A1521CBA979A001EE35B /* SCTopScrollView.m */; };
 		9B82A1571CBAB069001EE35B /* SCSmallEventVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A1561CBAB069001EE35B /* SCSmallEventVC.m */; };
 		9B82A15A1CBAB094001EE35B /* SCEventsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A1591CBAB094001EE35B /* SCEventsVC.m */; };
@@ -450,6 +453,12 @@
 		9B68BE481CC5DB8E006EE4B9 /* IQUIView+IQKeyboardToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IQUIView+IQKeyboardToolbar.m"; sourceTree = "<group>"; };
 		9B68BE491CC5DB8E006EE4B9 /* KeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardManager.h; sourceTree = "<group>"; };
 		9B68BE4B1CC5DB8E006EE4B9 /* IQKeyboardManager.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IQKeyboardManager.bundle; sourceTree = "<group>"; };
+		9B68BE5E1CC63654006EE4B9 /* SCGuessListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCGuessListVC.h; sourceTree = "<group>"; };
+		9B68BE5F1CC63654006EE4B9 /* SCGuessListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCGuessListVC.m; sourceTree = "<group>"; };
+		9B68BE611CC6366A006EE4B9 /* SCScheduleVideoListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCScheduleVideoListVC.h; sourceTree = "<group>"; };
+		9B68BE621CC6366A006EE4B9 /* SCScheduleVideoListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCScheduleVideoListVC.m; sourceTree = "<group>"; };
+		9B68BE681CC63760006EE4B9 /* SCTeletextListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTeletextListVC.h; sourceTree = "<group>"; };
+		9B68BE691CC63760006EE4B9 /* SCTeletextListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTeletextListVC.m; sourceTree = "<group>"; };
 		9B82A1511CBA979A001EE35B /* SCTopScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTopScrollView.h; sourceTree = "<group>"; };
 		9B82A1521CBA979A001EE35B /* SCTopScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTopScrollView.m; sourceTree = "<group>"; };
 		9B82A1551CBAB069001EE35B /* SCSmallEventVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSmallEventVC.h; sourceTree = "<group>"; };
@@ -1449,6 +1458,33 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		9B68BE5B1CC6358E006EE4B9 /* GuessList */ = {
+			isa = PBXGroup;
+			children = (
+				9B68BE5E1CC63654006EE4B9 /* SCGuessListVC.h */,
+				9B68BE5F1CC63654006EE4B9 /* SCGuessListVC.m */,
+			);
+			path = GuessList;
+			sourceTree = "<group>";
+		};
+		9B68BE5C1CC6358E006EE4B9 /* ScheduleVideoList */ = {
+			isa = PBXGroup;
+			children = (
+				9B68BE611CC6366A006EE4B9 /* SCScheduleVideoListVC.h */,
+				9B68BE621CC6366A006EE4B9 /* SCScheduleVideoListVC.m */,
+			);
+			path = ScheduleVideoList;
+			sourceTree = "<group>";
+		};
+		9B68BE671CC6374A006EE4B9 /* TeletextList */ = {
+			isa = PBXGroup;
+			children = (
+				9B68BE681CC63760006EE4B9 /* SCTeletextListVC.h */,
+				9B68BE691CC63760006EE4B9 /* SCTeletextListVC.m */,
+			);
+			path = TeletextList;
+			sourceTree = "<group>";
+		};
 		9B82A14D1CBA843C001EE35B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -1912,6 +1948,9 @@
 			children = (
 				9BAA21071CBF96130053F1C0 /* SCScheduleDetailVC.h */,
 				9BAA21081CBF96130053F1C0 /* SCScheduleDetailVC.m */,
+				9B68BE671CC6374A006EE4B9 /* TeletextList */,
+				9B68BE5B1CC6358E006EE4B9 /* GuessList */,
+				9B68BE5C1CC6358E006EE4B9 /* ScheduleVideoList */,
 			);
 			path = ScheduleDetail;
 			sourceTree = "<group>";
@@ -2196,8 +2235,10 @@
 				826408361CB92C8A00AF4126 /* AFURLSessionManager.m in Sources */,
 				8264083E1CB92C8A00AF4126 /* MASViewAttribute.m in Sources */,
 				826407891CB92C7C00AF4126 /* LWNetworkHelper.m in Sources */,
+				9B68BE631CC6366A006EE4B9 /* SCScheduleVideoListVC.m in Sources */,
 				8264075C1CB90B0300AF4126 /* AppDelegate.m in Sources */,
 				9BAA20A81CBE31180053F1C0 /* UIImageView+HighlightedWebCache.m in Sources */,
+				9B68BE601CC63654006EE4B9 /* SCGuessListVC.m in Sources */,
 				826408321CB92C8A00AF4126 /* AFNetworkReachabilityManager.m in Sources */,
 				826408A11CB95BC300AF4126 /* LWEventsVC_iPhone.m in Sources */,
 				9B68BE571CC5DB8E006EE4B9 /* IQTitleBarButtonItem.m in Sources */,
@@ -2311,6 +2352,7 @@
 				9B68BE501CC5DB8E006EE4B9 /* IQUIViewController+Additions.m in Sources */,
 				9BAA20781CBE30B10053F1C0 /* UIView+Distribute.m in Sources */,
 				826408331CB92C8A00AF4126 /* AFSecurityPolicy.m in Sources */,
+				9B68BE6A1CC63760006EE4B9 /* SCTeletextListVC.m in Sources */,
 				8264084F1CB92C8A00AF4126 /* MJRefreshBackStateFooter.m in Sources */,
 				9B68BE581CC5DB8E006EE4B9 /* IQToolbar.m in Sources */,
 				9B68BE4F1CC5DB8E006EE4B9 /* IQUIView+Hierarchy.m in Sources */,

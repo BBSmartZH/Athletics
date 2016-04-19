@@ -157,7 +157,7 @@
                 [cell createLayoutWith:@1];
             }];
         }else if(indexPath.row == 4){
-            return 1;
+            return 1.0;
         }
     }
     return 20;

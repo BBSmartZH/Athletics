@@ -37,7 +37,7 @@ static CGFloat k_left = 10.0f;
         make.top.equalTo(ws.contentView);
         make.left.equalTo(ws.contentView).offset(k_left);
         make.right.equalTo(ws.contentView).offset(-k_left);
-        make.height.mas_equalTo(@0.5f);
+//        make.height.mas_equalTo(@0.5f);
         make.bottom.equalTo(ws.contentView);
     }];
     

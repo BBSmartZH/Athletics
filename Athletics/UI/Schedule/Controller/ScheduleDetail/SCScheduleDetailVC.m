@@ -8,9 +8,26 @@
 
 #import "SCScheduleDetailVC.h"
 
-@interface SCScheduleDetailVC ()
+#import "SCGuessListVC.h"
+#import "SCTeletextListVC.h"
+#import "SCScheduleVideoListVC.h"
+
+@interface SCScheduleDetailVC ()<UIScrollViewDelegate>
 {
+    UIView *_topView;
+    UIView *_selectedView;
+    UIButton *_guessButton;//竞猜
+    UIButton *_scheduleButton;//赛况
+    UIButton *_videoButton;//视频
+    UIButton *_currentButton;
+    UIView   *_slideLine;
     UIScrollView *_scrollView;
+    BOOL       _falg1;
+    BOOL       _falg2;
+    BOOL       _falg3;
+    NSArray *_buttonArray;
+    
+//    UIScrollView *_scrollView;
     UILabel     *_titleLabel;
     UIImageView *_leftImageV;
     UILabel     *_leftLabel;
@@ -27,6 +44,12 @@
     UITableView *_tableView;
 }
 
+
+@property (nonatomic, strong) SCGuessListVC *guessListVC;
+@property (nonatomic, strong) SCTeletextListVC *teletextListVC;
+@property (nonatomic, strong) SCScheduleVideoListVC *videoListVC;
+
+
 @end
 static CGFloat imageW = 64.0f;
 static CGFloat k_left = 10.0f;
@@ -35,10 +58,118 @@ static CGFloat kscore = 1.0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self uiConfig];
-    [self p_preparData];
-
+    
+    self.m_navBar.bg_alpha = 0.0f;
+    self.m_navBar.hiddenLine = YES;
+    
+    
+    [self configTopView];
 }
+
+- (void)configTopView {
+    
+    _topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, 140)];
+    _topView.backgroundColor = [UIColor cyanColor];
+    [self.view addSubview:_topView];
+    
+    [self.view bringSubviewToFront:self.m_navBar];
+    
+    _selectedView = [[UIView alloc] initWithFrame:CGRectMake(0, _topView.bottom, self.view.fWidth, 44)];
+    _selectedView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:_selectedView];
+    
+    _guessButton = [self topicTypeButtonWithTitle:@"竞猜"];
+    _guessButton.frame = CGRectMake(0, 0, _selectedView.fWidth / 3.0, _selectedView.fHeight);
+    [_selectedView addSubview:_guessButton];
+    
+    _scheduleButton = [self topicTypeButtonWithTitle:@"赛况"];
+    _scheduleButton.frame = CGRectMake(_guessButton.right, 0, _guessButton.fWidth, _guessButton.fHeight);
+    [_selectedView addSubview:_scheduleButton];
+    
+    _videoButton = [self topicTypeButtonWithTitle:@"视频"];
+    _videoButton.frame = CGRectMake(_scheduleButton.right, 0, _scheduleButton.fWidth, _scheduleButton.fHeight);
+    [_selectedView addSubview:_videoButton];
+    
+    _buttonArray = @[_guessButton, _scheduleButton, _videoButton];
+    
+    
+    UIView *selectedLine = [[UIView alloc] initWithFrame:CGRectMake(0, _selectedView.fHeight - 0.5, _selectedView.fWidth, 0.5)];
+    selectedLine.backgroundColor = k_Border_Color;
+    [_selectedView addSubview:selectedLine];
+    
+    _slideLine = [[UIView alloc] init];
+    _slideLine.backgroundColor = k_Base_Color;
+    [_selectedView addSubview:_slideLine];
+    _slideLine.frame = CGRectMake(10,  _selectedView.fHeight - 2, _guessButton.fWidth - 20, 2);
+    
+    
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, _selectedView.bottom, self.view.fWidth, self.view.fHeight - _topView.fHeight - _selectedView.fHeight)];
+    _scrollView.showsVerticalScrollIndicator = NO;
+    _scrollView.showsHorizontalScrollIndicator = NO;
+    _scrollView.pagingEnabled = YES;
+    _scrollView.scrollsToTop = NO;
+    _scrollView.delegate = self;
+    _scrollView.contentSize = CGSizeMake(_scrollView.fWidth * 3, _scrollView.fHeight);
+    [self.view addSubview:_scrollView];
+    
+    self.guessListVC = [[SCGuessListVC alloc] init];
+    self.guessListVC.view.frame = CGRectMake(0, 0, _scrollView.fWidth, _scrollView.fHeight);
+    [_scrollView addSubview:self.guessListVC.view];
+    
+    self.teletextListVC = [[SCTeletextListVC alloc] init];
+    self.teletextListVC.view.frame = CGRectMake(_scrollView.fWidth, 0, _scrollView.fWidth, _scrollView.fHeight);
+    [_scrollView addSubview:self.teletextListVC.view];
+    
+    self.videoListVC = [[SCScheduleVideoListVC alloc] init];
+    self.videoListVC.view.frame = CGRectMake(_scrollView.fWidth * 2, 0, _scrollView.fWidth, _scrollView.fHeight);
+    [_scrollView addSubview:self.videoListVC.view];
+    
+    
+}
+
+- (UIButton *)topicTypeButtonWithTitle:(NSString *)title {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:title forState:UIControlStateNormal];
+    [button setTitleColor:kWord_Color_High forState:UIControlStateNormal];
+    [button setTitleColor:k_Base_Color forState:UIControlStateSelected];
+    [button addTarget:self action:@selector(selectedButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    button.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    
+    return button;
+}
+
+- (void)selectedButtonClicked:(UIButton *)sender {
+    if (sender.isSelected) {
+        return;
+    }
+    
+    _currentButton.selected = NO;
+    _currentButton = sender;
+    _currentButton.selected = YES;
+    if (sender == _guessButton) {
+        [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+        if (!_falg1) {
+//            [_firstVC upDateData];
+            _falg1 = YES;
+        }
+        
+    }else if (sender == _scheduleButton) {
+        [_scrollView setContentOffset:CGPointMake(self.view.fWidth, 0) animated:YES];
+        if (!_falg2) {
+//            [_secondVC upDateData];
+            _falg2 = YES;
+        }
+        
+    }else if (sender == _videoButton) {
+        [_scrollView setContentOffset:CGPointMake(self.view.fWidth * 2, 0) animated:YES];
+        if (!_falg3) {
+//            [_thirdVC upDateData];
+            _falg3 = YES;
+        }
+        
+    }
+}
+
 - (void)uiConfig {
     
     _scrollView = [[UIScrollView alloc]init];
@@ -243,6 +374,25 @@ static CGFloat kscore = 1.0;
     
     
     
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (scrollView == _scrollView) {
+        NSInteger pag = scrollView.contentOffset.x / scrollView.fWidth;
+        UIButton *button = [_buttonArray objectAtIndex:pag];
+        [self selectedButtonClicked:button];
+    }
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView == _scrollView) {
+        if (_scrollView.contentOffset.x >=0 && _scrollView.contentOffset.x <= _scrollView.fWidth * 2) {
+            int contentX = _scrollView.contentOffset.x;
+            CGFloat buttonWidth = (self.view.fWidth - (_buttonArray.count - 1) * 1) / _buttonArray.count;
+            _slideLine.frame = CGRectMake(contentX / _scrollView.fWidth * (buttonWidth + 1) + 10, _slideLine.top, _slideLine.fWidth, _slideLine.fHeight);
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {
