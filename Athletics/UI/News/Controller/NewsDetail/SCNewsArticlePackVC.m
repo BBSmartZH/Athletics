@@ -96,6 +96,7 @@
             [_scrollView setContentOffset:CGPointMake(_scrollView.fWidth, 0) animated:YES];
         } completion:^(BOOL finished) {
             sender.selected = YES;
+            self.title = @"评论";
         }];
     }else {
         [UIView animateWithDuration:0.25 animations:^{
@@ -103,6 +104,7 @@
             [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
         } completion:^(BOOL finished) {
             sender.selected = NO;
+            self.title = @"资讯";
         }];
     }
 }
@@ -136,6 +138,18 @@
     }];
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (scrollView == _scrollView) {
+        NSInteger pag = scrollView.contentOffset.x / scrollView.bounds.size.width;
+        if (pag == 0) {
+            _inputView.commentButton.selected = NO;
+            self.title = @"资讯";
+        }else {
+            _inputView.commentButton.selected = YES;
+            self.title = @"评论";
+        }
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

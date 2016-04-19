@@ -58,7 +58,7 @@ static CGFloat imageSpace = 10.0f;
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, self.view.fHeight) collectionViewLayout:layout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth + 10, self.view.fHeight) collectionViewLayout:layout];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     _collectionView.pagingEnabled = YES;
@@ -66,6 +66,7 @@ static CGFloat imageSpace = 10.0f;
     _collectionView.showsHorizontalScrollIndicator = NO;
     _collectionView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_collectionView];
+    self.view.clipsToBounds = YES;
     
     [_collectionView registerClass:[SCPhotoCollectionViewCell class] forCellWithReuseIdentifier:[SCPhotoCollectionViewCell cellIdentifier]];
     

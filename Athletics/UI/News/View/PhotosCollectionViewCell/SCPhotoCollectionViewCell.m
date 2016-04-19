@@ -23,6 +23,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         _zoomView = [[SCPhotoZoomView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        _zoomView.imageInset = UIEdgeInsetsMake(0, 0, 0, 10);
         _zoomView.backgroundColor = [UIColor blackColor];
         [self addSubview:_zoomView];
     }

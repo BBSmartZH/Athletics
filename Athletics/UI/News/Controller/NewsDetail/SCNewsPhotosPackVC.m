@@ -15,6 +15,7 @@
 @interface SCNewsPhotosPackVC ()<SCCommentInputViewDelegate, UIScrollViewDelegate>
 {
     UIScrollView *_scrollView;
+    UIView *_touchView;
 }
 @property (nonatomic, strong) SCCommentInputView *inputView;
 
@@ -56,8 +57,6 @@
     _inputView.inputTextView.placeHolder = @"我来说两句..";
     [self.view addSubview:_inputView];
     
-    
-    
     NSString *norStr = @"1234评";
     NSMutableAttributedString *norAttStr = [[NSMutableAttributedString alloc] initWithString:norStr];
     [norAttStr addAttribute:NSForegroundColorAttributeName value:k_Base_Color range:NSMakeRange(0, norAttStr.length - 1)];
@@ -79,6 +78,16 @@
     
     _scrollView.contentSize = CGSizeMake(_scrollView.fWidth * 2, _scrollView.fHeight);
     [self.view addSubview:_scrollView];
+    
+    [self.view bringSubviewToFront:self.m_navBar];
+
+    _touchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, self.view.fHeight)];
+    _touchView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.3];
+    _touchView.alpha = 0.0;
+    UITapGestureRecognizer *touchTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchTap:)];
+    [_touchView addGestureRecognizer:touchTap];
+    [self.view addSubview:_touchView];
+    
     [self.view bringSubviewToFront:_inputView];
     
     self.photosVC = [[SCNewsImageVC alloc] init];
@@ -105,9 +114,11 @@
     self.commentVC.view.frame = CGRectMake(_scrollView.fWidth, self.m_navBar.bottom, _scrollView.fWidth, _scrollView.fHeight - self.m_navBar.fHeight);
     [_scrollView addSubview:self.commentVC.view];
     
-    [self.view bringSubviewToFront:self.m_navBar];
 }
 
+- (void)touchTap:(UITapGestureRecognizer *)sender {
+    [_inputView.inputTextView resignFirstResponder];
+}
 
 #pragma mark - SCCommentInputViewDelegate
 
@@ -119,6 +130,7 @@
             [_scrollView setContentOffset:CGPointMake(_scrollView.fWidth, 0) animated:YES];
         } completion:^(BOOL finished) {
             sender.selected = YES;
+            self.title = @"评论";
         }];
     }else {
         [UIView animateWithDuration:0.25 animations:^{
@@ -126,6 +138,7 @@
             [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
         } completion:^(BOOL finished) {
             sender.selected = NO;
+            self.title = @"资讯";
         }];
     }
 }
@@ -145,6 +158,7 @@
     
     [UIView animateWithDuration:duration animations:^{
         _inputView.frame = CGRectMake(0, self.view.fHeight - keyboardHeight - _inputView.fHeight, _inputView.fWidth, _inputView.fHeight);
+        _touchView.alpha = 1.0;
     }];
 }
 
@@ -156,9 +170,22 @@
     
     [UIView animateWithDuration:duration animations:^{
         _inputView.frame = CGRectMake(0, self.view.fHeight - _inputView.fHeight, _inputView.fWidth, _inputView.fHeight);
+        _touchView.alpha = 0.0;
     }];
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (scrollView == _scrollView) {
+        NSInteger pag = scrollView.contentOffset.x / scrollView.bounds.size.width;
+        if (pag == 0) {
+            _inputView.commentButton.selected = NO;
+            self.title = @"资讯";
+        }else {
+            _inputView.commentButton.selected = YES;
+            self.title = @"评论";
+        }
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
