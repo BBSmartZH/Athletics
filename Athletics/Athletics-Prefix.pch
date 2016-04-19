@@ -23,6 +23,9 @@
 //图片下载
 #import "UIImageView+SCImageCache.h"
 
+#import "IQKeyboardManager.h"
+
+
 
 #if DEBUG
 

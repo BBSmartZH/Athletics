@@ -30,6 +30,10 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
+    // 开启键盘自适应管理功能
+    [IQKeyboardManager sharedManager].enable = YES;
+    [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
+        
     NSObject *objc = [[NSUserDefaults standardUserDefaults] objectForKey:kAllChannelArrayKey];
     if (!objc) {
         static dispatch_once_t onceToken;

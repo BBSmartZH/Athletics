@@ -49,6 +49,9 @@ static NSString *commentCellId = @"CommentCollectionViewCellId";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [[[IQKeyboardManager sharedManager] disabledDistanceHandlingClasses] addObject:[self class]];
+    [[[IQKeyboardManager sharedManager] disabledToolbarClasses] addObject:[self class]];
+    
     self.title = @"发表帖子";
 
     

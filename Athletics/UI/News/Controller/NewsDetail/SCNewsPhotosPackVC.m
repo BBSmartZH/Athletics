@@ -31,18 +31,23 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboareWillShowNotif:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboareWillHiddenNotif:) name:UIKeyboardWillHideNotification object:nil];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [[[IQKeyboardManager sharedManager] disabledDistanceHandlingClasses] addObject:[self class]];
+    [[[IQKeyboardManager sharedManager] disabledToolbarClasses] addObject:[self class]];
+
     self.title = @"资讯";
     
     self.m_navBar.current_color = [UIColor colorWithWhite:0.0 alpha:0.6];

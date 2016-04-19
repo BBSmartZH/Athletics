@@ -23,7 +23,6 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         _zoomView = [[SCPhotoZoomView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        _zoomView.imageInset = UIEdgeInsetsMake(0, 0, 0, 10);
         _zoomView.backgroundColor = [UIColor blackColor];
         [self addSubview:_zoomView];
     }
@@ -40,6 +39,14 @@
 - (void)setPhotoImage:(UIImage *)photoImage {
     if (_photoImage != photoImage) {
         _photoImage = photoImage;
+    }
+}
+
+- (void)setZoomInset:(UIEdgeInsets)zoomInset {
+    if (_zoomInset.bottom != zoomInset.bottom || _zoomInset.top != zoomInset.top || _zoomInset.left != zoomInset.left || _zoomInset.right != zoomInset.right) {
+        _zoomInset = zoomInset;
+        
+        [_zoomView setImageInset:_zoomInset];
     }
 }
 

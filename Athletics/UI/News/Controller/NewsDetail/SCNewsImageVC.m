@@ -58,7 +58,7 @@ static CGFloat imageSpace = 10.0f;
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth + 10, self.view.fHeight) collectionViewLayout:layout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth + imageSpace, self.view.fHeight) collectionViewLayout:layout];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     _collectionView.pagingEnabled = YES;
@@ -123,6 +123,7 @@ static CGFloat imageSpace = 10.0f;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SCPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[SCPhotoCollectionViewCell cellIdentifier] forIndexPath:indexPath];
     [cell revertZoom];
+    [cell setZoomInset:UIEdgeInsetsMake(0, 0, 0, imageSpace)];
     cell.photoUrl = [_imageArray objectAtIndex:indexPath.item];
     
     return cell;

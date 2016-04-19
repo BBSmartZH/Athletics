@@ -12,6 +12,7 @@
 
 @property (nonatomic, copy) NSString *photoUrl;
 @property (nonatomic, strong) UIImage *photoImage;
+@property (nonatomic, assign) UIEdgeInsets zoomInset;
 
 - (void)revertZoom;
 

@@ -9,7 +9,6 @@
 #import "SCUserInfoManager.h"
 //#import "SCShopInfoModel.h"
 
-#define kUserDefaults ([NSUserDefaults standardUserDefaults])
 
 static NSString *k_login             = @"k_login_key";
 static NSString *k_user_token        = @"k_user_token_key";

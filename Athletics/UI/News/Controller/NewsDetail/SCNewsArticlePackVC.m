@@ -29,6 +29,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboareWillShowNotif:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboareWillHiddenNotif:) name:UIKeyboardWillHideNotification object:nil];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -40,6 +41,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [[[IQKeyboardManager sharedManager] disabledDistanceHandlingClasses] addObject:[self class]];
+    [[[IQKeyboardManager sharedManager] disabledToolbarClasses] addObject:[self class]];
+
     
     self.title = @"资讯";
     
