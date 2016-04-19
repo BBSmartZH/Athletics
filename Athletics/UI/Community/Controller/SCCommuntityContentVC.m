@@ -79,7 +79,7 @@
     [button setTitleColor:kWord_Color_High forState:UIControlStateNormal];
     [button setTitleColor:k_Base_Color forState:UIControlStateSelected];
     [button addTarget:self action:@selector(topicTypeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    button.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    button.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_32px];
     
     return button;
 }

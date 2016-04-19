@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol SCGuessListCellDelegate <NSObject>
+
+- (void)guessButtonClickedWith:(id)model isLeft:(BOOL)isLeft;
+
+@end
+
 @interface SCGuessListCell : UITableViewCell
+
+@property (nonatomic, assign) id<SCGuessListCellDelegate> delegate;
+
+- (void)createLayoutWith:(id)model;
++ (CGFloat)heightForCellWith:(id)model;
++ (NSString *)cellIdentifier;
 
 @end

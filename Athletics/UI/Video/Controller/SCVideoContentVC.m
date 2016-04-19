@@ -35,15 +35,15 @@
     [self.view addSubview:_selectedView];
     
     
-    _matchButton = [self topicTypeButtonWithTitle:@"赛事"];
+    _matchButton = [self videoTypeButtonWithTitle:@"赛事"];
     _matchButton.frame = CGRectMake(0, 0, _selectedView.fWidth / 3.0, _selectedView.fHeight);
     [_selectedView addSubview:_matchButton];
     
-    _newsButton = [self topicTypeButtonWithTitle:@"资讯"];
+    _newsButton = [self videoTypeButtonWithTitle:@"资讯"];
     _newsButton.frame = CGRectMake(_matchButton.right, 0, _matchButton.fWidth, _matchButton.fHeight);
     [_selectedView addSubview:_newsButton];
     
-    _amusementButton = [self topicTypeButtonWithTitle:@"娱乐"];
+    _amusementButton = [self videoTypeButtonWithTitle:@"娱乐"];
     _amusementButton.frame = CGRectMake(_newsButton.right, 0, _newsButton.fWidth, _newsButton.fHeight);
     [_selectedView addSubview:_amusementButton];
     
@@ -70,18 +70,18 @@
     
 }
 
-- (UIButton *)topicTypeButtonWithTitle:(NSString *)title {
+- (UIButton *)videoTypeButtonWithTitle:(NSString *)title {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:title forState:UIControlStateNormal];
     [button setTitleColor:kWord_Color_High forState:UIControlStateNormal];
     [button setTitleColor:k_Base_Color forState:UIControlStateSelected];
-    [button addTarget:self action:@selector(topicTypeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    button.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [button addTarget:self action:@selector(videoTypeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    button.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_32px];
     
     return button;
 }
 
-- (void)topicTypeButtonClicked:(UIButton *)sender {
+- (void)videoTypeButtonClicked:(UIButton *)sender {
     if (sender.isSelected) {
         return;
     }

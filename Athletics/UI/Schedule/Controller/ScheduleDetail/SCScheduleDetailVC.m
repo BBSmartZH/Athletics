@@ -113,14 +113,17 @@ static CGFloat kscore = 1.0;
     [self.view addSubview:_scrollView];
     
     self.guessListVC = [[SCGuessListVC alloc] init];
+    self.guessListVC.topHeight = _selectedView.bottom;
     self.guessListVC.view.frame = CGRectMake(0, 0, _scrollView.fWidth, _scrollView.fHeight);
     [_scrollView addSubview:self.guessListVC.view];
     
     self.teletextListVC = [[SCTeletextListVC alloc] init];
+    self.teletextListVC.topHeight = _selectedView.bottom;
     self.teletextListVC.view.frame = CGRectMake(_scrollView.fWidth, 0, _scrollView.fWidth, _scrollView.fHeight);
     [_scrollView addSubview:self.teletextListVC.view];
     
     self.videoListVC = [[SCScheduleVideoListVC alloc] init];
+    self.videoListVC.topHeight = _selectedView.bottom;
     self.videoListVC.view.frame = CGRectMake(_scrollView.fWidth * 2, 0, _scrollView.fWidth, _scrollView.fHeight);
     [_scrollView addSubview:self.videoListVC.view];
     
@@ -133,7 +136,7 @@ static CGFloat kscore = 1.0;
     [button setTitleColor:kWord_Color_High forState:UIControlStateNormal];
     [button setTitleColor:k_Base_Color forState:UIControlStateSelected];
     [button addTarget:self action:@selector(selectedButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    button.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    button.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_32px];
     
     return button;
 }
