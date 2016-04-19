@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		825145CD1CC5CD1A00CFE9DC /* LandlordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825145CC1CC5CD1A00CFE9DC /* LandlordCell.m */; };
+		825145D01CC5D78500CFE9DC /* LWCommentsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825145CF1CC5D78500CFE9DC /* LWCommentsCell.m */; };
+		825145D31CC5DC0100CFE9DC /* LWLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825145D21CC5DC0100CFE9DC /* LWLineCell.m */; };
 		825EED761CBB50F60099D41D /* LWNewsTypeNormalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825EED751CBB50F60099D41D /* LWNewsTypeNormalCell.m */; };
 		825EED791CBB603F0099D41D /* LWPhotosNormalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 825EED781CBB603F0099D41D /* LWPhotosNormalCell.m */; };
 		825EED7C1CBB75A70099D41D /* LWNewsTabVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 825EED7B1CBB75A70099D41D /* LWNewsTabVC.m */; };
@@ -217,6 +220,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		825145CB1CC5CD1A00CFE9DC /* LandlordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LandlordCell.h; sourceTree = "<group>"; };
+		825145CC1CC5CD1A00CFE9DC /* LandlordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LandlordCell.m; sourceTree = "<group>"; };
+		825145CE1CC5D78500CFE9DC /* LWCommentsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LWCommentsCell.h; sourceTree = "<group>"; };
+		825145CF1CC5D78500CFE9DC /* LWCommentsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LWCommentsCell.m; sourceTree = "<group>"; };
+		825145D11CC5DC0100CFE9DC /* LWLineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LWLineCell.h; sourceTree = "<group>"; };
+		825145D21CC5DC0100CFE9DC /* LWLineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LWLineCell.m; sourceTree = "<group>"; };
 		825EED741CBB50F60099D41D /* LWNewsTypeNormalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LWNewsTypeNormalCell.h; sourceTree = "<group>"; };
 		825EED751CBB50F60099D41D /* LWNewsTypeNormalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LWNewsTypeNormalCell.m; sourceTree = "<group>"; };
 		825EED771CBB603F0099D41D /* LWPhotosNormalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LWPhotosNormalCell.h; sourceTree = "<group>"; };
@@ -1832,6 +1841,12 @@
 				9BAA212C1CBFFFC50053F1C0 /* SCPostsAdCell.m */,
 				9BAA21351CC0C8EF0053F1C0 /* SCPostsTextImageCell.h */,
 				9BAA21361CC0C8EF0053F1C0 /* SCPostsTextImageCell.m */,
+				825145CB1CC5CD1A00CFE9DC /* LandlordCell.h */,
+				825145CC1CC5CD1A00CFE9DC /* LandlordCell.m */,
+				825145CE1CC5D78500CFE9DC /* LWCommentsCell.h */,
+				825145CF1CC5D78500CFE9DC /* LWCommentsCell.m */,
+				825145D11CC5DC0100CFE9DC /* LWLineCell.h */,
+				825145D21CC5DC0100CFE9DC /* LWLineCell.m */,
 			);
 			path = PostedDetailCell;
 			sourceTree = "<group>";
@@ -2093,6 +2108,7 @@
 				8264086C1CB92C8B00AF4126 /* SCProgressHUD.m in Sources */,
 				826408521CB92C8A00AF4126 /* MJRefreshStateHeader.m in Sources */,
 				9BAA20A71CBE31180053F1C0 /* UIImage+WebP.m in Sources */,
+				825145D31CC5DC0100CFE9DC /* LWLineCell.m in Sources */,
 				9B82A1531CBA979A001EE35B /* SCTopScrollView.m in Sources */,
 				9BAA20E31CBE89DA0053F1C0 /* SCAdView.m in Sources */,
 				9BAA20A21CBE31180053F1C0 /* SDWebImageManager.m in Sources */,
@@ -2152,6 +2168,7 @@
 				9BAA21311CC08DCE0053F1C0 /* SCPostsTopView.m in Sources */,
 				9BAA20D81CBE50AE0053F1C0 /* SCVideoContentVC.m in Sources */,
 				9BAA214B1CC26D3A0053F1C0 /* SCCustomizeHeaderView.m in Sources */,
+				825145CD1CC5CD1A00CFE9DC /* LandlordCell.m in Sources */,
 				826408481CB92C8A00AF4126 /* MJRefreshFooter.m in Sources */,
 				9BAA20781CBE30B10053F1C0 /* UIView+Distribute.m in Sources */,
 				826408331CB92C8A00AF4126 /* AFSecurityPolicy.m in Sources */,
@@ -2160,6 +2177,7 @@
 				9B82A15A1CBAB094001EE35B /* SCEventsVC.m in Sources */,
 				826408401CB92C8A00AF4126 /* NSArray+MASAdditions.m in Sources */,
 				826408491CB92C8A00AF4126 /* MJRefreshHeader.m in Sources */,
+				825145D01CC5D78500CFE9DC /* LWCommentsCell.m in Sources */,
 				9BAA20D51CBE4FD10053F1C0 /* SCNewsDetailVC.m in Sources */,
 				9BAA20601CBDEE1F0053F1C0 /* SCAnalyticsManager.m in Sources */,
 				826408411CB92C8A00AF4126 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
