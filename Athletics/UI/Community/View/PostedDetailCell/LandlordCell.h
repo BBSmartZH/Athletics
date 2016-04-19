@@ -13,5 +13,5 @@
 
 + (NSString *)cellIdentifier;
 
-+ (CGFloat)cellHeightWith:(id)model;
+//+ (CGFloat)cellHeightWith:(id)model;
 @end

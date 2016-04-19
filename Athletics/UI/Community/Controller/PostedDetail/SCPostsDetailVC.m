@@ -12,7 +12,9 @@
 #import "SCPostsTextImageCell.h"
 #import "SCPostsTopView.h"
 #import "SCPostsAdCell.h"
-
+#import "LandlordCell.h"
+#import "LWCommentsCell.h"
+#import "LWLineCell.h"
 @interface SCPostsDetailVC ()<SCPostsTopViewDelegate>
 {
     UILabel *_testLabel;
@@ -41,6 +43,9 @@
     
     [_tableView registerClass:[SCPostsTextImageCell class] forCellReuseIdentifier:[SCPostsTextImageCell cellIdentifier]];
     [_tableView registerClass:[SCPostsAdCell class] forCellReuseIdentifier:[SCPostsAdCell cellIdentifier]];
+    [_tableView registerClass:[LandlordCell class] forCellReuseIdentifier:[LandlordCell cellIdentifier]];
+    [_tableView registerClass:[LWCommentsCell class] forCellReuseIdentifier:[LWCommentsCell cellIdentifier]];
+    [_tableView registerClass:[LWLineCell class] forCellReuseIdentifier:[LWLineCell cellIdentifier]];
     
     _tableView.frame = CGRectMake(0, self.m_navBar.bottom, self.view.fWidth, self.view.fHeight - self.m_navBar.fHeight);
     _headerView = [[SCPostsTopView alloc] initWithFrame:CGRectMake(0, 0, _tableView.fWidth, 0)];
@@ -68,52 +73,94 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 20;
+    if (section == 0) {
+        return 20;
+    }
+    return 5;
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 4;
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (indexPath.row < 10) {
-        SCPostsTextImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsTextImageCell cellIdentifier] forIndexPath:indexPath];
-        if (indexPath.row % 2 == 0) {
-            [cell createLayoutWith:@1];
-            
-        }else {
-            [cell createLayoutWith:@2];
-            
+    if (indexPath.section == 0) {
+        if (indexPath.row < 10) {
+            SCPostsTextImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsTextImageCell cellIdentifier] forIndexPath:indexPath];
+            if (indexPath.row % 2 == 0) {
+                [cell createLayoutWith:@1];
+                
+            }else {
+                [cell createLayoutWith:@2];
+                
+            }
+            return cell;
+        }else{
+            SCPostsAdCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsAdCell cellIdentifier] forIndexPath:indexPath];
+            if (indexPath.row % 2 == 0) {
+                [cell createLayoutWith:@1];
+                
+            }else {
+                [cell createLayoutWith:@2];
+                
+            }
+            return cell;
+
+
         }
-        return cell;
-    }
-    SCPostsAdCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsAdCell cellIdentifier] forIndexPath:indexPath];
-    if (indexPath.row % 2 == 0) {
-        [cell createLayoutWith:@1];
+
+    }else if(indexPath.section >=1){
+        if (indexPath.row == 0) {
+            LandlordCell *cell = [tableView dequeueReusableCellWithIdentifier:[LandlordCell cellIdentifier]forIndexPath:indexPath];
+            [cell createLayoutWith:@1];
+            return cell;
+        }else if (indexPath.row > 0 && indexPath.row < 4){
+           LWCommentsCell  *cell = [tableView dequeueReusableCellWithIdentifier:[LWCommentsCell cellIdentifier]forIndexPath:indexPath];
+            [cell createLayoutWith:@1];
+            return cell;
+        }else{
+            LWLineCell *cell = [tableView dequeueReusableCellWithIdentifier:[LWLineCell cellIdentifier]forIndexPath:indexPath];
+            return cell;
+        }
         
-    }else {
-        [cell createLayoutWith:@2];
-        
     }
-    return cell;
+    return NULL;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < 10) {
+    if (indexPath.section == 0) {
+        if (indexPath.row < 10) {
+            NSNumber *model;
+            if (indexPath.row % 2 == 0) {
+                model = @1;
+            }else {
+                model = @2;
+            }
+            return [SCPostsTextImageCell cellHeightWith:model];
+        }
+        
         NSNumber *model;
         if (indexPath.row % 2 == 0) {
             model = @1;
         }else {
             model = @2;
         }
-        return [SCPostsTextImageCell cellHeightWith:model];
+        return [SCPostsAdCell cellHeightWith:model];
+
+    }else if (indexPath.section >=1){
+        if (indexPath.row == 0) {
+            return [tableView fd_heightForCellWithIdentifier:[LandlordCell cellIdentifier] configuration:^(id cell) {
+                [cell createLayoutWith:@1];
+            }];
+        }else if (indexPath.row >0 && indexPath.row < 4){
+            return [_tableView fd_heightForCellWithIdentifier:[LWCommentsCell cellIdentifier] configuration:^(id cell) {
+                [cell createLayoutWith:@1];
+            }];
+        }else if(indexPath.row == 4){
+            return 1;
+        }
     }
-    
-    NSNumber *model;
-    if (indexPath.row % 2 == 0) {
-        model = @1;
-    }else {
-        model = @2;
-    }
-    return [SCPostsAdCell cellHeightWith:model];
-    
+    return 20;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

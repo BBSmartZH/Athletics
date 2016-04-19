@@ -13,7 +13,7 @@
     UILabel     *_label;
 }
 @end
-
+static CGFloat k_left = 10.0f;
 @implementation LWLineCell
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -35,8 +35,8 @@
     _WEAKSELF(ws);
     [_label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(ws.contentView);
-        make.left.equalTo(ws.contentView).offset(10);
-        make.right.equalTo(ws.contentView).offset(-10);
+        make.left.equalTo(ws.contentView).offset(k_left);
+        make.right.equalTo(ws.contentView).offset(-k_left);
         make.height.mas_equalTo(@0.5f);
         make.bottom.equalTo(ws.contentView);
     }];

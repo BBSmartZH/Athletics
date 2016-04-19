@@ -17,7 +17,7 @@
 }
 @end
 static CGFloat k_left = 10.0f;
-static CGFloat k_top = 15.0f;
+//static CGFloat k_top = 15.0f;
 static CGFloat k_margin = 7.0f;
 static CGFloat kImageH = 32.0f;
 @implementation LandlordCell
@@ -60,7 +60,7 @@ static CGFloat kImageH = 32.0f;
     [_imageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(ws.contentView).offset(k_left);
         make.top.equalTo(ws.contentView).offset(k_left);
-        make.width.mas_equalTo(CGSizeMake(kImageH, kImageH));
+        make.size.mas_equalTo(CGSizeMake(kImageH, kImageH));
     }];
     
     
@@ -84,7 +84,7 @@ static CGFloat kImageH = 32.0f;
 
 -(void)createLayoutWith:(id)model
 {
-    _imageV.backgroundColor = k_Base_Color;
+    _imageV.backgroundColor = [UIColor redColor];
     _hostNameLabel.text = @"罗也无声";
     _dateLabel.text = @"1楼 2018-05-09 10:37";
     _commentLabel.text = @"24,打击都懂得，科迷无处不在";
