@@ -333,6 +333,8 @@
     _playerLayer=[AVPlayerLayer playerLayerWithPlayer:_player];
     _playerLayer.frame=containView.bounds;
     
+    
+    
     //视频填充模式
 //    _playerLayer.videoGravity=AVLayerVideoGravityResizeAspect;
     [containView.layer insertSublayer:_playerLayer atIndex:0];
@@ -1015,7 +1017,9 @@
     _slider.frame=CGRectMake(_progressView.frame.origin.x-2,_progressView.frame.origin.y-14,_progressView.bounds.size.width+2,30);
 }
 
-
+- (void)layoutSubviews {
+    _playerLayer.frame = self.bounds;
+}
 
 
 
