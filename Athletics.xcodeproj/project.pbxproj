@@ -2165,6 +2165,7 @@
 				TargetAttributes = {
 					826407531CB90B0300AF4126 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = QKCF887K5L;
 					};
 					826407661CB90B0300AF4126 = {
 						CreatedOnToolsVersion = 7.1;
@@ -2559,8 +2560,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: shengyong zhang (2BX4GYTJYC)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2583,7 +2584,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.meirongzongjian.inhouse.mrzjathletics;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4275d65a-ffea-42fb-99d1-55be21ded727";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -2616,7 +2617,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.meirongzongjian.inhouse.mrzjathletics;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4275d65a-ffea-42fb-99d1-55be21ded727";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
