@@ -1,18 +1,18 @@
 {
   "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D761598D610BEF71350F7D996A2E48395A681D32",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
-    "6eadc1f3-63cc-4d2c-b7b9-cc57960b8bcb++7697" : {
+    "6eadc1f3-63cc-4d2c-b7b9-cc57960b8bcb++623" : {
 
     }
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
     "D761598D610BEF71350F7D996A2E48395A681D32" : 0,
-    "6eadc1f3-63cc-4d2c-b7b9-cc57960b8bcb++7697" : 0
+    "6eadc1f3-63cc-4d2c-b7b9-cc57960b8bcb++623" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "3E5A942F-7123-48B8-BFDD-E61C2DBA1253",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "D761598D610BEF71350F7D996A2E48395A681D32" : "Athletics\/",
-    "6eadc1f3-63cc-4d2c-b7b9-cc57960b8bcb++7697" : "Athletics\/Athletics\/Utilities\/Manaers\/AnalyticsManager\/"
+    "6eadc1f3-63cc-4d2c-b7b9-cc57960b8bcb++623" : "Athletics\/Athletics\/Utilities\/Manaers\/AnalyticsManager\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "Athletics",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -21,7 +21,7 @@
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/218.244.131.231\/xiaoyaor",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6eadc1f3-63cc-4d2c-b7b9-cc57960b8bcb++7697"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6eadc1f3-63cc-4d2c-b7b9-cc57960b8bcb++623"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/BBSmartZH\/Athletics.git",
