@@ -120,6 +120,11 @@
 		9B68BE701CC65072006EE4B9 /* SCGuessListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B68BE6F1CC65072006EE4B9 /* SCGuessListCell.m */; };
 		9B68BE731CC65086006EE4B9 /* SCTeletexListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B68BE721CC65086006EE4B9 /* SCTeletexListCell.m */; };
 		9B68BE761CC650A0006EE4B9 /* SCVideoListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B68BE751CC650A0006EE4B9 /* SCVideoListCell.m */; };
+		9B68BE7F1CC8B4EE006EE4B9 /* SCNetworkHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B68BE7E1CC8B4EE006EE4B9 /* SCNetworkHelper.m */; };
+		9B68BE821CC8B507006EE4B9 /* SCUrlWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B68BE811CC8B507006EE4B9 /* SCUrlWrapper.m */; };
+		9B68BE851CC8B51A006EE4B9 /* SCParamsWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B68BE841CC8B51A006EE4B9 /* SCParamsWrapper.m */; };
+		9B68BE8A1CC8BA0D006EE4B9 /* SCNetworkStatusManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B68BE891CC8BA0D006EE4B9 /* SCNetworkStatusManager.m */; };
+		9B68BE8D1CC8D6B6006EE4B9 /* SCFeedbackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B68BE8C1CC8D6B6006EE4B9 /* SCFeedbackVC.m */; };
 		9B82A1531CBA979A001EE35B /* SCTopScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A1521CBA979A001EE35B /* SCTopScrollView.m */; };
 		9B82A1571CBAB069001EE35B /* SCSmallEventVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A1561CBAB069001EE35B /* SCSmallEventVC.m */; };
 		9B82A15A1CBAB094001EE35B /* SCEventsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82A1591CBAB094001EE35B /* SCEventsVC.m */; };
@@ -468,6 +473,17 @@
 		9B68BE721CC65086006EE4B9 /* SCTeletexListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTeletexListCell.m; sourceTree = "<group>"; };
 		9B68BE741CC650A0006EE4B9 /* SCVideoListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCVideoListCell.h; sourceTree = "<group>"; };
 		9B68BE751CC650A0006EE4B9 /* SCVideoListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCVideoListCell.m; sourceTree = "<group>"; };
+		9B68BE7D1CC8B4EE006EE4B9 /* SCNetworkHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetworkHelper.h; sourceTree = "<group>"; };
+		9B68BE7E1CC8B4EE006EE4B9 /* SCNetworkHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNetworkHelper.m; sourceTree = "<group>"; };
+		9B68BE801CC8B507006EE4B9 /* SCUrlWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCUrlWrapper.h; sourceTree = "<group>"; };
+		9B68BE811CC8B507006EE4B9 /* SCUrlWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCUrlWrapper.m; sourceTree = "<group>"; };
+		9B68BE831CC8B51A006EE4B9 /* SCParamsWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCParamsWrapper.h; sourceTree = "<group>"; };
+		9B68BE841CC8B51A006EE4B9 /* SCParamsWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCParamsWrapper.m; sourceTree = "<group>"; };
+		9B68BE861CC8B551006EE4B9 /* SCServerMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCServerMacro.h; sourceTree = "<group>"; };
+		9B68BE881CC8BA0D006EE4B9 /* SCNetworkStatusManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCNetworkStatusManager.h; sourceTree = "<group>"; };
+		9B68BE891CC8BA0D006EE4B9 /* SCNetworkStatusManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCNetworkStatusManager.m; sourceTree = "<group>"; };
+		9B68BE8B1CC8D6B6006EE4B9 /* SCFeedbackVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCFeedbackVC.h; sourceTree = "<group>"; };
+		9B68BE8C1CC8D6B6006EE4B9 /* SCFeedbackVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCFeedbackVC.m; sourceTree = "<group>"; };
 		9B82A1511CBA979A001EE35B /* SCTopScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTopScrollView.h; sourceTree = "<group>"; };
 		9B82A1521CBA979A001EE35B /* SCTopScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTopScrollView.m; sourceTree = "<group>"; };
 		9B82A1551CBAB069001EE35B /* SCSmallEventVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSmallEventVC.h; sourceTree = "<group>"; };
@@ -801,6 +817,8 @@
 		826407841CB92C7C00AF4126 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				9B68BE871CC8B9F6006EE4B9 /* NetworkStatus */,
+				9B68BE7C1CC8B485006EE4B9 /* SCHttp */,
 				826407851CB92C7C00AF4126 /* Categories */,
 				826407861CB92C7C00AF4126 /* LWHttp */,
 			);
@@ -1150,6 +1168,7 @@
 			isa = PBXGroup;
 			children = (
 				826408291CB92C8A00AF4126 /* LWUMMacro.h */,
+				9B68BE861CC8B551006EE4B9 /* SCServerMacro.h */,
 			);
 			path = Macros;
 			sourceTree = "<group>";
@@ -1524,6 +1543,28 @@
 			path = VideoListCell;
 			sourceTree = "<group>";
 		};
+		9B68BE7C1CC8B485006EE4B9 /* SCHttp */ = {
+			isa = PBXGroup;
+			children = (
+				9B68BE7D1CC8B4EE006EE4B9 /* SCNetworkHelper.h */,
+				9B68BE7E1CC8B4EE006EE4B9 /* SCNetworkHelper.m */,
+				9B68BE801CC8B507006EE4B9 /* SCUrlWrapper.h */,
+				9B68BE811CC8B507006EE4B9 /* SCUrlWrapper.m */,
+				9B68BE831CC8B51A006EE4B9 /* SCParamsWrapper.h */,
+				9B68BE841CC8B51A006EE4B9 /* SCParamsWrapper.m */,
+			);
+			path = SCHttp;
+			sourceTree = "<group>";
+		};
+		9B68BE871CC8B9F6006EE4B9 /* NetworkStatus */ = {
+			isa = PBXGroup;
+			children = (
+				9B68BE881CC8BA0D006EE4B9 /* SCNetworkStatusManager.h */,
+				9B68BE891CC8BA0D006EE4B9 /* SCNetworkStatusManager.m */,
+			);
+			path = NetworkStatus;
+			sourceTree = "<group>";
+		};
 		9B82A14D1CBA843C001EE35B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -1835,6 +1876,8 @@
 				9BAA20BF1CBE44540053F1C0 /* SCSettingVC.m */,
 				9BAA20C11CBE46D60053F1C0 /* SCAboutVC.h */,
 				9BAA20C21CBE46D60053F1C0 /* SCAboutVC.m */,
+				9B68BE8B1CC8D6B6006EE4B9 /* SCFeedbackVC.h */,
+				9B68BE8C1CC8D6B6006EE4B9 /* SCFeedbackVC.m */,
 				8260C6851CC4D1090033F42A /* LWModifyPswdVC.h */,
 				8260C6861CC4D1090033F42A /* LWModifyPswdVC.m */,
 			);
@@ -2287,6 +2330,7 @@
 				9BAA20761CBE30B10053F1C0 /* UIAlertView+Blocks.m in Sources */,
 				8264088E1CB9568D00AF4126 /* LWTabBarVC_iPhone.m in Sources */,
 				9BAA213A1CC172990053F1C0 /* SCNewsImageVC.m in Sources */,
+				9B68BE821CC8B507006EE4B9 /* SCUrlWrapper.m in Sources */,
 				8264083A1CB92C8A00AF4126 /* MASCompositeConstraint.m in Sources */,
 				9B68BE761CC650A0006EE4B9 /* SCVideoListCell.m in Sources */,
 				9BAA20A11CBE31180053F1C0 /* SDWebImageDownloaderOperation.m in Sources */,
@@ -2316,6 +2360,7 @@
 				8264083D1CB92C8A00AF4126 /* MASLayoutConstraint.m in Sources */,
 				826408571CB92C8A00AF4126 /* UIView+MJExtension.m in Sources */,
 				9BAA20A31CBE31180053F1C0 /* SDWebImagePrefetcher.m in Sources */,
+				9B68BE8D1CC8D6B6006EE4B9 /* SCFeedbackVC.m in Sources */,
 				826408431CB92C8A00AF4126 /* ViewController+MASAdditions.m in Sources */,
 				9B68BE4E1CC5DB8E006EE4B9 /* IQUITextFieldView+Additions.m in Sources */,
 				9B68BE551CC5DB8E006EE4B9 /* IQBarButtonItem.m in Sources */,
@@ -2399,6 +2444,7 @@
 				9B68BE581CC5DB8E006EE4B9 /* IQToolbar.m in Sources */,
 				9B68BE4F1CC5DB8E006EE4B9 /* IQUIView+Hierarchy.m in Sources */,
 				825EED7C1CBB75A70099D41D /* LWNewsTabVC.m in Sources */,
+				9B68BE8A1CC8BA0D006EE4B9 /* SCNetworkStatusManager.m in Sources */,
 				9B82A15A1CBAB094001EE35B /* SCEventsVC.m in Sources */,
 				826408401CB92C8A00AF4126 /* NSArray+MASAdditions.m in Sources */,
 				826408491CB92C8A00AF4126 /* MJRefreshHeader.m in Sources */,
@@ -2410,8 +2456,10 @@
 				826408A41CB95BEE00AF4126 /* LWCommunityVC_iPhone.m in Sources */,
 				9B68BE511CC5DB8E006EE4B9 /* IQUIWindow+Hierarchy.m in Sources */,
 				9BAA214F1CC333110053F1C0 /* SCCommentInputView.m in Sources */,
+				9B68BE851CC8B51A006EE4B9 /* SCParamsWrapper.m in Sources */,
 				825EED761CBB50F60099D41D /* LWNewsTypeNormalCell.m in Sources */,
 				826408341CB92C8A00AF4126 /* AFURLRequestSerialization.m in Sources */,
+				9B68BE7F1CC8B4EE006EE4B9 /* SCNetworkHelper.m in Sources */,
 				9B68BE251CC5768A006EE4B9 /* SCPhotoCollectionViewCell.m in Sources */,
 				826408351CB92C8A00AF4126 /* AFURLResponseSerialization.m in Sources */,
 				9BAA20A41CBE31180053F1C0 /* UIButton+WebCache.m in Sources */,

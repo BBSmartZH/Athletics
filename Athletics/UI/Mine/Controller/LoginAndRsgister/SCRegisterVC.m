@@ -110,7 +110,7 @@ static  NSString *cellId = @"cellId";
         if (self.type == 2) {
             holder = @"请重新设置密码";
         }else{
-        holder = @"请输入密码";
+            holder = @"请输入密码";
         }
     }else if(type == 3){
         holder = @"请输入验证码";
@@ -126,11 +126,11 @@ static  NSString *cellId = @"cellId";
     textField.leftView.backgroundColor = [UIColor clearColor];
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    textField.returnKeyType = type == 1 ? UIReturnKeyNext : UIReturnKeyDone;
+    textField.returnKeyType = type == 2 ? UIReturnKeyNext : UIReturnKeyDone;
     
     textField.leftViewMode = UITextFieldViewModeAlways;
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 60, textField.fHeight)];
-    label.textAlignment = NSTextAlignmentCenter;
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 50, textField.fHeight)];
+    label.textAlignment = NSTextAlignmentRight;
     label.textColor = kWord_Color_High;
     NSString *labelText;
     if (type == 1) {
@@ -142,13 +142,13 @@ static  NSString *cellId = @"cellId";
     }
     label.font = [UIFont systemFontOfSize:kWord_Font_28px];
     label.text = labelText;
-    textField.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,60+20, textField.fHeight)];
+    textField.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,label.fWidth + 20, textField.fHeight)];
     [textField.leftView addSubview:label];
     if (type == 3) {
         textField.rightView = [[UIView alloc]initWithFrame:CGRectMake(self.view.fWidth -100, 0, 100, textField.fHeight)];
         textField.rightViewMode = UITextFieldViewModeAlways;
         _verCodeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _verCodeButton.frame = CGRectMake(0, 10, 80, 20);
+        _verCodeButton.frame = CGRectMake(0, (textField.fHeight - 30) / 2.0, 80, 30);
         _verCodeButton.backgroundColor = [UIColor blueColor];
         _verCodeButton.layer.cornerRadius = 5;
         _verCodeButton.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_24px];

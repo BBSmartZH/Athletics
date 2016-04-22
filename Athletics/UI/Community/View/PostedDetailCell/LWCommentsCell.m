@@ -53,6 +53,12 @@ static CGFloat k_left = 10.0f;
     _label.attributedText = string;
 }
 
++ (CGFloat)cellHeightWith:(id)model {
+    CGFloat height = 0.0f;
+    
+    return height;
+}
+
 +(NSString *)cellIdentifier
 {
     return @"LWCommentsCellIdentifier";

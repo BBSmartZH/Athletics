@@ -34,11 +34,8 @@
 /**
  *  提示信息
  */
-- (void)postMessage:(NSString *)message delay:(BOOL)delay;
 - (void)postMessage:(NSString *)message;
-- (void)postSuccessMessage:(NSString *)message delay:(BOOL)delay;
 - (void)postSuccessMessage:(NSString *)message;
-- (void)postErrorMessage:(NSString *)message delay:(BOOL)delay;
 - (void)postErrorMessage:(NSString *)message;
 
 - (void)fadeInWithView:(UIView *)fadeView duration:(NSTimeInterval)duration;

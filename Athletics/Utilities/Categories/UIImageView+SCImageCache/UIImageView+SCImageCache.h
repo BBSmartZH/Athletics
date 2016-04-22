@@ -23,4 +23,5 @@ static NSString *scDefaultAvatarImage = @"mine_default_avatar";
 
 - (void)scImageWithURL:(NSString *)url placeholderImage:(UIImage *)placeholder progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock;
 
+
 @end

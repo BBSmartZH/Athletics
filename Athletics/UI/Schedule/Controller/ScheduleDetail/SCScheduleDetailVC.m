@@ -173,6 +173,14 @@ static CGFloat kscore = 1.0;
     }
 }
 
+- (UIView *)topView {
+    if (_topView) {
+        _topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, 140)];
+        
+    }
+    return _topView;
+}
+
 - (void)uiConfig {
     
     _scrollView = [[UIScrollView alloc]init];

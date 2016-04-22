@@ -9,10 +9,12 @@
 
 
 #import "SCPhotoZoomView.h"
+#import "MBProgressHUD.h"
 
 @interface SCPhotoZoomView ()<UIScrollViewDelegate>
 {
     BOOL _isLarge;
+    MBProgressHUD *_HUD;
 }
 
 @property (nonatomic, strong) UIImageView *mainImageView;
@@ -82,7 +84,7 @@
             
             CGFloat progress = (float)receivedSize / expectedSize;
             
-//            [weakSelf performSelectorOnMainThread:@selector(changeProgressWithProgress:) withObject:[NSNumber numberWithFloat:progress] waitUntilDone:NO];
+            [weakSelf performSelectorOnMainThread:@selector(changeProgressWith:) withObject:[NSNumber numberWithFloat:progress] waitUntilDone:NO];
         }
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (error == nil) { //下载成功
@@ -96,6 +98,22 @@
         }
     }];
     
+}
+
+#pragma mark - 改变进度条
+- (void)changeProgressWith:(NSNumber*)progress{
+    if (!_HUD) {
+        _HUD = [MBProgressHUD showHUDAddedTo:self animated:YES];
+        _HUD.userInteractionEnabled = NO;
+        _HUD.margin = 10.0f;
+        _HUD.mode = MBProgressHUDModeDeterminate;
+        _HUD.label.text = @"loading...";
+    }
+    if ([progress floatValue] < 1.0) {
+        _HUD.progress = [progress floatValue];
+    }else {
+        [_HUD hideAnimated:YES];
+    }
 }
 
 - (void)setImageInset:(UIEdgeInsets)imageInset {

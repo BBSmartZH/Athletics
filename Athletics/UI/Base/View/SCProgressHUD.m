@@ -50,7 +50,7 @@
     return HUD;
 }
 
-//延时是为了避免弹alert时提示会立马消失
+
 + (void)postAlertWithMessage:(NSString *)message {
     [[TKAlertCenter defaultCenter] postAlertWithMessage:message];
 }

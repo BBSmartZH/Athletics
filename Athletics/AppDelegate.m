@@ -11,6 +11,7 @@
 
 #import "SCAnalyticsManager.h"
 #import "SCShareManager.h"
+#import "SCNetworkStatusManager.h"
 
 @interface AppDelegate ()
 
@@ -29,6 +30,8 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    [SCNetworkStatusManager startMonitorNetworkStatus];
     
     // 开启键盘自适应管理功能
     [IQKeyboardManager sharedManager].enable = YES;
