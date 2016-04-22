@@ -13,7 +13,7 @@
 {
     UIActivityIndicatorView *m_activityView;
     UIImageView             *_up2TopImageView;
-    
+    MBProgressHUD           *_messageHUD;
 }
 @end
 
@@ -53,6 +53,7 @@
         [self.m_navBar setLeftButtonImage:[UIImage imageNamed:@"icon_close"]];
     }
 
+    
 }
 
 - (void)setTitle:(NSString *)title {
@@ -142,51 +143,29 @@
     return backView;
 }
 
-/**
- *  提示信息   延时是为了避免弹alert时提示会立马消失
- */
-- (void)postMessage:(NSString *)message delay:(BOOL)delay {
-    if (delay) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [SCProgressHUD postAlertWithMessage:message];
-        });
-    }else {
-        [SCProgressHUD postAlertWithMessage:message];
-    }
-}
-
 - (void)postMessage:(NSString *)message {
-    [self postMessage:message delay:NO];
-}
-
-- (void)postSuccessMessage:(NSString *)message delay:(BOOL)delay {
-    if (delay) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [SCProgressHUD postSuccessAlertMessage:message];
-        });
-    }else {
-        [SCProgressHUD postSuccessAlertMessage:message];
+    if (_messageHUD) {
+        [_messageHUD hideAnimated:YES];
     }
+    _messageHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    _messageHUD.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
+    _messageHUD.bezelView.layer.opacity = 0.7;
+    _messageHUD.contentColor = [UIColor whiteColor];
+    _messageHUD.bezelView.color = [UIColor blackColor];
+    _messageHUD.margin = 10.0f;
+    _messageHUD.userInteractionEnabled = NO;
+    _messageHUD.mode = MBProgressHUDModeText;
+    _messageHUD.label.text = message;
+    
+    [_messageHUD hideAnimated:YES afterDelay:1.5f];
 }
-
 - (void)postSuccessMessage:(NSString *)message {
-    [self postSuccessMessage:message delay:NO];
-}
-
-- (void)postErrorMessage:(NSString *)message delay:(BOOL)delay {
-    if (delay) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [SCProgressHUD postErrorAlertMessage:message];
-        });
-    }else {
-        [SCProgressHUD postErrorAlertMessage:message];
-    }
+    [self postMessage:message];
 }
 
 - (void)postErrorMessage:(NSString *)message {
-    [self postErrorMessage:message delay:NO];
+    [self postMessage:message];
 }
-
 
 //- (void)setHttpOperation:(AFHTTPRequestOperation *)httpOperation {
 //    if (_httpOperation != httpOperation) {

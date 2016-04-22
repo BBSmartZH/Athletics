@@ -613,7 +613,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 - (void)setMargin:(CGFloat)margin {
-    if (margin != margin) {
+    if (_margin != margin) {
         _margin = margin;
         [self setNeedsUpdateConstraints];
     }

@@ -101,7 +101,6 @@
     };
     customizeVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:customizeVC animated:YES];
-    
 }
 
 - (void)topScrollButtonClicked:(SCTopButton *)sender {

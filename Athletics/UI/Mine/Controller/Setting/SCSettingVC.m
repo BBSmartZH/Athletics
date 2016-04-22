@@ -12,7 +12,14 @@
 #import "SCAboutVC.h"
 #import "SCLoginVC.h"
 #import "LWModifyPswdVC.h"
+#import "SCFeedbackVC.h"
+
+#import "SDWebImageManager.h"
+
 @interface SCSettingVC ()
+{
+    NSString *_imageCacheSizeStr;
+}
 
 @end
 
@@ -38,6 +45,14 @@ static NSString *commonCellId = @"SCCommonCell";
     [_tableView registerClass:[SCCommonCell class] forCellReuseIdentifier:commonCellId];
     
     [SCUserInfoManager setIsLogin:YES];
+    
+    _imageCacheSizeStr = @"0K";
+    NSUInteger size = [SDWebImageManager sharedManager].imageCache.getSize;
+    if (size < 1024 * 1024) {
+        _imageCacheSizeStr = [NSString stringWithFormat:@"%luK", (unsigned long)size / 1024];
+    }else if (size < 1024 * 1024 * 1024) {
+        _imageCacheSizeStr = [NSString stringWithFormat:@"%luM", (unsigned long)size / (1024 * 1024)];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -76,6 +91,7 @@ static NSString *commonCellId = @"SCCommonCell";
         }
     }else if (indexPath.section == 1) {
         cell.leftLabel.text = @"清除缓存";
+        cell.rightLabel.text = _imageCacheSizeStr;
     }else {
         if (indexPath.row == 0) {
             cell.leftLabel.text = @"意见反馈";
@@ -108,7 +124,7 @@ static NSString *commonCellId = @"SCCommonCell";
         if (indexPath.row == 0) {
             if ([SCUserInfoManager isLogin]) {
                 //退出登录？
-                
+                [SCUserInfoManager setIsLogin:NO];
             }else {
                 //登录
                 SCLoginVC *loginVC = [[SCLoginVC alloc] init];
@@ -120,17 +136,40 @@ static NSString *commonCellId = @"SCCommonCell";
             }
 
         }else if (indexPath.row == 1) {
-            LWModifyPswdVC *modifyVC = [[LWModifyPswdVC alloc]init];
-            [self.navigationController pushViewController:modifyVC animated:YES];
+            if ([SCUserInfoManager isLogin]) {
+                LWModifyPswdVC *modifyVC = [[LWModifyPswdVC alloc]init];
+                [self.navigationController pushViewController:modifyVC animated:YES];
+            }else {
+                SCLoginVC *loginVC = [[SCLoginVC alloc] init];
+                [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+                    if (result) {
+                        [_tableView reloadData];
+                    }
+                }];
+            }
         }
 
     }else if (indexPath.section == 1) {
         //清除缓存
         
+        [[SDWebImageManager sharedManager].imageCache clearDiskOnCompletion:^{
+            NSUInteger size = [SDWebImageManager sharedManager].imageCache.getSize;
+            if (size < 1024 * 1024) {
+                _imageCacheSizeStr = [NSString stringWithFormat:@"%luK", (unsigned long)size / 1024];
+            }else if (size < 1024 * 1024 * 1024) {
+                _imageCacheSizeStr = [NSString stringWithFormat:@"%luM", (unsigned long)size / (1024 * 1024)];
+            }
+            
+            [self postMessage:@"清理成功"];
+            
+            [_tableView reloadData];
+        }];
+        
     }else {
         if (indexPath.row == 0) {
             //意见反馈
-            
+            SCFeedbackVC *feedbackVC = [[SCFeedbackVC alloc] init];
+            [self.navigationController pushViewController:feedbackVC animated:YES];
         }else if (indexPath.row == 1) {
             //用着不错，给个好评
             

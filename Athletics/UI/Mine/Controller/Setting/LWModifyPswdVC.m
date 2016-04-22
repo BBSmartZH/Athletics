@@ -121,10 +121,10 @@ static NSString *cellID = @"cellID";
     textField.leftView.backgroundColor = [UIColor clearColor];
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    textField.returnKeyType = type == 1 ? UIReturnKeyNext : UIReturnKeyDone;
+    textField.returnKeyType = type == 2 ? UIReturnKeyNext : UIReturnKeyDone;
     textField.leftViewMode = UITextFieldViewModeAlways;
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 60, textField.fHeight)];
-    label.textAlignment = NSTextAlignmentCenter;
+    label.textAlignment = NSTextAlignmentRight;
     label.textColor = kWord_Color_High;
     NSString *labelText;
     if (type == 1) {
@@ -136,7 +136,7 @@ static NSString *cellID = @"cellID";
     }
     label.font = [UIFont systemFontOfSize:kWord_Font_28px];
     label.text = labelText;
-    textField.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,60+20, textField.fHeight)];
+    textField.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,label.fWidth + 20, textField.fHeight)];
     [textField.leftView addSubview:label];
     return textField;
 }
