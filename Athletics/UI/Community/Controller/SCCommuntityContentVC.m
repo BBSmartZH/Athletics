@@ -21,6 +21,7 @@
     UIButton *_latestButton;//最新
     UIButton *_currentButton;
     UIView   *_slideLine;
+    BOOL _needUpdate;
 }
 
 @end
@@ -30,8 +31,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     self.m_navBar.hidden = YES;
     
+    _needUpdate = YES;
+
     _selectedView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, 44)];
     _selectedView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_selectedView];
@@ -69,7 +73,30 @@
     
     
     
-    [_tableView reloadData];
+    
+}
+
+- (BOOL)isUpdated {
+    return !_needUpdate;
+}
+
+- (void)updateData {
+    [self headerBeginRefreshing];
+
+}
+
+- (void)refreshData {
+    _needUpdate = NO;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self headerEndRefreshing];
+        [_tableView reloadData];
+
+        _needUpdate = YES;
+    });
+}
+
+- (void)loadModeData {
     
 }
 

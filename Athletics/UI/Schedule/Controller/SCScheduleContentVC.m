@@ -15,6 +15,7 @@
 @interface SCScheduleContentVC ()
 {
     SCAdView *_adView;
+    BOOL _needUpdate;
 }
 
 @end
@@ -33,6 +34,7 @@
     // Do any additional setup after loading the view.
     self.m_navBar.hidden = YES;
     
+    _needUpdate = YES;
     
     [_tableView registerClass:[SCScheduleCell class] forCellReuseIdentifier:[SCScheduleCell cellIdentifier]];
     
@@ -64,7 +66,30 @@
     _adView.adTitleArray = titles;
     _adView.imageLinkURL = imagesURL;
     
-    [_tableView reloadData];
+    
+}
+
+- (BOOL)isUpdated {
+    return !_needUpdate;
+}
+
+- (void)updateData {
+    [self headerBeginRefreshing];
+
+}
+
+- (void)refreshData {
+    _needUpdate = NO;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self headerEndRefreshing];
+        [_tableView reloadData];
+
+        _needUpdate = YES;
+    });
+}
+
+- (void)loadModeData {
     
 }
 

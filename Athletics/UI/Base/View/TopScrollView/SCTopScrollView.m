@@ -84,8 +84,6 @@ static CGFloat bgInset = 2.0f;
         _bgView.frame = CGRectMake(sender.frame.origin.x - bgInset, sender.frame.origin.y, sender.frame.size.width + bgInset * 2, sender.bounds.size.height);
     }];
     
-
-    
     if (_scrollView.contentSize.width > self.bounds.size.width) {
         CGFloat offsetX = 0.0f;
         if (sender.center.x <= _scrollView.bounds.size.width / 2.0) {

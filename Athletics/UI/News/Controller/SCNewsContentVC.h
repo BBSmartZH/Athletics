@@ -12,4 +12,8 @@
 
 @property (nonatomic, assign) UIViewController *parentVC;
 
+@property (nonatomic, assign, readonly) BOOL isUpdated;
+
+- (void)updateData;
+
 @end
