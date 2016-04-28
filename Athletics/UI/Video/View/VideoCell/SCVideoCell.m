@@ -8,6 +8,8 @@
 
 #import "SCVideoCell.h"
 
+#import "SCVideoListModel.h"
+
 @interface SCVideoCell ()
 {
     UIImageView *_leftImageV;
@@ -15,6 +17,7 @@
     UILabel *_durationLabel;
     UILabel *_titleLabel;
     UILabel *_timeLabel;
+    SCVideoListDataModel *_model;
 }
 
 @end
@@ -99,10 +102,12 @@ static float scale = 0.75;
     
 };
 
-- (void)createLayoutWith:(id)model {
-    _titleLabel.text = @"是快递费三法师的新东方的发布过是东方的发布过是";
-    _timeLabel.text = @"8小时前";//5秒前  12分钟前   2016-04-04
-    _durationLabel.text = @"53分34秒";
+- (void)createLayoutWith:(SCVideoListDataModel *)model {
+    _model = model;
+    [_leftImageV scImageWithURL:@"http://img.dota2.com.cn/dota2/5a/91/5a91b4e0c0f3f06a91b2047629ad1ffb1450093189.jpg" placeholderImage:nil];
+    _titleLabel.text = @"大神学院 W33欧服第一人（地卜师）超神第一视角教学";
+    _timeLabel.text = @"11-23";//5秒前  12分钟前   2016-04-04
+    _durationLabel.text = @"45分34秒";
 }
 
 + (NSString *)cellIdentifier {

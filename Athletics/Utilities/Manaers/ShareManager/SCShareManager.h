@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    SCShareResultCancel = 1,
+    SCShareResultSuccess = 2,
+    SCShareResultFail = 3,
+}SCShareResult;
+
+typedef void(^SCShareComplation)(SCShareResult result);
+
 @interface SCShareManager : NSObject
 
 + (instancetype)shared;
@@ -15,8 +23,20 @@
 
 + (void)startSocialShare;
 
++(void)applicationDidBecomeActive;
 + (BOOL)handleOpenURL:(NSURL *)openUrl;
 
-- (void)qqLoginAuth;
+- (void)shareIn:(UIViewController *)controller
+          title:(NSString *)title
+       imageUrl:(NSString *)imageUrl
+           desc:(NSString *)desc
+       shareUrl:(NSString *)shareUrl;
+
+- (void)shareIn:(UIViewController *)controller
+          title:(NSString *)title
+       imageUrl:(NSString *)imageUrl
+           desc:(NSString *)desc
+       shareUrl:(NSString *)shareUrl
+     complation:(SCShareComplation)complation;
 
 @end

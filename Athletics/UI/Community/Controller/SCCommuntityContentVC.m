@@ -150,6 +150,8 @@
         number = @3;
     }
     
+    number = @1;
+    
     if (number.integerValue > 0) {
         SCPostsImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsImageCell cellIdentifier] forIndexPath:indexPath];
         [cell createLayoutWith:number];
@@ -181,7 +183,8 @@
     }else {
         number = @3;
     }
-    
+    number = @1;
+
     if (number.integerValue > 0) {
         return [tableView fd_heightForCellWithIdentifier:[SCPostsImageCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCPostsImageCell *cell) {
             [cell createLayoutWith:number];

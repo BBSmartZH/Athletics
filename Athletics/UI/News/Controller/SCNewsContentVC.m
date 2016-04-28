@@ -14,6 +14,8 @@
 #import "SCNewsPhotosPackVC.h"
 #import "SCNewsArticlePackVC.h"
 
+#import "SCNewsListModel.h"
+
 @interface SCNewsContentVC ()
 {
     SCAdView *_adView;
@@ -49,14 +51,14 @@
     _tableView.tableHeaderView = _adView;
     
     NSArray *imagesURL = @[
-                           @"https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a41eb338dd33c895a62bcb3bb72e47c2/5fdf8db1cb134954a2192ccb524e9258d1094a1e.jpg",
-                           @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg",
-                           @"http://pic14.nipic.com/20110522/7411759_164157418126_2.jpg"
+                           @"http://img.dota2.com.cn/dota2/38/5b/385bdfec72352d362c86ae46d95e0dca1461307283.jpg",
+                           @"http://img.dota2.com.cn/dota2/de/fc/defc5969e325b72d5fb155a5a75370ec1461307258.jpg",
+                           @"http://www.dota2.com.cn/resources/jpg/150205/10251423116795949.jpg"
                            ];
     
-    NSArray *titles = @[@"感谢您的支持，如果下载的",
-                        @"代码在使用过程中出现问题",
-                        @"您可以发邮件到qzycoder@163.com",
+    NSArray *titles = @[@"Empire.Ramzes专访",
+                        @"ESL ONE马尼拉前瞻",
+                        @"意见反馈",
                         ];
     
     _adView.adTitleArray = titles;
@@ -77,45 +79,85 @@
 - (void)refreshData {
     _needUpdate = NO;
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    self.sessionTask = [SCNetwork newsListWithChannelId:@"" page:_currentPageIndex success:^(SCNewsListModel *model) {
         [self headerEndRefreshing];
         
+        [_datasource removeAllObjects];
+        [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
-
-        _needUpdate = YES;
-    });
+        
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex++;
+            [self footerHidden:NO];
+        }
+        
+    } message:^(NSString *resultMsg) {
+        [self headerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
+    
+    
+    
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self headerEndRefreshing];
+//        
+//        [_tableView reloadData];
+//
+//        _needUpdate = YES;
+//    });
 }
 
 - (void)loadModeData {
-    
+    self.sessionTask = [SCNetwork newsListWithChannelId:@"" page:_currentPageIndex success:^(SCNewsListModel *model) {
+        [self footerEndRefreshing];
+        
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex++;
+        }
+        
+    } message:^(NSString *resultMsg) {
+        [self footerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 30;
+    return _datasource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    if (indexPath.row % 2 == 0) {
-        SCNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsCell cellIdentifier] forIndexPath:indexPath];
-        [cell createLayoutWith:@1];
+    
+    SCNewsListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+    
+    if ([SCGlobaUtil getInt:model.type] == 3) {
+        LWPhotosNormalCell *cell = [tableView dequeueReusableCellWithIdentifier:[LWPhotosNormalCell cellIdentifier] forIndexPath:indexPath];
+        [cell createLayoutWith:model];
         return cell;
     }
-    LWPhotosNormalCell *cell = [tableView dequeueReusableCellWithIdentifier:[LWPhotosNormalCell cellIdentifier] forIndexPath:indexPath];
-    [cell createLayoutWith:@1];
+    
+    SCNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsCell cellIdentifier] forIndexPath:indexPath];
+    [cell createLayoutWith:model];
     return cell;
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row % 2 == 0) {
-        return [tableView fd_heightForCellWithIdentifier:[SCNewsCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCNewsCell *cell) {
-            [cell createLayoutWith:@1];
-        }];
+    
+    SCNewsListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+    
+    if ([SCGlobaUtil getInt:model.type] == 3) {
+
+//        return [LWPhotosNormalCell heightForRowWithPhotosWithCounts:(int)(model.images.count)];
+        return [LWPhotosNormalCell heightForRowWithPhotosWithCounts:2];
     }
-//    return [tableView fd_heightForCellWithIdentifier:[LWPhotosNormalCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(LWPhotosNormalCell *cell) {
-//        [cell createLayoutWith:@1];
-//    }];
-    return [LWPhotosNormalCell heightForRowWithPhotosWithCounts:2];
+    
+    return [tableView fd_heightForCellWithIdentifier:[SCNewsCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCNewsCell *cell) {
+        [cell createLayoutWith:model];
+    }];
 }
 
 

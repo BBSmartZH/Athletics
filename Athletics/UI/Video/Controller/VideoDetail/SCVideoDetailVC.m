@@ -55,7 +55,7 @@
     
     _playerHeight = self.view.bounds.size.width * (9 / 16.0f);
     
-    _player = [[CDPVideoPlayer alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, _playerHeight) url:@"http://v.theonion.com/onionstudios/video/3158/640.mp4" delegate:self haveOriginalUI:YES];
+    _player = [[CDPVideoPlayer alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, _playerHeight) url:@"http://msgpush.dota2.com.cn/m3u8/1461687771473.m3u8" delegate:self haveOriginalUI:YES];
     [self.view addSubview:_player];
     [self.view bringSubviewToFront:self.m_navBar];
 
@@ -93,7 +93,7 @@
     _titleLabel.font = [UIFont systemFontOfSize:kWord_Font_30px];
     [_headerView addSubview:_titleLabel];
     
-    _titleLabel.text = @"这是标题啊啊啊啊啊啊啊啊啊啊啊啊";
+    _titleLabel.text = @"Dota2大神学院";
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);

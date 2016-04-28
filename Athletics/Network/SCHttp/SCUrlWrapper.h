@@ -12,6 +12,24 @@
 
 #pragma mark - **************************************************************
 
+#pragma mark - app版本更新
+/**
+ *  app版本更新
+ *
+ *  @return
+ */
++ (NSString *)appUpdateUrl;
+
+
+#pragma mark - **************************************************************
+#pragma mark - 注册
+/**
+ *  注册
+ *
+ *  @return
+ */
++ (NSString *)registerUrl;
+
 #pragma mark - 登录
 /**
  *  登录
@@ -27,6 +45,14 @@
  *  @return
  */
 + (NSString *)logoutUrl;
+
+#pragma mark - userInfo
+/**
+ *  userInfo
+ *
+ *  @return
+ */
++ (NSString *)userInfoUrl;
 
 #pragma mark - 发送验证码
 /**
@@ -52,7 +78,186 @@
  */
 + (NSString *)userUpdatePasswordUrl;
 
+#pragma mark - 更新头像和昵称
+/**
+ *  更新头像和昵称
+ *
+ *  @return
+ */
++ (NSString *)userUpdateInfoUrl;
+
+#pragma mark - 上传图片
+/**
+ *  上传图片
+ *
+ *  @return
+ */
++ (NSString *)uploadImageUrl;
+
 #pragma mark - **************************************************************
+
+#pragma mark - 获取游戏列表
+/**
+ *  获取游戏列表
+ *
+ *  @return
+ */
++ (NSString *)gameListUrl;
+
+#pragma mark - **************************************************************
+
+#pragma mark - 资讯列表
+/**
+ *  资讯列表
+ *
+ *  @return
+ */
++ (NSString *)newsListUrl;
+
+#pragma mark - 资讯详情
+/**
+ *  资讯详情
+ *
+ *  @return
+ */
++ (NSString *)newsInfoUrl;
+
+#pragma mark - 资讯的评论
+/**
+ *  资讯的评论
+ *
+ *  @return
+ */
++ (NSString *)newsCommentListUrl;
+
+#pragma mark - 资讯添加评论
+/**
+ *  资讯添加评论
+ *
+ *  @return
+ */
++ (NSString *)newsCommentAddUrl;
+
+#pragma mark - 为资讯评论点赞
+/**
+ *  为资讯评论点赞
+ *
+ *  @return
+ */
++ (NSString *)newsCommentClickedUrl;
+#pragma mark - **************************************************************
+
+
+
+
+#pragma mark - **************************************************************
+
+#pragma mark - 查询赛事
+/**
+ *  查询赛事
+ *
+ *  @return
+ */
++ (NSString *)matchLiveListUrl;
+
+#pragma mark - 赛事赛程
+/**
+ *  赛事赛程
+ *
+ *  @return
+ */
++ (NSString *)matchCourseListUrl;
+
+#pragma mark - 查询比赛
+/**
+ *  查询比赛
+ *
+ *  @return
+ */
++ (NSString *)matchUnitQuaryUrl;
+
+#pragma mark - 查询赛况（图文直播）
+/**
+ *  查询赛况（图文直播）
+ *
+ *  @return
+ */
++ (NSString *)matchUnitliveListUrl;
+
+#pragma mark - 查询比赛视频
+/**
+ *  查询比赛视频
+ *
+ *  @return
+ */
++ (NSString *)matchUnitvideoListUrl;
+
+#pragma mark - 比赛的评论
+/**
+ *  比赛的评论
+ *
+ *  @return
+ */
++ (NSString *)matchCommentListUrl;
+
+#pragma mark - 评论比赛
+/**
+ *  评论比赛
+ *
+ *  @return
+ */
++ (NSString *)matchCommentAddUrl;
+
+#pragma mark - **************************************************************
+
+#pragma mark - 查询赛事栏目视频
+/**
+ *  查询赛事栏目视频
+ *
+ *  @return
+ */
++ (NSString *)matchVideoListUrl;
+
+#pragma mark - 查询赛事视频详情
+/**
+ *  查询赛事视频详情
+ *
+ *  @return
+ */
++ (NSString *)matchVideoDetailUrl;
+
+#pragma mark - 当前视频相关视频
+/**
+ *  当前视频相关视频
+ *
+ *  @return
+ */
++ (NSString *)matchVideoRelatedListUrl;
+
+#pragma mark - 当前视频评论
+/**
+ *  当前视频评论
+ *
+ *  @return
+ */
++ (NSString *)matchVideoCommentListUrl;
+
+#pragma mark - 评论当前视频
+/**
+ *  评论当前视频
+ *
+ *  @return
+ */
++ (NSString *)matchVideoCommentAddUrl;
+
+#pragma mark - 对当前评论点赞
+/**
+ *  对当前评论点赞
+ *
+ *  @return
+ */
++ (NSString *)matchVideoCommentLikeUrl;
+
 
 
 @end

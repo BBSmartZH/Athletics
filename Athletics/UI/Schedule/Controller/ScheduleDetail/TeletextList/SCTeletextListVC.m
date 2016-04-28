@@ -26,6 +26,10 @@
     [_tableView registerClass:[SCTeletexListCell class] forCellReuseIdentifier:[SCTeletexListCell cellIdentifier]];
 }
 
+- (void)upDateData {
+    [self refreshData];
+}
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;

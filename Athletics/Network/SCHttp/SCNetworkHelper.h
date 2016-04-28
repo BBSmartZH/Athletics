@@ -10,29 +10,34 @@
 #import "AFNetworking.h"
 
 typedef void (^SCSuccessBlock)(NSDictionary *result);
-typedef void (^SCMessageBlock)(NSString *message);
+typedef void (^SCMessageBlock)(NSString *resultMsg);
 
 
 @interface SCNetworkHelper : NSObject
 
-+ (NSURLSessionDataTask *)getWithCmd:(NSString *)cmd
+//+ (NSURLSessionDataTask *)getWithCmd:(NSString *)cmd
+//                              params:(NSDictionary *)params
+//                             success:(SCSuccessBlock)success
+//                             message:(SCMessageBlock)message;
+//
+//+ (NSURLSessionDataTask *)postWithCmd:(NSString *)cmd
+//                               params:(NSDictionary *)params
+//                              success:(SCSuccessBlock)success
+//                              message:(SCMessageBlock)message;
+
++ (NSURLSessionDataTask *)getWithUrl:(NSString *)url
                               params:(NSDictionary *)params
                              success:(SCSuccessBlock)success
                              message:(SCMessageBlock)message;
 
-+ (NSURLSessionDataTask *)postWithCmd:(NSString *)cmd
++ (NSURLSessionDataTask *)postWithUrl:(NSString *)url
                                params:(NSDictionary *)params
                               success:(SCSuccessBlock)success
                               message:(SCMessageBlock)message;
 
-//+ (NSURLSessionDataTask *)getWithUrl:(NSString *)url
-//                              params:(NSDictionary *)params
-//                             success:(SCSuccessBlock)success
-//                             message:(SCMessageBlock)message;
-
-//+ (NSURLSessionDataTask *)postWithUrl:(NSString *)url
-//                               params:(NSDictionary *)params
-//                              success:(SCSuccessBlock)success
-//                              message:(SCMessageBlock)message;
++ (NSURLSessionDataTask *)uploadImageWithUrl:(NSString *)url
+                                       image:(UIImage *)image
+                                   imageType:(NSString *)type                                     success:(SCSuccessBlock)success
+                                     message:(SCMessageBlock)message;
 
 @end

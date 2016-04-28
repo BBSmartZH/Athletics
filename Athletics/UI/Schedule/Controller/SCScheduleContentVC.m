@@ -12,6 +12,8 @@
 #import "SCScheduleCell.h"
 #import "SCScheduleListVC.h"
 
+#import "SCMatchLiveListModel.h"
+
 @interface SCScheduleContentVC ()
 {
     SCAdView *_adView;
@@ -53,14 +55,14 @@
     
     
     NSArray *imagesURL = @[
-                           @"https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a41eb338dd33c895a62bcb3bb72e47c2/5fdf8db1cb134954a2192ccb524e9258d1094a1e.jpg",
-                           @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg",
-                           @"http://pic14.nipic.com/20110522/7411759_164157418126_2.jpg"
+                           @"http://img.dota2.com.cn/dota2/38/5b/385bdfec72352d362c86ae46d95e0dca1461307283.jpg",
+                           @"http://img.dota2.com.cn/dota2/de/fc/defc5969e325b72d5fb155a5a75370ec1461307258.jpg",
+                           @"http://www.dota2.com.cn/resources/jpg/150205/10251423116795949.jpg"
                            ];
     
-    NSArray *titles = @[@"感谢您的支持，如果下载的",
-                        @"代码在使用过程中出现问题",
-                        @"您可以发邮件到qzycoder@163.com",
+    NSArray *titles = @[@"Empire.Ramzes专访",
+                        @"ESL ONE马尼拉前瞻",
+                        @"意见反馈",
                         ];
     
     _adView.adTitleArray = titles;
@@ -81,6 +83,27 @@
 - (void)refreshData {
     _needUpdate = NO;
     
+    
+    self.sessionTask = [SCNetwork matchLiveListWithChannelId:@"" page:_currentPageIndex success:^(SCMatchLiveListModel *model) {
+        [self headerEndRefreshing];
+        
+        [_datasource removeAllObjects];
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex++;
+            [self footerHidden:NO];
+        }
+        
+    } message:^(NSString *resultMsg) {
+        [self headerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
+    
+    
+    
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self headerEndRefreshing];
         [_tableView reloadData];
@@ -90,11 +113,24 @@
 }
 
 - (void)loadModeData {
-    
+    self.sessionTask = [SCNetwork matchLiveListWithChannelId:@"" page:_currentPageIndex success:^(SCMatchLiveListModel *model) {
+        [self footerEndRefreshing];
+        
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex++;
+        }
+        
+    } message:^(NSString *resultMsg) {
+        [self footerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 10;
+    return _datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -102,9 +138,10 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    SCMatchLiveListDataModel *model = [_datasource objectAtIndex:indexPath.row];
     
     SCScheduleCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCScheduleCell cellIdentifier] forIndexPath:indexPath];
-    [cell createLayoutWith:@1];
+    [cell createLayoutWith:model];
     return cell;
 }
 
@@ -128,8 +165,10 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    SCMatchLiveListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+
     return [tableView fd_heightForCellWithIdentifier:[SCScheduleCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCScheduleCell *cell) {
-        [cell createLayoutWith:@1];
+        [cell createLayoutWith:model];
     }];
 }
 

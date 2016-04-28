@@ -55,7 +55,6 @@
 //    SCVideoVC *videoVC = [[SCVideoVC alloc] init];
 //    [self.parentVC.navigationController pushViewController:videoVC animated:YES];
     
-    [[SCShareManager shared] qqLoginAuth];
     
 }
 

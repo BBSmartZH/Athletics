@@ -11,6 +11,11 @@
 #import "SCCommonCell.h"
 #import "SCLoginVC.h"
 #import "SCSettingVC.h"
+#import "SCMineInfoVC.h"
+#import "SCUserInfoModel.h"
+
+#import "SCMyPostsVC.h"
+#import "SCAppointVC.h"
 
 @interface LWMineVC_iPhone ()
 {
@@ -23,6 +28,8 @@
     UIButton        *_loginButton;
     UILabel         *_nameLabel;
     UILabel         *_phoneLabel;
+    
+    SCUserModel *_model;
 }
 
 @end
@@ -38,6 +45,26 @@ static NSString *commonCellId = @"SCCommonCell";
         
     }
     return self;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self animationWithDuration:1.1];
+
+    if ([SCUserInfoManager isLogin]) {
+        self.sessionTask = [SCNetwork userInfoSuccess:^(SCUserInfoModel *model) {
+            _model = model.data;
+            [SCUserInfoManager updateUserInfo:_model];
+            
+            [self updateUserInfo];
+            
+        } message:^(NSString *resultMsg) {
+            [self postErrorMessage:resultMsg];
+            
+        }];
+    }
+    
 }
 
 - (void)viewDidLoad {
@@ -159,49 +186,43 @@ static NSString *commonCellId = @"SCCommonCell";
     }];
     
     
-    if (![SCUserInfoManager isLogin]) {
+    [self updateUserInfo];
+
+}
+
+- (void)updateUserInfo {
+    if ([SCUserInfoManager isLogin]) {// 当前已经是登录状态，则不处理
+        _nameLabel.hidden = NO;
+        _phoneLabel.hidden = NO;
+        _loginButton.hidden = YES;
+        _nameLabel.text = [SCUserInfoManager userName];
+        _phoneLabel.text = [SCUserInfoManager mobile].length > 7 ? [[SCUserInfoManager mobile] stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"]: @"";
+        [_avatar scImageWithURL:[SCUserInfoManager avatar] placeholderImage:kImageWithName(@"mine_default_avatar")];
+    }else {
         _nameLabel.text = nil;
         _nameLabel.hidden = YES;
         _phoneLabel.text = nil;
         _phoneLabel.hidden = YES;
         _loginButton.hidden = NO;
         [_avatar scImageWithURL:nil placeholderImage:kImageWithName(@"mine_default_avatar")];
-    }else {
-//        _nameLabel.text = [HYBUserInfoTool nickName];
-//        _phoneLabel.text = [HYBUserInfoTool mobilePhone].length > 7 ? [[HYBUserInfoTool mobilePhone] stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"]: @"";
-//        _loginButton.hidden = YES;
-//        [_avatar scImageWithURL:[NSURL URLWithString:[HYBUserInfoTool headImageView]] placeholderImage:kImageWithName(@"mine_default_avatar")];
     }
 }
 
 - (void)p_loginSuccessfulNotif:(NSNotification *)userInfo {
     if ([SCUserInfoManager isLogin]) {// 当前已经是登录状态，则不处理
-//        _nameLabel.text = [HYBUserInfoTool nickName];
-//        _phoneLabel.text = [HYBUserInfoTool mobilePhone].length > 7 ? [[HYBUserInfoTool mobilePhone] stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"]: @"";
-//        _loginButton.hidden = YES;
-//        [_avatar scImageWithURL:[NSURL URLWithString:[HYBUserInfoTool headImageView]] placeholderImage:kImageWithName(@"mine_default_avatar")];
+        [self updateUserInfo];
     }
     [_tableView reloadData];
     
 }
 
 - (void)p_logoutSuccessfulNotif:(NSNotification *)userInfo {
-//    _userModel = nil;
+    _model = nil;
     if (![SCUserInfoManager isLogin]) {// 当前已经是未登录状态，则不处理
         [self.navigationController popToRootViewControllerAnimated:YES];
-        _nameLabel.text = nil;
-        _nameLabel.hidden = YES;
-        _phoneLabel.text = nil;
-        _phoneLabel.hidden = YES;
-        _loginButton.hidden = NO;
-//        [_avatar scImageWithURL:nil placeholderImage:kImageWithName(@"mine_default_avatar")];
+        [self updateUserInfo];
     }
     [_tableView reloadData];
-}
-
-- (void)p_loginSuccessChanges {
-//    _nameLabel.text = [HYBUserInfoTool nickName];
-//    _phoneLabel.text = [HYBUserInfoTool mobilePhone].length > 7 ? [[HYBUserInfoTool mobilePhone] stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"]: @"";
 }
 
 - (void)p_userInfoTap:(UITapGestureRecognizer *)sender {
@@ -209,13 +230,13 @@ static NSString *commonCellId = @"SCCommonCell";
         SCLoginVC *loginVC = [[SCLoginVC alloc] init];
         [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
             if (result) {
-                [self p_loginSuccessChanges];
+                
             }
         }];
     }else {
-//        SCMineInfoVC_iPhone *infoVC = [[SCMineInfoVC_iPhone alloc] init];
-//        infoVC.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:infoVC animated:YES];
+        SCMineInfoVC *infoVC = [[SCMineInfoVC alloc] init];
+        infoVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:infoVC animated:YES];
     }
 }
 
@@ -230,7 +251,6 @@ static NSString *commonCellId = @"SCCommonCell";
         SCLoginVC *loginVC = [[SCLoginVC alloc] init];
         [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
             if (result) {
-                [self p_loginSuccessChanges];
 //                SCMyMessageVC_iPhone *messageVC = [[SCMyMessageVC_iPhone alloc] init];
 //                messageVC.hidesBottomBarWhenPushed = YES;
 //                [self.navigationController pushViewController:messageVC animated:YES];
@@ -247,7 +267,7 @@ static NSString *commonCellId = @"SCCommonCell";
     SCLoginVC *loginVC = [[SCLoginVC alloc] init];
     [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
         if (result) {
-            [self p_loginSuccessChanges];
+            
         }
     }];
 }
@@ -261,13 +281,15 @@ static NSString *commonCellId = @"SCCommonCell";
 
 #pragma mark - TableViewDatasouse
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return 2;
     }else if (section == 1) {
+        return 1;
+    }else if (section == 2) {
         return 1;
     }
     return 0;
@@ -283,11 +305,14 @@ static NSString *commonCellId = @"SCCommonCell";
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             cell.leftImage = [UIImage imageNamed:@"icon_member_combo"];
-            cell.leftLabel.text = @"我的钱包";
+            cell.leftLabel.text = @"我的帖子";
         }else {
             cell.leftImage = [UIImage imageNamed:@"icon_member_combo"];
-            cell.leftLabel.text = @"积分商城";
+            cell.leftLabel.text = @"我的预约";
         }
+    }else if (indexPath.section == 1) {
+        cell.leftImage = [UIImage imageNamed:@"icon_member_combo"];
+        cell.leftLabel.text = @"消息";
     }else {
         cell.leftImage = [UIImage imageNamed:@"icon_member_combo"];
         cell.leftLabel.text = @"设置";
@@ -306,7 +331,7 @@ static NSString *commonCellId = @"SCCommonCell";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 0) {
+    if (section == 0 || section == 1) {
         return 15.0f;
     }
     return 0.01;
@@ -318,19 +343,41 @@ static NSString *commonCellId = @"SCCommonCell";
     
     NSInteger section = indexPath.section;
     
-    if (section == 0) {
+    if (section == 0 || section == 1) {
         //未登录需要登录
         if (![SCUserInfoManager isLogin]) {
             SCLoginVC *loginVC = [[SCLoginVC alloc] init];
             [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
                 if (result) {
-                    if (indexPath.row == 0) {
-                        
-                    }else if (indexPath.row == 1) {
+                    if (indexPath.section == 0) {
+                        if (indexPath.row == 0) {
+                            SCMyPostsVC *postsVC = [[SCMyPostsVC alloc] init];
+                            postsVC.hidesBottomBarWhenPushed = YES;
+                            [self.navigationController pushViewController:postsVC animated:YES];
+                        }else if (indexPath.row == 1) {
+                            SCAppointVC *appointVC = [[SCAppointVC alloc] init];
+                            appointVC.hidesBottomBarWhenPushed = YES;
+                            [self.navigationController pushViewController:appointVC animated:YES];
+                        }
+                    }else if (indexPath.section == 1) {
                         
                     }
                 }
             }];
+        }else {
+            if (indexPath.section == 0) {
+                if (indexPath.row == 0) {
+                    SCMyPostsVC *postsVC = [[SCMyPostsVC alloc] init];
+                    postsVC.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:postsVC animated:YES];
+                }else if (indexPath.row == 1) {
+                    SCAppointVC *appointVC = [[SCAppointVC alloc] init];
+                    appointVC.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:appointVC animated:YES];
+                }
+            }else if (indexPath.section == 1) {
+                
+            }
         }
     }else {
         SCSettingVC *settingVC = [[SCSettingVC alloc] init];

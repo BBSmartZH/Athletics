@@ -58,7 +58,7 @@ static CGFloat k_top = 15.0f;
         imageSize = CGSizeMake(620, 747);
     }
     
-    _imageView.backgroundColor = [UIColor cyanColor];
+    [_imageView scImageWithURL:@"http://img.78dian.com/user/topic/201604/1461658526_637289.png0" placeholderImage:nil];
 }
 
 + (CGFloat)cellHeightWith:(id)model {

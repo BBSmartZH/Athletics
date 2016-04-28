@@ -37,6 +37,10 @@
 
 }
 
+- (void)upDateData {
+    [self refreshData];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 10;
 }

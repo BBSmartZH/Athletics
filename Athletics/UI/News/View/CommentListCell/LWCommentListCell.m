@@ -7,6 +7,7 @@
 //
 
 #import "LWCommentListCell.h"
+#import "SCNewsCommentListModel.h"
 
 @interface LWCommentListCell ()
 {
@@ -15,6 +16,7 @@
     UILabel         *_detailLabel;
     UILabel         *_numLabel;
     UIButton        *_praiseButton;
+    SCNewsCommentListDataModel *_model;
 }
 @end
 static CGFloat k_left = 10.0f;
@@ -96,12 +98,12 @@ static CGFloat headerImageH = 24.0f;
     
 }
 
--(void)createLayoutWith:(id)model
-{
-    _headerImageV.backgroundColor = k_Base_Color;
-    _nameLabel.text = @"第三方你是";
-    _detailLabel.text = @"南方你vbhVBV的吗他怒吼热价女女不发达让湖人女警花你的呢是干活定不反弹后安防尽快的丧失姑奶奶";
-    _numLabel.text = @"1234";
+-(void)createLayoutWith:(SCNewsCommentListDataModel *)model {
+    _model = model;
+    [_headerImageV scImageWithURL:@"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg" placeholderImage:nil];
+    _nameLabel.text = @"新手请轻虐";
+    _detailLabel.text = @"游戏就是要与时俱进";
+    _numLabel.text = @"14";
 }
 
 + (NSString *)cellidentifier {

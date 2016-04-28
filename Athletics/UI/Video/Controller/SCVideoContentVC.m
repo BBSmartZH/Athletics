@@ -10,6 +10,7 @@
 
 #import "SCVideoCell.h"
 #import "SCVideoDetailVC.h"
+#import "SCVideoListModel.h"
 
 @interface SCVideoContentVC ()
 {
@@ -86,6 +87,26 @@
 - (void)refreshData {
     _needUpdate = NO;
     
+    
+    self.sessionTask = [SCNetwork matchVideoListWithChannelId:@"" type:0 page:_currentPageIndex success:^(SCVideoListModel *model) {
+        [self headerEndRefreshing];
+        
+        [_datasource removeAllObjects];
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex++;
+            [self footerHidden:NO];
+        }
+        
+    } message:^(NSString *resultMsg) {
+        [self headerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
+    
+    
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self headerEndRefreshing];
         [_tableView reloadData];
@@ -95,7 +116,20 @@
 }
 
 - (void)loadModeData {
-    
+    self.sessionTask = [SCNetwork matchVideoListWithChannelId:@"" type:0 page:_currentPageIndex success:^(SCVideoListModel *model) {
+        [self footerEndRefreshing];
+        
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex++;
+        }
+        
+    } message:^(NSString *resultMsg) {
+        [self footerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
 }
 
 - (UIButton *)videoTypeButtonWithTitle:(NSString *)title {
@@ -138,8 +172,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    SCVideoListDataModel *model = [_datasource objectAtIndex:indexPath.row];
     SCVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCVideoCell cellIdentifier] forIndexPath:indexPath];
-    [cell createLayoutWith:@1];
+    [cell createLayoutWith:model];
     return cell;
 }
 
@@ -153,9 +188,10 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    SCVideoListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+
     return [tableView fd_heightForCellWithIdentifier:[SCVideoCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCVideoCell *cell) {
-        [cell createLayoutWith:@1];
+        [cell createLayoutWith:model];
     }];
 }
 

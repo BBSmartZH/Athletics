@@ -47,8 +47,8 @@ static CGFloat imageSpace = 10.0f;
     
     self.m_navBar.hidden = YES;
     
-    _imageArray = @[@"http://pic14.nipic.com/20110522/7411759_164157418126_2.jpg", @"http://inews.gtimg.com/newsapp_match/0/253743855/0", @"http://inews.gtimg.com/newsapp_match/0/253743856/0", @"http://inews.gtimg.com/newsapp_match/0/253743857/0", @"http://inews.gtimg.com/newsapp_match/0/253743858/0", @"http://inews.gtimg.com/newsapp_match/0/253743855/0", @"http://inews.gtimg.com/newsapp_match/0/253743856/0"];
-    _textArray = @[@"aksnsanda", @"腾讯体育4月16日讯 湖人在科比退役时赠送给科比和瓦妮莎两枚退役戒指，戒指上刻着科比的名字，两侧则是20年和黑曼巴的图样，简直太奢华。", @"两枚戒指闪闪发光，都刻着科比-布莱恩特的名字。", @"在总冠军奖杯的前面刻着湖人的字样。", @"戒指的侧面是黑曼巴的字样，刻着2006-2016，这是科比改穿24号的十年。", @"另一侧刻着1996-2005，这是科比穿8号的十年，很有纪念意义。", @"看上去甚至比总冠军戒指还要奢华。"];
+    _imageArray = @[@"http://img.dota2.com.cn/dota2/1d/a3/1da37587e354ec6e9b6d4f9722ae6be61461641722.jpg", @"http://img.dota2.com.cn/dota2/e1/1f/e11f335e2689860cbd14ae0ef0ece64b1461641722.jpg"];
+    _textArray = @[@"6.87更新日志中有诸多内容亟待您的探索。", @"随着更新的发布，本周还将见证马尼拉特级锦标赛预选赛的开锣，中国区预选赛比赛报名时间为2016年4月26日 至 2016年4月30日，比赛时间为4月29日-5月2日。"];
     _number = _imageArray.count;
     
     _offset = 0.0;

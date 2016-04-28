@@ -60,7 +60,7 @@
     label.font = [UIFont systemFontOfSize:kWord_Font_24px];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = kWord_Color_High;
-    label.text = @"上海特锦赛 BO3   4月18日";
+    label.text = @"SGC联赛第一赛季 A组小组赛";
     [view addSubview:label];
     return view;
 }

@@ -12,6 +12,27 @@
 
 #pragma mark - **************************************************************
 
+#pragma mark - app版本更新
+/**
+ *  app版本更新
+ *
+ *  @return
+ */
++ (NSString *)appUpdateUrl {
+    return [self p_wrap:@"/app/update"];
+}
+
+#pragma mark - **************************************************************
+#pragma mark - 注册
+/**
+ *  注册
+ *
+ *  @return
+ */
++ (NSString *)registerUrl {
+    return [self p_wrap:@"/user/register"];
+}
+
 #pragma mark - 登录
 /**
  *  登录
@@ -19,7 +40,7 @@
  *  @return
  */
 + (NSString *)loginUrl {
-    return [self p_wrap:@"/account/master/login"];
+    return [self p_wrap:@"/user/login"];
 }
 
 #pragma mark - 登出
@@ -29,7 +50,17 @@
  *  @return
  */
 + (NSString *)logoutUrl {
-    return [self p_wrap:@"/account/master/logout"];
+    return [self p_wrap:@"/user/logout"];
+}
+
+#pragma mark - userInfo
+/**
+ *  userInfo
+ *
+ *  @return
+ */
++ (NSString *)userInfoUrl {
+    return [self p_wrap:@"/user/info"];
 }
 
 #pragma mark - 发送验证码
@@ -39,7 +70,7 @@
  *  @return
  */
 + (NSString *)smsCodeUrl {
-    return [self p_wrap:@"/account/master/password/msg"];
+    return [self p_wrap:@"/user/send/message"];
 }
 
 #pragma mark - 忘记密码
@@ -49,7 +80,7 @@
  *  @return
  */
 + (NSString *)userForgetPasswordUrl {
-    return [self p_wrap:@"/account/master/password/reset"];
+    return [self p_wrap:@"/user/password/forgot"];
 }
 
 #pragma mark - 修改密码
@@ -59,16 +90,235 @@
  *  @return
  */
 + (NSString *)userUpdatePasswordUrl {
+    return [self p_wrap:@"/user/password/update"];
+}
+
+#pragma mark - 更新头像和昵称
+/**
+ *  更新头像和昵称
+ *
+ *  @return
+ */
++ (NSString *)userUpdateInfoUrl {
+    return [self p_wrap:@"/user/update/info"];
+}
+
+#pragma mark - 上传图片
+/**
+ *  上传图片
+ *
+ *  @return
+ */
++ (NSString *)uploadImageUrl {
     return [self p_wrap:@"/account/master/password/update"];
+}
+
+#pragma mark - **************************************************************
+
+#pragma mark - 获取游戏列表
+/**
+ *  获取游戏列表
+ *
+ *  @return
+ */
++ (NSString *)gameListUrl {
+    return [self p_wrap:@"/gamelist"];
+}
+
+#pragma mark - **************************************************************
+
+#pragma mark - 资讯列表
+/**
+ *  资讯列表
+ *
+ *  @return
+ */
++ (NSString *)newsListUrl {
+    return [self p_wrap:@"/news/list"];
+}
+
+#pragma mark - 资讯详情
+/**
+ *  资讯详情
+ *
+ *  @return
+ */
++ (NSString *)newsInfoUrl {
+    return [self p_wrap:@"/news/info"];
+}
+
+#pragma mark - 资讯的评论
+/**
+ *  资讯的评论
+ *
+ *  @return
+ */
++ (NSString *)newsCommentListUrl {
+    return [self p_wrap:@"/news/comment"];
+}
+
+#pragma mark - 资讯添加评论
+/**
+ *  资讯添加评论
+ *
+ *  @return
+ */
++ (NSString *)newsCommentAddUrl {
+    return [self p_wrap:@"/news/comment/add"];
+}
+
+#pragma mark - 为资讯评论点赞
+/**
+ *  为资讯评论点赞
+ *
+ *  @return
+ */
++ (NSString *)newsCommentClickedUrl {
+    return [self p_wrap:@"/news/comment/click"];
 }
 
 #pragma mark - **************************************************************
 
 
 
+
+#pragma mark - **************************************************************
+
+#pragma mark - 查询赛事
+/**
+ *  查询赛事
+ *
+ *  @return
+ */
++ (NSString *)matchLiveListUrl {
+    return [self p_wrap:@"/match/match/list"];
+}
+
+#pragma mark - 赛事赛程
+/**
+ *  赛事赛程
+ *
+ *  @return
+ */
++ (NSString *)matchCourseListUrl {
+    return [self p_wrap:@"/match/course/list"];
+}
+
+#pragma mark - 查询比赛
+/**
+ *  查询比赛
+ *
+ *  @return
+ */
++ (NSString *)matchUnitQuaryUrl {
+    return [self p_wrap:@"/match/unit/query"];
+}
+
+#pragma mark - 查询赛况（图文直播）
+/**
+ *  查询赛况（图文直播）
+ *
+ *  @return
+ */
++ (NSString *)matchUnitliveListUrl {
+    return [self p_wrap:@"/match/unitlive/list"];
+}
+
+#pragma mark - 查询比赛视频
+/**
+ *  查询比赛视频
+ *
+ *  @return
+ */
++ (NSString *)matchUnitvideoListUrl {
+    return [self p_wrap:@"/match/unitvideo/list"];
+}
+
+#pragma mark - 比赛的评论
+/**
+ *  比赛的评论
+ *
+ *  @return
+ */
++ (NSString *)matchCommentListUrl {
+    return [self p_wrap:@"/match/comment/list"];
+}
+
+#pragma mark - 评论比赛
+/**
+ *  评论比赛
+ *
+ *  @return
+ */
++ (NSString *)matchCommentAddUrl {
+    return [self p_wrap:@"/match/comment/add"];
+}
+
+#pragma mark - **************************************************************
+
+#pragma mark - 查询赛事栏目视频
+/**
+ *  查询赛事栏目视频
+ *
+ *  @return
+ */
++ (NSString *)matchVideoListUrl {
+    return [self p_wrap:@"/match/video/list"];
+}
+
+#pragma mark - 查询赛事视频详情
+/**
+ *  查询赛事视频详情
+ *
+ *  @return
+ */
++ (NSString *)matchVideoDetailUrl {
+    return [self p_wrap:@"/match/video/query"];
+}
+
+#pragma mark - 当前视频相关视频
+/**
+ *  当前视频相关视频
+ *
+ *  @return
+ */
++ (NSString *)matchVideoRelatedListUrl {
+    return [self p_wrap:@"/match/video/tag/list"];
+}
+
+#pragma mark - 当前视频评论
+/**
+ *  当前视频评论
+ *
+ *  @return
+ */
++ (NSString *)matchVideoCommentListUrl {
+    return [self p_wrap:@"/match/video/comment/list"];
+}
+
+#pragma mark - 评论当前视频
+/**
+ *  评论当前视频
+ *
+ *  @return
+ */
++ (NSString *)matchVideoCommentAddUrl {
+    return [self p_wrap:@"/match/video/comment/add"];
+}
+
+#pragma mark - 对当前评论点赞
+/**
+ *  对当前评论点赞
+ *
+ *  @return
+ */
++ (NSString *)matchVideoCommentLikeUrl {
+    return [self p_wrap:@"/match/video/comment/like/add"];
+}
+
 #pragma mark - Private
 + (NSString *)p_wrap:(NSString *)url {
-    return url;
+    return [NSString stringWithFormat:@"/api%@", url];
 }
 
 @end

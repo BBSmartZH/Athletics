@@ -163,9 +163,9 @@ static CGFloat k_small = 2.0;
     _thumbNumLabel.text = @"123";
     _messageImageV.backgroundColor = k_Base_Color;
     _messageNumLabel.text = @"3546";
-    _tilteLable.text = @"你的级沙发上浪费那你干嘛";
-    _summaryLabel.text = @"你但买房快疯了改变真服你了接口没那么那加大非标准接口没那么那加大非标准接口没那么那加大非标准版速度快放假光和热";
-    _dateLabel.text = @"2016-04-12 16:15";
+    _tilteLable.text = @"6.87新道具";
+    _summaryLabel.text = @"求问  这香蕉到底什么梗";
+    _dateLabel.text = @"2016-04-26 16:15";
 }
 
 - (void)awakeFromNib {

@@ -10,6 +10,8 @@
 #import "LWBaseNavVC_iPhone.h"
 
 #import "SCRegisterVC.h"
+#import "SCLoginModel.h"
+#import "SCUserModel.h"
 
 @interface SCLoginVC ()<UITextFieldDelegate>
 {
@@ -23,6 +25,7 @@
     UIButton    *_registButton;
     UIButton    *_forPassWordButton;
     LoginSuccessBlock _completionBlock;
+    SCLoginDataModel *_loginModel;
 }
 
 
@@ -127,12 +130,34 @@
 #pragma mark - 登录
 
 - (void)p_login {
+    MBProgressHUD * hud =[SCProgressHUD MBHudShowAddTo:self.view delay:NO];
+
+    [SCNetwork loginWithPhone:_mobileTextField.text password:_passwordTextField.text success:^(SCLoginModel *model) {
+        [hud hideAnimated:YES];
+        [self postMessage:@"登录成功"];
+        SCUserModel *userModel = [[SCUserModel alloc] init];
+        userModel.uid = model.data.uid;
+        
+        [SCUserInfoManager setUserInfo:userModel];
+        [SCUserInfoManager setIsLogin:YES];
+        
+        if (_completionBlock) {
+            _completionBlock(YES);
+        }
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            kPostNotificationWithName(kLoginSuccessfulNotification);
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        });
+        
+    } message:^(NSString *resultMsg) {
+        [hud hideAnimated:YES];
+        [self postMessage:resultMsg];
+        if (_completionBlock) {
+            _completionBlock(NO);
+        }
+    }];
     
-    
-    
-    if (_completionBlock) {
-        _completionBlock(YES);
-    }
 }
 
 /*!

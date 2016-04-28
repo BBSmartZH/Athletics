@@ -10,9 +10,459 @@
 
 @implementation SCParamsWrapper
 
+
+
+#pragma mark - **************************************************************
+
+#pragma mark - app版本更新
+/**
+ *  app版本更新
+ *
+ *  @return
+ */
++ (NSDictionary *)appUpdateParams {
+    return @{};
+}
+
+
 #pragma mark -  *******************    登录找回密码    *********************************
+#pragma mark - 注册
+/**
+ *  注册
+ *
+ *  @return
+ */
++ (NSDictionary *)registerParamsWithMobile:(NSString *)mobile
+                                  password:(NSString *)password
+                                      code:(NSString *)code {
+    if ([SCGlobaUtil isEmpty:mobile] || [SCGlobaUtil isEmpty:password] || [SCGlobaUtil isEmpty:code]) {
+        return nil;
+    }
+    return [self salt:@{@"phone":mobile, @"pwd":password, @"code":code} isDynamic:NO];
+}
+
+#pragma mark - 登录
+/**
+ *  登录
+ *
+ *  @return
+ */
++ (NSDictionary *)loginParamsWithMobile:(NSString *)mobile
+                               password:(NSString *)password {
+    if ([SCGlobaUtil isEmpty:mobile] || [SCGlobaUtil isEmpty:password]) {
+        return nil;
+    }
+    return [self salt:@{@"mobile":mobile, @"password":password} isDynamic:NO];
+}
+
+#pragma mark - 登出
+/**
+ *  登出
+ *
+ *  @return
+ */
++ (NSDictionary *)logoutParams {
+    NSString *uid = [SCUserInfoManager uid];
+    if ([SCGlobaUtil isEmpty:uid]) {
+        return nil;
+    }
+    return [self salt:@{@"uid":uid} isDynamic:NO];
+}
+
+#pragma mark - userInfo
+/**
+ *  userInfo
+ *
+ *  @return
+ */
++ (NSDictionary *)userInfoParams {
+    NSString *uid = [SCUserInfoManager uid];
+    if ([SCGlobaUtil isEmpty:uid]) {
+        return nil;
+    }
+    return [self salt:@{@"uid":uid} isDynamic:NO];
+}
+
+#pragma mark - 更新头像和昵称
+/**
+ *  更新头像和昵称
+ *
+ *  @return
+ */
++ (NSDictionary *)userUpdateInfoParamsWithAvatar:(NSString *)avatar
+                                        nickName:(NSString *)nickName {
+    if ([SCGlobaUtil isEmpty:avatar] || [SCGlobaUtil isEmpty:nickName]) {
+        return nil;
+    }
+    return [self salt:@{@"avatar":avatar, @"name":nickName} isDynamic:NO];
+}
+
+#pragma mark - 发送验证码
+/**
+ *  发送验证码
+ *
+ *  @return
+ */
++ (NSDictionary *)smsCodeParamsWithMobile:(NSString *)mobile
+                                     type:(int)type {
+    if ([SCGlobaUtil isEmpty:mobile]) {
+        return nil;
+    }
+    return [self salt:@{@"mobile":mobile, @"funType":@(type)} isDynamic:NO];
+}
+
+#pragma mark - 忘记密码
+/**
+ *  忘记密码
+ *
+ *  @return
+ */
++ (NSDictionary *)userForgetPasswordParamsWithMobile:(NSString *)mobile
+                                                code:(NSString *)code
+                                         newPassword:(NSString *)newPassword {
+    if ([SCGlobaUtil isEmpty:mobile] || [SCGlobaUtil isEmpty:newPassword] || [SCGlobaUtil isEmpty:code]) {
+        return nil;
+    }
+    return [self salt:@{@"mobile":mobile, @"code":code, @"pwd":newPassword} isDynamic:NO];
+}
+
+#pragma mark - 修改密码
+/**
+ *  修改密码
+ *
+ *  @return
+ */
++ (NSDictionary *)userUpdatePasswordParamsWithOldPassword:(NSString *)oldPassword
+                                              newPassword:(NSString *)newPassword
+                                               confirmPwd:(NSString *)confirmPwd {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:oldPassword] || [SCGlobaUtil isEmpty:newPassword] || [SCGlobaUtil isEmpty:confirmPwd]) {
+        return nil;
+    }
+    
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"oldPwd":oldPassword, @"newPwd":newPassword, @"confirmedPwd":confirmPwd} isDynamic:NO];
+}
+
+#pragma mark - 上传图片
+/**
+ *  上传图片
+ *
+ *  @return
+ */
++ (NSDictionary *)uploadImageParams {
+    return @{};
+}
+
+#pragma mark - **************************************************************
+
+#pragma mark - 获取游戏列表
+/**
+ *  获取游戏列表
+ *
+ *  @return
+ */
++ (NSDictionary *)gameListParams {
+    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid]} isDynamic:NO];
+    }
+    return nil;
+}
+
+#pragma mark - **************************************************************
+
+#pragma mark - 资讯列表
+/**
+ *  资讯列表
+ *
+ *  @return
+ */
++ (NSDictionary *)newsListParamsWithChannelId:(NSString *)channelId
+                                         page:(int)page {
+    if ([SCGlobaUtil isEmpty:channelId]) {
+        return nil;
+    }
+    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"channelId":channelId, @"page":@(page)} isDynamic:NO];
+    }
+    return [self salt:@{@"channelId":channelId, @"page":@(page)} isDynamic:NO];
+}
+
+#pragma mark - 资讯详情
+/**
+ *  资讯详情
+ *
+ *  @return
+ */
++ (NSDictionary *)newsInfoParamsWithNewsId:(NSString *)newsId {
+    if ([SCGlobaUtil isEmpty:newsId]) {
+        return nil;
+    }
+    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"newsId":newsId} isDynamic:NO];
+    }
+    return [self salt:@{@"newsId":newsId} isDynamic:NO];
+}
+
+#pragma mark - 资讯的评论
+/**
+ *  资讯的评论
+ *
+ *  @return
+ */
++ (NSDictionary *)newsCommentListParamsWithNewsId:(NSString *)newsId
+                                             page:(int)page {
+    if ([SCGlobaUtil isEmpty:newsId]) {
+        return nil;
+    }
+    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"newsId":newsId, @"page":@(page)} isDynamic:NO];
+    }
+    return [self salt:@{@"newsId":newsId, @"page":@(page)} isDynamic:NO];
+}
+
+#pragma mark - 资讯添加评论
+/**
+ *  资讯添加评论
+ *
+ *  @return
+ */
++ (NSDictionary *)newsCommentAddParamsWithNewsId:(NSString *)newsId
+                                         comment:(NSString *)comment {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:newsId] || [SCGlobaUtil isEmpty:newsId]) {
+        return nil;
+    }
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"newsId":newsId, @"comment":comment} isDynamic:NO];
+}
+
+#pragma mark - 为资讯评论点赞
+/**
+ *  为资讯评论点赞
+ *
+ *  @return
+ */
++ (NSDictionary *)newsCommentClickedParamsWithNewsCommentId:(NSString *)newsCommentId {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:newsCommentId]) {
+        return nil;
+    }
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchUnitId":newsCommentId} isDynamic:NO];
+}
+
+#pragma mark - **************************************************************
 
 
+
+
+#pragma mark - **************************************************************
+
+#pragma mark - 查询赛事
+/**
+ *  查询赛事
+ *
+ *  @return
+ */
++ (NSDictionary *)matchLiveListParamsWithChannelId:(NSString *)channelId
+                                              page:(int)page {
+    if ([SCGlobaUtil isEmpty:channelId]) {
+        return nil;
+    }
+    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"channelId":channelId, @"page":@(page)} isDynamic:NO];
+    }
+    return [self salt:@{@"channelId":channelId, @"page":@(page)} isDynamic:NO];
+}
+
+#pragma mark - 赛事赛程
+/**
+ *  赛事赛程
+ *
+ *  @return
+ */
++ (NSDictionary *)matchCourseListParamsWithMatchId:(NSString *)matchId
+                                              page:(int)page {
+    if ([SCGlobaUtil isEmpty:matchId]) {
+        return nil;
+    }
+    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchId":matchId, @"page":@(page)} isDynamic:NO];
+    }
+    return [self salt:@{@"matchId":matchId, @"page":@(page)} isDynamic:NO];
+}
+
+#pragma mark - 查询比赛
+/**
+ *  查询比赛
+ *
+ *  @return
+ */
++ (NSDictionary *)matchUnitQuaryParamsWithMatchUnitId:(NSString *)matchUnitId {
+    if ([SCGlobaUtil isEmpty:matchUnitId]) {
+        return nil;
+    }
+    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchUnitId":matchUnitId} isDynamic:NO];
+    }
+    return [self salt:@{@"matchUnitId":matchUnitId} isDynamic:NO];
+}
+
+#pragma mark - 查询赛况（图文直播）
+/**
+ *  查询赛况（图文直播）
+ *
+ *  @return
+ */
++ (NSDictionary *)matchUnitliveListParamsWithMatchRondaId:(NSString *)matchRondaId
+                                                     page:(int)page {
+    if ([SCGlobaUtil isEmpty:matchRondaId]) {
+        return nil;
+    }
+    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchRondaId":matchRondaId, @"page":@(page)} isDynamic:NO];
+    }
+    return [self salt:@{@"matchRondaId":matchRondaId, @"page":@(page)} isDynamic:NO];
+}
+
+#pragma mark - 查询比赛视频
+/**
+ *  查询比赛视频
+ *
+ *  @return
+ */
++ (NSDictionary *)matchUnitvideoListParamsWithMatchUnitId:(NSString *)matchUnitId
+                                                     page:(int)page {
+    if ([SCGlobaUtil isEmpty:matchUnitId]) {
+        return nil;
+    }
+    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchUnitId":matchUnitId, @"page":@(page)} isDynamic:NO];
+    }
+    return [self salt:@{@"matchUnitId":matchUnitId, @"page":@(page)} isDynamic:NO];
+}
+
+#pragma mark - 比赛的评论
+/**
+ *  比赛的评论
+ *
+ *  @return
+ */
++ (NSDictionary *)matchCommentListParamsWithMatchUnitId:(NSString *)matchUnitId
+                                                   page:(int)page {
+    if ([SCGlobaUtil isEmpty:matchUnitId]) {
+        return nil;
+    }
+    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchUnitId":matchUnitId, @"page":@(page)} isDynamic:NO];
+    }
+    return [self salt:@{@"matchUnitId":matchUnitId, @"page":@(page)} isDynamic:NO];
+}
+
+#pragma mark - 评论比赛
+/**
+ *  评论比赛
+ *
+ *  @return
+ */
++ (NSDictionary *)matchCommentAddParamsWithMatchUnitId:(NSString *)matchUnitId
+                                               comment:(NSString *)comment {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:matchUnitId] || [SCGlobaUtil isEmpty:comment]) {
+        return nil;
+    }
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchUnitId":matchUnitId, @"comment":comment} isDynamic:NO];
+}
+
+#pragma mark - **************************************************************
+
+#pragma mark - 查询赛事栏目视频
+/**
+ *  查询赛事栏目视频
+ *
+ *  @return
+ */
++ (NSDictionary *)matchVideoListParamsWithChannelId:(NSString *)channelId
+                                               type:(int)type
+                                               page:(int)page {
+    if ([SCGlobaUtil isEmpty:channelId]) {
+        return nil;
+    }
+    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"channelId":channelId, @"type":@(type), @"page":@(page)} isDynamic:NO];
+    }
+    return [self salt:@{@"channelId":channelId, @"type":@(type), @"page":@(page)} isDynamic:NO];
+}
+
+#pragma mark - 查询赛事视频详情
+/**
+ *  查询赛事视频详情
+ *
+ *  @return
+ */
++ (NSDictionary *)matchVideoDetailParamsWithVideoId:(NSString *)videoId {
+    if ([SCGlobaUtil isEmpty:videoId]) {
+        return nil;
+    }
+    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"videoId":videoId} isDynamic:NO];
+    }
+    return [self salt:@{@"videoId":videoId} isDynamic:NO];
+}
+
+#pragma mark - 当前视频相关视频
+/**
+ *  当前视频相关视频
+ *
+ *  @return
+ */
++ (NSDictionary *)matchVideoRelatedListParamsWithVideoId:(NSString *)videoId {
+    if ([SCGlobaUtil isEmpty:videoId]) {
+        return nil;
+    }
+    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"videoId":videoId} isDynamic:NO];
+    }
+    return [self salt:@{@"videoId":videoId} isDynamic:NO];
+}
+
+#pragma mark - 当前视频评论
+/**
+ *  当前视频评论
+ *
+ *  @return
+ */
++ (NSDictionary *)matchVideoCommentListParamsWithVideoId:(NSString *)videoId
+                                                    page:(int)page {
+    if ([SCGlobaUtil isEmpty:videoId]) {
+        return nil;
+    }
+    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"videoId":videoId, @"page":@(page)} isDynamic:NO];
+    }
+    return [self salt:@{@"videoId":videoId, @"page":@(page)} isDynamic:NO];
+}
+
+#pragma mark - 评论当前视频
+/**
+ *  评论当前视频
+ *
+ *  @return
+ */
++ (NSDictionary *)matchVideoCommentAddParamsWithVideoId:(NSString *)videoId
+                                                comment:(NSString *)comment {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:videoId] || [SCGlobaUtil isEmpty:comment]) {
+        return nil;
+    }
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"videoId":videoId, @"comment":comment} isDynamic:NO];
+}
+
+#pragma mark - 对当前评论点赞
+/**
+ *  对当前评论点赞
+ *
+ *  @return
+ */
++ (NSDictionary *)matchVideoCommentLikeParamsWithVideoCommentId:(NSString *)videoCommentId {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:videoCommentId]) {
+        return nil;
+    }
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"videoCommentId":videoCommentId} isDynamic:NO];
+}
 
 
 
@@ -22,6 +472,13 @@
 #pragma mark -  *******************    Private    *********************************
 
 #pragma mark - Private
+
++ (NSDictionary *)salt:(NSDictionary *)params isDynamic:(BOOL)isDynamic {
+    if (![SCGlobaUtil isInvalidDict:params]) {
+        return nil;
+    }
+    return params;
+}
 
 + (NSDictionary *)p_salt:(NSDictionary *)params isDynamic:(BOOL)isDynamic {
     if (![SCGlobaUtil isInvalidDict:params]) {

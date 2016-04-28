@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class SCVideoListDataModel;
 @interface SCVideoCell : UITableViewCell
 
 + (NSString *)cellIdentifier;
 
-- (void)createLayoutWith:(id)model;
+- (void)createLayoutWith:(SCVideoListDataModel *)model;
 
 @end

@@ -42,6 +42,10 @@
     
 }
 
+- (void)upDateData {
+    [self refreshData];
+}
+
 - (void)videoButtonClicked:(UIButton *)sender inCell:(SCVideoListCell *)inCell {
     [_player pause];
     [_player removeFromSuperview];

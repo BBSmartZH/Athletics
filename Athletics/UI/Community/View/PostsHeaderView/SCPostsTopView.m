@@ -185,13 +185,13 @@ static CGFloat showButtonH = 22.0f;
 
 - (void)setModel:(id)model {
     if (_model != model) {
-        _avatar.backgroundColor = [UIColor cyanColor];
-        _nameLabel.text = @"这是名字啊";
-        _descLabel.text = @"这是描述啊啊啊啊藐视秒数描述";
+        [_avatar scImageWithURL:@"http://img.78dian.com/user/m_avatar/201604/1461657916_756423.png" placeholderImage:nil];
+        _nameLabel.text = @"背单词的gxc";
+        _descLabel.text = @"Dota2";
         _statusLabel.text = @"楼主";
-        _timeLabel.text = @"2016-10-10 10:00";
+        _timeLabel.text = @"2016-04-26 10:00";
         
-        _title = @"这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题这是标题！";
+        _title = @"求问 这香蕉到底什么梗";
         
         NSMutableAttributedString *titleAttStr = [[NSMutableAttributedString alloc] initWithString:_title];
         
@@ -200,7 +200,7 @@ static CGFloat showButtonH = 22.0f;
         [titleAttStr addAttribute:NSFontAttributeName value:_titleFont range:NSMakeRange(0, titleAttStr.length)];
         _titleLabel.attributedText = titleAttStr;
         
-        _content = @"这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这akndnajndjanjsanjakndnajndjanjsanjakndnajndjanjsanjakndnajndjanjsanjakndnajndjanjsanj是内容,,,,这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是容这是,内容";
+        _content = @"看到个图，有人说吃了永久加智力，那么问题来了，匹配也有这个吗";
         
 //        _content = @"内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这内,,,,,,,,,,,,,,,容这是内容";
         NSMutableAttributedString *contentAttStr = [[NSMutableAttributedString alloc] initWithString:_content];

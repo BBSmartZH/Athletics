@@ -7,6 +7,7 @@
 //
 
 #import "SCScheduleCell.h"
+#import "SCMatchLiveListModel.h"
 
 @interface SCScheduleCell ()
 {
@@ -16,6 +17,7 @@
     UILabel *_timeLabel;
     UIImageView *_topImageV;
     CGFloat _topImageH;
+    SCMatchLiveListDataModel *_model;
 }
 
 @end
@@ -63,6 +65,7 @@ static float scale = 0.75;
     
     _leftImageV = [[UIImageView alloc]init];
     _leftImageV.contentMode = UIViewContentModeScaleAspectFill;
+    _leftImageV.clipsToBounds = YES;
     _leftImageV.backgroundColor = [UIColor redColor];
     [backView addSubview:_leftImageV];
     
@@ -109,7 +112,7 @@ static float scale = 0.75;
     }];
     
     [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(centerView);
+        make.left.right.equalTo(_titleLabel);
         make.top.equalTo(centerView.mas_bottom).offset(5);
     }];
     
@@ -121,11 +124,12 @@ static float scale = 0.75;
     
 };
 
-- (void)createLayoutWith:(id)model {
-    _titleLabel.text = @"是快递费三法师的新东方的发布过是";
-    _timeLabel.text = @"2016-11-12 到 2016-12-12";
-    _markImageV.hidden = NO;
-    
+- (void)createLayoutWith:(SCMatchLiveListDataModel *)model {
+    _model = model;
+    _titleLabel.text = @"2016ESL欧洲区预选赛（法）";
+    _timeLabel.text = @"2016-04-04 到 2016-04-11";
+    _markImageV.hidden = YES;
+    [_leftImageV scImageWithURL:@"http://www.766.com/css/dota2/match/2016ESL(F)oz.png" placeholderImage:nil];
     [self setState:0];
 }
 

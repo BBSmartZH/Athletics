@@ -48,7 +48,7 @@ static CGFloat k_left = 10.0f;
 
 - (void)createLayoutWith:(id)model {
     
-    _imageView.backgroundColor = [UIColor cyanColor];
+    [_imageView scImageWithURL:@"http://img.dota2.com.cn/dota2/1d/a3/1da37587e354ec6e9b6d4f9722ae6be61461641722.jpg" placeholderImage:nil];
 }
 
 + (CGFloat)cellHeightWith:(id)model {

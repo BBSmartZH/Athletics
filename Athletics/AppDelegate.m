@@ -12,6 +12,9 @@
 #import "SCAnalyticsManager.h"
 #import "SCShareManager.h"
 #import "SCNetworkStatusManager.h"
+#import "SCJPushManager.h"
+
+#import "SCGameListModel.h"
 
 @interface AppDelegate ()
 
@@ -33,6 +36,19 @@
     
     [SCNetworkStatusManager startMonitorNetworkStatus];
     
+    //开启远程推送
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    [SCJPushManager startWithOptions:launchOptions];
+    /**
+     *  统计分析
+     */
+    [SCAnalyticsManager startAnalyticsManager];
+    /**
+     *  分享
+     */
+    [SCAnalyticsManager startAnalyticsManager];
+    [SCShareManager startSocialShare];
+    
     // 开启键盘自适应管理功能
     [IQKeyboardManager sharedManager].enable = YES;
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
@@ -47,12 +63,25 @@
         });
     }
     
-    [SCAnalyticsManager startAnalyticsManager];
-    [SCShareManager startSocialShare];
+    [SCNetwork gameListSuccess:^(SCGameListModel *model) {
+        
+    } message:^(NSString *resultMsg) {
+        
+    }];
     
     
     LWTabBarVC_iPhone *rootVC = [[LWTabBarVC_iPhone alloc] init];
     self.window.rootViewController = rootVC;
+    
+    
+    
+    //app后台打开时推送处理
+    NSDictionary *pushDic = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (pushDic) {
+        [SCJPushManager didReceiveRemoteNotification:pushDic];
+    }
+    
+    
     
     return YES;
 }
@@ -74,10 +103,35 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [SCShareManager applicationDidBecomeActive];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [SCShareManager handleOpenURL:url];
+}
+
+#pragma mark - PUSH
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [SCJPushManager registerDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [SCJPushManager didReceiveRemoteNotification:userInfo];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+}
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
+//如果需要支持 iOS8,请加上这些代码
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+    //register to receive notifications
+    [application registerForRemoteNotifications];
+}
+#endif
 
 @end

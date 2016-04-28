@@ -71,6 +71,7 @@ static NSString * const reuseIdentifier = @"Cell";
     SCDragCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     cell.title = [((NSArray *)[_data objectAtIndex:indexPath.section]) objectAtIndex:indexPath.item];
+    cell.imageUrl = @"http://img.wdjimg.com/mms/icon/v1/1/a7/c0e672efe4fa05436caf23569df7aa71_512_512.png";
     if (indexPath.section == 0) {
         cell.isChoose = YES;
     }else {

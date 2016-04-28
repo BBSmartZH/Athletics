@@ -7,6 +7,8 @@
 //
 
 #import "SCRegisterVC.h"
+#import "SCLoginModel.h"
+#import "SCUserModel.h"
 
 @interface SCRegisterVC ()<UITextFieldDelegate>
 {
@@ -154,12 +156,68 @@ static  NSString *cellId = @"cellId";
         _verCodeButton.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_24px];
         [_verCodeButton setTitle:@"发送验证码" forState:UIControlStateNormal];
         [_verCodeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_verCodeButton addTarget:self action:@selector(verCodeButtonDidCliked:) forControlEvents:UIControlEventTouchUpInside];
         [textField.rightView addSubview:_verCodeButton];
 
     }
     
     
     return textField;
+}
+
+#pragma mark 发送验证码
+-(void)verCodeButtonDidCliked:(UIButton*)sender
+{
+    if ([SCGlobaUtil isEmpty:_phoneTextField.text]) {
+        [self postErrorMessage:@"请输入手机号"];
+        return;
+    }else if (![SCGlobaUtil validateMobileNumber:_phoneTextField.text]) {
+        [self postErrorMessage:@"请输入正确的手机号"];
+        return;
+    }
+    [self.view endEditing:YES];
+    [self startActivityAnimation];
+    
+    self.sessionTask = [SCNetwork smsCodeWithPhone:_phoneTextField.text type:1 success:^(SCResponseModel *model) {
+        [self stopActivityAnimation];
+        [self postSuccessMessage:@"验证码发送成功"];
+        [self performSelector:@selector(countDownTimer) withObject:nil];
+    } message:^(NSString *resultMsg) {
+        [self stopActivityAnimation];
+        [self postErrorMessage:resultMsg];
+    }];
+    
+}
+
+#pragma mark - 定时器
+- (void)countDownTimer {
+    _secondCountDown = 60;
+    if ([_countDownTimer isValid]) {
+        [_countDownTimer invalidate];
+        _countDownTimer = nil;
+    }
+    _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1
+                                                       target:self
+                                                     selector:@selector(timeFireMethod)
+                                                     userInfo:nil
+                                                      repeats:YES];
+    
+}
+
+#pragma mark - 倒计时
+- (void)timeFireMethod {
+    NSInteger secondDown = _secondCountDown--;
+    if (secondDown > 0) {
+        _verCodeButton.enabled = NO;
+        [_verCodeButton setTitle:[NSString stringWithFormat:@"剩余%d秒", (int)secondDown] forState:UIControlStateNormal];
+    }
+    
+    if (secondDown == 0) {
+        [_countDownTimer invalidate];
+        _countDownTimer = nil;
+        _verCodeButton.enabled = YES;
+        [_verCodeButton setTitle:@"发送验证码" forState:UIControlStateNormal];
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -217,6 +275,56 @@ static  NSString *cellId = @"cellId";
     }
     
     [self.view endEditing:YES];
+    
+    MBProgressHUD * hud =[SCProgressHUD MBHudShowAddTo:self.view delay:NO];
+    
+    if (_type == 1) {
+        //注册
+        [SCNetwork registerWithPhone:_phoneTextField.text password:_passwordTextField.text code:_verificationTextField.text success:^(SCLoginModel *model) {
+            [hud hideAnimated:YES];
+            
+            [self postMessage:@"注册成功"];
+            
+            SCUserModel *userModel = [[SCUserModel alloc] init];
+            userModel.uid = model.data.uid;
+            
+            [SCUserInfoManager setUserInfo:userModel];
+            [SCUserInfoManager setIsLogin:YES];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                kPostNotificationWithName(kLoginSuccessfulNotification);
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            });
+            
+        } message:^(NSString *resultMsg) {
+            [hud hideAnimated:YES];
+            [self postMessage:resultMsg];
+        }];
+    }else {
+        //忘记密码
+        [SCNetwork userForgetPwdWithPhone:_phoneTextField.text newPwd:_passwordTextField.text authCode:_verificationTextField.text success:^(SCLoginModel *model) {
+            [hud hideAnimated:YES];
+            
+            [self postMessage:@"密码修改成功"];
+            
+            SCUserModel *userModel = [[SCUserModel alloc] init];
+            userModel.uid = model.data.uid;
+            
+            [SCUserInfoManager setUserInfo:userModel];
+            [SCUserInfoManager setIsLogin:YES];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                kPostNotificationWithName(kLoginSuccessfulNotification);
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            });
+        } message:^(NSString *resultMsg) {
+            [hud hideAnimated:YES];
+            [self postMessage:resultMsg];
+        }];
+    }
+    
+    
+    
 }
 
 //回收键盘

@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class SCNewsCommentListDataModel;
 @interface LWCommentListCell : UITableViewCell
-- (void)createLayoutWith:(id)model;
+
+- (void)createLayoutWith:(SCNewsCommentListDataModel *)model;
 
 + (NSString *)cellidentifier;
 

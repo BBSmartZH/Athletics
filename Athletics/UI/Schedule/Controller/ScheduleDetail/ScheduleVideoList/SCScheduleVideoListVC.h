@@ -12,4 +12,6 @@
 
 @property (nonatomic, assign) CGFloat topHeight;
 
+- (void)upDateData;
+
 @end

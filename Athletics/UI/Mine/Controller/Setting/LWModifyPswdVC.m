@@ -8,6 +8,8 @@
 
 #import "LWModifyPswdVC.h"
 
+#import "SCLoginModel.h"
+
 @interface LWModifyPswdVC ()<UITextFieldDelegate>
 {
     UITextField  *_primaryCodeTextF;
@@ -183,6 +185,26 @@ static NSString *cellID = @"cellID";
     }
     
     [self.view endEditing:YES];
+    
+    MBProgressHUD * hud =[SCProgressHUD MBHudShowAddTo:self.view delay:NO];
+    
+    self.sessionTask = [SCNetwork userUpdatePwdWithOldPwd:_primaryCodeTextF.text newPwd:_newCodeTextF.text confirmPwd:_confirmCodeTextF.text success:^(SCLoginModel *model) {
+        [hud hideAnimated:YES];
+        
+        [self postMessage:@"修改成功"];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popViewControllerAnimated:YES];
+        });
+    } message:^(NSString *resultMsg) {
+        [hud hideAnimated:YES];
+        
+        [self postMessage:resultMsg];
+    }];
+    
+    
+    
+    
 }
 
 //回收键盘

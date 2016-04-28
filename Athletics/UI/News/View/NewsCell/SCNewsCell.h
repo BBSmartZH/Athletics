@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class SCNewsListDataModel;
 @interface SCNewsCell : UITableViewCell
 
 + (NSString *)cellIdentifier;
 
-- (void)createLayoutWith:(id)model;
+- (void)createLayoutWith:(SCNewsListDataModel *)model;
 
 @end

@@ -63,18 +63,18 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return 7;
+        return 4;
     }
     return 6;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        if (indexPath.row == 1) {
+        if (indexPath.row == 10) {
             SCNewsDetailVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsDetailVideoCell cellIdentifier] forIndexPath:indexPath];
             [cell createLayoutWith:@1];
             return cell;
-        }else if (indexPath.row == 3 || indexPath.row == 5) {
+        }else if (indexPath.row == 1 || indexPath.row == 3) {
             SCNewsDetailImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsDetailImageCell cellIdentifier] forIndexPath:indexPath];
             [cell createLayoutWith:@1];
             return cell;
@@ -124,11 +124,11 @@
         CGFloat height = 0.0;
         height += 20;
         
-        height += ([SCGlobaUtil sizeWithText:@"这是标题标题这是标题标题这是标题标题这是标题标题这是标题标题这是标题标题这是标题标题这是标题标题这是标题标题" width:_tableView.fWidth - 20 attributes:@{NSFontAttributeName : [UIFont fontWithName:@"Helvetica-Bold" size:kWord_Font_32px]}].height);
+        height += ([SCGlobaUtil sizeWithText:@"6.87全新游戏性更新   马尼拉特锦赛预选赛本周开锣" width:_tableView.fWidth - 20 attributes:@{NSFontAttributeName : [UIFont fontWithName:@"Helvetica-Bold" size:kWord_Font_32px]}].height);
         
         height += 10;
 
-        height += ([SCGlobaUtil sizeWithText:@"2016-04-08 18:00" width:_tableView.fWidth - 20 attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kWord_Font_20px]}].height);
+        height += ([SCGlobaUtil sizeWithText:@"2016-04-26 18:00" width:_tableView.fWidth - 20 attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kWord_Font_20px]}].height);
         
         height += 15;
 

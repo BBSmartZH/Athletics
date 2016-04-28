@@ -31,6 +31,7 @@ static CGFloat k_WHratio = 0.7;
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self p_config];
     }
     return self;
@@ -126,7 +127,6 @@ static CGFloat k_WHratio = 0.7;
     [_commentsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_leftImageV.mas_bottom).offset(k_left);
         make.right.equalTo(ws.contentView).offset(-k_left);
-//        make.width.mas_equalTo(@30);
     }];
     [_commentsImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_commentsLabel.mas_left).offset(-k_small);
@@ -136,7 +136,6 @@ static CGFloat k_WHratio = 0.7;
     [_scanLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_commentsLabel);
         make.right.equalTo(_commentsImageV.mas_left).offset(-k_left);
-//        make.width.mas_equalTo(@30);
     }];
     [_scanImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_scanLabel.mas_left).offset(-k_small);
@@ -144,16 +143,24 @@ static CGFloat k_WHratio = 0.7;
         make.size.mas_equalTo(CGSizeMake(9, 9));
     }];
     
+}
+-(void)createLayoutWith:(id)model
+{
+    _titleLabel.text = @"DOTA2特级锦标赛之马尼拉站即将上演";
+    [_leftImageV scImageWithURL:@"http://img.dota2.com.cn/dota2/31/8b/318b43ff95c38c7e54b4d1ad476a88a51458026307.jpg" placeholderImage:nil];
+    [_middleImageV scImageWithURL:@"http://img.dota2.com.cn/dota2/af/e7/afe7b0fc2bc4d083a2bac20c3b1c79b11461668008.jpg" placeholderImage:nil];
+    [_rightImageV scImageWithURL:@"http://img.dota2.com.cn/dota2/14/b7/14b7fe520b4062b64dfd797eed3df4291461667855.jpg" placeholderImage:nil];
+    _commentsLabel.text = @"12334";
+    _commentsImageV.backgroundColor = k_Bg_Color;
+    _scanImageV.backgroundColor = k_Bg_Color;
+    _scanLabel.text = @"114";
+    
+    _imageCounts = 3;
+    
     if (_imageCounts == 1) {
         _leftImageV.hidden = NO;
         _middleImageV.hidden = YES;
         _rightImageV.hidden = YES;
-        [_leftImageV mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(ws.contentView).offset(k_left);
-            make.top.equalTo(_titleLabel.mas_bottom).offset(k_left);
-            make.size.mas_equalTo(CGSizeMake((kScreenWidth-k_left-k_left*2)/2.0, (kScreenWidth-k_left-k_left*2)/2.0*k_WHratio));
-        }];
-        
     }else if(_imageCounts == 2){
         _leftImageV.hidden = NO;
         _middleImageV.hidden = NO;
@@ -163,18 +170,6 @@ static CGFloat k_WHratio = 0.7;
         _middleImageV.hidden = NO;
         _rightImageV.hidden = NO;
     }
-    
-}
--(void)createLayoutWith:(id)model
-{
-    _titleLabel.text = @"女的你看大哥哥结果多个不放假的开关和发规范梵蒂冈";
-    _leftImageV.backgroundColor = k_Bg_Color;
-    _commentsLabel.text = @"12334";
-    _commentsImageV.backgroundColor = k_Bg_Color;
-    _scanImageV.backgroundColor = k_Bg_Color;
-    _middleImageV.backgroundColor = k_Bg_Color;
-    _rightImageV.backgroundColor = k_Bg_Color;
-    _scanLabel.text = @"114";
 
 }
 +(CGFloat)heightForRowWithPhotosWithCounts:(int)counts{
@@ -185,11 +180,7 @@ static CGFloat k_WHratio = 0.7;
     height += [SCGlobaUtil heightOfLineWithFont:kWord_Font_28px];
     height += k_left;
 
-    if (counts == 1) {
-        height += (kScreenWidth - k_left - k_left * 2) / 2.0 * k_WHratio;
-    }else if (counts >1){
-        height += (kScreenWidth - k_left * 2 - k_left * 2) / 3.0 * k_WHratio;
-    }
+    height += (kScreenWidth - k_left * 2 - k_left * 2) / 3.0 * k_WHratio;
     
     height += k_left;
     height += [SCGlobaUtil heightOfLineWithFont:kWord_Font_20px];

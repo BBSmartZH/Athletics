@@ -9,7 +9,7 @@
 #import "SCCommentListVC.h"
 
 #import "LWCommentListCell.h"
-
+#import "SCNewsCommentListModel.h"
 
 @interface SCCommentListVC ()
 {
@@ -57,22 +57,64 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)refreshData {
+    
+    
+    self.sessionTask = [SCNetwork newsCommentListWithNewsId:@"" page:_currentPageIndex success:^(SCNewsCommentListModel *model) {
+        [self headerEndRefreshing];
+        
+        [_datasource removeAllObjects];
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex++;
+            [self footerHidden:NO];
+        }
+        
+    } message:^(NSString *resultMsg) {
+        [self headerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
+    
+}
+
+- (void)loadModeData {
+    self.sessionTask = [SCNetwork newsCommentListWithNewsId:@"" page:_currentPageIndex success:^(SCNewsCommentListModel *model) {
+        [self footerEndRefreshing];
+        
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex++;
+        }
+        
+    } message:^(NSString *resultMsg) {
+        [self footerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 20;
+    return _datasource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    SCNewsCommentListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+    
     LWCommentListCell *cell = [tableView dequeueReusableCellWithIdentifier:[LWCommentListCell cellidentifier] forIndexPath:indexPath];
     
-    [cell createLayoutWith:@1];
+    [cell createLayoutWith:model];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    SCNewsCommentListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+
     return [tableView fd_heightForCellWithIdentifier:[LWCommentListCell cellidentifier] cacheByIndexPath:indexPath configuration:^(LWCommentListCell *cell) {
-        [cell createLayoutWith:@1];
+        [cell createLayoutWith:model];
     }];
 }
 

@@ -11,41 +11,22 @@
 
 typedef void (^SCBoolResultBlock)(BOOL result);
 
-@class SCShopInfoDataModel;
+@class SCUserModel;
 
 @interface SCUserInfoManager : NSObject
 
 + (void)setIsLogin:(BOOL)isLogin;
 + (BOOL)isLogin;
 
-//+ (void)setUserInfo:(SCShopInfoDataModel *)model;
-//+ (void)updateUserInfo:(SCShopInfoDataModel *)model;
-//+ (SCShopInfoDataModel *)userInfo;
++ (void)setUserInfo:(SCUserModel *)model;
++ (void)updateUserInfo:(SCUserModel *)model;
++ (SCUserModel *)userInfo;
 
-+ (NSString *)userToken;
-+ (NSString *)sid;
-+ (NSString *)city;
-+ (NSString *)cityId;
++ (NSString *)userName;
++ (NSString *)uid;
++ (NSString *)avatar;
++ (NSString *)mobile;
 
 @end
 
-
-@interface SCState : NSObject
-/**
- *  用户订单状态
- *
- *  @param state
- *
- *  @return
- */
-+ (NSString *)stringForOrderState:(int)state;
-/**
- *  进货单状态
- *
- *  @param state
- *
- *  @return
- */
-+ (NSString *)stringForCargoOrderState:(int)state;
-@end
 

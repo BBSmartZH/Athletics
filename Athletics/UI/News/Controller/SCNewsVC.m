@@ -13,8 +13,9 @@
 
 #import "SCNewsContentVC.h"
 #import "SCTopScrollView.h"
-
 #import "LWCustomizeVC_iPhone.h"
+
+#import "SCShareManager.h"
 
 @interface SCNewsVC ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, SCTopScrollViewDelegate>
 {
@@ -101,6 +102,7 @@
     };
     customizeVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:customizeVC animated:YES];
+    
 }
 
 - (void)topScrollButtonClicked:(SCTopButton *)sender {

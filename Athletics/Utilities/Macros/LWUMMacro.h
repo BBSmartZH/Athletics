@@ -23,7 +23,7 @@ static NSString *k_sinaAppId = @"3655004891";
 static NSString *k_sinaAppSecret = @"ad90801e11f574d216c05d43e8fc452b";
 
 
-static NSString *k_JPushDebugKey = @"b28b606bc4c7c0ab5f9d164f";
+static NSString *k_JPushDebugKey = @"66d4cf6b113c8fbecd930ed5";
 static NSString *k_JPushReleaseKey = @"8e1c22bbc9400ad413305ddc";
 
 static NSString *k_BMKLocationKey = @"bqApldE1oh6oBb98VYyIfy9S";

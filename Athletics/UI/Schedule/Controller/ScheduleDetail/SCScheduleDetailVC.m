@@ -11,9 +11,13 @@
 #import "SCGuessListVC.h"
 #import "SCTeletextListVC.h"
 #import "SCScheduleVideoListVC.h"
+#import "SCMatchCommentListVC.h"
+#import "SCCommentInputView.h"
 
-@interface SCScheduleDetailVC ()<UIScrollViewDelegate>
+
+@interface SCScheduleDetailVC ()<SCCommentInputViewDelegate, UIScrollViewDelegate>
 {
+    SCCommentInputView *_inputView;
     UIView *_topView;
     UIView *_selectedView;
     UIButton *_guessButton;//竞猜
@@ -48,6 +52,7 @@
 @property (nonatomic, strong) SCGuessListVC *guessListVC;
 @property (nonatomic, strong) SCTeletextListVC *teletextListVC;
 @property (nonatomic, strong) SCScheduleVideoListVC *videoListVC;
+@property (nonatomic, strong) SCMatchCommentListVC *commentListVC;
 
 
 @end
@@ -56,11 +61,37 @@ static CGFloat k_left = 10.0f;
 static CGFloat kscore = 1.0;
 @implementation SCScheduleDetailVC
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboareWillShowNotif:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboareWillHiddenNotif:) name:UIKeyboardWillHideNotification object:nil];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[[IQKeyboardManager sharedManager] disabledDistanceHandlingClasses] addObject:[self class]];
+    [[[IQKeyboardManager sharedManager] disabledToolbarClasses] addObject:[self class]];
+    
     self.m_navBar.bg_alpha = 0.0f;
     self.m_navBar.hiddenLine = YES;
+    
+    _inputView = [[SCCommentInputView alloc] initWithFrame:CGRectMake(0, self.view.fHeight - 44, self.view.fWidth, 44)];
+    _inputView.backgroundColor = k_Bg_Color;
+    _inputView.delegate = self;
+    _inputView.layer.borderWidth = .5f;
+    _inputView.layer.borderColor = k_Border_Color.CGColor;
+    _inputView.isComment = NO;
+    _inputView.inputTextView.placeHolder = @"别憋着，来两句..";
+    [self.view addSubview:_inputView];
     
     
     [self configTopView];
@@ -78,7 +109,7 @@ static CGFloat kscore = 1.0;
     _selectedView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_selectedView];
     
-    _guessButton = [self topicTypeButtonWithTitle:@"竞猜"];
+    _guessButton = [self topicTypeButtonWithTitle:@"评论"];
     _guessButton.frame = CGRectMake(0, 0, _selectedView.fWidth / 3.0, _selectedView.fHeight);
     [_selectedView addSubview:_guessButton];
     
@@ -103,7 +134,7 @@ static CGFloat kscore = 1.0;
     _slideLine.frame = CGRectMake(10,  _selectedView.fHeight - 2, _guessButton.fWidth - 20, 2);
     
     
-    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, _selectedView.bottom, self.view.fWidth, self.view.fHeight - _topView.fHeight - _selectedView.fHeight)];
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, _selectedView.bottom, self.view.fWidth, self.view.fHeight - _topView.fHeight - _selectedView.fHeight - _inputView.fHeight)];
     _scrollView.showsVerticalScrollIndicator = NO;
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.pagingEnabled = YES;
@@ -112,22 +143,23 @@ static CGFloat kscore = 1.0;
     _scrollView.contentSize = CGSizeMake(_scrollView.fWidth * 3, _scrollView.fHeight);
     [self.view addSubview:_scrollView];
     
-    self.guessListVC = [[SCGuessListVC alloc] init];
-    self.guessListVC.topHeight = _selectedView.bottom;
-    self.guessListVC.view.frame = CGRectMake(0, 0, _scrollView.fWidth, _scrollView.fHeight);
-    [_scrollView addSubview:self.guessListVC.view];
+    
+    self.commentListVC = [[SCMatchCommentListVC alloc] init];
+    self.commentListVC.topHeight = _selectedView.bottom + _inputView.fHeight;
+    self.commentListVC.view.frame = CGRectMake(0, 0, _scrollView.fWidth, _scrollView.fHeight);
+    [_scrollView addSubview:self.commentListVC.view];
     
     self.teletextListVC = [[SCTeletextListVC alloc] init];
-    self.teletextListVC.topHeight = _selectedView.bottom;
+    self.teletextListVC.topHeight = _selectedView.bottom + _inputView.fHeight;
     self.teletextListVC.view.frame = CGRectMake(_scrollView.fWidth, 0, _scrollView.fWidth, _scrollView.fHeight);
     [_scrollView addSubview:self.teletextListVC.view];
     
     self.videoListVC = [[SCScheduleVideoListVC alloc] init];
-    self.videoListVC.topHeight = _selectedView.bottom;
+    self.videoListVC.topHeight = _selectedView.bottom + _inputView.fHeight;
     self.videoListVC.view.frame = CGRectMake(_scrollView.fWidth * 2, 0, _scrollView.fWidth, _scrollView.fHeight);
     [_scrollView addSubview:self.videoListVC.view];
     
-    
+    [self.view bringSubviewToFront:_inputView];
 }
 
 - (UIButton *)topicTypeButtonWithTitle:(NSString *)title {
@@ -152,21 +184,21 @@ static CGFloat kscore = 1.0;
     if (sender == _guessButton) {
         [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
         if (!_falg1) {
-//            [_firstVC upDateData];
+            [_commentListVC upDateData];
             _falg1 = YES;
         }
         
     }else if (sender == _scheduleButton) {
         [_scrollView setContentOffset:CGPointMake(self.view.fWidth, 0) animated:YES];
         if (!_falg2) {
-//            [_secondVC upDateData];
+            [_teletextListVC upDateData];
             _falg2 = YES;
         }
         
     }else if (sender == _videoButton) {
         [_scrollView setContentOffset:CGPointMake(self.view.fWidth * 2, 0) animated:YES];
         if (!_falg3) {
-//            [_thirdVC upDateData];
+            [_videoListVC upDateData];
             _falg3 = YES;
         }
         
@@ -385,6 +417,35 @@ static CGFloat kscore = 1.0;
     
     
     
+}
+
+- (void)inputViewDidChangedFrame:(CGRect)frame {
+    _inputView.frame = frame;
+}
+
+#pragma mark - keyboard
+- (void)keyboareWillShowNotif:(NSNotification *)notification {
+    // 键盘信息字典
+    NSDictionary* info = [notification userInfo];
+    CGFloat duration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    
+    NSValue *aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGFloat keyboardHeight = CGRectGetHeight([aValue CGRectValue]);
+    
+    [UIView animateWithDuration:duration animations:^{
+        _inputView.frame = CGRectMake(0, self.view.fHeight - keyboardHeight - _inputView.fHeight, _inputView.fWidth, _inputView.fHeight);
+    }];
+}
+
+- (void)keyboareWillHiddenNotif:(NSNotification *)notification {
+    // 键盘信息字典
+    NSDictionary* info = [notification userInfo];
+    
+    CGFloat duration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    
+    [UIView animateWithDuration:duration animations:^{
+        _inputView.frame = CGRectMake(0, self.view.fHeight - _inputView.fHeight, _inputView.fWidth, _inputView.fHeight);
+    }];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {

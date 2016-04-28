@@ -147,7 +147,7 @@
     if (_messageHUD) {
         [_messageHUD hideAnimated:YES];
     }
-    _messageHUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    _messageHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     _messageHUD.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
     _messageHUD.bezelView.layer.opacity = 0.7;
     _messageHUD.contentColor = [UIColor whiteColor];

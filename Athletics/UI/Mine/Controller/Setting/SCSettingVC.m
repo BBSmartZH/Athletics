@@ -14,7 +14,7 @@
 #import "LWModifyPswdVC.h"
 #import "SCFeedbackVC.h"
 
-#import "SDWebImageManager.h"
+#import "UIAlertView+Blocks.h"
 
 @interface SCSettingVC ()
 {
@@ -43,8 +43,6 @@ static NSString *commonCellId = @"SCCommonCell";
     _tableView.separatorColor = k_Border_Color;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     [_tableView registerClass:[SCCommonCell class] forCellReuseIdentifier:commonCellId];
-    
-    [SCUserInfoManager setIsLogin:YES];
     
     _imageCacheSizeStr = @"0K";
     NSUInteger size = [SDWebImageManager sharedManager].imageCache.getSize;
@@ -81,7 +79,7 @@ static NSString *commonCellId = @"SCCommonCell";
         if ([SCUserInfoManager isLogin]) {
             if (indexPath.row == 0) {
                 cell.leftLabel.text = @"账户";
-                cell.rightLabel.text = @"点击登录";
+                cell.rightLabel.text = [SCUserInfoManager userName];
             }else {
                 cell.leftLabel.text = @"修改密码";
             }
@@ -124,7 +122,14 @@ static NSString *commonCellId = @"SCCommonCell";
         if (indexPath.row == 0) {
             if ([SCUserInfoManager isLogin]) {
                 //退出登录？
-                [SCUserInfoManager setIsLogin:NO];
+                [UIAlertView showWithTitle:@"提示" message:@"退出后无法收到推送，确认退出登录？" cancelButtonTitle:@"取消" otherButtonTitles:@[@"退出"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    if (buttonIndex == 1) {
+                        self.sessionTask = [SCNetwork logoutSuccess:^(SCResponseModel *model) {} message:^(NSString *resultMsg) {}];
+                        [SCUserInfoManager setIsLogin:NO];
+                        kPostNotificationWithName(kLogoutSuccessfulNotification);
+                        [_tableView reloadData];
+                    }
+                }];
             }else {
                 //登录
                 SCLoginVC *loginVC = [[SCLoginVC alloc] init];
