@@ -79,7 +79,7 @@
 - (void)refreshData {
     _needUpdate = NO;
     
-    self.sessionTask = [SCNetwork newsListWithChannelId:@"" page:_currentPageIndex success:^(SCNewsListModel *model) {
+    self.sessionTask = [SCNetwork newsListWithChannelId:_channelId page:_currentPageIndex success:^(SCNewsListModel *model) {
         [self headerEndRefreshing];
         
         [_datasource removeAllObjects];

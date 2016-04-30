@@ -8,9 +8,11 @@
 
 #import "LWBaseVC_iPhone.h"
 
-typedef void(^ColumEditBlock)(BOOL result);
+typedef void(^ColumEditBlock)(BOOL result, NSArray *resultArray);
 
 @interface LWCustomizeVC_iPhone : LWBaseVC_iPhone
+
+@property (nonatomic, strong) NSArray *channelArray;
 
 @property (nonatomic, copy) ColumEditBlock editBlock;
 

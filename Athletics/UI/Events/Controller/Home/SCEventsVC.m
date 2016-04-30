@@ -86,34 +86,34 @@ static NSString *collectionCellId = @"SCLargeCollectionViewCell";
 }
 
 - (void)handleTitleArray{
-    [_vcViewArray removeAllObjects];
-    [_vcArray removeAllObjects];
-    NSMutableArray *titleArray = @[@"视频", @"关注"].mutableCopy;
-    
-    NSArray *followArray = ((NSArray *)[[NSUserDefaults standardUserDefaults] objectForKey:kAllChannelArrayKey]).firstObject;
-    [titleArray addObjectsFromArray:followArray];
-    
-    
-    for (int i = 0; i < titleArray.count; i++) {
-        SCSmallEventVC *smallVC = [[SCSmallEventVC alloc] init];
-        smallVC.parentVC = self;
-        [_vcViewArray addObject:smallVC.view];
-        [_vcArray addObject:smallVC];
-    }
-    
-    [_topScrollView updateWithTitleArray:titleArray selectedIndex:0];
-    [_collectionView reloadData];
+//    [_vcViewArray removeAllObjects];
+//    [_vcArray removeAllObjects];
+//    NSMutableArray *titleArray = @[@"视频", @"关注"].mutableCopy;
+//    
+//    NSArray *followArray = ((NSArray *)[[NSUserDefaults standardUserDefaults] objectForKey:kAllChannelArrayKey]).firstObject;
+//    [titleArray addObjectsFromArray:followArray];
+//    
+//    
+//    for (int i = 0; i < titleArray.count; i++) {
+//        SCSmallEventVC *smallVC = [[SCSmallEventVC alloc] init];
+//        smallVC.parentVC = self;
+//        [_vcViewArray addObject:smallVC.view];
+//        [_vcArray addObject:smallVC];
+//    }
+//    
+//    [_topScrollView updateWithTitleArray:titleArray selectedIndex:0];
+//    [_collectionView reloadData];
 }
 
 -(void)rightBarButtonClicked:(UIButton *)sender {
-    LWCustomizeVC_iPhone *customizeVC = [[LWCustomizeVC_iPhone alloc]init];
-    typeof(self) __block weakSelf = self;
-    customizeVC.editBlock = ^(BOOL result) {
-        if (result) {
-            [weakSelf handleTitleArray];
-        }
-    };
-    [self.navigationController pushViewController:customizeVC animated:YES];
+//    LWCustomizeVC_iPhone *customizeVC = [[LWCustomizeVC_iPhone alloc]init];
+//    typeof(self) __block weakSelf = self;
+//    customizeVC.editBlock = ^(BOOL result, NSArray *resultArray) {
+//        if (result) {
+//            [weakSelf handleTitleArray];
+//        }
+//    };
+//    [self.navigationController pushViewController:customizeVC animated:YES];
 
 }
 

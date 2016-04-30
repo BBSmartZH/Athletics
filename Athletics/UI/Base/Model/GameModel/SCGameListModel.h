@@ -11,6 +11,6 @@
 
 @interface SCGameListModel : SCResponseModel
 
-@property (nonatomic, strong) NSArray<SCGameModel, Optional> *gameList;
+@property (nonatomic, strong) NSArray<SCGameModel, Optional> *data;
 
 @end

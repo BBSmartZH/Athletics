@@ -21,6 +21,7 @@
 @interface AppDelegate ()
 {
     UIAlertView *_updateAlert;
+    BOOL _isSetupCommonFinished;
 }
 
 @end
@@ -58,22 +59,25 @@
     [IQKeyboardManager sharedManager].enable = YES;
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
         
-    NSObject *objc = [[NSUserDefaults standardUserDefaults] objectForKey:kAllChannelArrayKey];
-    if (!objc) {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            NSArray *titleDataArray = @[@[@"Dota 2", @"LOL", @"炉石传说"], @[@"风暴英雄", @"CS", @"超级街霸", @"魔兽争霸", @"DNF", @"CF", @"Smite", @"星际争霸2", @"Dota", @"FIFA", @"使命召唤"]];
-            [[NSUserDefaults standardUserDefaults] setObject:titleDataArray forKey:kAllChannelArrayKey];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        });
+    
+    //首次启动时
+    NSArray *channel = [SCChannelManager newsChannel];
+    
+    if (!channel) {
+        [SCNetwork gameListSuccess:^(SCGameListModel *model) {
+            [self handleChannelWith:model];
+            _isSetupCommonFinished = YES;
+        } message:^(NSString *resultMsg) {}];
+        
+        while (!_isSetupCommonFinished) {
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+        }
+        
+    }else {
+        [SCNetwork gameListSuccess:^(SCGameListModel *model) {
+            [self handleChannelWith:model];
+        } message:^(NSString *resultMsg) {}];
     }
-    
-    [SCNetwork gameListSuccess:^(SCGameListModel *model) {
-        
-    } message:^(NSString *resultMsg) {
-        
-    }];
-    
     
     LWTabBarVC_iPhone *rootVC = [[LWTabBarVC_iPhone alloc] init];
     self.window.rootViewController = rootVC;
@@ -91,6 +95,9 @@
     return YES;
 }
 
+- (void)handleChannelWith:(SCGameListModel *)model {
+    [SCChannelManager updateChannelWith:model];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -104,6 +111,11 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
+    [SCNetwork gameListSuccess:^(SCGameListModel *model) {
+        [self handleChannelWith:model];
+    } message:^(NSString *resultMsg) {}];
+    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

@@ -11,6 +11,7 @@
 @interface SCScheduleContentVC : SCBaseRefreshVC_iPhone
 
 @property (nonatomic, assign) UIViewController *parentVC;
+@property (nonatomic, copy) NSString *channelId;
 
 @property (nonatomic, assign, readonly) BOOL isUpdated;
 

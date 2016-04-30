@@ -21,6 +21,7 @@
 
 //用户信息
 #import "SCUserInfoManager.h"
+#import "SCChannelManager.h"
 //图片下载
 #import "UIImageView+SCImageCache.h"
 
@@ -150,6 +151,10 @@ alpha:(a)])
 
 
 #define kAllChannelArrayKey @"AllChannelArrayKey"
+#define kNewsChannelArrayKey @"AllChannelArrayKey"
+#define kTopicChannelArrayKey @"AllChannelArrayKey"
+#define kMatchChannelArrayKey @"AllChannelArrayKey"
+#define kVideoChannelArrayKey @"AllChannelArrayKey"
 
 
 

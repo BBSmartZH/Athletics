@@ -31,7 +31,7 @@ static NSString * const reuseIdentifier = @"Cell";
     self.title = @"频道定制";
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.itemSize = CGSizeMake((self.view.bounds.size.width-40)/3.0,(self.view.bounds.size.width-40)/3 );
+    layout.itemSize = CGSizeMake((self.view.bounds.size.width - 41) / 3.0,(self.view.bounds.size.width - 41) / 3.0 );
     layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
     
     SCDragCollectionView *mainView = [[SCDragCollectionView alloc] initWithFrame:CGRectMake(0, self.m_navBar.bottom, self.view.fWidth, self.view.fHeight - self.m_navBar.fHeight) collectionViewLayout:layout];
@@ -52,9 +52,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (NSArray *)data{
     if (!_data) {
-        
-        NSArray *titleDataArray = [[NSUserDefaults standardUserDefaults] objectForKey:kAllChannelArrayKey];
-        _data = titleDataArray.mutableCopy;
+        _data = _channelArray.mutableCopy;
     }
     return _data;
 }
@@ -70,8 +68,10 @@ static NSString * const reuseIdentifier = @"Cell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     SCDragCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    cell.title = [((NSArray *)[_data objectAtIndex:indexPath.section]) objectAtIndex:indexPath.item];
-    cell.imageUrl = @"http://img.wdjimg.com/mms/icon/v1/1/a7/c0e672efe4fa05436caf23569df7aa71_512_512.png";
+    SCGameModel *model = [((NSArray *)[_data objectAtIndex:indexPath.section]) objectAtIndex:indexPath.row];
+    
+    cell.title = model.name;
+    cell.imageUrl = model.pic;
     if (indexPath.section == 0) {
         cell.isChoose = YES;
     }else {
@@ -124,10 +124,8 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)dragCellCollectionView:(SCDragCollectionView *)collectionView newDataArrayAfterMove:(NSArray *)newDataArray{
     _data = newDataArray.mutableCopy;
     
-    [[NSUserDefaults standardUserDefaults] setObject:newDataArray forKey:kAllChannelArrayKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
     if (_editBlock) {
-        _editBlock(YES);
+        _editBlock(YES, _data);
     }
 }
 
@@ -144,7 +142,7 @@ static NSString * const reuseIdentifier = @"Cell";
     if (indexPath.section == 0) {
         NSMutableArray *sectionArray0 = [[_data objectAtIndex:0] mutableCopy];
         if (sectionArray0.count <= 1) {
-            NSLog(@"亲，留一个吧~~");
+            [self postMessage:@"亲，留一个吧~~"];
             return;
         }
         NSMutableArray *sectionArray1 = [[_data objectAtIndex:1] mutableCopy];
@@ -153,11 +151,9 @@ static NSString * const reuseIdentifier = @"Cell";
         [sectionArray0 removeObjectAtIndex:indexPath.item];
         
         _data = @[sectionArray0, sectionArray1].mutableCopy;
-        
-        [[NSUserDefaults standardUserDefaults] setObject:_data forKey:kAllChannelArrayKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+
         if (_editBlock) {
-            _editBlock(YES);
+            _editBlock(YES, _data);
         }
         
         [collectionView reloadData];
@@ -170,10 +166,8 @@ static NSString * const reuseIdentifier = @"Cell";
         [sectionArray1 removeObjectAtIndex:indexPath.item];
         _data = @[sectionArray0, sectionArray1].mutableCopy;
         
-        [[NSUserDefaults standardUserDefaults] setObject:_data forKey:kAllChannelArrayKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
         if (_editBlock) {
-            _editBlock(YES);
+            _editBlock(YES, _data);
         }
         
         [collectionView reloadData];

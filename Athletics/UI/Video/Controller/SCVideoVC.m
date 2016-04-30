@@ -68,21 +68,41 @@
     
 }
 
-- (void)handleTitleArray{
+- (void)handleTitleArray {
+    NSMutableArray *currentVCArr = _vcArray.mutableCopy;
+    
     [_vcViewArray removeAllObjects];
     [_vcArray removeAllObjects];
-    NSMutableArray *titleArray = @[@"推荐"].mutableCopy;
+    NSMutableArray *titleArray = [NSMutableArray array];
     
-    NSArray *followArray = ((NSArray *)[[NSUserDefaults standardUserDefaults] objectForKey:kAllChannelArrayKey]).firstObject;
-    [titleArray addObjectsFromArray:followArray];
+    NSArray *followArray = [SCChannelManager videoChannel].firstObject;
     
-    
-    for (int i = 0; i < titleArray.count; i++) {
-        SCVideoContentVC *contentVC = [[SCVideoContentVC alloc] init];
-        contentVC.parentVC = self;
-        [_vcViewArray addObject:contentVC.view];
-        [_vcArray addObject:contentVC];
+    for (int i = 0; i < followArray.count; i++) {
+        SCGameModel *model = [followArray objectAtIndex:i];
+        
+        BOOL isExit = NO;
+        for (SCVideoContentVC *vc in currentVCArr) {
+            if ([vc.channelId isEqualToString:model.channelId]) {
+                [_vcViewArray addObject:vc.view];
+                [_vcArray addObject:vc];
+                [titleArray addObject:model.name];
+                isExit = YES;
+                break;
+            }
+        }
+        
+        if (!isExit) {
+            SCVideoContentVC *contentVC = [[SCVideoContentVC alloc] init];
+            contentVC.channelId = model.channelId;
+            contentVC.parentVC = self;
+            [_vcViewArray addObject:contentVC.view];
+            [_vcArray addObject:contentVC];
+            [titleArray addObject:model.name];
+        }
     }
+    
+    [currentVCArr removeAllObjects];
+    currentVCArr = nil;
     
     [_topScrollView updateWithTitleArray:titleArray selectedIndex:0];
     [_collectionView reloadData];
@@ -90,19 +110,19 @@
 
 -(void)rightBarButtonClicked:(UIButton *)sender {
     LWCustomizeVC_iPhone *customizeVC = [[LWCustomizeVC_iPhone alloc]init];
+    customizeVC.channelArray = [SCChannelManager videoChannel];
     _WEAKSELF(ws);
-    customizeVC.editBlock = ^(BOOL result) {
+    customizeVC.editBlock = ^(BOOL result, NSArray *resultArray) {
         if (result) {
+            [SCChannelManager setVideoChannelWith:resultArray];
             [ws handleTitleArray];
         }
     };
     customizeVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:customizeVC animated:YES];
     
-    //    LWNewsTabVC *vc = [[LWNewsTabVC alloc]init];
-    //    [self.navigationController pushViewController:vc animated:YES];
-    
 }
+
 
 - (void)topScrollButtonClicked:(SCTopButton *)sender {
     

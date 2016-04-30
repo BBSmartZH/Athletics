@@ -116,7 +116,7 @@
 }
 
 - (void)loadModeData {
-    self.sessionTask = [SCNetwork matchVideoListWithChannelId:@"" type:0 page:_currentPageIndex success:^(SCVideoListModel *model) {
+    self.sessionTask = [SCNetwork matchVideoListWithChannelId:_channelId type:0 page:_currentPageIndex success:^(SCVideoListModel *model) {
         [self footerEndRefreshing];
         
         [_datasource addObjectsFromArray:model.data];

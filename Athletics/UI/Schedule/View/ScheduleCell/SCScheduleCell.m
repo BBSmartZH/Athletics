@@ -126,10 +126,10 @@ static float scale = 0.75;
 
 - (void)createLayoutWith:(SCMatchLiveListDataModel *)model {
     _model = model;
-    _titleLabel.text = @"2016ESL欧洲区预选赛（法）";
-    _timeLabel.text = @"2016-04-04 到 2016-04-11";
+    _titleLabel.text = model.title;
+    _timeLabel.text = [NSString stringWithFormat:@"%@ 到 %@", model.startTime, model.endTime];
     _markImageV.hidden = YES;
-    [_leftImageV scImageWithURL:@"http://www.766.com/css/dota2/match/2016ESL(F)oz.png" placeholderImage:nil];
+    [_leftImageV scImageWithURL:model.url placeholderImage:nil];
     [self setState:0];
 }
 

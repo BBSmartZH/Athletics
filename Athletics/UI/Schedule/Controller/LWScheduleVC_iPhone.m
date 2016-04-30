@@ -67,21 +67,41 @@
     
 }
 
-- (void)handleTitleArray{
+- (void)handleTitleArray {
+    NSMutableArray *currentVCArr = _vcArray.mutableCopy;
+    
     [_vcViewArray removeAllObjects];
     [_vcArray removeAllObjects];
-    NSMutableArray *titleArray = @[@"推荐"].mutableCopy;
+    NSMutableArray *titleArray = [NSMutableArray array];
     
-    NSArray *followArray = ((NSArray *)[[NSUserDefaults standardUserDefaults] objectForKey:kAllChannelArrayKey]).firstObject;
-    [titleArray addObjectsFromArray:followArray];
+    NSArray *followArray = [SCChannelManager matchChannel].firstObject;
     
-    
-    for (int i = 0; i < titleArray.count; i++) {
-        SCScheduleContentVC *contentVC = [[SCScheduleContentVC alloc] init];
-        contentVC.parentVC = self;
-        [_vcViewArray addObject:contentVC.view];
-        [_vcArray addObject:contentVC];
+    for (int i = 0; i < followArray.count; i++) {
+        SCGameModel *model = [followArray objectAtIndex:i];
+        
+        BOOL isExit = NO;
+        for (SCScheduleContentVC *vc in currentVCArr) {
+            if ([vc.channelId isEqualToString:model.channelId]) {
+                [_vcViewArray addObject:vc.view];
+                [_vcArray addObject:vc];
+                [titleArray addObject:model.name];
+                isExit = YES;
+                break;
+            }
+        }
+        
+        if (!isExit) {
+            SCScheduleContentVC *contentVC = [[SCScheduleContentVC alloc] init];
+            contentVC.channelId = model.channelId;
+            contentVC.parentVC = self;
+            [_vcViewArray addObject:contentVC.view];
+            [_vcArray addObject:contentVC];
+            [titleArray addObject:model.name];
+        }
     }
+    
+    [currentVCArr removeAllObjects];
+    currentVCArr = nil;
     
     [_topScrollView updateWithTitleArray:titleArray selectedIndex:0];
     [_collectionView reloadData];
@@ -89,9 +109,11 @@
 
 -(void)rightBarButtonClicked:(UIButton *)sender {
     LWCustomizeVC_iPhone *customizeVC = [[LWCustomizeVC_iPhone alloc]init];
+    customizeVC.channelArray = [SCChannelManager videoChannel];
     _WEAKSELF(ws);
-    customizeVC.editBlock = ^(BOOL result) {
+    customizeVC.editBlock = ^(BOOL result, NSArray *resultArray) {
         if (result) {
+            [SCChannelManager setMatchChannelWith:resultArray];
             [ws handleTitleArray];
         }
     };

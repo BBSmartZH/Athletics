@@ -50,13 +50,13 @@
     _tableView.separatorColor = [UIColor clearColor];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
+    _imageUrlArray = [NSMutableArray array];
+    _titleArray = [NSMutableArray array];
+    
 }
 
 - (SCAdView *)adView {
     if (!_adView) {
-        _titleArray = [NSMutableArray array];
-        _imageUrlArray = [NSMutableArray array];
-
         _adView = [[SCAdView alloc] initWithFrame:CGRectMake(0, 0, _tableView.fWidth, _tableView.fWidth * 0.4)];
         _adView.placeHoldImage = [UIImage imageNamed:@"place"];
         _adView.pageControlShowStyle = SCPageControlShowStyleRight;
@@ -112,17 +112,15 @@
 
 - (void)updateData {
     [self headerBeginRefreshing];
-
 }
 
 - (void)refreshData {
     [self getMatchBanner];
     
-    _needUpdate = NO;
-    
-    self.sessionTask = [SCNetwork matchLiveListWithChannelId:@"1" page:_currentPageIndex success:^(SCMatchLiveListModel *model) {
+    self.sessionTask = [SCNetwork matchLiveListWithChannelId:_channelId page:_currentPageIndex success:^(SCMatchLiveListModel *model) {
         [self headerEndRefreshing];
-        
+        _needUpdate = NO;
+
         [_datasource removeAllObjects];
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
@@ -136,20 +134,10 @@
         [self headerEndRefreshing];
         [self postMessage:resultMsg];
     }];
-    
-    
-    
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self headerEndRefreshing];
-        [_tableView reloadData];
-
-        _needUpdate = YES;
-    });
 }
 
 - (void)loadModeData {
-    self.sessionTask = [SCNetwork matchLiveListWithChannelId:@"" page:_currentPageIndex success:^(SCMatchLiveListModel *model) {
+    self.sessionTask = [SCNetwork matchLiveListWithChannelId:_channelId page:_currentPageIndex success:^(SCMatchLiveListModel *model) {
         [self footerEndRefreshing];
         
         [_datasource addObjectsFromArray:model.data];

@@ -14,9 +14,9 @@ SCGameModel
 
 @interface SCGameModel : SCBaseModel
 
-@property (nonatomic, copy) NSString<Optional> *gameId;
-@property (nonatomic, copy) NSString<Optional> *gameName;
-@property (nonatomic, copy) NSString<Optional> *gameDesc;
-@property (nonatomic, copy) NSString<Optional> *gamePic;
+@property (nonatomic, copy) NSString<Optional> *channelId;
+@property (nonatomic, copy) NSString<Optional> *name;
+@property (nonatomic, copy) NSString<Optional> *status;
+@property (nonatomic, copy) NSString<Optional> *pic;
 
 @end

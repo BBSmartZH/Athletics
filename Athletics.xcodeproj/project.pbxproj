@@ -308,6 +308,7 @@
 		9BF8B0B91CD3A388001EC187 /* SCAdModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF8B0B81CD3A388001EC187 /* SCAdModel.m */; };
 		9BF8B0BF1CD3A6D4001EC187 /* SCTopicReplayListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF8B0BE1CD3A6D4001EC187 /* SCTopicReplayListModel.m */; };
 		9BF8B0C31CD3BC8D001EC187 /* LrdOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF8B0C21CD3BC8D001EC187 /* LrdOutputView.m */; };
+		9BF8B0C71CD480C1001EC187 /* SCChannelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BF8B0C61CD480C1001EC187 /* SCChannelManager.m */; };
 		9BFB548E1CD27E2D007AE6CD /* SCMatchDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BFB548D1CD27E2D007AE6CD /* SCMatchDetailModel.m */; };
 		9BFB54921CD27FCB007AE6CD /* SCTeletextListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BFB54911CD27FCB007AE6CD /* SCTeletextListModel.m */; };
 		9BFB54961CD280D4007AE6CD /* SCScheduleVideoListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BFB54951CD280D4007AE6CD /* SCScheduleVideoListModel.m */; };
@@ -945,6 +946,8 @@
 		9BF8B0BE1CD3A6D4001EC187 /* SCTopicReplayListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTopicReplayListModel.m; sourceTree = "<group>"; };
 		9BF8B0C11CD3BC8D001EC187 /* LrdOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LrdOutputView.h; sourceTree = "<group>"; };
 		9BF8B0C21CD3BC8D001EC187 /* LrdOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LrdOutputView.m; sourceTree = "<group>"; };
+		9BF8B0C51CD480C1001EC187 /* SCChannelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCChannelManager.h; sourceTree = "<group>"; };
+		9BF8B0C61CD480C1001EC187 /* SCChannelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCChannelManager.m; sourceTree = "<group>"; };
 		9BFB548C1CD27E2D007AE6CD /* SCMatchDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMatchDetailModel.h; sourceTree = "<group>"; };
 		9BFB548D1CD27E2D007AE6CD /* SCMatchDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMatchDetailModel.m; sourceTree = "<group>"; };
 		9BFB54901CD27FCB007AE6CD /* SCTeletextListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTeletextListModel.h; sourceTree = "<group>"; };
@@ -1431,6 +1434,7 @@
 		8264082A1CB92C8A00AF4126 /* Manaers */ = {
 			isa = PBXGroup;
 			children = (
+				9BF8B0C41CD480B1001EC187 /* ChannelManager */,
 				9BF8B0AE1CD33279001EC187 /* QiNiuUploadManager */,
 				9BF57B2D1CD1FC7D00881017 /* PhotoManager */,
 				9BA216481CCC9E3700C03711 /* PushManager */,
@@ -2937,6 +2941,15 @@
 			path = LrdOutputView;
 			sourceTree = "<group>";
 		};
+		9BF8B0C41CD480B1001EC187 /* ChannelManager */ = {
+			isa = PBXGroup;
+			children = (
+				9BF8B0C51CD480C1001EC187 /* SCChannelManager.h */,
+				9BF8B0C61CD480C1001EC187 /* SCChannelManager.m */,
+			);
+			path = ChannelManager;
+			sourceTree = "<group>";
+		};
 		9BFB548F1CD27FBD007AE6CD /* TeletextListModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -3305,6 +3318,7 @@
 				826408501CB92C8A00AF4126 /* MJRefreshGifHeader.m in Sources */,
 				9BAA21011CBF7F980053F1C0 /* SCPostsTextCell.m in Sources */,
 				9BFB549D1CD285D5007AE6CD /* SCVideoCommentListModel.m in Sources */,
+				9BF8B0C71CD480C1001EC187 /* SCChannelManager.m in Sources */,
 				9BE053111CD32FE500698D13 /* QNEtag.m in Sources */,
 				9B68BE731CC65086006EE4B9 /* SCTeletexListCell.m in Sources */,
 				8264088A1CB9491E00AF4126 /* TKAlertCenter.m in Sources */,
