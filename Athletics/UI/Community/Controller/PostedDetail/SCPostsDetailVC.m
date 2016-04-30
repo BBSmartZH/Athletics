@@ -78,7 +78,7 @@
     [[[IQKeyboardManager sharedManager] disabledToolbarClasses] addObject:[self class]];
     
     self.title = @"帖子详情";
-    k = 10;
+    k = 0;
 
     [_tableView registerClass:[SCPostsTextImageCell class] forCellReuseIdentifier:[SCPostsTextImageCell cellIdentifier]];
     [_tableView registerClass:[SCPostsAdCell class] forCellReuseIdentifier:[SCPostsAdCell cellIdentifier]];
