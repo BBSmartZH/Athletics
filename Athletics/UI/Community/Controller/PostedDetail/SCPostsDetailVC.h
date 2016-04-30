@@ -9,5 +9,5 @@
 #import "SCBaseRefreshVC_iPhone.h"
 
 @interface SCPostsDetailVC : SCBaseRefreshVC_iPhone
-
+@property (nonatomic,copy)NSString  *topicId;
 @end

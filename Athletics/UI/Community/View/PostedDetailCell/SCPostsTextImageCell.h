@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface SCPostsTextImageCell : UITableViewCell
 
 - (void)createLayoutWith:(id)model;

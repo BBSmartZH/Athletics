@@ -7,7 +7,7 @@
 //
 
 #import "SCPostsImageCell.h"
-
+#import "SCCommunityListModel.h"
 @interface SCPostsImageCell ()
 {
     UIImageView   *_headImageV;
@@ -23,7 +23,7 @@
     UIImageView   *_messageImageV;
     UILabel       *_messageNumLabel;
     
-    int           _imageCounts;
+    NSUInteger     _imageCounts;
 }
 
 @end
@@ -200,11 +200,9 @@ static CGFloat k_WHratio = 0.8;
     return @"SCPostsImageCellIdentifier";
 }
 
-- (void)createLayoutWith:(id)model {
+- (void)createLayoutWith:(SCCommunityListDataModel*)model {
     
-    _imageCounts = ((NSNumber *)model).intValue;
-    //    _imageCounts = 0;
-    
+    _imageCounts = model.images.count;
     
     CGFloat imageWidth = floorf(([UIScreen mainScreen].bounds.size.width - 4 * k_left) / 3.0f);
 
@@ -246,18 +244,26 @@ static CGFloat k_WHratio = 0.8;
         make.size.equalTo(_middleImageV);
     }];
     
-    [_headImageV scImageWithURL:@"http://img.78dian.com/user/m_avatar/201604/1461657916_756423.png" placeholderImage:nil];
-    _nameLabel.text = @"背单词的gxc";
+    [_headImageV scImageWithURL:model.userAvatar placeholderImage:nil];
+    _nameLabel.text = model.userName;
     _thumbImagev.backgroundColor = k_Base_Color;
-    _thumbNumLabel.text = @"123";
+    _thumbNumLabel.text = model.supportNum;
     _messageImageV.backgroundColor = k_Base_Color;
-    _messageNumLabel.text = @"3546";
-    _tilteLable.text = @"6.87新道具";
-    _summaryLabel.text = @"求问  这香蕉到底什么梗";
-    [_leftImageV scImageWithURL:@"http://img.78dian.com/user/topic/201604/1461658526_637289.png0" placeholderImage:nil];
-    _middleImageV.backgroundColor = [UIColor cyanColor];
-    _rightImageV.backgroundColor = [UIColor cyanColor];
-    _dateLabel.text = @"2016-04-12 16:15";
+    _messageNumLabel.text = model.replyNum;
+    _tilteLable.text = model.title;
+    _summaryLabel.text = model.summary;
+    if (model.images.count == 0) {
+        [_leftImageV scImageWithURL:((SCImageModel*)[model.images firstObject]).url  placeholderImage:nil];
+    }else if (model.images.count == 1){
+        [_leftImageV scImageWithURL:((SCImageModel*)[model.images firstObject]).url  placeholderImage:nil];
+        [_middleImageV scImageWithURL:((SCImageModel*)[model.images objectAtIndex:1]).url placeholderImage:nil];
+    }else{
+        [_leftImageV scImageWithURL:((SCImageModel*)[model.images firstObject]).url  placeholderImage:nil];
+        [_middleImageV scImageWithURL:((SCImageModel*)[model.images objectAtIndex:1]).url placeholderImage:nil];
+        [_rightImageV scImageWithURL:((SCImageModel*)[model.images lastObject]).url placeholderImage:nil];
+    }
+    
+    _dateLabel.text = model.createTime;
 }
 
 - (void)awakeFromNib {

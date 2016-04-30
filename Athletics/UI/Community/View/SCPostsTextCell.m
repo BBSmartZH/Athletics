@@ -7,7 +7,7 @@
 //
 
 #import "SCPostsTextCell.h"
-
+#import "SCCommunityListModel.h"
 @interface SCPostsTextCell ()
 {
     UIImageView   *_headImageV;
@@ -155,17 +155,17 @@ static CGFloat k_small = 2.0;
     return @"SCPostsTextCellIdentifier";
 }
 
-- (void)createLayoutWith:(id)model {
+- (void)createLayoutWith:(SCCommunityListDataModel*)model {
     
-    _headImageV.backgroundColor = k_Base_Color;
-    _nameLabel.text = @"小怪咖UI";
+    [_headImageV scImageWithURL:model.userAvatar placeholderImage:nil];
+    _nameLabel.text = model.userName;
     _thumbImagev.backgroundColor = k_Base_Color;
-    _thumbNumLabel.text = @"123";
+    _thumbNumLabel.text = model.supportNum;
     _messageImageV.backgroundColor = k_Base_Color;
-    _messageNumLabel.text = @"3546";
-    _tilteLable.text = @"6.87新道具";
-    _summaryLabel.text = @"求问  这香蕉到底什么梗";
-    _dateLabel.text = @"2016-04-26 16:15";
+    _messageNumLabel.text = model.replyNum;
+    _tilteLable.text = model.title;
+    _summaryLabel.text = model.summary;
+    _dateLabel.text = model.createTime;
 }
 
 - (void)awakeFromNib {

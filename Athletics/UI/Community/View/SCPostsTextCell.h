@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class SCCommunityListDataModel;
 @interface SCPostsTextCell : UITableViewCell
 
 + (NSString *)cellIdentifier;
 
-- (void)createLayoutWith:(id)model;
+- (void)createLayoutWith:(SCCommunityListDataModel*)model;
 
 @end

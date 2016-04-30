@@ -7,7 +7,7 @@
 //
 
 #import "SCPostsDetailVC.h"
-
+#import "SCPostsDetailVC.h"
 
 #import "SCPostsTextImageCell.h"
 #import "SCPostsTopView.h"
@@ -131,6 +131,30 @@
     [self.outPutView pop];
 }
 
+-(void)refreshData
+{
+    self.sessionTask = [SCNetwork topicInfoWithTopicId:@"" success:^(SCCommunityDetailModel *model) {
+        [self headerEndRefreshing];
+        [_datasource removeAllObjects];
+        [_datasource addObject:model];
+        [_tableView reloadData];
+
+    } message:^(NSString *resultMsg) {
+        [self headerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
+}
+-(void)loadModeData
+{
+    self.sessionTask = [SCNetwork topicInfoWithTopicId:_topicId success:^(SCCommunityDetailModel *model) {
+        [self footerEndRefreshing];
+        [_datasource addObject:model];
+        [_tableView reloadData];
+    } message:^(NSString *resultMsg) {
+        [self footerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return 1;

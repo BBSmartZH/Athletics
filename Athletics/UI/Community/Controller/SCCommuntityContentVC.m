@@ -7,7 +7,7 @@
 //
 
 #import "SCCommuntityContentVC.h"
-
+#import "SCCommunityListModel.h"
 #import "SCPostsTextCell.h"
 #import "SCPostsImageCell.h"
 
@@ -86,18 +86,39 @@
 }
 
 - (void)refreshData {
-    _needUpdate = NO;
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    self.sessionTask = [SCNetwork topicListWithChannelId:_channelId type:1 page:_currentPageIndex success:^(SCCommunityListModel *model) {
         [self headerEndRefreshing];
-        [_tableView reloadData];
-
         _needUpdate = YES;
-    });
+        [_datasource removeAllObjects];
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total]/[SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex ++;
+            [self footerHidden:NO];
+        }else {
+            [self noticeNoMoreData];
+        }
+        
+    } message:^(NSString *resultMsg) {
+        [self headerEndRefreshing ];
+        [self postMessage:resultMsg];
+    }];
 }
 
 - (void)loadModeData {
-    
+    self.sessionTask = [SCNetwork topicListWithChannelId:@""type:1 page:_currentPageIndex success:^(SCCommunityListModel *model) {
+        [self footerEndRefreshing];
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total]/[SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex ++;
+        }else {
+            [self noticeNoMoreData];
+        }
+    } message:^(NSString *resultMsg) {
+        [self footerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
 }
 
 - (UIButton *)topicTypeButtonWithTitle:(NSString *)title {
@@ -134,64 +155,45 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 20;
+    return _datasource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSNumber *number = @0;
-    if (indexPath.row % 4 == 0) {
-        number = @0;
-    }else if (indexPath.row % 4 == 1) {
-        number = @1;
-    }else if (indexPath.row % 4 == 2) {
-        number = @2;
-    }else {
-        number = @3;
-    }
-    
-    number = @1;
-    
-    if (number.integerValue > 0) {
+    SCCommunityListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+    if (model.images.count > 0) {
         SCPostsImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsImageCell cellIdentifier] forIndexPath:indexPath];
-        [cell createLayoutWith:number];
+        SCCommunityListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+        [cell createLayoutWith:model];
         return cell;
     }else {
         SCPostsTextCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsTextCell cellIdentifier] forIndexPath:indexPath];
-        [cell createLayoutWith:number];
+        SCCommunityListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+        [cell createLayoutWith:model];
         return cell;
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    SCCommunityListDataModel *model = [_datasource objectAtIndex:indexPath.row];
     SCPostsDetailVC *detailVC = [[SCPostsDetailVC alloc] init];
+    detailVC.topicId = model.tid;
     detailVC.hidesBottomBarWhenPushed = YES;
     [self.parentVC.navigationController pushViewController:detailVC animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSNumber *number = @0;
-    if (indexPath.row % 4 == 0) {
-        number = @0;
-    }else if (indexPath.row % 4 == 1) {
-        number = @1;
-    }else if (indexPath.row % 4 == 2) {
-        number = @2;
-    }else {
-        number = @3;
-    }
-    number = @1;
+    SCCommunityListDataModel *model = [_datasource objectAtIndex:indexPath.row];
 
-    if (number.integerValue > 0) {
+    if (model.images.count > 0) {
         return [tableView fd_heightForCellWithIdentifier:[SCPostsImageCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCPostsImageCell *cell) {
-            [cell createLayoutWith:number];
+            [cell createLayoutWith:model];
         }];
     }else {
         return [tableView fd_heightForCellWithIdentifier:[SCPostsTextCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCPostsTextCell *cell) {
-            [cell createLayoutWith:number];
+            [cell createLayoutWith:model];
         }];
     }
 }
