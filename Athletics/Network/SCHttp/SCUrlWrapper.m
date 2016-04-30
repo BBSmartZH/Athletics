@@ -140,7 +140,7 @@
  *  @return
  */
 + (NSString *)userReportUrl {
-    return [self p_wrap:@"/user/report"];
+    return [self p_wrap:@"/static/user/report"];
 }
 
 #pragma mark - 上传图片

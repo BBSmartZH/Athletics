@@ -158,7 +158,16 @@
 - (void)didSelectedAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"你选择了%ld行", indexPath.row);
     //举报
+    SCNewsCommentListDataModel *model = [_datasource objectAtIndex:indexPath.row];
     
+    MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"举报中" showAddTo:self.parentVC.view delay:NO];
+    [SCNetwork userReportWithCommentId:model.commentId type:3 success:^(SCResponseModel *model) {
+        [HUD hideAnimated:YES];
+        [self postMessage:@"举报成功"];
+    } message:^(NSString *resultMsg) {
+        [HUD hideAnimated:YES];
+        [self postMessage:resultMsg];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

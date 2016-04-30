@@ -60,7 +60,7 @@ static CGFloat headerImageH = 24.0f;
     
     _praiseButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_praiseButton setImage:[UIImage imageNamed:@"live_btn_support_left_press"]forState:UIControlStateNormal];
-    [_praiseButton setImage:[UIImage imageNamed:@"live_btn_support_left_sel"] forState:UIControlStateSelected];
+    [_praiseButton setImage:[UIImage imageNamed:@"live_btn_support_left_sel"] forState:UIControlStateDisabled];
     [self.contentView addSubview:_praiseButton];
     
     
@@ -104,10 +104,15 @@ static CGFloat headerImageH = 24.0f;
 
 -(void)createLayoutWith:(SCNewsCommentListDataModel *)model {
     _model = model;
-    [_headerImageV scImageWithURL:@"https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg" placeholderImage:nil];
-    _nameLabel.text = @"新手请轻虐";
-    _detailLabel.text = @"游戏就是要与时俱进";
-    _numLabel.text = @"14";
+    [_headerImageV scImageWithURL:model.userAvatar placeholderImage:[UIImage imageNamed:@"mine_default_avatar"]];
+    _nameLabel.text = model.userName;
+    _detailLabel.text = model.comment;
+    _numLabel.text = model.likeCount;
+    if ([SCGlobaUtil getInt:model.isLike] == 1) {
+        _praiseButton.enabled = NO;
+    }else {
+        _praiseButton.enabled = YES;
+    }
 }
 
 + (NSString *)cellidentifier {
