@@ -8,7 +8,6 @@
 
 #import "SCNewsImageVC.h"
 
-#import "SCCommentListVC.h"
 #import "SCPhotosScrollView.h"
 #import "SCPhotoZoomView.h"
 

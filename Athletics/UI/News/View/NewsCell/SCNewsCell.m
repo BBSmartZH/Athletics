@@ -89,7 +89,7 @@ static float scale = 0.65;
         make.left.equalTo(ws.contentView).offset(k_left);
         make.top.equalTo(ws.contentView).offset(k_left);
         make.bottom.lessThanOrEqualTo(ws.contentView).offset(-k_left);
-        make.size.mas_equalTo(CGSizeMake(imageWidth, imageWidth * scale));
+        make.size.mas_equalTo(CGSizeMake(imageWidth, floorf(imageWidth * scale)));
     }];
     
     [_markImageV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -129,13 +129,17 @@ static float scale = 0.65;
 
 - (void)createLayoutWith:(SCNewsListDataModel *)model {
     _model = model;
-    _titleLabel.text = @"6.87全新游戏性更新   马尼拉特锦赛预选赛本周开锣";
-    _descLabel.text = @"经过了大赛不断的精彩冬季后，DOTA2即将随着本周6.87游戏性更新的发布迎来万象更新的春季。天梯全英雄选择模式的改动，小地图扫描技能的加入，全新物品的推出和大量平衡性调整，6.87更新日志中有诸多内容亟待您的探索。";
-    _timeLabel.text = @"2016-04-26";
-    _commentLabel.text = @"1234";
+    _titleLabel.text = _model.title;
+    _descLabel.text = _model.desc;
+    _timeLabel.text = _model.pub_time;
+    _commentLabel.text = [NSString stringWithFormat:@"%@", _model.commentsNum];
     _commentImageV.hidden = NO;
-    _markImageV.hidden = YES;
-    [_leftImageV scImageWithURL:@"http://img.dota2.com.cn/dota2/6e/79/6e79c9c6d159671cefdd9064513d86061461651059.jpg" placeholderImage:nil];
+    if ([SCGlobaUtil getInt:_model.type] == 2) {
+        _markImageV.hidden = NO;
+    }else {
+        _markImageV.hidden = YES;
+    }
+    [_leftImageV scImageWithURL:_model.imageUrl placeholderImage:nil];
 }
 
 + (NSString *)cellIdentifier {

@@ -12,4 +12,10 @@
 
 @property (nonatomic, assign) UIViewController *parentVC;
 
+@property (nonatomic, copy) NSString *newsId;
+
+@property (nonatomic, assign, readonly) BOOL isUpdated;
+
+- (void)updateData;
+
 @end

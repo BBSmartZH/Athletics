@@ -15,9 +15,8 @@
 
 @interface SCCommentListVC ()<LrdOutputViewDelegate>
 {
-    UIView *_inputView;
-    
-    //Test
+//    UIView *_inputView;
+    BOOL _needUpdate;
     UIButton *_commentButton;
 }
 
@@ -34,46 +33,46 @@
     self.m_navBar.hidden = YES;
     self.title = @"评论";
     
-    _inputView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.fHeight - 44, self.view.fWidth, 44)];
-    _inputView.backgroundColor = [UIColor cyanColor];
-    _inputView.layer.borderWidth = .5f;
-    _inputView.layer.borderColor = k_Border_Color.CGColor;
-    [self.view addSubview:_inputView];
-    
-    _commentButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _commentButton.backgroundColor = [UIColor redColor];
-    [_commentButton setTitle:@"原文" forState:UIControlStateNormal];
-    _commentButton.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_28px];
-    _commentButton.frame = CGRectMake(_inputView.fWidth - 10 - 60, 7, 60, 30);
-    [_commentButton addTarget:self action:@selector(commentButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [_inputView addSubview:_commentButton];
     
     [_tableView registerClass:[LWCommentListCell class] forCellReuseIdentifier:[LWCommentListCell cellidentifier]];
-    _tableView.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight - _inputView.fHeight);
+//    _tableView.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight - _inputView.fHeight);
     _tableView.separatorColor = k_Border_Color;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
-    
+    _WEAKSELF(ws);
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.bottom.equalTo(ws.view);
+    }];
     
 }
 
-- (void)commentButtonClicked:(UIButton *)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+- (BOOL)isUpdated {
+    return !_needUpdate;
+}
+
+- (void)updateData {
+    [self headerBeginRefreshing];
+    
 }
 
 - (void)refreshData {
     
+    if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
+        [self.sessionTask cancel];
+    }
     
-    self.sessionTask = [SCNetwork newsCommentListWithNewsId:@"" page:_currentPageIndex success:^(SCNewsCommentListModel *model) {
+    self.sessionTask = [SCNetwork newsCommentListWithNewsId:_newsId page:_currentPageIndex success:^(SCNewsCommentListModel *model) {
         [self headerEndRefreshing];
         
         [_datasource removeAllObjects];
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
         
-        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex++;
             [self footerHidden:NO];
+        }else {
+            [self noticeNoMoreData];
         }
         
     } message:^(NSString *resultMsg) {
@@ -84,14 +83,16 @@
 }
 
 - (void)loadModeData {
-    self.sessionTask = [SCNetwork newsCommentListWithNewsId:@"" page:_currentPageIndex success:^(SCNewsCommentListModel *model) {
+    self.sessionTask = [SCNetwork newsCommentListWithNewsId:_newsId page:_currentPageIndex success:^(SCNewsCommentListModel *model) {
         [self footerEndRefreshing];
         
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
         
-        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex++;
+        }else {
+            [self noticeNoMoreData];
         }
         
     } message:^(NSString *resultMsg) {

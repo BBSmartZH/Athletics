@@ -109,6 +109,14 @@
  */
 + (NSString *)userUpdateInfoUrl;
 
+#pragma mark - 举报
+/**
+ *  举报
+ *
+ *  @return
+ */
++ (NSString *)userReportUrl;
+
 #pragma mark - 上传图片
 /**
  *  上传图片

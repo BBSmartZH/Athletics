@@ -42,7 +42,8 @@
  *
  *  @return
  */
-+ (NSDictionary *)newsBannerListParamsWithChannelId:(NSString *)channerId;
++ (NSDictionary *)newsBannerListParamsWithChannelId:(NSString *)channelId
+                                               type:(int)type;
 
 #pragma mark - **************************************************************
 #pragma mark - 注册
@@ -88,6 +89,15 @@
  */
 + (NSDictionary *)userUpdateInfoParamsWithAvatar:(NSString *)avatar
                                         nickName:(NSString *)nickName;
+
+#pragma mark - 举报
+/**
+ *  举报
+ *
+ *  @return
+ */
++ (NSDictionary *)userReportParamsWithCommentId:(NSString *)commentId
+                                           type:(int)type;
 
 #pragma mark - 发送验证码
 /**

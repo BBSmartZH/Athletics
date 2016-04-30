@@ -133,6 +133,16 @@
     return [self p_wrap:@"/user/update"];
 }
 
+#pragma mark - 举报
+/**
+ *  举报
+ *
+ *  @return
+ */
++ (NSString *)userReportUrl {
+    return [self p_wrap:@"/user/report"];
+}
+
 #pragma mark - 上传图片
 /**
  *  上传图片

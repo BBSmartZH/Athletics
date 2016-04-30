@@ -242,6 +242,34 @@
     }];
 }
 
+#pragma mark - 举报
+/**
+ *  举报
+ *
+ *  @param commentId 评论的id
+ *  @param type      类型
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)userReportWithCommentId:(NSString *)commentId
+                                             type:(int)type
+                                          success:(void(^)(SCResponseModel *model))success
+                                          message:(SCMessageBlock)message; {
+    return [SCNetworkHelper postWithUrl:[SCUrlWrapper userReportUrl] params:[SCParamsWrapper userReportParamsWithCommentId:commentId type:type] success:^(NSDictionary *result) {
+        NSError *error;
+        SCResponseModel *model = [[SCResponseModel alloc] initWithDictionary:result error:&error];
+        if (!error) {
+            success(model);
+        }else {
+            message(error.localizedDescription);
+        }
+    } message:^(NSString *resultMsg) {
+        message(resultMsg);
+    }];
+}
+
 #pragma mark - 上传图片
 /**
  *  上传图片
@@ -391,19 +419,22 @@
 }
 
 #pragma mark - 获取banner
+#pragma mark - 获取banner
 /**
  *  获取banner
  *
  *  @param channelId 频道列表
+ *  @param type      类型   1.资讯  2.帖子   3.赛事    4.视频
  *  @param success
  *  @param message
  *
  *  @return
  */
 + (NSURLSessionDataTask *)newsBannerListWithChannelId:(NSString *)channelId
+                                                 type:(int)type
                                               success:(void(^)(SCNewsBannerListModel *model))success
                                               message:(SCMessageBlock)message {
-    return [SCNetworkHelper getWithUrl:[SCUrlWrapper newsBannerListUrl] params:[SCParamsWrapper newsBannerListParamsWithChannelId:channelId] success:^(NSDictionary *result) {
+    return [SCNetworkHelper getWithUrl:[SCUrlWrapper newsBannerListUrl] params:[SCParamsWrapper newsBannerListParamsWithChannelId:channelId type:type] success:^(NSDictionary *result) {
         NSError *error;
         SCNewsBannerListModel *model = [[SCNewsBannerListModel alloc] initWithDictionary:result error:&error];
         if (!error) {

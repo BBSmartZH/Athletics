@@ -10,4 +10,6 @@
 
 @interface SCNewsPhotosPackVC : LWBaseVC_iPhone
 
+@property (nonatomic, copy) NSString *newsId;
+
 @end

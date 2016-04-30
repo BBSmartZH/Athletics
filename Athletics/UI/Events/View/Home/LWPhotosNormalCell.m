@@ -7,6 +7,7 @@
 //
 
 #import "LWPhotosNormalCell.h"
+#import "SCNewsListModel.h"
 static CGFloat k_left = 10.0;
 static CGFloat k_small = 5.0;
 static CGFloat k_WHratio = 0.7;
@@ -22,7 +23,7 @@ static CGFloat k_WHratio = 0.7;
     UILabel          *_commentsLabel;
     UILabel          *_scanLabel;
     int               _imageCounts;
-
+    SCNewsListDataModel *_model;
 }
 @end
 
@@ -109,7 +110,7 @@ static CGFloat k_WHratio = 0.7;
     [_leftImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(ws.contentView).offset(k_left);
         make.top.equalTo(_titleLabel.mas_bottom).offset(k_left);
-        make.size.mas_equalTo(CGSizeMake((kScreenWidth-k_left*2-k_left*2)/3.0, (kScreenWidth-k_left*2-k_left*2)/3.0*k_WHratio));
+        make.size.mas_equalTo(CGSizeMake((kScreenWidth-k_left*2-k_left*2)/3.0, floorf((kScreenWidth-k_left*2-k_left*2)/3.0*k_WHratio)));
     }];
     
     [_middleImageV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -144,31 +145,47 @@ static CGFloat k_WHratio = 0.7;
     }];
     
 }
--(void)createLayoutWith:(id)model
+-(void)createLayoutWith:(SCNewsListDataModel *)model
 {
-    _titleLabel.text = @"DOTA2特级锦标赛之马尼拉站即将上演";
-    [_leftImageV scImageWithURL:@"http://img.dota2.com.cn/dota2/31/8b/318b43ff95c38c7e54b4d1ad476a88a51458026307.jpg" placeholderImage:nil];
-    [_middleImageV scImageWithURL:@"http://img.dota2.com.cn/dota2/af/e7/afe7b0fc2bc4d083a2bac20c3b1c79b11461668008.jpg" placeholderImage:nil];
-    [_rightImageV scImageWithURL:@"http://img.dota2.com.cn/dota2/14/b7/14b7fe520b4062b64dfd797eed3df4291461667855.jpg" placeholderImage:nil];
-    _commentsLabel.text = @"12334";
+    _model = model;
+    _titleLabel.text = model.title;
+    
+    _commentsLabel.text = _model.commentsNum;
     _commentsImageV.backgroundColor = k_Bg_Color;
-    _scanImageV.backgroundColor = k_Bg_Color;
-    _scanLabel.text = @"114";
+    //暂时不用
+    _scanImageV.hidden = YES;
+    _scanLabel.hidden = YES;
     
-    _imageCounts = 3;
-    
-    if (_imageCounts == 1) {
+    if(_model.images.count == 1){
         _leftImageV.hidden = NO;
         _middleImageV.hidden = YES;
         _rightImageV.hidden = YES;
-    }else if(_imageCounts == 2){
+        SCImageModel *leftImage = [_model.images objectAtIndex:0];
+        [_leftImageV scImageWithURL:leftImage.url placeholderImage:nil];
+    }else if(_model.images.count == 2){
         _leftImageV.hidden = NO;
         _middleImageV.hidden = NO;
         _rightImageV.hidden = YES;
-    }else if (_imageCounts >2){
+        SCImageModel *leftImage = [_model.images objectAtIndex:0];
+        SCImageModel *middleImage = [_model.images objectAtIndex:1];
+
+        [_leftImageV scImageWithURL:leftImage.url placeholderImage:nil];
+        [_middleImageV scImageWithURL:middleImage.url placeholderImage:nil];
+    }else if (_model.images.count >2){
         _leftImageV.hidden = NO;
         _middleImageV.hidden = NO;
         _rightImageV.hidden = NO;
+        SCImageModel *leftImage = [_model.images objectAtIndex:0];
+        SCImageModel *middleImage = [_model.images objectAtIndex:1];
+        SCImageModel *rightImage = [_model.images objectAtIndex:1];
+        [_leftImageV scImageWithURL:leftImage.url placeholderImage:nil];
+        [_middleImageV scImageWithURL:middleImage.url placeholderImage:nil];
+        [_rightImageV scImageWithURL:rightImage.url placeholderImage:nil];
+    }else {
+        _leftImageV.hidden = NO;
+        _middleImageV.hidden = YES;
+        _rightImageV.hidden = YES;
+        [_leftImageV scImageWithURL:@"" placeholderImage:nil];
     }
 
 }
@@ -180,7 +197,7 @@ static CGFloat k_WHratio = 0.7;
     height += [SCGlobaUtil heightOfLineWithFont:kWord_Font_28px];
     height += k_left;
 
-    height += (kScreenWidth - k_left * 2 - k_left * 2) / 3.0 * k_WHratio;
+    height += floorf((kScreenWidth-k_left*2-k_left*2)/3.0*k_WHratio);
     
     height += k_left;
     height += [SCGlobaUtil heightOfLineWithFont:kWord_Font_20px];

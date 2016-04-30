@@ -8,7 +8,6 @@
 
 #import "SCNewsDetailVC.h"
 
-#import "SCCommentListVC.h"
 #import "SCNewsDetailTextCell.h"
 #import "SCNewsDetailImageCell.h"
 #import "SCNewsDetailVideoCell.h"
@@ -49,7 +48,6 @@
     [_tableView registerClass:[SCNewsCell class] forCellReuseIdentifier:[SCNewsCell cellIdentifier]];
     [_tableView registerClass:[LWPhotosNormalCell class] forCellReuseIdentifier:[LWPhotosNormalCell cellIdentifier]];
     
-//    _tableView.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight);
     _WEAKSELF(ws);
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.bottom.equalTo(ws.view);

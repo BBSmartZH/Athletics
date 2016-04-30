@@ -140,6 +140,22 @@
                                        success:(void(^)(SCResponseModel *model))success
                                        message:(SCMessageBlock)message;
 
+#pragma mark - 举报
+/**
+ *  举报
+ *
+ *  @param commentId 评论的id
+ *  @param type      类型
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)userReportWithCommentId:(NSString *)commentId
+                                             type:(int)type
+                                          success:(void(^)(SCResponseModel *model))success
+                                          message:(SCMessageBlock)message;
+
 #pragma mark - 上传图片
 /**
  *  上传图片
@@ -223,12 +239,14 @@
  *  获取banner
  *
  *  @param channelId 频道列表
+ *  @param type      类型   1.资讯  2.帖子   3.赛事    4.视频
  *  @param success
  *  @param message
  *
  *  @return
  */
 + (NSURLSessionDataTask *)newsBannerListWithChannelId:(NSString *)channelId
+                                                 type:(int)type
                                               success:(void(^)(SCNewsBannerListModel *model))success
                                               message:(SCMessageBlock)message;
 

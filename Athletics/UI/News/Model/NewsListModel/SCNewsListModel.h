@@ -21,7 +21,7 @@ SCNewsListDataModel
 
 @property (nonatomic, copy) NSString<Optional> *desc;
 
-@property (nonatomic, copy) NSString<Optional> *type;
+@property (nonatomic, copy) NSString<Optional> *type;//1 text  2 video   3image
 
 @property (nonatomic, copy) NSString<Optional> *pub_time;
 

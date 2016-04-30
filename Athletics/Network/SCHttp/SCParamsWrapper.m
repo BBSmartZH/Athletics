@@ -62,14 +62,15 @@
  *
  *  @return
  */
-+ (NSDictionary *)newsBannerListParamsWithChannelId:(NSString *)channerId {
-    if ([SCGlobaUtil isEmpty:channerId]) {
++ (NSDictionary *)newsBannerListParamsWithChannelId:(NSString *)channelId
+                                               type:(int)type {
+    if ([SCGlobaUtil isEmpty:channelId]) {
         return nil;
     }
-    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
-        return [self salt:@{@"uid":[SCUserInfoManager uid], @"channerId":channerId} isDynamic:NO];
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"channelId":channelId, @"type":@(type)} isDynamic:NO];
     }
-    return [self salt:@{@"newsId":channerId} isDynamic:NO];
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"channelId":channelId, @"type":@(type)} isDynamic:NO];
 }
 
 #pragma mark -  *******************    登录找回密码    *********************************
@@ -142,6 +143,20 @@
         return nil;
     }
     return [self salt:@{@"uid":[SCUserInfoManager uid], @"avatar":avatar, @"name":nickName} isDynamic:NO];
+}
+
+#pragma mark - 举报
+/**
+ *  举报
+ *
+ *  @return
+ */
++ (NSDictionary *)userReportParamsWithCommentId:(NSString *)commentId
+                                           type:(int)type {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:commentId]) {
+        return nil;
+    }
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"commentId":commentId, @"type":@(type)} isDynamic:NO];
 }
 
 #pragma mark - 发送验证码

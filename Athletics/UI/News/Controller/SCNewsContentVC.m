@@ -66,7 +66,7 @@
 
 - (void)getMatchBanner {
     
-    [SCNetwork newsBannerListWithChannelId:_channelId success:^(SCNewsBannerListModel *model) {
+    [SCNetwork newsBannerListWithChannelId:_channelId type:1 success:^(SCNewsBannerListModel *model) {
         _bannerModel = model;
         
         [_imageUrlArray removeAllObjects];
@@ -85,7 +85,7 @@
             _tableView.tableHeaderView = nil;
         }
     } message:^(NSString *resultMsg) {
-        
+        [self postMessage:resultMsg];
     }];
 }
 
@@ -109,9 +109,11 @@
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
         
-        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex++;
             [self footerHidden:NO];
+        }else {
+            [self noticeNoMoreData];
         }
         
     } message:^(NSString *resultMsg) {
@@ -127,8 +129,10 @@
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
         
-        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex++;
+        }else {
+            [self noticeNoMoreData];
         }
         
     } message:^(NSString *resultMsg) {
@@ -146,9 +150,11 @@
     SCNewsListDataModel *model = [_datasource objectAtIndex:indexPath.row];
     
     if ([SCGlobaUtil getInt:model.type] == 3) {
-        LWPhotosNormalCell *cell = [tableView dequeueReusableCellWithIdentifier:[LWPhotosNormalCell cellIdentifier] forIndexPath:indexPath];
-        [cell createLayoutWith:model];
-        return cell;
+        if (model.images.count > 0) {
+            LWPhotosNormalCell *cell = [tableView dequeueReusableCellWithIdentifier:[LWPhotosNormalCell cellIdentifier] forIndexPath:indexPath];
+            [cell createLayoutWith:model];
+            return cell;
+        }
     }
     
     SCNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsCell cellIdentifier] forIndexPath:indexPath];
@@ -162,9 +168,9 @@
     SCNewsListDataModel *model = [_datasource objectAtIndex:indexPath.row];
     
     if ([SCGlobaUtil getInt:model.type] == 3) {
-
-//        return [LWPhotosNormalCell heightForRowWithPhotosWithCounts:(int)(model.images.count)];
-        return [LWPhotosNormalCell heightForRowWithPhotosWithCounts:2];
+        if (model.images.count > 0) {
+            return [LWPhotosNormalCell heightForRowWithPhotosWithCounts:(int)model.images.count];
+        }
     }
     
     return [tableView fd_heightForCellWithIdentifier:[SCNewsCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCNewsCell *cell) {
@@ -176,16 +182,19 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.row % 2 == 0) {
-        SCNewsArticlePackVC *articleVC = [[SCNewsArticlePackVC alloc] init];
-        articleVC.hidesBottomBarWhenPushed = YES;
-        [self.parentVC.navigationController pushViewController:articleVC animated:YES];
-    }else {
+    SCNewsListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+
+    if ([SCGlobaUtil getInt:model.type] == 3 && model.images.count > 0) {
         SCNewsPhotosPackVC *photosVC = [[SCNewsPhotosPackVC alloc] init];
+        photosVC.newsId = model.newsId;
         photosVC.hidesBottomBarWhenPushed = YES;
         [self.parentVC.navigationController pushViewController:photosVC animated:YES];
+    }else {
+        SCNewsArticlePackVC *articleVC = [[SCNewsArticlePackVC alloc] init];
+        articleVC.newsId = model.newsId;
+        articleVC.hidesBottomBarWhenPushed = YES;
+        [self.parentVC.navigationController pushViewController:articleVC animated:YES];
     }
-    
 }
 
 

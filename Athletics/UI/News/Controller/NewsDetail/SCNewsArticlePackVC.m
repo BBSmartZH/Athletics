@@ -81,11 +81,13 @@
     
     self.articleVC = [[SCNewsDetailVC alloc] init];
     self.articleVC.parentVC = self;
+    self.articleVC.newsId = _newsId;
     self.articleVC.view.frame = CGRectMake(0, 0, _scrollView.fWidth, _scrollView.fHeight);
     [_scrollView addSubview:self.articleVC.view];
     
     self.commentVC = [[SCCommentListVC alloc] init];
     self.commentVC.parentVC = self;
+    self.commentVC.newsId = _newsId;
     self.commentVC.view.frame = CGRectMake(_scrollView.fWidth, 0, _scrollView.fWidth, _scrollView.fHeight);
     [_scrollView addSubview:self.commentVC.view];
 
@@ -155,10 +157,10 @@
         NSInteger pag = scrollView.contentOffset.x / scrollView.bounds.size.width;
         if (pag == 0) {
             _inputView.commentButton.selected = NO;
-            self.title = @"资讯";
+            [self commentButtonClicked:_inputView.commentButton];
         }else {
             _inputView.commentButton.selected = YES;
-            self.title = @"评论";
+            [self commentButtonClicked:_inputView.commentButton];
         }
     }
 }
