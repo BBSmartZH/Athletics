@@ -17,8 +17,8 @@ SCVideoListDataModel
 
 @property (nonatomic, copy) NSString<Optional> *videoId;
 @property (nonatomic, copy) NSString<Optional> *title;
-@property (nonatomic, copy) NSString<Optional> *summary;
-@property (nonatomic, copy) NSString<Optional> *type;
+@property (nonatomic, copy) NSString<Optional> *summary;//
+@property (nonatomic, copy) NSString<Optional> *type;//
 @property (nonatomic, strong) SCImageModel<Optional> *image;
 @property (nonatomic, copy) NSString<Optional> *url;
 @property (nonatomic, copy) NSString<Optional> *videoLength;

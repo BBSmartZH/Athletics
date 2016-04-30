@@ -15,8 +15,9 @@ SCRoundGameModel
 @interface SCRoundGameModel : SCBaseModel
 
 @property (nonatomic, copy) NSString<Optional> *name;
-@property (nonatomic, copy) NSString<Optional> *roundId;
+@property (nonatomic, copy) NSString<Optional> *matchRoundGamesId;
 @property (nonatomic, copy) NSString<Optional> *status;
+@property (nonatomic, copy) NSString<Optional> *matchUnitId;
 
 @end
 
@@ -35,12 +36,12 @@ SCMatchDetailDataModel
 @property (nonatomic, copy) NSString<Optional> *leftTeamName;
 @property (nonatomic, copy) NSString<Optional> *leftTeamBadge;
 @property (nonatomic, copy) NSString<Optional> *leftTeamGoal;
-@property (nonatomic, copy) NSString<Optional> *isLeftTeamAble;
+@property (nonatomic, copy) NSString<Optional> *leftTeamAble;
 @property (nonatomic, copy) NSString<Optional> *rightTeamId;
 @property (nonatomic, copy) NSString<Optional> *rightTeamName;
 @property (nonatomic, copy) NSString<Optional> *rightTeamBadge;
 @property (nonatomic, copy) NSString<Optional> *rightTeamGoal;
-@property (nonatomic, copy) NSString<Optional> *isRightTeamAble;
+@property (nonatomic, copy) NSString<Optional> *rightTeamAble;
 @property (nonatomic, copy) NSString<Optional> *beginTime;
 
 @property (nonatomic, strong) NSArray<SCRoundGameModel, Optional> *data;

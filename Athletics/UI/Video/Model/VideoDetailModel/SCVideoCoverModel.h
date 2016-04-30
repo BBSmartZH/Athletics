@@ -17,7 +17,7 @@ SCVideoCoverDataModel
 
 @property(nonatomic, copy) NSString<Optional> *videoId;
 @property(nonatomic, copy) NSString<Optional> *title;
-@property(nonatomic, copy) NSString<Optional> *stitle;
+@property(nonatomic, copy) NSString<Optional> *stitle;//
 @property(nonatomic, strong) SCImageModel<Optional> *image;
 @property(nonatomic, copy) NSString<Optional> *url;
 @property(nonatomic, copy) NSString<Optional> *videoLength;

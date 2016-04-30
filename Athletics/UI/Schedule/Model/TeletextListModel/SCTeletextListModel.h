@@ -16,7 +16,6 @@ SCTeletextListDataModel
 
 @interface SCTeletextListDataModel : SCBaseModel
 
-@property (nonatomic, copy) NSString<Optional> *matchUnitId;
 @property (nonatomic, copy) NSString<Optional> *liverName;
 @property (nonatomic, copy) NSString<Optional> *liverAvatar;
 @property (nonatomic, copy) NSString<Optional> *content;

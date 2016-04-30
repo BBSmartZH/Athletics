@@ -23,10 +23,10 @@
 {
     UILabel *_testLabel;
     SCPostsTopView *_headerView;
-    
     UIButton *_supportButton;
     UILabel  *_supportLabel;
-    
+    UIImageView *_imageV;
+    int       k;
 }
 
 @property (nonatomic, strong) SCCommentInputView *inputView;
@@ -78,7 +78,8 @@
     [[[IQKeyboardManager sharedManager] disabledToolbarClasses] addObject:[self class]];
     
     self.title = @"帖子详情";
-    
+    k = 10;
+
     [_tableView registerClass:[SCPostsTextImageCell class] forCellReuseIdentifier:[SCPostsTextImageCell cellIdentifier]];
     [_tableView registerClass:[SCPostsAdCell class] forCellReuseIdentifier:[SCPostsAdCell cellIdentifier]];
     [_tableView registerClass:[LandlordCell class] forCellReuseIdentifier:[LandlordCell cellIdentifier]];
@@ -220,16 +221,22 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if (section == 0) {
-        return 110.0f;
+        if (k == 0) {
+            return 120;
+        }else if ( k >0 && k < 7){
+            return 167.0f;
+        }else{
+            return 214.0f;
+        }
     }
     return 1.0f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     if (section == 0) {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.fWidth, 0)];
+        UIView *view = [[UIView alloc] init];
         view.backgroundColor = [UIColor whiteColor];
-        _supportLabel = [[UILabel alloc] init];
+        _supportLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2.0-50, 20, 100, 20)];
         _supportLabel.font = [UIFont systemFontOfSize:kWord_Font_20px];
         _supportLabel.textAlignment = NSTextAlignmentCenter;
         _supportLabel.textColor = kWord_Color_Low;
@@ -237,24 +244,39 @@
         [view addSubview:_supportLabel];
         
         _supportButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _supportButton.frame = CGRectMake(kScreenWidth/2.0-25, CGRectGetMaxY(_supportLabel.frame)+10, 50, 50);
         [_supportButton setImage:[UIImage imageNamed:@"news_suppourt_nor"] forState:UIControlStateNormal];
         [_supportButton setImage:[UIImage imageNamed:@"news_suppourt_press"] forState:UIControlStateSelected];
         [_supportButton addTarget:self action:@selector(supportButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         _supportButton.layer.cornerRadius = 25;
         _supportButton.layer.borderColor = k_Border_Color.CGColor;
         _supportButton.layer.borderWidth = .5f;
+        
         [view addSubview:_supportButton];
         
-        [_supportLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
-        [_supportLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(view).offset(20);
-            make.centerX.equalTo(view);
-        }];
-        [_supportButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(view).offset(-20);
-            make.centerX.equalTo(view);
-            make.size.mas_equalTo(CGSizeMake(50, 50));
-        }];
+        int minSpace = 15;
+        int counts = 0;
+        counts = (kScreenWidth -minSpace)/(32+minSpace);
+
+        for (int i = 0 ; i < k; i++) {
+            _imageV = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-32*counts)/(counts+1) *(i%counts+1)+i%counts*32,CGRectGetMaxY(_supportButton.frame)+15+i/counts*(15+32) , 32, 32)];
+ 
+            _imageV.clipsToBounds = YES;
+            _imageV.contentMode = UIViewContentModeScaleAspectFill;
+            _imageV.layer.cornerRadius = 16;
+            _imageV.backgroundColor = [UIColor redColor];
+            [view addSubview:_imageV];
+        }
+        if (k==0) {
+            view.frame = CGRectMake(0, 0, _tableView.fWidth,120);
+
+        }else if(k > 0 && k < 7){
+            view.frame = CGRectMake(0, 0, _tableView.fWidth,167);
+
+        }else{
+            view.frame = CGRectMake(0, 0, _tableView.fWidth,214);
+
+        }
         
         return view;
     }else {

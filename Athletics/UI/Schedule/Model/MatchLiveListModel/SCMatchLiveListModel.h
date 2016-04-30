@@ -17,12 +17,14 @@ SCMatchLiveListDataModel
 @interface SCMatchLiveListDataModel : SCBaseModel
 
 @property (nonatomic, copy) NSString<Optional> *matchId;//赛事活动id
+@property (nonatomic, copy) SCImageModel<Optional> *image;
 @property (nonatomic, copy) NSString<Optional> *title;
 @property (nonatomic, copy) NSString<Optional> *desc;
 @property (nonatomic, copy) NSString<Optional> *startTime;
 @property (nonatomic, copy) NSString<Optional> *endTime;
 @property (nonatomic, copy) NSString<Optional> *url;//赛事图片
 @property (nonatomic, copy) NSString<Optional> *status;//1.未开始 2.正在进行 3.已结束 4.取消
+@property (nonatomic, copy) NSString<Optional> *esportType;
 
 @end
 
