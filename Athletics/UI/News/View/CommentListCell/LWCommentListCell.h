@@ -9,7 +9,17 @@
 #import <UIKit/UIKit.h>
 
 @class SCNewsCommentListDataModel;
+
+@protocol LWCommentListCellDelegate <NSObject>
+
+- (void)praiseButtonClicked:(UIButton *)sender withModel:(SCNewsCommentListDataModel *)model;
+
+@end
+
+
 @interface LWCommentListCell : UITableViewCell
+
+@property (nonatomic, assign) id<LWCommentListCellDelegate> delegate;
 
 @property (nonatomic, strong, readonly) UIImageView *avatar;
 

@@ -7,7 +7,7 @@
 //
 
 #import "SCPostsTextImageCell.h"
-
+#import "SCImageModel.h"
 
 @interface SCPostsTextImageCell ()
 {
@@ -46,34 +46,19 @@ static CGFloat k_top = 15.0f;
     }];
 }
 
-- (void)createLayoutWith:(id)model {
+- (void)createLayoutWith:(SCImageModel *)model {
     _model = model;
-
-    CGSize imageSize = CGSizeZero;
     
-    NSInteger number = ((NSNumber *)model).integerValue;
-    if (number == 1) {
-        imageSize = CGSizeMake(348, 257);
-    }else {
-        imageSize = CGSizeMake(620, 747);
-    }
-    
-    [_imageView scImageWithURL:@"http://img.78dian.com/user/topic/201604/1461658526_637289.png0" placeholderImage:nil];
+    [_imageView scImageWithURL:model.url placeholderImage:nil];
 }
 
-+ (CGFloat)cellHeightWith:(id)model {
++ (CGFloat)cellHeightWith:(SCImageModel *)model {
     CGFloat height = 0.0;
     
-    CGSize imageSize = CGSizeZero;
+    CGSize imageSize = CGSizeMake([SCGlobaUtil getFloat:model.width], [SCGlobaUtil getFloat:model.height]);
     
-    NSInteger number = ((NSNumber *)model).integerValue;
-    if (number == 1) {
-        imageSize = CGSizeMake(348, 257);
-    }else {
-        imageSize = CGSizeMake(620, 1024);
-    }
+    height = floorf(([UIScreen mainScreen].bounds.size.width - 2 * k_left) * (imageSize.height / imageSize.width));
     
-    height = ([UIScreen mainScreen].bounds.size.width - 2 * k_left) * (imageSize.height / imageSize.width);
     height += k_top;
     
     return height;

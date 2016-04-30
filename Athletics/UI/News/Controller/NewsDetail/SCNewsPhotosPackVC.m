@@ -11,6 +11,7 @@
 #import "SCCommentInputView.h"
 #import "SCNewsImageVC.h"
 #import "SCCommentListVC.h"
+#import "SCLoginVC.h"
 
 @interface SCNewsPhotosPackVC ()<SCCommentInputViewDelegate, UIScrollViewDelegate>
 {
@@ -153,6 +154,34 @@
 
 - (void)inputViewDidChangedFrame:(CGRect)frame {
     _inputView.frame = frame;
+}
+
+- (void)inputTextViewWillBeginEditing:(SCMessageTextView *)inputTextView {
+    if (![SCUserInfoManager isLogin]) {
+        [self.view endEditing:YES];
+        SCLoginVC *loginVC = [[SCLoginVC alloc] init];
+        [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+            if (result) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [_inputView.inputTextView becomeFirstResponder];
+                });
+            }
+        }];
+    }
+}
+
+- (void)inputTextViewDidSendMessage:(SCMessageTextView *)inputTextView {
+    
+    MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"评价中" showAddTo:self.view delay:NO];
+    
+    [SCNetwork newsCommentAddWithNewsId:_newsId comment:inputTextView.text success:^(SCResponseModel *model) {
+        [HUD hideAnimated:YES];
+        _inputView.inputTextView.text = nil;
+        [self postMessage:@"发表成功"];
+    } message:^(NSString *resultMsg) {
+        [HUD hideAnimated:YES];
+        [self postMessage:resultMsg];
+    }];
 }
 
 #pragma mark - keyboard

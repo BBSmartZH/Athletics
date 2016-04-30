@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-
+@class SCAdModel;
 @interface SCPostsAdCell : UITableViewCell
 
-- (void)createLayoutWith:(id)model;
+- (void)createLayoutWith:(SCAdModel *)model;
 
 + (NSString *)cellIdentifier;
 
-+ (CGFloat)cellHeightWith:(id)model;
++ (CGFloat)cellHeightWith:(SCAdModel *)model;
 
 @end

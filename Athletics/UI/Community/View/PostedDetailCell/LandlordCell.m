@@ -7,6 +7,7 @@
 //
 
 #import "LandlordCell.h"
+#import "SCTopicReplayListModel.h"
 
 @interface LandlordCell ()
 {
@@ -98,12 +99,12 @@ static CGFloat kImageH = 32.0f;
     return _imageV;
 }
 
--(void)createLayoutWith:(id)model
+-(void)createLayoutWith:(SCTopicReplayListDataModel *)model
 {
-    _imageV.backgroundColor = [UIColor redColor];
-    _hostNameLabel.text = @"罗也无声";
-    _dateLabel.text = @"1楼 2018-05-09 10:37";
-    _commentLabel.text = @"24,打击都懂得，科迷无处不在";
+    [_imageV scImageWithURL:model.userAvatar placeholderImage:[UIImage imageNamed:@"mine_default_avatar"]];
+    _hostNameLabel.text = model.userName;
+    _dateLabel.text = [NSString stringWithFormat:@"%@楼 %@", model.floorSort, model.createTime];
+    _commentLabel.text = model.comment;
     
 }
 

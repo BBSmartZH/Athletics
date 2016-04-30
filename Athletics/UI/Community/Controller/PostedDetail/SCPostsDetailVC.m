@@ -92,11 +92,9 @@
     _tableView.frame = CGRectMake(0, self.m_navBar.bottom, self.view.fWidth, self.view.fHeight - self.m_navBar.fHeight - _inputView.fHeight);
     _headerView = [[SCPostsTopView alloc] initWithFrame:CGRectMake(0, 0, _tableView.fWidth, 0)];
     _headerView.delegate = self;
-    [_headerView setModel:@1];
-    _headerView.frame = CGRectMake(0, 0, _headerView.fWidth, [_headerView topViewHeight]);
     _tableView.tableHeaderView = _headerView;
     
-    
+    [self headerBeginRefreshing];
 }
 
 - (void)postsTopViewHeightChanged {
@@ -132,15 +130,27 @@
     [self.outPutView pop];
 }
 
--(void)refreshData
-{
-     [SCNetwork topicInfoWithTopicId:_topicId success:^(SCCommunityDetailModel *model) {
+- (void)prepareData {
+    [SCNetwork topicInfoWithTopicId:_topicId success:^(SCCommunityDetailModel *model) {
         _model = model.data;
         [_tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
-
+        [_headerView setModel:_model];
+        _headerView.frame = CGRectMake(0, 0, _headerView.fWidth, [_headerView topViewHeight]);
+        _tableView.tableHeaderView = _headerView;
     } message:^(NSString *resultMsg) {
         [self postMessage:resultMsg];
     }];
+}
+
+-(void)refreshData
+{
+    [self prepareData];
+    
+    if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
+        [self.sessionTask cancel];
+        self.sessionTask = nil;
+    }
+    
     self.sessionTask = [SCNetwork topicCommentListWithTopicId:_topicId page:_currentPageIndex success:^(SCTopicReplayListModel *model) {
         [self headerEndRefreshing];
         [_datasource removeAllObjects];
@@ -158,6 +168,12 @@
 }
 -(void)loadModeData
 {
+    
+    if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
+        [self.sessionTask cancel];
+        self.sessionTask = nil;
+    }
+    
     self.sessionTask = [SCNetwork topicCommentListWithTopicId:_topicId page:_currentPageIndex success:^(SCTopicReplayListModel *model) {
         [self footerEndRefreshing];
         [_datasource addObjectsFromArray:model.data];
@@ -174,9 +190,12 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return 1;
+        if (_model.ad) {
+            return _model.images.count + 1;
+        }
+        return _model.images.count;
     }
-    return 5;
+    return _datasource.count;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -185,75 +204,56 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        if (indexPath.row < 10) {
+        if (indexPath.row < _model.images.count) {
+            SCImageModel *imageModel = [_model.images objectAtIndex:indexPath.row];
+            
             SCPostsTextImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsTextImageCell cellIdentifier] forIndexPath:indexPath];
-            if (indexPath.row % 2 == 0) {
-                [cell createLayoutWith:@1];
-                
-            }else {
-                [cell createLayoutWith:@2];
-                
-            }
-            return cell;
-        }else{
-            SCPostsAdCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsAdCell cellIdentifier] forIndexPath:indexPath];
-            if (indexPath.row % 2 == 0) {
-                [cell createLayoutWith:@1];
-                
-            }else {
-                [cell createLayoutWith:@2];
-                
-            }
+            [cell createLayoutWith:imageModel];
             return cell;
         }
-
-    }else if(indexPath.section == 1){
-        if (indexPath.row == 0) {
-            LandlordCell *cell = [tableView dequeueReusableCellWithIdentifier:[LandlordCell cellIdentifier]forIndexPath:indexPath];
-            [cell createLayoutWith:@1];
-            return cell;
-        }else {
-           LWCommentsCell  *cell = [tableView dequeueReusableCellWithIdentifier:[LWCommentsCell cellIdentifier]forIndexPath:indexPath];
-            [cell createLayoutWith:@1];
+        SCPostsAdCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsAdCell cellIdentifier] forIndexPath:indexPath];
+        [cell createLayoutWith:_model.ad];
+        return cell;
+    }else {
+        //评论
+        SCTopicReplayListDataModel *replayModel = [_datasource objectAtIndex:indexPath.row];
+        
+        if ([SCGlobaUtil getInt:replayModel.provId] != 0 && ![SCGlobaUtil isEmpty:replayModel.provId]) {
+            LWCommentsCell  *cell = [tableView dequeueReusableCellWithIdentifier:[LWCommentsCell cellIdentifier]forIndexPath:indexPath];
+            [cell createLayoutWith:replayModel];
             return cell;
         }
         
+        LandlordCell *cell = [tableView dequeueReusableCellWithIdentifier:[LandlordCell cellIdentifier]forIndexPath:indexPath];
+        [cell createLayoutWith:replayModel];
+        return cell;
     }
     return NULL;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (indexPath.section == 0) {
-        if (indexPath.row < 10) {
-            NSNumber *model;
-            if (indexPath.row % 2 == 0) {
-                model = @1;
-            }else {
-                model = @2;
-            }
-            return [SCPostsTextImageCell cellHeightWith:model];
+        if (indexPath.row < _model.images.count) {
+            SCImageModel *imageModel = [_model.images objectAtIndex:indexPath.row];
+            
+            return [SCPostsTextImageCell cellHeightWith:imageModel];
+        }
+        return [SCPostsAdCell cellHeightWith:_model.ad];
+    }else {
+        //评论
+        SCTopicReplayListDataModel *replayModel = [_datasource objectAtIndex:indexPath.row];
+        
+        if ([SCGlobaUtil getInt:replayModel.provId] != 0 && ![SCGlobaUtil isEmpty:replayModel.provId]) {
+            return [_tableView fd_heightForCellWithIdentifier:[LWCommentsCell cellIdentifier] configuration:^(id cell) {
+                [cell createLayoutWith:replayModel];
+            }];
         }
         
-        NSNumber *model;
-        if (indexPath.row % 2 == 0) {
-            model = @1;
-        }else {
-            model = @2;
-        }
-        return [SCPostsAdCell cellHeightWith:model];
-
-    }else if (indexPath.section >=1){
-        if (indexPath.row == 0) {
-            return [tableView fd_heightForCellWithIdentifier:[LandlordCell cellIdentifier] configuration:^(id cell) {
-                [cell createLayoutWith:@1];
-            }];
-        }else {
-            return [_tableView fd_heightForCellWithIdentifier:[LWCommentsCell cellIdentifier] configuration:^(id cell) {
-                [cell createLayoutWith:@1];
-            }];
-        }
+        return [tableView fd_heightForCellWithIdentifier:[LandlordCell cellIdentifier] configuration:^(id cell) {
+            [cell createLayoutWith:replayModel];
+        }];
     }
-    return 20;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -281,17 +281,23 @@
         _supportLabel.font = [UIFont systemFontOfSize:kWord_Font_20px];
         _supportLabel.textAlignment = NSTextAlignmentCenter;
         _supportLabel.textColor = kWord_Color_Low;
-        _supportLabel.text = @"20000";
+        _supportLabel.text = _model.likeCount;
         [view addSubview:_supportLabel];
         
         _supportButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _supportButton.frame = CGRectMake(kScreenWidth/2.0-25, CGRectGetMaxY(_supportLabel.frame)+10, 50, 50);
         [_supportButton setImage:[UIImage imageNamed:@"news_suppourt_nor"] forState:UIControlStateNormal];
-        [_supportButton setImage:[UIImage imageNamed:@"news_suppourt_press"] forState:UIControlStateSelected];
+        [_supportButton setImage:[UIImage imageNamed:@"news_suppourt_press"] forState:UIControlStateDisabled];
         [_supportButton addTarget:self action:@selector(supportButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         _supportButton.layer.cornerRadius = 25;
         _supportButton.layer.borderColor = k_Border_Color.CGColor;
         _supportButton.layer.borderWidth = .5f;
+        
+        if ([SCGlobaUtil getInt:_model.isLike] == 1) {
+            _supportButton.enabled = NO;
+        }else {
+            _supportButton.enabled = YES;
+        }
         
         [view addSubview:_supportButton];
         
@@ -390,10 +396,15 @@
 }
 
 - (void)supportButtonClicked:(UIButton *)sender {
-    if (!sender.isSelected) {
-        sender.selected = YES;
-        sender.layer.borderColor = [UIColor yellowColor].CGColor;
-    }
+    //点赞
+    [SCNetwork topicLikeAddWithTopicId:_topicId success:^(SCResponseModel *model) {
+        [self postMessage:@"点赞成功"];
+        _model.isLike = @"1";
+        _model.likeCount = [NSString stringWithFormat:@"%d", [SCGlobaUtil getInt:_model.likeCount] + 1];
+        sender.enabled = NO;
+    } message:^(NSString *resultMsg) {
+        [self postMessage:resultMsg];
+    }];
 }
 
 #pragma mark - LrdOutputViewDelegate

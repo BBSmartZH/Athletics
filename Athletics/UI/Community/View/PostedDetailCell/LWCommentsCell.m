@@ -8,6 +8,8 @@
 
 #import "LWCommentsCell.h"
 
+#import "SCTopicReplayListModel.h"
+
 @interface LWCommentsCell ()
 {
     UILabel     *_label;
@@ -44,19 +46,13 @@ static CGFloat k_left = 10.0f;
     
 }
 
--(void)createLayoutWith:(id)model
+-(void)createLayoutWith:(SCTopicReplayListDataModel *)model
 {
-    NSString *title = @"李SUV价三块 回复 历史课登记费：";
-    NSString *commments = @"今天说的上飞你妹你发尅哦的那份单和";
+    NSString *title = [NSString stringWithFormat:@"%@ 回复 %@：", model.userName, model.userName];
+    NSString *commments = model.comment;
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@%@",title,commments]];
     [string addAttribute:NSForegroundColorAttributeName value:kWord_Color_Low range:NSMakeRange(0, title.length)];
     _label.attributedText = string;
-}
-
-+ (CGFloat)cellHeightWith:(id)model {
-    CGFloat height = 0.0f;
-    
-    return height;
 }
 
 +(NSString *)cellIdentifier

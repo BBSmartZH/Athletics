@@ -7,7 +7,7 @@
 //
 
 #import "SCPostsAdCell.h"
-
+#import "SCAdModel.h"
 @interface SCPostsAdCell ()
 {
     UIImageView *_imageView;
@@ -104,7 +104,7 @@ static CGFloat k_top = 15.0f;
     }];
 }
 
-- (void)createLayoutWith:(id)model {
+- (void)createLayoutWith:(SCAdModel *)model {
     _model = model;
     CGSize imageSize = CGSizeZero;
     
@@ -117,7 +117,7 @@ static CGFloat k_top = 15.0f;
     _imageView.backgroundColor = [UIColor cyanColor];
 }
 
-+ (CGFloat)cellHeightWith:(id)model {
++ (CGFloat)cellHeightWith:(SCAdModel *)model {
     CGFloat height = 0.0;
     height += 5;
     height += 14;

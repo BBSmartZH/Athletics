@@ -117,6 +117,11 @@
 - (void)refreshData {
     [self getMatchBanner];
     
+    if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
+        [self.sessionTask cancel];
+        self.sessionTask = nil;
+    }
+    
     self.sessionTask = [SCNetwork matchLiveListWithChannelId:_channelId page:_currentPageIndex success:^(SCMatchLiveListModel *model) {
         [self headerEndRefreshing];
         _needUpdate = NO;
@@ -139,6 +144,12 @@
 }
 
 - (void)loadModeData {
+    
+    if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
+        [self.sessionTask cancel];
+        self.sessionTask = nil;
+    }
+    
     self.sessionTask = [SCNetwork matchLiveListWithChannelId:_channelId page:_currentPageIndex success:^(SCMatchLiveListModel *model) {
         [self footerEndRefreshing];
         

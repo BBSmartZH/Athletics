@@ -17,6 +17,7 @@
 #import "LWCustomizeVC_iPhone.h"
 
 #import "SCCommuntityPostedVC.h"
+#import "SCLoginVC.h"
 
 @interface LWCommunityVC_iPhone ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, SCTopScrollViewDelegate>
 {
@@ -137,9 +138,22 @@
 
 
 - (void)postedButtonClicked:(UIButton *)sender {
-    SCCommuntityPostedVC *postedVC = [[SCCommuntityPostedVC alloc] init];
-    postedVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:postedVC animated:YES];
+    if (![SCUserInfoManager isLogin]) {
+        SCLoginVC *loginVC = [[SCLoginVC alloc] init];
+        [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+            if (result) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    SCCommuntityPostedVC *postedVC = [[SCCommuntityPostedVC alloc] init];
+                    postedVC.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:postedVC animated:YES];
+                });
+            }
+        }];
+    }else {
+        SCCommuntityPostedVC *postedVC = [[SCCommuntityPostedVC alloc] init];
+        postedVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:postedVC animated:YES];
+    }
 }
 
 - (void)topScrollButtonClicked:(SCTopButton *)sender {

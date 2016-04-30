@@ -22,6 +22,7 @@
     UIButton *_currentButton;
     UIView   *_slideLine;
     BOOL _needUpdate;
+    int _type;
 }
 
 @end
@@ -72,7 +73,7 @@
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
     
-    
+    _type = 1;
     
 }
 
@@ -86,7 +87,13 @@
 }
 
 - (void)refreshData {
-    self.sessionTask = [SCNetwork topicListWithChannelId:_channelId type:1 page:_currentPageIndex success:^(SCCommunityListModel *model) {
+    
+    if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
+        [self.sessionTask cancel];
+        self.sessionTask = nil;
+    }
+    
+    self.sessionTask = [SCNetwork topicListWithChannelId:_channelId type:_type page:_currentPageIndex success:^(SCCommunityListModel *model) {
         [self headerEndRefreshing];
         _needUpdate = YES;
         [_datasource removeAllObjects];
@@ -106,7 +113,12 @@
 }
 
 - (void)loadModeData {
-    self.sessionTask = [SCNetwork topicListWithChannelId:@""type:1 page:_currentPageIndex success:^(SCCommunityListModel *model) {
+    if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
+        [self.sessionTask cancel];
+        self.sessionTask = nil;
+    }
+    
+    self.sessionTask = [SCNetwork topicListWithChannelId:_channelId type:_type page:_currentPageIndex success:^(SCCommunityListModel *model) {
         [self footerEndRefreshing];
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
@@ -143,15 +155,20 @@
     CGRect rect = CGRectZero;
     if (sender == _defaultButton) {
         rect = CGRectMake(_defaultButton.left + 10, _slideLine.top, _slideLine.fWidth, _slideLine.fHeight);
+        _type = 1;
     }else if (sender == _essenceButton) {
         rect = CGRectMake(_essenceButton.left + 10, _slideLine.top, _slideLine.fWidth, _slideLine.fHeight);
+        _type = 2;
     }else if (sender == _latestButton) {
         rect = CGRectMake(_latestButton.left + 10, _slideLine.top, _slideLine.fWidth, _slideLine.fHeight);
+        _type = 3;
     }
     
     [UIView animateWithDuration:0.25 animations:^{
         _slideLine.frame = rect;
     }];
+    
+    [self headerBeginRefreshing];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

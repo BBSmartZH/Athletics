@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class SCTopicReplayListDataModel;
 @interface LandlordCell : UITableViewCell
 
 @property (nonatomic, strong, readonly) UIImageView *avatar;
 
-- (void)createLayoutWith:(id)model;
+- (void)createLayoutWith:(SCTopicReplayListDataModel *)model;
 
 + (NSString *)cellIdentifier;
 

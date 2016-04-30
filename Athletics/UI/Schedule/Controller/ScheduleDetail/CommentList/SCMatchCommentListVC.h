@@ -12,7 +12,7 @@
 
 @property (nonatomic, assign) CGFloat topHeight;
 
-@property (nonatomic, assign) UIViewController *parentVC;
+@property (nonatomic, assign) LWBaseVC_iPhone *parentVC;
 
 @property (nonatomic, copy) NSString *matchUnitId;
 

@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class SCTopicReplayListDataModel;
 @interface LWCommentsCell : UITableViewCell
-- (void)createLayoutWith:(id)model;
+
+- (void)createLayoutWith:(SCTopicReplayListDataModel *)model;
 
 + (NSString *)cellIdentifier;
 
-+ (CGFloat)cellHeightWith:(id)model;
 @end

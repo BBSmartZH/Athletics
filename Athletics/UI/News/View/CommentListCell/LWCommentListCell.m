@@ -61,6 +61,7 @@ static CGFloat headerImageH = 24.0f;
     _praiseButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_praiseButton setImage:[UIImage imageNamed:@"live_btn_support_left_press"]forState:UIControlStateNormal];
     [_praiseButton setImage:[UIImage imageNamed:@"live_btn_support_left_sel"] forState:UIControlStateDisabled];
+    [_praiseButton addTarget:self action:@selector(praiseButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_praiseButton];
     
     
@@ -96,6 +97,12 @@ static CGFloat headerImageH = 24.0f;
     }];
     
     
+}
+
+- (void)praiseButtonClicked:(UIButton *)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(praiseButtonClicked:withModel:)]) {
+        [self.delegate praiseButtonClicked:sender withModel:_model];
+    }
 }
 
 - (UIImageView *)avatar {

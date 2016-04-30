@@ -163,10 +163,10 @@
     MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"举报中" showAddTo:self.parentVC.view delay:NO];
     [SCNetwork userReportWithCommentId:model.commentId type:3 success:^(SCResponseModel *model) {
         [HUD hideAnimated:YES];
-        [self postMessage:@"举报成功"];
+        [self.parentVC postMessage:@"举报成功"];
     } message:^(NSString *resultMsg) {
         [HUD hideAnimated:YES];
-        [self postMessage:resultMsg];
+        [self.parentVC postMessage:resultMsg];
     }];
 }
 

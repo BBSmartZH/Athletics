@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+
+@class SCImageModel;
 @interface SCPostsTextImageCell : UITableViewCell
 
-- (void)createLayoutWith:(id)model;
+- (void)createLayoutWith:(SCImageModel *)model;
 
 + (NSString *)cellIdentifier;
 
-+ (CGFloat)cellHeightWith:(id)model;
++ (CGFloat)cellHeightWith:(SCImageModel *)model;
 
 @end

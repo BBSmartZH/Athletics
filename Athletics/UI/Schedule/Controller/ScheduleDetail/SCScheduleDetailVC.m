@@ -428,12 +428,12 @@ static CGFloat k_left = 10.0f;
     
     [SCNetwork matchCommentAddWithMatchUnitId:_matchUnitId comment:inputTextView.text success:^(SCResponseModel *model) {
         [HUD hideAnimated:YES];
+        _inputView.inputTextView.text = nil;
         [self postMessage:@"发表成功"];
     } message:^(NSString *resultMsg) {
         [HUD hideAnimated:YES];
         [self postMessage:resultMsg];
     }];
-    
 }
 
 #pragma mark - keyboard

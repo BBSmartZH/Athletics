@@ -31,9 +31,10 @@
     UIView *_showMoreView;
     UIButton *_showMoreButton;
     
-    //test
     NSString *_title;
     NSString *_content;
+    
+    SCCommunityDetailDataModel *_model;
 }
 
 @end
@@ -190,7 +191,7 @@ static CGFloat showButtonH = 22.0f;
 
 - (void)viewTouchTap:(UITapGestureRecognizer *)tap {
     if (self.delegate && [self.delegate respondsToSelector:@selector(postsTopViewClickedWith:)]) {
-        [self.delegate postsTopViewClickedWith:@1];
+        [self.delegate postsTopViewClickedWith:_model];
     }
 }
 
@@ -209,10 +210,11 @@ static CGFloat showButtonH = 22.0f;
 
 - (void)setModel:(SCCommunityDetailDataModel*)model {
     if (_model != model) {
-        [_avatar scImageWithURL:model.userAvatar placeholderImage:nil];
+        _model = model;
+        [_avatar scImageWithURL:model.userAvatar placeholderImage:[UIImage imageNamed:@"mine_default_avatar"]];
         _nameLabel.text = model.userName;
         _descLabel.text = @"Dota2";
-        _statusLabel.text = @"楼主";
+        _statusLabel.text = @"";
         _statusLabel.hidden = YES;
         _timeLabel.text = model.createTime;
         
@@ -225,7 +227,7 @@ static CGFloat showButtonH = 22.0f;
         [titleAttStr addAttribute:NSFontAttributeName value:_titleFont range:NSMakeRange(0, titleAttStr.length)];
         _titleLabel.attributedText = titleAttStr;
         
-        _content = @"看到个图，有人说吃了永久加智力，那么问题来了，匹配也有这个吗";
+        _content = model.summary;
         
 //        _content = @"内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这内,,,,,,,,,,,,,,,容这是内容";
         NSMutableAttributedString *contentAttStr = [[NSMutableAttributedString alloc] initWithString:_content];
