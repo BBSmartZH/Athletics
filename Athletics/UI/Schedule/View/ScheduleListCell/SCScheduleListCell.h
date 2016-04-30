@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class SCMatchListDataModel;
 @interface SCScheduleListCell : UITableViewCell
 
 + (NSString *)cellIdentifier;
 
-- (void)createLayoutWith:(id)model;
+- (void)createLayoutWith:(SCMatchListDataModel*)model;
 
 @end

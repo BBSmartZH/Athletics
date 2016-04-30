@@ -7,7 +7,7 @@
 //
 
 #import "SCScheduleListCell.h"
-
+#import "SCMatchListModel.h"
 
 @interface SCScheduleListCell ()
 {
@@ -146,20 +146,20 @@ static CGFloat k_left = 10.0f;
     return @"SCScheduleListCellIdentifier";
 }
 
-- (void)createLayoutWith:(id)model {
+- (void)createLayoutWith:(SCMatchListDataModel*)model {
 //    _leftImageV.backgroundColor = [UIColor cyanColor];
 //    _rightImageV.backgroundColor = [UIColor cyanColor];
     _stateImageV.backgroundColor = [UIColor cyanColor];
     
-    _leftLabel.text = @"VG";
-    [_leftImageV scImageWithURL:@"http://static.a.carry6.com/img/dota2/team/1.png" placeholderImage:nil];
-    _rightLabel.text = @"LGD";
-    [_rightImageV scImageWithURL:@"http://static.a.carry6.com/img/dota2/team/8.png" placeholderImage:nil];
+    _leftLabel.text = model.leftTeamName;
+    [_leftImageV scImageWithURL:model.leftTeamBadge placeholderImage:nil];
+    _rightLabel.text = model.rightTeamName;
+    [_rightImageV scImageWithURL:model.rightTeamBadge placeholderImage:nil];
 
     _appointButton.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.4];
-    _scoreLabel.text = @"2:1";
+    _scoreLabel.text = [NSString stringWithFormat:@"%@:%@",model.leftTeamGoal,model.rightTeamGoal];
     _stateLabel.text = @"看视频";
-    _timeLabel.text = @"15日17:00";
+    _timeLabel.text = model.beginTime;
 }
 
 - (void)awakeFromNib {

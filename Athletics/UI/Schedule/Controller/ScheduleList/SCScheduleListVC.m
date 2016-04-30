@@ -11,9 +11,12 @@
 #import "SCScheduleListCell.h"
 
 #import "SCScheduleDetailVC.h"
+#import "SCMatchListModel.h"
 
 @interface SCScheduleListVC ()
-
+{
+    SCMatchListModel *_model;
+}
 @end
 
 @implementation SCScheduleListVC
@@ -30,44 +33,84 @@
     
     _tableView.separatorColor = k_Border_Color;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    
+    [self headerBeginRefreshing];
 }
 
+-(void)refreshData
+{
+    self.sessionTask = [SCNetwork matchCourseListWithMatchId:_matchId page:_currentPageIndex success:^(SCMatchListModel *model){
+        [self headerEndRefreshing];
+        
+        [_datasource removeAllObjects];
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex ++;
+            [self footerHidden:NO];
+        }else {
+            [self noticeNoMoreData];
+        }
+    } message:^(NSString *resultMsg) {
+        [self headerEndRefreshing];
+        [self postErrorMessage:resultMsg];
+    }];
+}
+
+-(void)loadModeData
+{
+    self.sessionTask = [SCNetwork matchCourseListWithMatchId:@"" page:_currentPageIndex success:^(SCMatchListModel *model) {
+        
+        [self footerEndRefreshing];
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total]/[SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex ++;
+        }else {
+            [self noticeNoMoreData];
+        }
+    } message:^(NSString *resultMsg) {
+        [self footerEndRefreshing];
+        [self postErrorMessage:resultMsg];
+    }];
+}
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    return _datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 2;
-    }else if (section == 1) {
-        return 4;
-    }
-    return 3;
+    
+    SCMatchGroupListModel *model = [_datasource objectAtIndex:section];
+    
+    return model.matchUnit.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SCScheduleListCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCScheduleListCell cellIdentifier] forIndexPath:indexPath];
-    
-    [cell createLayoutWith:@1];
+    SCMatchGroupListModel *model = [_datasource objectAtIndex:indexPath.section];
+    SCMatchListDataModel *listModel = [model.matchUnit objectAtIndex:indexPath.row];
+    [cell createLayoutWith:listModel];
     return cell;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    SCMatchGroupListModel *model =[_datasource objectAtIndex:section];
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.fWidth, 24)];
     view.backgroundColor = k_Bg_Color;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, view.fWidth, view.fHeight)];
     label.font = [UIFont systemFontOfSize:kWord_Font_24px];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = kWord_Color_High;
-    label.text = @"SGC联赛第一赛季 A组小组赛";
+    label.text = model.name;
     [view addSubview:label];
     return view;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return [tableView fd_heightForCellWithIdentifier:[SCScheduleListCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCScheduleListCell *cell) {
-        [cell createLayoutWith:@1];
+        SCMatchGroupListModel *model = [_datasource objectAtIndex:indexPath.section];
+        SCMatchListDataModel *listModel = [model.matchUnit objectAtIndex:indexPath.row];
+        [cell createLayoutWith:listModel];
     }];
 }
 
