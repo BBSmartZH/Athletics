@@ -10,6 +10,25 @@
 
 @implementation SCMatchListDataModel
 
++(JSONKeyMapper*)keyMapper {
+    
+    return [[JSONKeyMapper alloc] initWithJSONToModelBlock:^NSString *(NSString *keyName) {
+        
+        if ([keyName isEqual:@"id"]) {
+            return @"matchUnitId";
+        }else {
+            return keyName;
+        }
+    } modelToJSONBlock:^NSString *(NSString *keyName) {
+        
+        if ([keyName isEqual:@"matchUnitId"]) {
+            return @"id";
+        }else {
+            return keyName;
+        }
+    }];
+}
+
 @end
 
 @implementation SCMatchGroupListModel

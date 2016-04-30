@@ -10,8 +10,12 @@
 
 #import "LWCommentListCell.h"
 #import "LrdOutputView.h"
+#import "SCNewsCommentListModel.h"
 
 @interface SCMatchCommentListVC ()<LrdOutputViewDelegate>
+{
+    BOOL _isUpdated;
+}
 
 @property (nonatomic, strong) LrdOutputView *outPutView;
 
@@ -37,25 +41,86 @@
     
 }
 
+- (BOOL)isUpdated {
+    return _isUpdated;
+}
+
 - (void)upDateData {
-    [self refreshData];
+    [self headerBeginRefreshing];
+}
+
+- (void)refreshData {
+    
+    if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
+        [self.sessionTask cancel];
+        self.sessionTask = nil;
+    }
+    
+    self.sessionTask = [SCNetwork matchCommentListWithMatchUnitId:_matchUnitId page:_currentPageIndex success:^(SCNewsCommentListModel *model) {
+        [self headerEndRefreshing];
+        _isUpdated = YES;
+        
+        [_datasource removeAllObjects];
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex++;
+            [self footerHidden:NO];
+        }else {
+            [self noticeNoMoreData];
+        }
+        
+    } message:^(NSString *resultMsg) {
+        [self headerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
+    
+}
+
+- (void)loadModeData {
+    
+    if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
+        [self.sessionTask cancel];
+        self.sessionTask = nil;
+    }
+    
+    self.sessionTask = [SCNetwork matchCommentListWithMatchUnitId:_matchUnitId page:_currentPageIndex success:^(SCNewsCommentListModel *model) {
+        [self footerEndRefreshing];
+        
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex++;
+        }else {
+            [self noticeNoMoreData];
+        }
+        
+    } message:^(NSString *resultMsg) {
+        [self footerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 20;
+    return _datasource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    SCNewsCommentListDataModel *model = [_datasource objectAtIndex:indexPath.row];
     LWCommentListCell *cell = [tableView dequeueReusableCellWithIdentifier:[LWCommentListCell cellidentifier] forIndexPath:indexPath];
     
-    [cell createLayoutWith:@1];
+    [cell createLayoutWith:model];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    SCNewsCommentListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+
     return [tableView fd_heightForCellWithIdentifier:[LWCommentListCell cellidentifier] cacheByIndexPath:indexPath configuration:^(LWCommentListCell *cell) {
-        [cell createLayoutWith:@1];
+        [cell createLayoutWith:model];
     }];
 }
 

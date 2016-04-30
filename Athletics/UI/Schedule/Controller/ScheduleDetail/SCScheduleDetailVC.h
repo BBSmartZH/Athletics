@@ -10,4 +10,6 @@
 
 @interface SCScheduleDetailVC : LWBaseTableVC_iPhone
 
+@property (nonatomic, copy) NSString *matchUnitId;
+
 @end

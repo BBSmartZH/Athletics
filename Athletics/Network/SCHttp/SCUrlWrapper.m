@@ -326,7 +326,7 @@
  *  @return
  */
 + (NSString *)matchUnitliveListUrl {
-    return [self p_wrap:@"/match/unitlive/list"];
+    return [self p_wrap:@"/match/unit/live/list"];
 }
 
 #pragma mark - 查询比赛视频
@@ -336,7 +336,7 @@
  *  @return
  */
 + (NSString *)matchUnitvideoListUrl {
-    return [self p_wrap:@"/match/unitvideo/list"];
+    return [self p_wrap:@"/match/unit/video/list"];
 }
 
 #pragma mark - 比赛的评论

@@ -8,7 +8,7 @@
 
 #import "SCNetwork.h"
 
-@class SCMatchLiveListModel, SCMatchListModel, SCMatchDetailModel, SCScheduleVideoListModel, SCTeletextListModel, SCMatchBannerModel;
+@class SCMatchLiveListModel, SCMatchListModel, SCMatchDetailModel, SCScheduleVideoListModel, SCTeletextListModel, SCMatchBannerModel, SCNewsCommentListModel;
 
 @interface SCNetwork (Schedule)
 
@@ -109,7 +109,7 @@
  */
 + (NSURLSessionDataTask *)matchCommentListWithMatchUnitId:(NSString *)matchUnitId
                                                      page:(int )page
-                                                  success:(void (^)(SCResponseModel *model))success
+                                                  success:(void (^)(SCNewsCommentListModel *model))success
                                                   message:(SCMessageBlock)message;
 
 /**

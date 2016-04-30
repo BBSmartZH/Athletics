@@ -16,6 +16,7 @@
 #import "SCTeletextListModel.h"
 #import "SCScheduleVideoListModel.h"
 #import "SCMatchBannerModel.h"
+#import "SCNewsCommentListModel.h"
 
 @implementation SCNetwork (Schedule)
 
@@ -188,11 +189,11 @@
  */
 + (NSURLSessionDataTask *)matchCommentListWithMatchUnitId:(NSString *)matchUnitId
                                                      page:(int )page
-                                                  success:(void (^)(SCResponseModel *model))success
+                                                  success:(void (^)(SCNewsCommentListModel *model))success
                                                   message:(SCMessageBlock)message {
     return [SCNetworkHelper postWithUrl:[SCUrlWrapper matchCommentListUrl] params:[SCParamsWrapper matchCommentListParamsWithMatchUnitId:matchUnitId page:page] success:^(NSDictionary *result) {
         NSError *error;
-        SCResponseModel *model = [[SCResponseModel alloc] initWithDictionary:result error:&error];
+        SCNewsCommentListModel *model = [[SCNewsCommentListModel alloc] initWithDictionary:result error:&error];
         if (!error) {
             success(model);
         }else {

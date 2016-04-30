@@ -16,9 +16,8 @@ SCMatchListDataModel
 
 @interface SCMatchListDataModel : SCBaseModel
 
-@property (nonatomic, copy) NSString<Optional> *matchId;//
 @property (nonatomic, copy) NSString<Optional> *matchUnitId;
-@property (nonatomic, copy) NSString<Optional> *status;//
+@property (nonatomic, copy) NSString<Optional> *status;//1未开始, 2正在进行，3已结束，4已取消
 @property (nonatomic, copy) NSString<Optional> *leftTeamId;
 @property (nonatomic, copy) NSString<Optional> *leftTeamName;
 @property (nonatomic, copy) NSString<Optional> *leftTeamBadge;

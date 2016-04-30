@@ -59,7 +59,7 @@
 
 -(void)loadModeData
 {
-    self.sessionTask = [SCNetwork matchCourseListWithMatchId:@"" page:_currentPageIndex success:^(SCMatchListModel *model) {
+    self.sessionTask = [SCNetwork matchCourseListWithMatchId:_matchId page:_currentPageIndex success:^(SCMatchListModel *model) {
         
         [self footerEndRefreshing];
         [_datasource addObjectsFromArray:model.data];
@@ -87,8 +87,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SCScheduleListCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCScheduleListCell cellIdentifier] forIndexPath:indexPath];
+    
     SCMatchGroupListModel *model = [_datasource objectAtIndex:indexPath.section];
     SCMatchListDataModel *listModel = [model.matchUnit objectAtIndex:indexPath.row];
+    
     [cell createLayoutWith:listModel];
     return cell;
 }
@@ -108,8 +110,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return [tableView fd_heightForCellWithIdentifier:[SCScheduleListCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCScheduleListCell *cell) {
+        
         SCMatchGroupListModel *model = [_datasource objectAtIndex:indexPath.section];
         SCMatchListDataModel *listModel = [model.matchUnit objectAtIndex:indexPath.row];
+        
         [cell createLayoutWith:listModel];
     }];
 }
@@ -124,7 +128,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    SCMatchGroupListModel *model = [_datasource objectAtIndex:indexPath.section];
+    SCMatchListDataModel *listModel = [model.matchUnit objectAtIndex:indexPath.row];
+
+    
     SCScheduleDetailVC *detailVC = [[SCScheduleDetailVC alloc]init];
+    detailVC.matchUnitId = listModel.matchUnitId;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 

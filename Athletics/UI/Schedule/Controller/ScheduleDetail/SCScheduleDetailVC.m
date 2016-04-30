@@ -13,7 +13,8 @@
 #import "SCScheduleVideoListVC.h"
 #import "SCMatchCommentListVC.h"
 #import "SCCommentInputView.h"
-
+#import "SCMatchDetailModel.h"
+#import "SCLoginVC.h"
 
 @interface SCScheduleDetailVC ()<SCCommentInputViewDelegate, UIScrollViewDelegate>
 {
@@ -43,6 +44,8 @@
     UILabel     *_markLabel;
     UIImageView *_markImageV;
     UITableView *_tableView;
+    
+    SCMatchDetailDataModel *_model;
 }
 
 @property (nonatomic, strong) SCCommentInputView *inputView;
@@ -223,10 +226,6 @@ static CGFloat k_left = 10.0f;
     self.m_navBar.hiddenLine = YES;
     self.m_navBar.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_30px];
     
-    [self.view addSubview:self.inputView];
-    
-    [self configTopView];
-    
     [self p_preparData];
     
 //    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchTap:)];
@@ -286,21 +285,28 @@ static CGFloat k_left = 10.0f;
     
     self.commentListVC = [[SCMatchCommentListVC alloc] init];
     self.commentListVC.parentVC = self;
+    self.commentListVC.matchUnitId = _matchUnitId;
     self.commentListVC.topHeight = _selectedView.bottom + _inputView.fHeight;
     self.commentListVC.view.frame = CGRectMake(0, 0, _scrollView.fWidth, _scrollView.fHeight);
     [_scrollView addSubview:self.commentListVC.view];
     
     self.teletextListVC = [[SCTeletextListVC alloc] init];
+    self.teletextListVC.parentVC = self;
+    self.teletextListVC.matchUnitId = _matchUnitId;
     self.teletextListVC.topHeight = _selectedView.bottom + _inputView.fHeight;
     self.teletextListVC.view.frame = CGRectMake(_scrollView.fWidth, 0, _scrollView.fWidth, _scrollView.fHeight);
     [_scrollView addSubview:self.teletextListVC.view];
     
     self.videoListVC = [[SCScheduleVideoListVC alloc] init];
+    self.videoListVC.parentVC = self;
+    self.videoListVC.matchUnitId = _matchUnitId;
     self.videoListVC.topHeight = _selectedView.bottom + _inputView.fHeight;
     self.videoListVC.view.frame = CGRectMake(_scrollView.fWidth * 2, 0, _scrollView.fWidth, _scrollView.fHeight);
     [_scrollView addSubview:self.videoListVC.view];
     
     [self.view bringSubviewToFront:self.inputView];
+    
+    [self selectedButtonClicked:_scheduleButton];
 }
 
 - (UIButton *)topicTypeButtonWithTitle:(NSString *)title {
@@ -324,11 +330,9 @@ static CGFloat k_left = 10.0f;
     _currentButton.selected = YES;
     if (sender == _guessButton) {
         [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
-        if (!_falg1) {
+        if (![_commentListVC isUpdated]) {
             [_commentListVC upDateData];
-            _falg1 = YES;
         }
-        
     }else if (sender == _scheduleButton) {
         [_scrollView setContentOffset:CGPointMake(self.view.fWidth, 0) animated:YES];
         if (!_falg2) {
@@ -349,25 +353,73 @@ static CGFloat k_left = 10.0f;
 
 
 -(void)p_preparData{
-    self.title = @"季后赛BO54月13日";
-    _leftImageV.backgroundColor = [UIColor blueColor];
-    _rightImageV.backgroundColor = [UIColor blueColor];
     
-    _leftLabel.text = @"IG";
-    _rightLabel.text = @"LGD";
-    _stateLabel.text = @"进行中";
-    _leftScoreLabel.text = @"2";
-    _rightScoreLabel.text = @"1";
+    [self startActivityAnimation];
+    self.sessionTask = [SCNetwork matchUnitQuaryWithMatchUnitId:_matchUnitId success:^(SCMatchDetailModel *model) {
+        [self stopActivityAnimation];
+        _model = model.data;
+        
+        [self.view addSubview:self.inputView];
+        [self configTopView];
+        [self updateData];
+        
+    } message:^(NSString *resultMsg) {
+        [self stopActivityAnimation];
+        [self postMessage:resultMsg];
+    }];
+}
+
+- (void)updateData {
+    self.title = _model.name;
+    [_leftImageV scImageWithURL:_model.leftTeamBadge placeholderImage:nil];
+    [_rightImageV scImageWithURL:_model.rightTeamBadge placeholderImage:nil];
+    
+    _leftLabel.text = _model.leftTeamName;
+    _rightLabel.text = _model.rightTeamName;
+    _stateLabel.text = [self stringForStatus:_model.status];
+    _leftScoreLabel.text = _model.leftTeamGoal;
+    _rightScoreLabel.text = _model.rightTeamGoal;
     _markImageV.backgroundColor = [UIColor redColor];
     _markLabel.text = @"BO3";
-    
-    
-    
-    
+}
+
+- (NSString *)stringForStatus:(NSString *)status {
+    NSInteger state = [SCGlobaUtil getInt:status];
+    switch (state) {
+        case 1:
+            return @"未开始";
+            break;
+        case 2:
+            return @"已结束";
+            break;
+        case 3:
+            return @"正在进行";
+            break;
+        case 4:
+            return @"已取消";
+            break;
+        default:
+            return @"";
+            break;
+    }
 }
 
 - (void)inputViewDidChangedFrame:(CGRect)frame {
     _inputView.frame = frame;
+}
+
+- (void)inputTextViewDidSendMessage:(SCMessageTextView *)inputTextView {
+    
+    MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"评价中" showAddTo:self.view delay:NO];
+    
+    [SCNetwork matchCommentAddWithMatchUnitId:_matchUnitId comment:inputTextView.text success:^(SCResponseModel *model) {
+        [HUD hideAnimated:YES];
+        [self postMessage:@"发表成功"];
+    } message:^(NSString *resultMsg) {
+        [HUD hideAnimated:YES];
+        [self postMessage:resultMsg];
+    }];
+    
 }
 
 #pragma mark - keyboard

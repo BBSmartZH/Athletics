@@ -10,10 +10,12 @@
 
 #import "SCVideoListCell.h"
 #import "CDPVideoPlayer.h"
+#import "SCScheduleVideoListModel.h"
 
 @interface SCScheduleVideoListVC ()<SCVideoListCellDelegate, CDPVideoPlayerDelegate>
 {
     CDPVideoPlayer *_player;
+    BOOL _isUpdated;
 }
 
 @end
@@ -42,8 +44,67 @@
     
 }
 
+- (BOOL)isUpdated {
+    return _isUpdated;
+}
+
 - (void)upDateData {
-    [self refreshData];
+    [self headerBeginRefreshing];
+}
+
+- (void)refreshData {
+    
+    if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
+        [self.sessionTask cancel];
+        self.sessionTask = nil;
+    }
+    
+    self.sessionTask = [SCNetwork matchUnitvideoListWithMatchUnitId:_matchUnitId page:_currentPageIndex success:^(SCScheduleVideoListModel *model) {
+        [self headerEndRefreshing];
+        _isUpdated = YES;
+        
+        [_datasource removeAllObjects];
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex++;
+            [self footerHidden:NO];
+        }else {
+            [self noticeNoMoreData];
+        }
+        
+    } message:^(NSString *resultMsg) {
+        [self headerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
+    
+}
+
+- (void)loadModeData {
+    
+    if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
+        [self.sessionTask cancel];
+        self.sessionTask = nil;
+    }
+    
+    self.sessionTask = [SCNetwork matchUnitvideoListWithMatchUnitId:_matchUnitId page:_currentPageIndex success:^(SCScheduleVideoListModel *model) {
+        [self footerEndRefreshing];
+        
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex++;
+        }else {
+            [self noticeNoMoreData];
+        }
+        
+    } message:^(NSString *resultMsg) {
+        [self footerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
+
 }
 
 - (void)videoButtonClicked:(UIButton *)sender inCell:(SCVideoListCell *)inCell {
@@ -57,7 +118,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 10;
+    return _datasource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -65,10 +126,11 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    SCScheduleVideoListDataModel *model = [_datasource objectAtIndex:indexPath.section];
     
     SCVideoListCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCVideoListCell cellIdentifier] forIndexPath:indexPath];
     cell.delegate = self;
-    [cell createLayoutWith:@1];
+    [cell createLayoutWith:model];
     return cell;
 }
 
@@ -86,10 +148,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    SCScheduleVideoListDataModel *model = [_datasource objectAtIndex:indexPath.section];
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [SCVideoListCell heightForCellWith:@1];
+    SCScheduleVideoListDataModel *model = [_datasource objectAtIndex:indexPath.section];
+
+    return [SCVideoListCell heightForCellWith:model];
 }
 
 - (void)didReceiveMemoryWarning {

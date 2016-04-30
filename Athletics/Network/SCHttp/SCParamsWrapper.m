@@ -139,10 +139,17 @@
  */
 + (NSDictionary *)userUpdateInfoParamsWithAvatar:(NSString *)avatar
                                         nickName:(NSString *)nickName {
-    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:avatar] || [SCGlobaUtil isEmpty:nickName]) {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
         return nil;
     }
-    return [self salt:@{@"uid":[SCUserInfoManager uid], @"avatar":avatar, @"name":nickName} isDynamic:NO];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:@{@"uid":[SCUserInfoManager uid]}];
+    if (![SCGlobaUtil isEmpty:avatar]) {
+        [dict setObject:avatar forKey:@"avatar"];
+    }
+    if (![SCGlobaUtil isEmpty:nickName]) {
+        [dict setObject:nickName forKey:@"name"];
+    }
+    return [self salt:dict isDynamic:NO];
 }
 
 #pragma mark - 举报

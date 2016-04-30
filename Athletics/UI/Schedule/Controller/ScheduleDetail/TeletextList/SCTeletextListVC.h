@@ -12,6 +12,12 @@
 
 @property (nonatomic, assign) CGFloat topHeight;
 
+@property (nonatomic, assign) UIViewController *parentVC;
+
+@property (nonatomic, copy) NSString *matchUnitId;
+
+@property (nonatomic, assign) BOOL isUpdated;
+
 - (void)upDateData;
 
 @end

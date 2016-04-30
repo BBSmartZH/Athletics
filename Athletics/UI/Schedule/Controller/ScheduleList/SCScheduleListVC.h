@@ -9,5 +9,9 @@
 #import "SCBaseRefreshVC_iPhone.h"
 
 @interface SCScheduleListVC : SCBaseRefreshVC_iPhone
-@property (nonatomic,copy)NSString *matchId;
+
+@property (nonatomic, copy) NSString *matchId;
+
+@property (nonatomic, assign, readonly) BOOL isUpdated;
+
 @end

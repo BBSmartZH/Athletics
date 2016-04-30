@@ -122,12 +122,13 @@ static NSString *cellId = @"Cell";
     self.sessionTask = [SCNetwork userUpdateWithAvatar:[SCUserInfoManager avatar] nickname:_name success:^(SCResponseModel *model) {
         [HUD hideAnimated:YES];
         _saveButton.enabled = YES;
-        [self postSuccessMessage:@"保存成功"];
+        [self postMessage:@"保存成功"];
         SCUserModel *userModel = [SCUserInfoManager userInfo];
         userModel.name = _name;
         [SCUserInfoManager setUserInfo:userModel];
-        [self.navigationController popViewControllerAnimated:YES];
-        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popViewControllerAnimated:YES];
+        });
     } message:^(NSString *resultMsg) {
         [HUD hideAnimated:YES];
         [self postMessage:resultMsg];
