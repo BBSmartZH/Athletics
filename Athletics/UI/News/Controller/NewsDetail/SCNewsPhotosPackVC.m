@@ -62,7 +62,7 @@
     _inputView.inputTextView.placeHolder = @"我来说两句..";
     [self.view addSubview:_inputView];
     
-    NSString *norStr = @"1234评";
+    NSString *norStr = [NSString stringWithFormat:@"%@评", _commentNum];
     NSMutableAttributedString *norAttStr = [[NSMutableAttributedString alloc] initWithString:norStr];
     [norAttStr addAttribute:NSForegroundColorAttributeName value:k_Base_Color range:NSMakeRange(0, norAttStr.length - 1)];
     [norAttStr addAttribute:NSForegroundColorAttributeName value:kWord_Color_Event range:NSMakeRange(norAttStr.length - 1, 1)];
@@ -136,6 +136,9 @@
         } completion:^(BOOL finished) {
             sender.selected = YES;
             self.title = @"评论";
+            if (!self.commentVC.isUpdated) {
+                [self.commentVC updateData];
+            }
         }];
     }else {
         [UIView animateWithDuration:0.25 animations:^{
@@ -183,11 +186,11 @@
     if (scrollView == _scrollView) {
         NSInteger pag = scrollView.contentOffset.x / scrollView.bounds.size.width;
         if (pag == 0) {
-            _inputView.commentButton.selected = NO;
-            self.title = @"资讯";
-        }else {
             _inputView.commentButton.selected = YES;
-            self.title = @"评论";
+            [self commentButtonClicked:_inputView.commentButton];
+        }else {
+            _inputView.commentButton.selected = NO;
+            [self commentButtonClicked:_inputView.commentButton];
         }
     }
 }

@@ -12,4 +12,6 @@
 
 @property (nonatomic, copy) NSString *newsId;
 
+@property (nonatomic, copy) NSString *commentNum;
+
 @end

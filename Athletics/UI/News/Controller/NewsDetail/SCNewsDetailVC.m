@@ -14,12 +14,17 @@
 #import "SCNewsCell.h"
 #import "LWPhotosNormalCell.h"
 #import "SCPostsAdCell.h"
+#import "SCNewsDetailModel.h"
+
+#import "SCNewsPhotosPackVC.h"
+#import "SCNewsArticlePackVC.h"
 
 @interface SCNewsDetailVC ()
 {
     UILabel *_titleLabel;
     UILabel *_timeLabel;
     UILabel *_relatedLabel;
+    SCNewsDetailDataModel *_model;
 }
 
 
@@ -52,88 +57,125 @@
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.bottom.equalTo(ws.view);
     }];
+    
+    [self prepareData];
 
 }
 
+- (void)prepareData {
+    
+    [self startActivityAnimation];
+    self.sessionTask = [SCNetwork newsInfoWithNewsId:_newsId success:^(SCNewsDetailModel *model) {
+        [self stopActivityAnimation];
+        _model = model.data;
+        [_tableView reloadData];
+    } message:^(NSString *resultMsg) {
+        [self postMessage:resultMsg];
+        [self stopActivityAnimation];
+    }];
+    
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    NSInteger count = 1;
+    if (_model.relate.count) {
+        count++;
+    }
+    return count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return 4;
+        return _model.content.count;
     }
-    return 6;
+    return _model.relate.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        if (indexPath.row == 10) {
-            SCNewsDetailVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsDetailVideoCell cellIdentifier] forIndexPath:indexPath];
-            [cell createLayoutWith:@1];
-            return cell;
-        }else if (indexPath.row == 1 || indexPath.row == 3) {
+        SCContentListModel *contentModel = [_model.content objectAtIndex:indexPath.row];
+        
+        if ([SCGlobaUtil getInt:contentModel.type] == 2) {
             SCNewsDetailImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsDetailImageCell cellIdentifier] forIndexPath:indexPath];
-            [cell createLayoutWith:@1];
-            return cell;
-        }else if (indexPath.row == 6) {
-            SCPostsAdCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsAdCell cellIdentifier] forIndexPath:indexPath];
-            [cell createLayoutWith:@1];
+            [cell createLayoutWith:contentModel];
+        }else if ([SCGlobaUtil getInt:contentModel.type] == 3) {
+            SCNewsDetailVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsDetailVideoCell cellIdentifier] forIndexPath:indexPath];
+            [cell createLayoutWith:contentModel];
         }
+        
+//        SCPostsAdCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsAdCell cellIdentifier] forIndexPath:indexPath];
+//        [cell createLayoutWith:@1];
+        
         SCNewsDetailTextCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsDetailTextCell cellIdentifier] forIndexPath:indexPath];
-        [cell createLayoutWith:@1];
+        [cell createLayoutWith:contentModel];
         return cell;
     }else {
-        if (indexPath.row % 2 == 0) {
-            SCNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsCell cellIdentifier] forIndexPath:indexPath];
-            [cell createLayoutWith:@1];
-            return cell;
+        SCNewsListDataModel *model = [_model.relate objectAtIndex:indexPath.row];
+        
+        if ([SCGlobaUtil getInt:model.type] == 3) {
+            if (model.images.count > 0) {
+                LWPhotosNormalCell *cell = [tableView dequeueReusableCellWithIdentifier:[LWPhotosNormalCell cellIdentifier] forIndexPath:indexPath];
+                [cell createLayoutWith:model];
+                return cell;
+            }
         }
-        LWPhotosNormalCell *cell = [tableView dequeueReusableCellWithIdentifier:[LWPhotosNormalCell cellIdentifier] forIndexPath:indexPath];
-        [cell createLayoutWith:@1];
+        SCNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsCell cellIdentifier] forIndexPath:indexPath];
+        [cell createLayoutWith:model];
         return cell;
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        if (indexPath.row == 1) {
-            return [SCNewsDetailVideoCell cellHeightWith:@1];
-        }else if (indexPath.row == 3 || indexPath.row == 5) {
-            return [SCNewsDetailImageCell cellHeightWith:@1];
-        }else if (indexPath.row == 6) {
-            return [SCPostsAdCell cellHeightWith:@1];
+        SCContentListModel *contentModel = [_model.content objectAtIndex:indexPath.row];
+        
+        if ([SCGlobaUtil getInt:contentModel.type] == 2) {
+            return [SCNewsDetailImageCell cellHeightWith:contentModel];
+        }else if ([SCGlobaUtil getInt:contentModel.type] == 3) {
+            return [SCNewsDetailVideoCell cellHeightWith:contentModel];
         }
+        
+        //        SCPostsAdCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsAdCell cellIdentifier] forIndexPath:indexPath];
+        //        [cell createLayoutWith:@1];
+//        return [SCPostsAdCell cellHeightWith:@1];
+
         return [tableView fd_heightForCellWithIdentifier:[SCNewsDetailTextCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCNewsDetailTextCell *cell) {
-            [cell createLayoutWith:@1];
+            [cell createLayoutWith:contentModel];
         }];
     }else {
-        if (indexPath.row % 2 == 0) {
-            return [tableView fd_heightForCellWithIdentifier:[SCNewsCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCNewsCell *cell) {
-                [cell createLayoutWith:@1];
-            }];
+        SCNewsListDataModel *model = [_model.relate objectAtIndex:indexPath.row];
+        
+        if ([SCGlobaUtil getInt:model.type] == 3) {
+            if (model.images.count > 0) {
+                return [LWPhotosNormalCell heightForRowWithPhotosWithCounts:(int)model.images.count];
+            }
         }
-        return [LWPhotosNormalCell heightForRowWithPhotosWithCounts:2];
+        return [tableView fd_heightForCellWithIdentifier:[SCNewsCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCNewsCell *cell) {
+            [cell createLayoutWith:model];
+        }];
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        CGFloat height = 0.0;
-        height += 20;
-        
-        height += ([SCGlobaUtil sizeWithText:@"6.87全新游戏性更新   马尼拉特锦赛预选赛本周开锣" width:_tableView.fWidth - 20 attributes:@{NSFontAttributeName : [UIFont fontWithName:@"Helvetica-Bold" size:kWord_Font_32px]}].height);
-        
-        height += 10;
-
-        height += ([SCGlobaUtil sizeWithText:@"2016-04-26 18:00" width:_tableView.fWidth - 20 attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kWord_Font_20px]}].height);
-        
-        height += 15;
-
-        return height;
-    }else {
-        return 64;
+    if (_model) {
+        if (section == 0) {
+            CGFloat height = 0.0;
+            height += 20;
+            
+            height += ([SCGlobaUtil sizeWithText:_model.title width:_tableView.fWidth - 20 attributes:@{NSFontAttributeName : [UIFont fontWithName:@"Helvetica-Bold" size:kWord_Font_32px]}].height);
+            
+            height += 10;
+            
+            height += ([SCGlobaUtil sizeWithText:_model.pub_time width:_tableView.fWidth - 20 attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kWord_Font_20px]}].height);
+            
+            height += 15;
+            
+            return height;
+        }else {
+            return 64;
+        }
     }
+    return 0.01;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -147,7 +189,7 @@
         
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:kWord_Font_32px];
-        _titleLabel.text = @"这是标题标题这是标题标题这是标题标题这是标题标题这是标题标题这是标题标题这是标题标题这是标题标题这是标题标题";
+        _titleLabel.text = _model.title;
         _titleLabel.numberOfLines = 0;
         _titleLabel.textColor = kWord_Color_High;
         [view addSubview:_titleLabel];
@@ -155,7 +197,7 @@
         _timeLabel = [[UILabel alloc] init];
         _timeLabel.font = [UIFont systemFontOfSize:kWord_Font_20px];
         _timeLabel.textColor = kWord_Color_Low;
-        _timeLabel.text = @"2016-04-08 18:00";
+        _timeLabel.text = _model.pub_time;
         [view addSubview:_timeLabel];
         
         [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -202,7 +244,21 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if (_model.relate.count && indexPath.section == 1) {
+        SCNewsListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+        
+        if ([SCGlobaUtil getInt:model.type] == 3 && model.images.count > 0) {
+            SCNewsPhotosPackVC *photosVC = [[SCNewsPhotosPackVC alloc] init];
+            photosVC.newsId = model.newsId;
+            photosVC.hidesBottomBarWhenPushed = YES;
+            [self.parentVC.navigationController pushViewController:photosVC animated:YES];
+        }else {
+            SCNewsArticlePackVC *articleVC = [[SCNewsArticlePackVC alloc] init];
+            articleVC.newsId = model.newsId;
+            articleVC.hidesBottomBarWhenPushed = YES;
+            [self.parentVC.navigationController pushViewController:articleVC animated:YES];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {

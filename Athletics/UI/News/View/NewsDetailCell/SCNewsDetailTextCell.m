@@ -7,6 +7,7 @@
 //
 
 #import "SCNewsDetailTextCell.h"
+#import "SCContentListModel.h"
 
 @interface SCNewsDetailTextCell ()
 {
@@ -14,6 +15,7 @@
     NSString *_text;
     UIFont  *_textFont;
     NSMutableParagraphStyle *_textStyle;
+    SCContentListModel *_model;
 }
 
 @end
@@ -57,8 +59,9 @@ static CGFloat k_left = 10.0f;
     
 }
 
-- (void)createLayoutWith:(id)model {
-    _text = @"经过了大赛不断的精彩冬季后，DOTA2即将随着本周6.87游戏性更新的发布迎来万象更新的春季。天梯全英雄选择模式的改动，小地图扫描技能的加入，全新物品的推出和大量平衡性调整，6.87更新日志中有诸多内容亟待您的探索。";
+- (void)createLayoutWith:(SCContentListModel *)model {
+    _model = model;
+    _text = _model.info;
     
     NSMutableAttributedString *textAttStr = [[NSMutableAttributedString alloc] initWithString:_text];
     

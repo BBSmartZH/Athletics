@@ -7,10 +7,12 @@
 //
 
 #import "SCNewsDetailImageCell.h"
+#import "SCContentListModel.h"
 
 @interface SCNewsDetailImageCell ()
 {
     UIImageView *_imageView;
+    SCContentListModel *_model;
 }
 
 @end
@@ -46,22 +48,16 @@ static CGFloat k_left = 10.0f;
     
 }
 
-- (void)createLayoutWith:(id)model {
-    
-    [_imageView scImageWithURL:@"http://img.dota2.com.cn/dota2/1d/a3/1da37587e354ec6e9b6d4f9722ae6be61461641722.jpg" placeholderImage:nil];
+- (void)createLayoutWith:(SCContentListModel *)model {
+    _model = model;
+    [_imageView scImageWithURL:_model.image.url placeholderImage:nil];
 }
 
-+ (CGFloat)cellHeightWith:(id)model {
++ (CGFloat)cellHeightWith:(SCContentListModel *)model {
     CGFloat height = 0.0;
     height += k_top;
 
-    CGSize imageSize = CGSizeZero;
-    NSInteger number = ((NSNumber *)model).integerValue;
-    if (number == 1) {
-        imageSize = CGSizeMake(348, 257);
-    }else {
-        imageSize = CGSizeMake(620, 1024);
-    }
+    CGSize imageSize = CGSizeMake([SCGlobaUtil getFloat:model.image.width], [SCGlobaUtil getFloat:model.image.height]);
     
     height = ([UIScreen mainScreen].bounds.size.width - 2 * k_left) * (imageSize.height / imageSize.width);
     height += k_top;

@@ -257,9 +257,9 @@
         return nil;
     }
     if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
-        return [self salt:@{@"uid":[SCUserInfoManager uid], @"newsId":newsId} isDynamic:NO];
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"nid":newsId} isDynamic:NO];
     }
-    return [self salt:@{@"newsId":newsId} isDynamic:NO];
+    return [self salt:@{@"nid":newsId} isDynamic:NO];
 }
 
 #pragma mark - 资讯的评论
@@ -274,9 +274,9 @@
         return nil;
     }
     if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
-        return [self salt:@{@"uid":[SCUserInfoManager uid], @"newsId":newsId, @"page":@(page)} isDynamic:NO];
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"nid":newsId, @"page":@(page)} isDynamic:NO];
     }
-    return [self salt:@{@"newsId":newsId, @"page":@(page)} isDynamic:NO];
+    return [self salt:@{@"nid":newsId, @"page":@(page)} isDynamic:NO];
 }
 
 #pragma mark - 资讯添加评论
@@ -290,7 +290,7 @@
     if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:newsId] || [SCGlobaUtil isEmpty:newsId]) {
         return nil;
     }
-    return [self salt:@{@"uid":[SCUserInfoManager uid], @"newsId":newsId, @"comment":comment} isDynamic:NO];
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"nid":newsId, @"comment":comment} isDynamic:NO];
 }
 
 #pragma mark - 为资讯评论点赞

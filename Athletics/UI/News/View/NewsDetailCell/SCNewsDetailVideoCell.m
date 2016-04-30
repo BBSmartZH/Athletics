@@ -9,6 +9,7 @@
 #import "SCNewsDetailVideoCell.h"
 
 #import "CDPVideoPlayer.h"
+#import "SCContentListModel.h"
 
 @interface SCNewsDetailVideoCell ()<CDPVideoPlayerDelegate>
 {
@@ -16,6 +17,7 @@
     CDPVideoPlayer *_player;
     UIButton *_playButton;
     NSString *_url;
+    SCContentListModel *_model;
 }
 
 @end
@@ -77,13 +79,14 @@ static CGFloat k_left = 10.0f;
     [_player playWithNewUrl:_url];
 }
 
-- (void)createLayoutWith:(id)model {
-    _player.title = @"上海特级赛EHOME";
-    _url = @"http://v.theonion.com/onionstudios/video/3158/640.mp4";
-    _imageView.backgroundColor = [UIColor cyanColor];
+- (void)createLayoutWith:(SCContentListModel *)model {
+    _model = model;
+    _player.title = _model.title;
+    _url = _model.vid;
+    [_imageView scImageWithURL:_model.image.url placeholderImage:nil];
 }
 
-+ (CGFloat)cellHeightWith:(id)model {
++ (CGFloat)cellHeightWith:(SCContentListModel *)model {
     CGFloat height = 0.0;
     
     height += k_top;

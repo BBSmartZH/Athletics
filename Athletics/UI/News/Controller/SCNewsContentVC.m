@@ -183,15 +183,20 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     SCNewsListDataModel *model = [_datasource objectAtIndex:indexPath.row];
-
+    NSString *commentNum = @"0";
+    if ([SCGlobaUtil isEmpty:model.commentsNum]) {
+        commentNum = model.commentsNum;
+    }
     if ([SCGlobaUtil getInt:model.type] == 3 && model.images.count > 0) {
         SCNewsPhotosPackVC *photosVC = [[SCNewsPhotosPackVC alloc] init];
         photosVC.newsId = model.newsId;
+        photosVC.commentNum = commentNum;
         photosVC.hidesBottomBarWhenPushed = YES;
         [self.parentVC.navigationController pushViewController:photosVC animated:YES];
     }else {
         SCNewsArticlePackVC *articleVC = [[SCNewsArticlePackVC alloc] init];
         articleVC.newsId = model.newsId;
+        articleVC.commentNum = commentNum;
         articleVC.hidesBottomBarWhenPushed = YES;
         [self.parentVC.navigationController pushViewController:articleVC animated:YES];
     }

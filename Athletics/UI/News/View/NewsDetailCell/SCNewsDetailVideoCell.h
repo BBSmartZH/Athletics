@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class SCContentListModel;
 @interface SCNewsDetailVideoCell : UITableViewCell
 
-- (void)createLayoutWith:(id)model;
+- (void)createLayoutWith:(SCContentListModel *)model;
 
 + (NSString *)cellIdentifier;
 
-+ (CGFloat)cellHeightWith:(id)model;
++ (CGFloat)cellHeightWith:(SCContentListModel *)model;
 
 @end
