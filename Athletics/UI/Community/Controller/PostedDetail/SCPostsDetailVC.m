@@ -8,7 +8,7 @@
 
 #import "SCPostsDetailVC.h"
 #import "SCPostsDetailVC.h"
-
+#import "SCTopicReplayListModel.h"
 #import "SCPostsTextImageCell.h"
 #import "SCPostsTopView.h"
 #import "SCPostsAdCell.h"
@@ -16,7 +16,7 @@
 #import "LWCommentsCell.h"
 #import "LWLineCell.h"
 #import "SCCommentInputView.h"
-
+#import "SCCommunityDetailModel.h"
 #import "LrdOutputView.h"
 
 @interface SCPostsDetailVC ()<SCCommentInputViewDelegate, SCPostsTopViewDelegate, LrdOutputViewDelegate>
@@ -26,6 +26,7 @@
     UIButton *_supportButton;
     UILabel  *_supportLabel;
     UIImageView *_imageV;
+    SCCommunityDetailDataModel  *_model;
     int       k;
 }
 
@@ -133,23 +134,39 @@
 
 -(void)refreshData
 {
-    self.sessionTask = [SCNetwork topicInfoWithTopicId:@"" success:^(SCCommunityDetailModel *model) {
-        [self headerEndRefreshing];
-        [_datasource removeAllObjects];
-        [_datasource addObject:model];
-        [_tableView reloadData];
+     [SCNetwork topicInfoWithTopicId:_topicId success:^(SCCommunityDetailModel *model) {
+        _model = model.data;
+        [_tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
 
     } message:^(NSString *resultMsg) {
-        [self headerEndRefreshing];
         [self postMessage:resultMsg];
+    }];
+    self.sessionTask = [SCNetwork topicCommentListWithTopicId:_topicId page:_currentPageIndex success:^(SCTopicReplayListModel *model) {
+        [self headerEndRefreshing];
+        [_datasource removeAllObjects];
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging]) {
+            _currentPageIndex ++;
+            [self footerHidden:NO];
+        }else{
+            [self noticeNoMoreData];
+        }
+    } message:^(NSString *resultMsg) {
+        
     }];
 }
 -(void)loadModeData
 {
-    self.sessionTask = [SCNetwork topicInfoWithTopicId:_topicId success:^(SCCommunityDetailModel *model) {
+    self.sessionTask = [SCNetwork topicCommentListWithTopicId:_topicId page:_currentPageIndex success:^(SCTopicReplayListModel *model) {
         [self footerEndRefreshing];
-        [_datasource addObject:model];
-        [_tableView reloadData];
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total]/[SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex ++;
+        }else{
+            [self noticeNoMoreData];
+        }
     } message:^(NSString *resultMsg) {
         [self footerEndRefreshing];
         [self postMessage:resultMsg];
@@ -164,7 +181,7 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 2;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
@@ -190,7 +207,7 @@
             return cell;
         }
 
-    }else if(indexPath.section >=1){
+    }else if(indexPath.section == 1){
         if (indexPath.row == 0) {
             LandlordCell *cell = [tableView dequeueReusableCellWithIdentifier:[LandlordCell cellIdentifier]forIndexPath:indexPath];
             [cell createLayoutWith:@1];
@@ -303,21 +320,23 @@
         }
         
         return view;
-    }else {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.fWidth, 0)];
-        view.backgroundColor = [UIColor whiteColor];
-        UIView *line = [[UIView alloc] init];
-        line.backgroundColor = k_Border_Color;
-        [view addSubview:line];
-        
-        [line mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(view).offset(10);
-            make.top.bottom.right.equalTo(view);
-        }];
-        
-        return view;
     }
+//    }else {
+//        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.fWidth, 0)];
+//        view.backgroundColor = [UIColor whiteColor];
+//        UIView *line = [[UIView alloc] init];
+//        line.backgroundColor = k_Border_Color;
+//        [view addSubview:line];
+//        
+//        [line mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(view).offset(10);
+//            make.top.bottom.right.equalTo(view);
+//        }];
+//        
+//        return view;
+//    }
     return NULL;
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

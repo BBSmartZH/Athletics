@@ -328,9 +328,9 @@
         return nil;
     }
     if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
-        return [self salt:@{@"channelId":channelId, @"type":@(type), @"num":@(page)} isDynamic:NO];
+        return [self salt:@{@"channelId":channelId, @"type":@(type), @"page":@(page)} isDynamic:NO];
     }
-    return [self salt:@{@"uid":[SCUserInfoManager uid], @"channelId":channelId, @"type":@(type), @"num":@(page)} isDynamic:NO];
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"channelId":channelId, @"type":@(type), @"page":@(page)} isDynamic:NO];
 }
 
 #pragma mark - 帖子详情

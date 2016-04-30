@@ -14,6 +14,7 @@
     UILabel            *_hostNameLabel;
     UILabel            *_dateLabel;
     UILabel            *_commentLabel;
+    UIView             *_lineView;
 }
 @end
 static CGFloat k_left = 10.0f;
@@ -34,6 +35,10 @@ static CGFloat kImageH = 32.0f;
 }
 
 -(void)uiConfig{
+    
+    _lineView = [[UIView alloc]init];
+    _lineView.backgroundColor = k_Bg_Color;
+    [self.contentView addSubview:_lineView];
     
     _imageV = [[UIImageView alloc]init];
     _imageV.contentMode = UIViewContentModeScaleAspectFill;
@@ -57,9 +62,16 @@ static CGFloat kImageH = 32.0f;
     [self.contentView addSubview:_commentLabel];
     
     _WEAKSELF(ws);
+    [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.left.equalTo(ws.contentView).offset(k_left);
+        make.right.equalTo(ws.contentView);
+        make.top.equalTo(ws.contentView).offset(k_left);
+        make.height.mas_equalTo(@0.5);
+    }];
     [_imageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(ws.contentView).offset(k_left);
-        make.top.equalTo(ws.contentView).offset(k_left);
+        make.top.equalTo(_lineView.mas_bottom).offset(k_left);
         make.size.mas_equalTo(CGSizeMake(kImageH, kImageH));
     }];
     

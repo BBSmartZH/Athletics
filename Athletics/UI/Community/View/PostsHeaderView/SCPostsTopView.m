@@ -7,7 +7,7 @@
 //
 
 #import "SCPostsTopView.h"
-
+#import "SCCommunityDetailModel.h"
 
 @interface SCPostsTopView ()
 {
@@ -207,16 +207,16 @@ static CGFloat showButtonH = 22.0f;
     }
 }
 
-- (void)setModel:(id)model {
+- (void)setModel:(SCCommunityDetailDataModel*)model {
     if (_model != model) {
-        [_avatar scImageWithURL:@"http://img.78dian.com/user/m_avatar/201604/1461657916_756423.png" placeholderImage:nil];
-        _nameLabel.text = @"背单词的gxc";
+        [_avatar scImageWithURL:model.userAvatar placeholderImage:nil];
+        _nameLabel.text = model.userName;
         _descLabel.text = @"Dota2";
         _statusLabel.text = @"楼主";
         _statusLabel.hidden = YES;
-        _timeLabel.text = @"2016-04-26 10:00";
+        _timeLabel.text = model.createTime;
         
-        _title = @"求问 这香蕉到底什么梗";
+        _title = model.title;
         
         NSMutableAttributedString *titleAttStr = [[NSMutableAttributedString alloc] initWithString:_title];
         

@@ -247,14 +247,14 @@ static CGFloat k_WHratio = 0.8;
     [_headImageV scImageWithURL:model.userAvatar placeholderImage:nil];
     _nameLabel.text = model.userName;
     _thumbImagev.backgroundColor = k_Base_Color;
-    _thumbNumLabel.text = model.supportNum;
+    _thumbNumLabel.text = model.likeCount;
     _messageImageV.backgroundColor = k_Base_Color;
-    _messageNumLabel.text = model.replyNum;
+    _messageNumLabel.text = model.commentCount;
     _tilteLable.text = model.title;
     _summaryLabel.text = model.summary;
-    if (model.images.count == 0) {
+    if (model.images.count == 1) {
         [_leftImageV scImageWithURL:((SCImageModel*)[model.images firstObject]).url  placeholderImage:nil];
-    }else if (model.images.count == 1){
+    }else if (model.images.count == 2){
         [_leftImageV scImageWithURL:((SCImageModel*)[model.images firstObject]).url  placeholderImage:nil];
         [_middleImageV scImageWithURL:((SCImageModel*)[model.images objectAtIndex:1]).url placeholderImage:nil];
     }else{

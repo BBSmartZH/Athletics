@@ -368,7 +368,7 @@
  *  @return
  */
 + (NSString *)matchVideoListUrl {
-    return [self p_wrap:@"/match/video/list"];
+    return [self p_wrap:@"/video/list"];
 }
 
 #pragma mark - 查询赛事视频详情
@@ -378,7 +378,7 @@
  *  @return
  */
 + (NSString *)matchVideoDetailUrl {
-    return [self p_wrap:@"/match/video/query"];
+    return [self p_wrap:@"/video/query"];
 }
 
 #pragma mark - 当前视频相关视频
@@ -388,7 +388,7 @@
  *  @return
  */
 + (NSString *)matchVideoRelatedListUrl {
-    return [self p_wrap:@"/match/video/tag/list"];
+    return [self p_wrap:@"/video/tag/list"];
 }
 
 #pragma mark - 当前视频评论
@@ -398,7 +398,7 @@
  *  @return
  */
 + (NSString *)matchVideoCommentListUrl {
-    return [self p_wrap:@"/match/video/comment/list"];
+    return [self p_wrap:@"/video/comment/list"];
 }
 
 #pragma mark - 评论当前视频
@@ -408,7 +408,7 @@
  *  @return
  */
 + (NSString *)matchVideoCommentAddUrl {
-    return [self p_wrap:@"/match/video/comment/add"];
+    return [self p_wrap:@"/video/comment/add"];
 }
 
 #pragma mark - 对当前评论点赞
@@ -418,7 +418,7 @@
  *  @return
  */
 + (NSString *)matchVideoCommentLikeUrl {
-    return [self p_wrap:@"/match/video/comment/like/add"];
+    return [self p_wrap:@"/video/comment/like/add"];
 }
 
 #pragma mark - Private

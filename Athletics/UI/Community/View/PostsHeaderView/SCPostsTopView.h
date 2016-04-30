@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class SCCommunityDetailDataModel;
 @protocol SCPostsTopViewDelegate <NSObject>
 
 - (void)postsTopViewHeightChanged;
-- (void)postsTopViewClickedWith:(id)model;
+- (void)postsTopViewClickedWith:(SCCommunityDetailDataModel*)model;
 
 @end
 
@@ -21,7 +21,7 @@
 
 @property (nonatomic, strong, readonly) UIImageView *avatar;
 
-@property (nonatomic, strong) id model;
+@property (nonatomic, strong) SCCommunityDetailDataModel *model;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 

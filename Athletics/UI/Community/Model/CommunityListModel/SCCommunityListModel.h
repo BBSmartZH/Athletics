@@ -29,9 +29,9 @@ SCCommunityListDataModel
 
 @property (nonatomic, strong) NSArray<Optional, SCImageModel> *images;
 
-@property (nonatomic, copy) NSString<Optional> *replyNum;
+@property (nonatomic, copy) NSString<Optional> *commentCount;
 
-@property (nonatomic, copy) NSString<Optional> *supportNum;
+@property (nonatomic, copy) NSString<Optional> *likeCount;
 
 @property (nonatomic, copy) NSString<Optional> *status;
 

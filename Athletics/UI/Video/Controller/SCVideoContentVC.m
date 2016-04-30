@@ -88,7 +88,7 @@
     _needUpdate = NO;
     
     
-    self.sessionTask = [SCNetwork matchVideoListWithChannelId:@"" type:0 page:_currentPageIndex success:^(SCVideoListModel *model) {
+    self.sessionTask = [SCNetwork matchVideoListWithChannelId:_channelId type:0 page:_currentPageIndex success:^(SCVideoListModel *model) {
         [self headerEndRefreshing];
         
         [_datasource removeAllObjects];

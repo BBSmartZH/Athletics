@@ -40,10 +40,13 @@ SCCommunityDetailDataModel
 @property (nonatomic, copy) NSString<Optional> *lastReplyTime;
 @property (nonatomic, copy) NSString<Optional> *userId;
 @property (nonatomic, copy) NSString<Optional> *userName;
+@property (nonatomic, copy) NSString<Optional> *summary;
+@property (nonatomic, copy) NSString<Optional> *title;
+
 @property (nonatomic, copy) NSString<Optional> *userAvatar;
 @property (nonatomic, copy) NSString<Optional> *channelId;
 
-@property (nonatomic, strong) NSString<SCImageModel, Optional> *images;
+@property (nonatomic, strong) NSArray<SCImageModel, Optional> *images;
 
 @property (nonatomic, strong) NSArray<SCTopicLikeModel, Optional> *topicLikes;
 
