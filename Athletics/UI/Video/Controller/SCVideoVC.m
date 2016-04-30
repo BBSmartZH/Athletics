@@ -125,7 +125,10 @@
 
 
 - (void)topScrollButtonClicked:(SCTopButton *)sender {
-    
+    SCVideoContentVC *contentVC = [_vcArray objectAtIndex:sender.index];
+    if (!contentVC.isUpdated) {
+        [contentVC updateData];
+    }
     [_collectionView setContentOffset:CGPointMake(_collectionView.bounds.size.width * sender.index, 0) animated:YES];
 }
 

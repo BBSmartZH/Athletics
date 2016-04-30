@@ -56,6 +56,21 @@
     return [self salt:@{@"userId":[SCUserInfoManager uid], @"token":token, @"idfa":[SCGlobaUtil getIDFA], @"uuid":[SCGlobaUtil getUUID]} isDynamic:NO];
 }
 
+#pragma mark - 获取banner
+/**
+ *  获取banner
+ *
+ *  @return
+ */
++ (NSDictionary *)newsBannerListParamsWithChannelId:(NSString *)channerId {
+    if ([SCGlobaUtil isEmpty:channerId]) {
+        return nil;
+    }
+    if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"channerId":channerId} isDynamic:NO];
+    }
+    return [self salt:@{@"newsId":channerId} isDynamic:NO];
+}
 
 #pragma mark -  *******************    登录找回密码    *********************************
 #pragma mark - 注册

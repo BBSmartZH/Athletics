@@ -16,6 +16,7 @@
 #import "SCUploadTokenModel.h"
 #import "SCAppUpdateModel.h"
 #import "SCGameListModel.h"
+#import "SCNewsBannerListModel.h"
 
 @implementation SCNetwork
 #pragma mark - 注册
@@ -379,6 +380,32 @@
     return [SCNetworkHelper postWithUrl:[SCUrlWrapper uploadApnsTokenUrl] params:[SCParamsWrapper uploadApnsTokenParamsWithToken:token] success:^(NSDictionary *result) {
         NSError *error;
         SCResponseModel *model = [[SCResponseModel alloc] initWithDictionary:result error:&error];
+        if (!error) {
+            success(model);
+        }else {
+            message(error.localizedDescription);
+        }
+    } message:^(NSString *resultMsg) {
+        message(resultMsg);
+    }];
+}
+
+#pragma mark - 获取banner
+/**
+ *  获取banner
+ *
+ *  @param channelId 频道列表
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)newsBannerListWithChannelId:(NSString *)channelId
+                                              success:(void(^)(SCNewsBannerListModel *model))success
+                                              message:(SCMessageBlock)message {
+    return [SCNetworkHelper getWithUrl:[SCUrlWrapper newsBannerListUrl] params:[SCParamsWrapper newsBannerListParamsWithChannelId:channelId] success:^(NSDictionary *result) {
+        NSError *error;
+        SCNewsBannerListModel *model = [[SCNewsBannerListModel alloc] initWithDictionary:result error:&error];
         if (!error) {
             success(model);
         }else {

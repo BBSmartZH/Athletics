@@ -15,12 +15,17 @@
 #import "SCNewsArticlePackVC.h"
 
 #import "SCNewsListModel.h"
+#import "SCNewsBannerListModel.h"
 
 @interface SCNewsContentVC ()
 {
-    SCAdView *_adView;
     BOOL _needUpdate;
+    SCNewsBannerListModel *_bannerModel;
+    NSMutableArray *_titleArray;
+    NSMutableArray *_imageUrlArray;
 }
+
+@property (nonatomic, strong) SCAdView *adView;
 
 @end
 
@@ -41,30 +46,47 @@
     _tableView.separatorColor = k_Border_Color;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
-    _adView = [[SCAdView alloc] initWithFrame:CGRectMake(0, 0, _tableView.fWidth, _tableView.fWidth * 0.4)];
-    _adView.placeHoldImage = [UIImage imageNamed:@"place"];
-    _adView.pageControlShowStyle = SCPageControlShowStyleRight;
-    _adView.adTitleStyle = SCAdTitleShowStyleLeft;
-    _adView.tapAdCallBack = ^(NSInteger index) {
-        NSLog(@"%ld", (long)index);
-    };
-    _tableView.tableHeaderView = _adView;
+    _imageUrlArray = [NSMutableArray array];
+    _titleArray = [NSMutableArray array];
+}
+
+- (SCAdView *)adView {
+    if (!_adView) {
+        _adView = [[SCAdView alloc] initWithFrame:CGRectMake(0, 0, _tableView.fWidth, _tableView.fWidth * 0.4)];
+        _adView.placeHoldImage = [UIImage imageNamed:@"place"];
+        _adView.pageControlShowStyle = SCPageControlShowStyleRight;
+        _adView.adTitleStyle = SCAdTitleShowStyleLeft;
+        _adView.tapAdCallBack = ^(NSInteger index) {
+            NSLog(@"%ld", (long)index);
+        };
+        _tableView.tableHeaderView = _adView;
+    }
+    return _adView;
+}
+
+- (void)getMatchBanner {
     
-    NSArray *imagesURL = @[
-                           @"http://img.dota2.com.cn/dota2/38/5b/385bdfec72352d362c86ae46d95e0dca1461307283.jpg",
-                           @"http://img.dota2.com.cn/dota2/de/fc/defc5969e325b72d5fb155a5a75370ec1461307258.jpg",
-                           @"http://www.dota2.com.cn/resources/jpg/150205/10251423116795949.jpg"
-                           ];
-    
-    NSArray *titles = @[@"Empire.Ramzes专访",
-                        @"ESL ONE马尼拉前瞻",
-                        @"意见反馈",
-                        ];
-    
-    _adView.adTitleArray = titles;
-    _adView.imageLinkURL = imagesURL;
-    
-    
+    [SCNetwork newsBannerListWithChannelId:_channelId success:^(SCNewsBannerListModel *model) {
+        _bannerModel = model;
+        
+        [_imageUrlArray removeAllObjects];
+        [_titleArray removeAllObjects];
+        
+        for (int i = 0; i < _bannerModel.data.count; i++) {
+            SCNewsBannerListDataModel *dataModel = [_bannerModel.data objectAtIndex:i];
+            [_imageUrlArray addObject:dataModel.imgUrl];
+            [_titleArray addObject:dataModel.title];
+        }
+        if (_imageUrlArray.count > 0) {
+            self.adView.imageLinkURL = _imageUrlArray;
+            self.adView.adTitleArray = _titleArray;
+            _tableView.tableHeaderView = self.adView;
+        }else {
+            _tableView.tableHeaderView = nil;
+        }
+    } message:^(NSString *resultMsg) {
+        
+    }];
 }
 
 - (BOOL)isUpdated {
@@ -77,11 +99,12 @@
 }
 
 - (void)refreshData {
-    _needUpdate = NO;
+    [self getMatchBanner];
     
     self.sessionTask = [SCNetwork newsListWithChannelId:_channelId page:_currentPageIndex success:^(SCNewsListModel *model) {
         [self headerEndRefreshing];
-        
+        _needUpdate = NO;
+
         [_datasource removeAllObjects];
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
@@ -95,21 +118,10 @@
         [self headerEndRefreshing];
         [self postMessage:resultMsg];
     }];
-    
-    
-    
-    
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [self headerEndRefreshing];
-//        
-//        [_tableView reloadData];
-//
-//        _needUpdate = YES;
-//    });
 }
 
 - (void)loadModeData {
-    self.sessionTask = [SCNetwork newsListWithChannelId:@"" page:_currentPageIndex success:^(SCNewsListModel *model) {
+    self.sessionTask = [SCNetwork newsListWithChannelId:_channelId page:_currentPageIndex success:^(SCNewsListModel *model) {
         [self footerEndRefreshing];
         
         [_datasource addObjectsFromArray:model.data];

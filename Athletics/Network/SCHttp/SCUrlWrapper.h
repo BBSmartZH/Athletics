@@ -36,6 +36,14 @@
  */
 + (NSString *)uploadApnsTokenUrl;
 
+#pragma mark - 获取banner
+/**
+ *  获取banner
+ *
+ *  @return
+ */
++ (NSString *)newsBannerListUrl;
+
 #pragma mark - **************************************************************
 #pragma mark - 注册
 /**

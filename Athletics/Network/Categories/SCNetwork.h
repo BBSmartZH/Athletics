@@ -10,7 +10,7 @@
 
 #import "SCNetworkHelper.h"
 
-@class SCGameListModel, SCLoginModel, SCUserInfoModel, SCUploadTokenModel, SCAppUpdateModel, SCGameListModel;
+@class SCGameListModel, SCLoginModel, SCUserInfoModel, SCUploadTokenModel, SCAppUpdateModel, SCGameListModel, SCNewsBannerListModel;
 
 @interface SCNetwork : NSObject
 #pragma mark - 注册
@@ -217,6 +217,20 @@
 + (NSURLSessionDataTask *)uploadApnsTokenWithToken:(NSString *)token
                                            success:(void(^)(SCResponseModel *model))success
                                            message:(SCMessageBlock)message;
+
+#pragma mark - 获取banner
+/**
+ *  获取banner
+ *
+ *  @param channelId 频道列表
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)newsBannerListWithChannelId:(NSString *)channelId
+                                              success:(void(^)(SCNewsBannerListModel *model))success
+                                              message:(SCMessageBlock)message;
 
 
 

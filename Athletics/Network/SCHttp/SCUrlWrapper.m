@@ -42,6 +42,16 @@
     return [self p_wrap:@"/static/apns/token"];
 }
 
+#pragma mark - 获取banner
+/**
+ *  获取banner
+ *
+ *  @return
+ */
++ (NSString *)newsBannerListUrl {
+    return [self p_wrap:@"/static/banner/list"];
+}
+
 #pragma mark - **************************************************************
 #pragma mark - 注册
 /**

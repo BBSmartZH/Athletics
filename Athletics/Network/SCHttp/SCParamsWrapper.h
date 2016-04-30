@@ -36,6 +36,13 @@
  */
 + (NSDictionary *)uploadApnsTokenParamsWithToken:(NSString *)token;
 
+#pragma mark - 获取banner
+/**
+ *  获取banner
+ *
+ *  @return
+ */
++ (NSDictionary *)newsBannerListParamsWithChannelId:(NSString *)channerId;
 
 #pragma mark - **************************************************************
 #pragma mark - 注册
