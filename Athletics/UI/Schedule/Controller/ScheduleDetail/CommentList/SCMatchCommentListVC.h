@@ -12,6 +12,8 @@
 
 @property (nonatomic, assign) CGFloat topHeight;
 
+@property (nonatomic, assign) UIViewController *parentVC;
+
 - (void)upDateData;
 
 @end

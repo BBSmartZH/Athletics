@@ -49,6 +49,16 @@
     [MobClick setAppVersion:version];
 #endif
     
+    Class cls = NSClassFromString(@"UMANUtil");
+    SEL deviceIDSelector = @selector(openUDIDString);
+    NSString *deviceID = nil;
+    if(cls && [cls respondsToSelector:deviceIDSelector]){
+        deviceID = [cls performSelector:deviceIDSelector];
+    }
+    
+    //保存唯一标识
+    [[NSUserDefaults standardUserDefaults] setObject:deviceID forKey:@"deviceID"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 /**

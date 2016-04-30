@@ -11,6 +11,8 @@
 @class SCNewsCommentListDataModel;
 @interface LWCommentListCell : UITableViewCell
 
+@property (nonatomic, strong, readonly) UIImageView *avatar;
+
 - (void)createLayoutWith:(SCNewsCommentListDataModel *)model;
 
 + (NSString *)cellidentifier;

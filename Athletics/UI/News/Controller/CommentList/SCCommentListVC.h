@@ -10,4 +10,6 @@
 
 @interface SCCommentListVC : SCBaseRefreshVC_iPhone
 
+@property (nonatomic, assign) UIViewController *parentVC;
+
 @end

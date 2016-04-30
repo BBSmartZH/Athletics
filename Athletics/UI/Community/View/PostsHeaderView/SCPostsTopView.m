@@ -11,6 +11,7 @@
 
 @interface SCPostsTopView ()
 {
+    UIView *_topView;
     UIImageView *_avatar;
     UILabel *_nameLabel;
     UILabel *_statusLabel;//身份
@@ -66,21 +67,31 @@ static CGFloat showButtonH = 22.0f;
     _contentStyle = [[NSMutableParagraphStyle alloc] init];
     [_contentStyle setLineSpacing:contentLineSpace];
     
+    _topView = [[UIView alloc] init];
+    _topView.backgroundColor = [UIColor clearColor];
+    [self addSubview:_topView];
+    
+    _WEAKSELF(ws);
+
+    [_topView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(ws);
+    }];
+    
     _avatar = [[UIImageView alloc] init];
     _avatar.layer.cornerRadius = avatarH / 2.0f;
     _avatar.contentMode = UIViewContentModeScaleAspectFill;
     _avatar.clipsToBounds = YES;
-    [self addSubview:_avatar];
+    [_topView addSubview:_avatar];
     
     _nameLabel = [[UILabel alloc] init];
     _nameLabel.textColor = kWord_Color_Event;
     _nameLabel.font = [UIFont systemFontOfSize:kWord_Font_24px];
-    [self addSubview:_nameLabel];
+    [_topView addSubview:_nameLabel];
     
     _descLabel = [[UILabel alloc] init];
     _descLabel.textColor = kWord_Color_Event;
     _descLabel.font = [UIFont systemFontOfSize:kWord_Font_20px];
-    [self addSubview:_descLabel];
+    [_topView addSubview:_descLabel];
     
     _statusLabel = [[UILabel alloc] init];
     _statusLabel.textColor = [UIColor whiteColor];
@@ -88,13 +99,46 @@ static CGFloat showButtonH = 22.0f;
     _statusLabel.backgroundColor = [UIColor cyanColor];
     _statusLabel.layer.cornerRadius = 2.0f;
     _statusLabel.textAlignment = NSTextAlignmentCenter;
-    [self addSubview:_statusLabel];
+    [_topView addSubview:_statusLabel];
     
     _timeLabel = [[UILabel alloc] init];
     _timeLabel.textColor = kWord_Color_Event;
     _timeLabel.font = [UIFont systemFontOfSize:kWord_Font_20px];
     _timeLabel.textAlignment = NSTextAlignmentRight;
-    [self addSubview:_timeLabel];
+    [_topView addSubview:_timeLabel];
+    
+    [_avatar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_topView).offset(k_left);
+        make.top.equalTo(_topView).offset(k_top);
+        make.size.mas_equalTo(CGSizeMake(avatarH, avatarH));
+        make.bottom.equalTo(_topView).offset(-k_left);
+    }];
+    
+    [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_avatar).offset(5);
+        make.left.equalTo(_avatar.mas_right).offset(5);
+        make.right.equalTo(_statusLabel.mas_left).offset(-k_left);
+    }];
+    
+    [_descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(_avatar).offset(-5);
+        make.left.equalTo(_nameLabel);
+        make.right.equalTo(_timeLabel.mas_left).offset(-k_left);
+    }];
+    
+    [_statusLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
+    [_timeLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
+    [_statusLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
+    [_timeLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
+    [_statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_nameLabel);
+        make.right.equalTo(_topView).offset(-k_left);
+    }];
+    
+    [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_descLabel);
+        make.right.equalTo(_statusLabel);
+    }];
     
     _titleLabel = [[UILabel alloc] init];
     _titleLabel.textColor = kWord_Color_High;
@@ -120,39 +164,6 @@ static CGFloat showButtonH = 22.0f;
     _showMoreButton.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_28px];
     [_showMoreView addSubview:_showMoreButton];
     
-    _WEAKSELF(ws);
-    
-    [_avatar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(ws).offset(k_left);
-        make.top.equalTo(ws).offset(k_top);
-        make.size.mas_equalTo(CGSizeMake(avatarH, avatarH));
-    }];
-    
-    [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_avatar).offset(5);
-        make.left.equalTo(_avatar.mas_right).offset(5);
-        make.right.equalTo(_statusLabel.mas_left).offset(-k_left);
-    }];
-    
-    [_descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_avatar).offset(-5);
-        make.left.equalTo(_nameLabel);
-        make.right.equalTo(_timeLabel.mas_left).offset(-k_left);
-    }];
-    
-    [_statusLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
-    [_timeLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
-    [_statusLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
-    [_timeLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
-    [_statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_nameLabel);
-        make.right.equalTo(ws).offset(-k_left);
-    }];
-    
-    [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_descLabel);
-        make.right.equalTo(_statusLabel);
-    }];
     
     _titleLabel.frame = CGRectMake(k_left, 2 * k_top + avatarH, self.fWidth - 2 * k_left, 0);
     _contentLabel.frame = CGRectMake(_titleLabel.left, _titleLabel.bottom + k_top, _titleLabel.fWidth, 0);
@@ -168,6 +179,19 @@ static CGFloat showButtonH = 22.0f;
         make.centerX.equalTo(_showMoreView);
         make.bottom.equalTo(_showMoreView).offset(-k_top);
     }];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTouchTap:)];
+    [_topView addGestureRecognizer:tap];
+}
+
+- (UIImageView *)avatar {
+    return _avatar;
+}
+
+- (void)viewTouchTap:(UITapGestureRecognizer *)tap {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(postsTopViewClickedWith:)]) {
+        [self.delegate postsTopViewClickedWith:@1];
+    }
 }
 
 
@@ -189,6 +213,7 @@ static CGFloat showButtonH = 22.0f;
         _nameLabel.text = @"背单词的gxc";
         _descLabel.text = @"Dota2";
         _statusLabel.text = @"楼主";
+        _statusLabel.hidden = YES;
         _timeLabel.text = @"2016-04-26 10:00";
         
         _title = @"求问 这香蕉到底什么梗";

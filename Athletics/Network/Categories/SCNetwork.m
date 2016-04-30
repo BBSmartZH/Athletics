@@ -13,6 +13,9 @@
 #import "SCGameListModel.h"
 #import "SCLoginModel.h"
 #import "SCUserInfoModel.h"
+#import "SCUploadTokenModel.h"
+#import "SCAppUpdateModel.h"
+#import "SCGameListModel.h"
 
 @implementation SCNetwork
 #pragma mark - 注册
@@ -225,7 +228,7 @@
                                       nickname:(NSString *)nickName
                                        success:(void(^)(SCResponseModel *model))success
                                        message:(SCMessageBlock)message {
-    return [SCNetworkHelper postWithUrl:[SCUrlWrapper logoutUrl] params:[SCParamsWrapper logoutParams] success:^(NSDictionary *result) {
+    return [SCNetworkHelper postWithUrl:[SCUrlWrapper userUpdateInfoUrl] params:[SCParamsWrapper userUpdateInfoParamsWithAvatar:avatar nickName:nickName] success:^(NSDictionary *result) {
         NSError *error;
         SCResponseModel *model = [[SCResponseModel alloc] initWithDictionary:result error:&error];
         if (!error) {
@@ -275,6 +278,78 @@
  */
 + (NSURLSessionDataTask *)gameListSuccess:(void(^)(SCGameListModel *model))success
                                   message:(SCMessageBlock)message {
+    return [SCNetworkHelper getWithUrl:[SCUrlWrapper gameListUrl] params:[SCParamsWrapper gameListParams] success:^(NSDictionary *result) {
+        NSError *error;
+        SCGameListModel *model = [[SCGameListModel alloc] initWithDictionary:result error:&error];
+        if (!error) {
+            success(model);
+        }else {
+            message(error.localizedDescription);
+        }
+    } message:^(NSString *resultMsg) {
+        message(resultMsg);
+    }];
+}
+
+#pragma mark - 获取七牛云上传token
+/**
+ *  获取七牛云上传token
+ *
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)getUploadTokenWithSuccess:(void(^)(SCUploadTokenModel *model))success
+                                            message:(SCMessageBlock)message {
+    return [SCNetworkHelper getWithUrl:[SCUrlWrapper qiNiuTokenUrl] params:[SCParamsWrapper qiNiuTokenParams] success:^(NSDictionary *result) {
+        NSError *error;
+        SCUploadTokenModel *model = [[SCUploadTokenModel alloc] initWithDictionary:result error:&error];
+        if (!error) {
+            success(model);
+        }else {
+            message(error.localizedDescription);
+        }
+    } message:^(NSString *resultMsg) {
+        message(resultMsg);
+    }];
+}
+
+#pragma mark - app版本更新
+/**
+ *  app版本更新
+ *
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)appUpdateWithSuccess:(void(^)(SCAppUpdateModel *model))success
+                                       message:(SCMessageBlock)message {
+    return [SCNetworkHelper postWithUrl:[SCUrlWrapper appUpdateUrl] params:[SCParamsWrapper appUpdateParams] success:^(NSDictionary *result) {
+        NSError *error;
+        SCAppUpdateModel *model = [[SCAppUpdateModel alloc] initWithDictionary:result error:&error];
+        if (!error) {
+            success(model);
+        }else {
+            message(error.localizedDescription);
+        }
+    } message:^(NSString *resultMsg) {
+        message(resultMsg);
+    }];
+}
+
+#pragma mark - 获取游戏列表
+/**
+ *  获取游戏列表
+ *
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)gameListWithSuccess:(void(^)(SCGameListModel *model))success
+                                      message:(SCMessageBlock)message {
     return [SCNetworkHelper postWithUrl:[SCUrlWrapper gameListUrl] params:[SCParamsWrapper gameListParams] success:^(NSDictionary *result) {
         NSError *error;
         SCGameListModel *model = [[SCGameListModel alloc] initWithDictionary:result error:&error];
@@ -287,5 +362,32 @@
         message(resultMsg);
     }];
 }
+
+#pragma mark - 上传apnsToken
+/**
+ *  上传apnsToken
+ *
+ *  @param token   token
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)uploadApnsTokenWithToken:(NSString *)token
+                                           success:(void(^)(SCResponseModel *model))success
+                                             message:(SCMessageBlock)message {
+    return [SCNetworkHelper postWithUrl:[SCUrlWrapper uploadApnsTokenUrl] params:[SCParamsWrapper uploadApnsTokenParamsWithToken:token] success:^(NSDictionary *result) {
+        NSError *error;
+        SCResponseModel *model = [[SCResponseModel alloc] initWithDictionary:result error:&error];
+        if (!error) {
+            success(model);
+        }else {
+            message(error.localizedDescription);
+        }
+    } message:^(NSString *resultMsg) {
+        message(resultMsg);
+    }];
+}
+
 
 @end

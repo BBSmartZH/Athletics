@@ -17,15 +17,15 @@ SCCommunityListDataModel
 
 @interface SCCommunityListDataModel : SCBaseModel
 
-@property (nonatomic, copy) NSString<Optional> *id;
+@property (nonatomic, copy) NSString<Optional> *tid;
 
-@property (nonatomic, copy) NSString<Optional> *moduleIds;
-
-@property (nonatomic, copy) NSString<Optional> *moduleName;
+@property (nonatomic, copy) NSString<Optional> *moduleName;//无
 
 @property (nonatomic, copy) NSString<Optional> *title;
 
 @property (nonatomic, copy) NSString<Optional> *summary;
+
+@property (nonatomic, copy) NSString<Optional> *content;
 
 @property (nonatomic, strong) NSArray<Optional, SCImageModel> *images;
 
@@ -35,19 +35,15 @@ SCCommunityListDataModel
 
 @property (nonatomic, copy) NSString<Optional> *status;
 
-@property (nonatomic, copy) NSString<Optional> *isRecmd;
-
 @property (nonatomic, copy) NSString<Optional> *createTime;
 
 @property (nonatomic, copy) NSString<Optional> *lastReplyTime;
 
-@property (nonatomic, copy) NSString<Optional> *creatorId;
+@property (nonatomic, copy) NSString<Optional> *userid;
 
-@property (nonatomic, strong) SCUserModel<Optional> *user;
+@property (nonatomic, copy) NSString<Optional> *userName;
 
-@property (nonatomic, copy) NSString<Optional> *followed;
-
-@property (nonatomic, copy) NSString<Optional> *isLeader;
+@property (nonatomic, copy) NSString<Optional> *userAvatar;
 
 
 @end

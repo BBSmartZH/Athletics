@@ -110,7 +110,6 @@
     
     _headerView.frame = CGRectMake(0, 0, _headerView.fWidth, _collectionView.bottom + 15);
     _tableView.tableHeaderView = _headerView;
-    
 }
 
 - (void)playButtonClicked:(UIButton *)sender {

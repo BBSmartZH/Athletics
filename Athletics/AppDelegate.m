@@ -15,8 +15,13 @@
 #import "SCJPushManager.h"
 
 #import "SCGameListModel.h"
+#import "SCAppUpdateModel.h"
+#import "UIAlertView+Blocks.h"
 
 @interface AppDelegate ()
+{
+    UIAlertView *_updateAlert;
+}
 
 @end
 
@@ -104,6 +109,38 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [SCShareManager applicationDidBecomeActive];
+    
+    //版本更新
+    [SCNetwork appUpdateWithSuccess:^(SCAppUpdateModel *model) {
+        [self handleAppUpdateWith:model.data];
+    } message:^(NSString *resultMsg) {}];
+    
+}
+
+- (void)handleAppUpdateWith:(SCAppUpdateDataModel *)model {
+    NSString *title = @"发现新版本";
+    if ([SCGlobaUtil getInt:model.type] == 3) {
+        //强制更新
+        if (![_updateAlert isVisible]) {
+            _updateAlert = [UIAlertView showWithTitle:title message:model.title cancelButtonTitle:nil otherButtonTitles:@[@"立即更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                if (buttonIndex == 0) {
+                    NSURL *url = [NSURL URLWithString:model.url];
+                    [[UIApplication sharedApplication] openURL:url];
+                }
+            }];
+        }
+    }else if ([SCGlobaUtil getInt:model.type] == 2) {
+        //普通更新
+        _updateAlert = [UIAlertView showWithTitle:title message:model.title cancelButtonTitle:@"暂不更新" otherButtonTitles:@[@"立即更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex == 1) {
+                NSURL *url = [NSURL URLWithString:model.url];
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        }];
+    }else {
+        //不更新
+        
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -118,6 +155,9 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [SCJPushManager registerDeviceToken:deviceToken];
+    NSString *token = [NSString stringWithFormat:@"%@", deviceToken];
+    NSLog(@"++token++ %@", token);
+    [SCNetwork uploadApnsTokenWithToken:token success:^(SCResponseModel *model) {} message:^(NSString *resultMsg) {}];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {

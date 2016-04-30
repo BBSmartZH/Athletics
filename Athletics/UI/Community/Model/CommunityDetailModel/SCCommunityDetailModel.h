@@ -8,20 +8,21 @@
 
 #import "SCResponseModel.h"
 
-#import "SCUserModel.h"
+#import "SCAdModel.h"
+#import "SCImageModel.h"
 
 @protocol
-SCTopicModel
+SCTopicLikeModel
 @end
 
-@interface SCTopicModel : SCBaseModel
+@interface SCTopicLikeModel : SCBaseModel
 
 @property (nonatomic, copy) NSString<Optional> *topicId;
-@property (nonatomic, copy) NSString<Optional> *moduleIds;
-@property (nonatomic, copy) NSString<Optional> *moduleName;
-@property (nonatomic, copy) NSString<Optional> *title;
-@property (nonatomic, copy) NSString<Optional> *creatorId;
-@property (nonatomic, copy) NSString<Optional> *summary;
+@property (nonatomic, copy) NSString<Optional> *userId;
+@property (nonatomic, copy) NSString<Optional> *userName;
+@property (nonatomic, copy) NSString<Optional> *status;
+@property (nonatomic, copy) NSString<Optional> *userAvatar;
+@property (nonatomic, copy) NSString<Optional> *createTime;
 
 @end
 
@@ -31,21 +32,23 @@ SCCommunityDetailDataModel
 
 @interface SCCommunityDetailDataModel : SCBaseModel
 
-@property (nonatomic, strong) SCTopicModel<Optional> *topic;
-@property (nonatomic, copy) NSString<Optional> *lastReplyId;
-@property (nonatomic, copy) NSString<Optional> *supportNum;
-@property (nonatomic, copy) NSString<Optional> *supported;
-@property (nonatomic, copy) NSString<Optional> *replyNum;
-@property (nonatomic, copy) NSString<Optional> *status;
-@property (nonatomic, copy) NSString<Optional> *isRecmd;
+@property (nonatomic, copy) NSString<Optional> *tid;
+@property (nonatomic, copy) NSString<Optional> *likeCount;
+@property (nonatomic, copy) NSString<Optional> *isLike;
+@property (nonatomic, copy) NSString<Optional> *commentCount;
 @property (nonatomic, copy) NSString<Optional> *createTime;
 @property (nonatomic, copy) NSString<Optional> *lastReplyTime;
-@property (nonatomic, strong) SCUserModel<Optional> *user;
-@property (nonatomic, copy) NSString<Optional> *isMy;
-@property (nonatomic, copy) NSString<Optional> *isLeader;
-@property (nonatomic, copy) NSString<Optional> *supportUsers;
-@property (nonatomic, copy) NSString<Optional> *isAdmin;
-@property (nonatomic, copy) NSString<Optional> *isMaster;
+@property (nonatomic, copy) NSString<Optional> *userId;
+@property (nonatomic, copy) NSString<Optional> *userName;
+@property (nonatomic, copy) NSString<Optional> *userAvatar;
+@property (nonatomic, copy) NSString<Optional> *channelId;
+
+@property (nonatomic, strong) NSString<SCImageModel, Optional> *images;
+
+@property (nonatomic, strong) NSArray<SCTopicLikeModel, Optional> *topicLikes;
+
+@property (nonatomic, copy) NSString<Optional> *adId;
+@property (nonatomic, strong) SCAdModel<Optional> *ad;
 
 @end
 

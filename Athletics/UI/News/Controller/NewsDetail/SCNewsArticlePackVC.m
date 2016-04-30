@@ -80,16 +80,23 @@
     [self.view bringSubviewToFront:_inputView];
     
     self.articleVC = [[SCNewsDetailVC alloc] init];
+    self.articleVC.parentVC = self;
     self.articleVC.view.frame = CGRectMake(0, 0, _scrollView.fWidth, _scrollView.fHeight);
     [_scrollView addSubview:self.articleVC.view];
     
     self.commentVC = [[SCCommentListVC alloc] init];
+    self.commentVC.parentVC = self;
     self.commentVC.view.frame = CGRectMake(_scrollView.fWidth, 0, _scrollView.fWidth, _scrollView.fHeight);
     [_scrollView addSubview:self.commentVC.view];
 
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchTap:)];
+    [self.view addGestureRecognizer:tap];
     
 }
 
+- (void)touchTap:(UITapGestureRecognizer *)tap {
+    [self.view endEditing:YES];
+}
 
 #pragma mark - SCCommentInputViewDelegate
 

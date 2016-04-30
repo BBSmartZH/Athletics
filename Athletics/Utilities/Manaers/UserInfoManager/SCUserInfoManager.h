@@ -7,11 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "SCUserModel.h"
 
 typedef void (^SCBoolResultBlock)(BOOL result);
-
-@class SCUserModel;
 
 @interface SCUserInfoManager : NSObject
 

@@ -11,12 +11,15 @@
 @protocol SCPostsTopViewDelegate <NSObject>
 
 - (void)postsTopViewHeightChanged;
+- (void)postsTopViewClickedWith:(id)model;
 
 @end
 
 @interface SCPostsTopView : UIView
 
 @property (nonatomic, assign) id<SCPostsTopViewDelegate> delegate;
+
+@property (nonatomic, strong, readonly) UIImageView *avatar;
 
 @property (nonatomic, strong) id model;
 

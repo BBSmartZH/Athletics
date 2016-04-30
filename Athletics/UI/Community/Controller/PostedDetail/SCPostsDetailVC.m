@@ -15,14 +15,22 @@
 #import "LandlordCell.h"
 #import "LWCommentsCell.h"
 #import "LWLineCell.h"
-@interface SCPostsDetailVC ()<SCPostsTopViewDelegate>
+#import "SCCommentInputView.h"
+
+#import "LrdOutputView.h"
+
+@interface SCPostsDetailVC ()<SCCommentInputViewDelegate, SCPostsTopViewDelegate, LrdOutputViewDelegate>
 {
     UILabel *_testLabel;
     SCPostsTopView *_headerView;
     
     UIButton *_supportButton;
     UILabel  *_supportLabel;
+    
 }
+
+@property (nonatomic, strong) SCCommentInputView *inputView;
+@property (nonatomic, strong) LrdOutputView *outPutView;
 
 @end
 
@@ -35,9 +43,39 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboareWillShowNotif:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboareWillHiddenNotif:) name:UIKeyboardWillHideNotification object:nil];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (SCCommentInputView *)inputView {
+    if (!_inputView) {
+        _inputView = [[SCCommentInputView alloc] initWithFrame:CGRectMake(0, self.view.fHeight - 44, self.view.fWidth, 44)];
+        _inputView.backgroundColor = k_Bg_Color;
+        _inputView.delegate = self;
+        _inputView.layer.borderWidth = .5f;
+        _inputView.layer.borderColor = k_Border_Color.CGColor;
+        _inputView.isComment = NO;
+        _inputView.inputTextView.placeHolder = @"别憋着，来两句..";
+    }
+    return _inputView;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [[[IQKeyboardManager sharedManager] disabledDistanceHandlingClasses] addObject:[self class]];
+    [[[IQKeyboardManager sharedManager] disabledToolbarClasses] addObject:[self class]];
     
     self.title = @"帖子详情";
     
@@ -47,14 +85,14 @@
     [_tableView registerClass:[LWCommentsCell class] forCellReuseIdentifier:[LWCommentsCell cellIdentifier]];
     [_tableView registerClass:[LWLineCell class] forCellReuseIdentifier:[LWLineCell cellIdentifier]];
     
-    _tableView.frame = CGRectMake(0, self.m_navBar.bottom, self.view.fWidth, self.view.fHeight - self.m_navBar.fHeight);
+    [self.view addSubview:self.inputView];
+    
+    _tableView.frame = CGRectMake(0, self.m_navBar.bottom, self.view.fWidth, self.view.fHeight - self.m_navBar.fHeight - _inputView.fHeight);
     _headerView = [[SCPostsTopView alloc] initWithFrame:CGRectMake(0, 0, _tableView.fWidth, 0)];
     _headerView.delegate = self;
     [_headerView setModel:@1];
     _headerView.frame = CGRectMake(0, 0, _headerView.fWidth, [_headerView topViewHeight]);
     _tableView.tableHeaderView = _headerView;
-    
-    
     
     
 }
@@ -70,7 +108,27 @@
     [_tableView endUpdates];
 }
 
-
+- (void)postsTopViewClickedWith:(id)model {
+    //回复或者举报
+    if ([_inputView.inputTextView isFirstResponder]) {
+        [self.view endEditing:YES];
+    }
+    CGRect rect = [_headerView.avatar convertRect:_headerView.avatar.frame toView:[UIApplication sharedApplication].keyWindow];
+    
+    CGFloat x = rect.origin.x / 2.0;
+    CGFloat y = rect.origin.y + rect.size.height;
+    
+    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"回复" imageName:@"item_school"];
+    LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"举报" imageName:@"item_battle"];
+    self.outPutView = [[LrdOutputView alloc] initWithDataArray:@[one, two] origin:CGPointMake(x, y) width:80 height:36 direction:kLrdOutputViewDirectionLeft];
+    _outPutView.delegate = self;
+    _outPutView.dismissOperation = ^(){
+        //设置成nil，以防内存泄露
+        _outPutView = nil;
+    };
+    
+    [self.outPutView pop];
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
@@ -105,8 +163,6 @@
                 
             }
             return cell;
-
-
         }
 
     }else if(indexPath.section >=1){
@@ -114,12 +170,9 @@
             LandlordCell *cell = [tableView dequeueReusableCellWithIdentifier:[LandlordCell cellIdentifier]forIndexPath:indexPath];
             [cell createLayoutWith:@1];
             return cell;
-        }else if (indexPath.row > 0 && indexPath.row < 4){
+        }else {
            LWCommentsCell  *cell = [tableView dequeueReusableCellWithIdentifier:[LWCommentsCell cellIdentifier]forIndexPath:indexPath];
             [cell createLayoutWith:@1];
-            return cell;
-        }else{
-            LWLineCell *cell = [tableView dequeueReusableCellWithIdentifier:[LWLineCell cellIdentifier]forIndexPath:indexPath];
             return cell;
         }
         
@@ -152,12 +205,10 @@
             return [tableView fd_heightForCellWithIdentifier:[LandlordCell cellIdentifier] configuration:^(id cell) {
                 [cell createLayoutWith:@1];
             }];
-        }else if (indexPath.row >0 && indexPath.row < 4){
+        }else {
             return [_tableView fd_heightForCellWithIdentifier:[LWCommentsCell cellIdentifier] configuration:^(id cell) {
                 [cell createLayoutWith:@1];
             }];
-        }else if(indexPath.row == 4){
-            return 1.0;
         }
     }
     return 20;
@@ -171,7 +222,7 @@
     if (section == 0) {
         return 110.0f;
     }
-    return 0.01f;
+    return 1.0f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -206,6 +257,19 @@
         }];
         
         return view;
+    }else {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.fWidth, 0)];
+        view.backgroundColor = [UIColor whiteColor];
+        UIView *line = [[UIView alloc] init];
+        line.backgroundColor = k_Border_Color;
+        [view addSubview:line];
+        
+        [line mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(view).offset(10);
+            make.top.bottom.right.equalTo(view);
+        }];
+        
+        return view;
     }
     return NULL;
 }
@@ -213,6 +277,45 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [_tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    if (indexPath.section == 0) {
+        if ([_inputView.inputTextView isFirstResponder]) {
+            [self.view endEditing:YES];
+        }
+    }
+    
+    if (indexPath.section > 0) {
+        if (indexPath.row ==0) {
+            //弹出回复或举报
+            if ([_inputView.inputTextView isFirstResponder]) {
+                [self.view endEditing:YES];
+            }
+            LandlordCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            
+            CGRect rect = [cell.avatar convertRect:cell.avatar.frame toView:[UIApplication sharedApplication].keyWindow];
+            
+            CGFloat x = rect.origin.x / 2.0;
+            CGFloat y = rect.origin.y + rect.size.height;
+            
+            LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"回复" imageName:@"item_school"];
+            LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"举报" imageName:@"item_battle"];
+            self.outPutView = [[LrdOutputView alloc] initWithDataArray:@[one, two] origin:CGPointMake(x, y) width:80 height:36 direction:kLrdOutputViewDirectionLeft];
+            _outPutView.delegate = self;
+            _outPutView.dismissOperation = ^(){
+                //设置成nil，以防内存泄露
+                _outPutView = nil;
+            };
+            
+            [self.outPutView pop];
+        }else {
+            if ([_inputView.inputTextView isFirstResponder]) {
+                [self.view endEditing:YES];
+            }else {
+                [_inputView.inputTextView becomeFirstResponder];
+                _inputView.inputTextView.text = nil;
+                _inputView.inputTextView.placeHolder = @"回复：哈哈哈";
+            }
+        }
+    }
 }
 
 - (void)postsTopCellClickedShowModeWith:(NSIndexPath *)indexPath {
@@ -226,6 +329,47 @@
         sender.selected = YES;
         sender.layer.borderColor = [UIColor yellowColor].CGColor;
     }
+}
+
+#pragma mark - LrdOutputViewDelegate
+- (void)didSelectedAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"你选择了%ld行", indexPath.row);
+    if (indexPath.row == 0) {
+        //回复
+        
+    }else {
+        //举报
+        
+    }
+}
+
+- (void)inputViewDidChangedFrame:(CGRect)frame {
+    _inputView.frame = frame;
+}
+
+#pragma mark - keyboard
+- (void)keyboareWillShowNotif:(NSNotification *)notification {
+    // 键盘信息字典
+    NSDictionary* info = [notification userInfo];
+    CGFloat duration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    
+    NSValue *aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGFloat keyboardHeight = CGRectGetHeight([aValue CGRectValue]);
+    
+    [UIView animateWithDuration:duration animations:^{
+        _inputView.frame = CGRectMake(0, self.view.fHeight - keyboardHeight - _inputView.fHeight, _inputView.fWidth, _inputView.fHeight);
+    }];
+}
+
+- (void)keyboareWillHiddenNotif:(NSNotification *)notification {
+    // 键盘信息字典
+    NSDictionary* info = [notification userInfo];
+    
+    CGFloat duration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    
+    [UIView animateWithDuration:duration animations:^{
+        _inputView.frame = CGRectMake(0, self.view.fHeight - _inputView.fHeight, _inputView.fWidth, _inputView.fHeight);
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

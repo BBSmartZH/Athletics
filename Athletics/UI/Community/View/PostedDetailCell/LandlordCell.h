@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface LandlordCell : UITableViewCell
+
+@property (nonatomic, strong, readonly) UIImageView *avatar;
+
 - (void)createLayoutWith:(id)model;
 
 + (NSString *)cellIdentifier;

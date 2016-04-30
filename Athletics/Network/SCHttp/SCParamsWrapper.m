@@ -21,7 +21,39 @@
  *  @return
  */
 + (NSDictionary *)appUpdateParams {
-    return @{};
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"version":@([SCGlobaUtil getFloat:version]), @"appId":@"1", @"platform":@"ios"} isDynamic:NO];
+    }
+    
+    return [self salt:@{@"userId":[SCUserInfoManager uid], @"appId":@"", @"platform":@""} isDynamic:NO];}
+
+#pragma mark - 获取游戏列表
+/**
+ *  获取游戏列表
+ *
+ *  @return
+ */
++ (NSDictionary *)gameListParams {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return nil;
+    }
+    return [self salt:@{@"uid":[SCUserInfoManager uid]} isDynamic:NO];
+}
+
+#pragma mark - 上传apnsToken
+/**
+ *  上传apnsToken
+ *
+ *  @return
+ */
++ (NSDictionary *)uploadApnsTokenParamsWithToken:(NSString *)token {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"token":token, @"idfa":[SCGlobaUtil getIDFA], @"uuid":[SCGlobaUtil getUUID]} isDynamic:NO];
+    }
+    
+    return [self salt:@{@"userId":[SCUserInfoManager uid], @"token":token, @"idfa":[SCGlobaUtil getIDFA], @"uuid":[SCGlobaUtil getUUID]} isDynamic:NO];
 }
 
 
@@ -91,10 +123,10 @@
  */
 + (NSDictionary *)userUpdateInfoParamsWithAvatar:(NSString *)avatar
                                         nickName:(NSString *)nickName {
-    if ([SCGlobaUtil isEmpty:avatar] || [SCGlobaUtil isEmpty:nickName]) {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:avatar] || [SCGlobaUtil isEmpty:nickName]) {
         return nil;
     }
-    return [self salt:@{@"avatar":avatar, @"name":nickName} isDynamic:NO];
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"avatar":avatar, @"name":nickName} isDynamic:NO];
 }
 
 #pragma mark - 发送验证码
@@ -152,15 +184,13 @@
     return @{};
 }
 
-#pragma mark - **************************************************************
-
-#pragma mark - 获取游戏列表
+#pragma mark - 获取七牛云上传token
 /**
- *  获取游戏列表
+ *  获取七牛云上传token
  *
  *  @return
  */
-+ (NSDictionary *)gameListParams {
++ (NSDictionary *)qiNiuTokenParams {
     if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
         return [self salt:@{@"uid":[SCUserInfoManager uid]} isDynamic:NO];
     }
@@ -248,7 +278,92 @@
 
 #pragma mark - **************************************************************
 
+#pragma mark - 帖子列表
+/**
+ *  帖子列表
+ *
+ *  @return
+ */
++ (NSDictionary *)topicListParamsWithChannelId:(NSString *)channelId
+                                          type:(int)type
+                                          page:(int)page {
+    if ([SCGlobaUtil isEmpty:channelId]) {
+        return nil;
+    }
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"channelId":channelId, @"type":@(type), @"num":@(page)} isDynamic:NO];
+    }
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"channelId":channelId, @"type":@(type), @"num":@(page)} isDynamic:NO];
+}
 
+#pragma mark - 帖子详情
+/**
+ *  帖子详情
+ *
+ *  @return
+ */
++ (NSDictionary *)topicInfoParamsWithTopicId:(NSString *)topicId {
+    if ([SCGlobaUtil isEmpty:topicId]) {
+        return nil;
+    }
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"topicId":topicId} isDynamic:NO];
+    }
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"topicId":topicId} isDynamic:NO];
+}
+
+#pragma mark - 帖子评论列表
+/**
+ *  帖子评论列表
+ *
+ *  @return
+ */
++ (NSDictionary *)topicCommentListParamsWithTopicId:(NSString *)topicId
+                                               page:(int)page {
+    if ([SCGlobaUtil isEmpty:topicId]) {
+        return nil;
+    }
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"topicId":topicId, @"num":@(page)} isDynamic:NO];
+    }
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"topicId":topicId, @"num":@(page)} isDynamic:NO];
+}
+
+#pragma mark - 增加评论
+/**
+ *  增加评论
+ *
+ *  @return
+ */
++ (NSDictionary *)topicCommentAddParamsWithTopicId:(NSString *)topicId
+                                          parentId:(NSString *)parentId
+                                           comment:(NSString *)comment
+                                         floorSort:(int)floorSort {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:topicId] ||  [SCGlobaUtil isEmpty:comment] || [SCGlobaUtil isEmpty:topicId]) {
+        return nil;
+    }
+    if (!parentId) {
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"topicId":topicId, @"topicId":topicId,  @"comment":comment, @"floorSort":@(floorSort)} isDynamic:NO];
+    }
+
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"topicId":topicId, @"topicId":topicId, @"provId":parentId, @"comment":comment, @"floorSort":@(floorSort)} isDynamic:NO];
+}
+
+#pragma mark - 支持该帖
+/**
+ *  支持该帖
+ *
+ *  @return
+ */
++ (NSDictionary *)topicLikeAddParamsWithTopicId:(NSString *)topicId {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:topicId]) {
+        return nil;
+    }
+    
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"topicId":topicId} isDynamic:NO];
+}
+
+#pragma mark - 发帖
 
 
 #pragma mark - **************************************************************

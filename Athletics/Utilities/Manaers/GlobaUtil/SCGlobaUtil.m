@@ -7,6 +7,7 @@
 //
 
 #import "SCGlobaUtil.h"
+#import <AdSupport/AdSupport.h>
 #import <sys/sysctl.h>
 #import <net/if.h>
 #import <net/if_dl.h>
@@ -351,6 +352,22 @@
     free(buf);
     
     return [outstring uppercaseString];
+}
+
++ (NSString *)getIDFA {
+    NSString *idfa = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+    if (!idfa) {
+        idfa = @"";
+    }
+    return idfa;
+}
+
++ (NSString *)getUUID {
+    NSString *uniqid = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceID"];
+    if (!uniqid) {
+        uniqid = @"";
+    }
+    return uniqid;
 }
 
 + (CGSize)sizeWithText:(NSString *)text width:(CGFloat)width attributes:(NSDictionary *)attributes {

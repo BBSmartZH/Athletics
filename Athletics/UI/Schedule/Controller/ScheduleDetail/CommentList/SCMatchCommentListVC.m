@@ -9,8 +9,12 @@
 #import "SCMatchCommentListVC.h"
 
 #import "LWCommentListCell.h"
+#import "LrdOutputView.h"
 
-@interface SCMatchCommentListVC ()
+@interface SCMatchCommentListVC ()<LrdOutputViewDelegate>
+
+@property (nonatomic, strong) LrdOutputView *outPutView;
+
 
 @end
 
@@ -29,6 +33,7 @@
     _tableView.separatorColor = k_Border_Color;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     [_tableView registerClass:[LWCommentListCell class] forCellReuseIdentifier:[LWCommentListCell cellidentifier]];
+        
     
 }
 
@@ -63,8 +68,31 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //弹出回复或举报
+    [self.parentVC.view endEditing:YES];
     
+    LWCommentListCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    CGRect rect = [cell.avatar convertRect:cell.avatar.frame toView:[UIApplication sharedApplication].keyWindow];
+    
+    CGFloat x = rect.origin.x / 2.0;
+    CGFloat y = rect.origin.y + rect.size.height;
+    
+    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"举报" imageName:@"item_battle"];
+    self.outPutView = [[LrdOutputView alloc] initWithDataArray:@[one] origin:CGPointMake(x, y) width:80 height:36 direction:kLrdOutputViewDirectionLeft];
+    _outPutView.delegate = self;
+    _outPutView.dismissOperation = ^(){
+        //设置成nil，以防内存泄露
+        _outPutView = nil;
+    };
+    
+    [self.outPutView pop];
+}
+
+#pragma mark - LrdOutputViewDelegate
+- (void)didSelectedAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"你选择了%ld行", indexPath.row);
+    //举报
     
 }
 

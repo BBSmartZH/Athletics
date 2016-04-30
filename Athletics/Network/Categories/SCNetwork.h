@@ -10,7 +10,7 @@
 
 #import "SCNetworkHelper.h"
 
-@class SCGameListModel, SCLoginModel, SCUserInfoModel;
+@class SCGameListModel, SCLoginModel, SCUserInfoModel, SCUploadTokenModel, SCAppUpdateModel, SCGameListModel;
 
 @interface SCNetwork : NSObject
 #pragma mark - 注册
@@ -167,9 +167,56 @@
 + (NSURLSessionDataTask *)gameListSuccess:(void(^)(SCGameListModel *model))success
                                   message:(SCMessageBlock)message;
 
+#pragma mark - 获取七牛云上传token
+/**
+ *  获取七牛云上传token
+ *
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)getUploadTokenWithSuccess:(void(^)(SCUploadTokenModel *model))success
+                                            message:(SCMessageBlock)message;
 
 
+#pragma mark - app版本更新
+/**
+ *  app版本更新
+ *
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)appUpdateWithSuccess:(void(^)(SCAppUpdateModel *model))success
+                                       message:(SCMessageBlock)message;
 
+#pragma mark - 获取游戏列表
+/**
+ *  获取游戏列表
+ *
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)gameListWithSuccess:(void(^)(SCGameListModel *model))success
+                                      message:(SCMessageBlock)message;
+
+#pragma mark - 上传apnsToken
+/**
+ *  上传apnsToken
+ *
+ *  @param token   token
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)uploadApnsTokenWithToken:(NSString *)token
+                                           success:(void(^)(SCResponseModel *model))success
+                                           message:(SCMessageBlock)message;
 
 
 

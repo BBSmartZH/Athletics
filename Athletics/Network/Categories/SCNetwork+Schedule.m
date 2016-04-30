@@ -15,8 +15,33 @@
 #import "SCMatchDetailModel.h"
 #import "SCTeletextListModel.h"
 #import "SCScheduleVideoListModel.h"
+#import "SCMatchBannerModel.h"
 
 @implementation SCNetwork (Schedule)
+
+
+/**
+ *  赛事banner
+ *
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)matchBannerWithSuccess:(void (^)(SCMatchBannerModel *model))success
+                                         message:(SCMessageBlock)message {
+    return [SCNetworkHelper postWithUrl:[SCUrlWrapper matchBannerUrl] params:nil success:^(NSDictionary *result) {
+        NSError *error;
+        SCMatchBannerModel *model = [[SCMatchBannerModel alloc] initWithDictionary:result error:&error];
+        if (!error) {
+            success(model);
+        }else {
+            message(error.localizedDescription);
+        }
+    } message:^(NSString *resultMsg) {
+        message(resultMsg);
+    }];
+}
 
 /**
  *  查询赛事

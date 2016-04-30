@@ -17,7 +17,7 @@
         HUD.mode = MBProgressHUDModeText;
         HUD.label.text = text;
         HUD.bezelView.color = [UIColor blackColor];
-        HUD.margin = 20;
+        HUD.margin = 10;
     }
     //延迟一秒出现,在请求完成的时候设为NO;
     if (delay) {
@@ -48,19 +48,6 @@
     [view addSubview:HUD];
     [HUD showAnimated:YES];
     return HUD;
-}
-
-
-+ (void)postAlertWithMessage:(NSString *)message {
-    [[TKAlertCenter defaultCenter] postAlertWithMessage:message];
-}
-
-+ (void)postErrorAlertMessage:(NSString *)message {
-    [[TKAlertCenter defaultCenter] postAlertWithMessage:message image:[UIImage imageNamed:@"icon_close_normal"]];
-}
-
-+ (void)postSuccessAlertMessage:(NSString *)message {
-    [[TKAlertCenter defaultCenter] postAlertWithMessage:message image:[UIImage imageNamed:@"icon_success"]];
 }
 
 + (BOOL)isEmpty:(NSString*)str

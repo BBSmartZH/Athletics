@@ -125,6 +125,10 @@ typedef void (^SCStringResultBlock)(NSString *result);
  */
 + (NSString *)getMacAddress;
 
++ (NSString *)getIDFA;
+
++ (NSString *)getUUID;
+
 /**
  *  取得高度
  */

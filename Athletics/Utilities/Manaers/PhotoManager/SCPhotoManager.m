@@ -7,6 +7,7 @@
 //
 
 #import "SCPhotoManager.h"
+#import "UIImage+Scale.h"
 
 @interface SCPhotoManager ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
 
@@ -145,16 +146,16 @@
         }
         
         dispatch_async(kGlobalThread, ^{
-//            CGFloat w = image.size.width;
-//            CGFloat h = image.size.height;
-//            if (w > kScreenWidth * 2.0) {
-//                w = kScreenWidth * 2.0;
-//            }
-//            if (h > kScreenHeight * 2.0) {
-//                h = kScreenHeight * 2.0;
-//            }
+            CGFloat w = image.size.width;
+            CGFloat h = image.size.height;
+            if (w > kScreenWidth * 2.0) {
+                w = kScreenWidth * 2.0;
+            }
+            if (h > kScreenHeight * 2.0) {
+                h = kScreenHeight * 2.0;
+            }
             
-//            image = [image scaleToSize:CGSizeMake(w, h)];
+            image = [image scaleToSize:CGSizeMake(w, h)];
             dispatch_async(kMainThread, ^{
                 if (self.completion) {
                     self.completion(image);

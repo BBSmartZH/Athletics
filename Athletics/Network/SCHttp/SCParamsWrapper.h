@@ -20,6 +20,22 @@
  */
 + (NSDictionary *)appUpdateParams;
 
+#pragma mark - 获取游戏列表
+/**
+ *  获取游戏列表
+ *
+ *  @return
+ */
++ (NSDictionary *)gameListParams;
+
+#pragma mark - 上传apnsToken
+/**
+ *  上传apnsToken
+ *
+ *  @return
+ */
++ (NSDictionary *)uploadApnsTokenParamsWithToken:(NSString *)token;
+
 
 #pragma mark - **************************************************************
 #pragma mark - 注册
@@ -106,15 +122,13 @@
  */
 + (NSDictionary *)uploadImageParams;
 
-#pragma mark - **************************************************************
-
-#pragma mark - 获取游戏列表
+#pragma mark - 获取七牛云上传token
 /**
- *  获取游戏列表
+ *  获取七牛云上传token
  *
  *  @return
  */
-+ (NSDictionary *)gameListParams;
++ (NSDictionary *)qiNiuTokenParams;
 
 #pragma mark - **************************************************************
 
@@ -163,8 +177,61 @@
 
 #pragma mark - **************************************************************
 
+#pragma mark - 帖子列表
+/**
+ *  帖子列表
+ *
+ *  @return
+ */
++ (NSDictionary *)topicListParamsWithChannelId:(NSString *)channelId
+                                          type:(int)type
+                                          page:(int)page;
 
+#pragma mark - 帖子详情
+/**
+ *  帖子详情
+ *
+ *  @return
+ */
++ (NSDictionary *)topicInfoParamsWithTopicId:(NSString *)topicId;
 
+#pragma mark - 帖子评论列表
+/**
+ *  帖子评论列表
+ *
+ *  @return
+ */
++ (NSDictionary *)topicCommentListParamsWithTopicId:(NSString *)topicId
+                                               page:(int)page;
+
+#pragma mark - 增加评论
+/**
+ *  增加评论
+ *
+ *  @return
+ */
++ (NSDictionary *)topicCommentAddParamsWithTopicId:(NSString *)topicId
+                                          parentId:(NSString *)parentId
+                                           comment:(NSString *)comment
+                                         floorSort:(int)floorSort;
+
+#pragma mark - 支持该帖
+/**
+ *  支持该帖
+ *
+ *  @return
+ */
++ (NSDictionary *)topicLikeAddParamsWithTopicId:(NSString *)topicId;
+
+#pragma mark - 发帖
+/**
+ *  发帖
+ *
+ *  @return
+ */
++ (NSDictionary *)topicAddParamsWithTitle:(NSString *)title
+                                  content:(NSString *)content
+                             imageJsonStr:(NSString *)imageJsonStr;
 
 #pragma mark - **************************************************************
 

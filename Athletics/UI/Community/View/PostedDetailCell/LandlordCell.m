@@ -18,7 +18,7 @@
 @end
 static CGFloat k_left = 10.0f;
 //static CGFloat k_top = 15.0f;
-static CGFloat k_margin = 7.0f;
+static CGFloat k_margin = 5.0f;
 static CGFloat kImageH = 32.0f;
 @implementation LandlordCell
 
@@ -80,6 +80,10 @@ static CGFloat kImageH = 32.0f;
         make.top.equalTo(_dateLabel.mas_bottom).offset(k_left);
         make.bottom.equalTo(ws.contentView).offset(-k_left);
     }];
+}
+
+- (UIImageView *)avatar {
+    return _imageV;
 }
 
 -(void)createLayoutWith:(id)model

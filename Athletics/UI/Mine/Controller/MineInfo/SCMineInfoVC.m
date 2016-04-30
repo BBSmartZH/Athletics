@@ -10,7 +10,10 @@
 #import "SCUserModel.h"
 #import "SCChangeNameVC_iPhone.h"
 #import "SCPhotoManager.h"
+#import "SCUploadTokenModel.h"
 
+#import "UIImage+Scale.h"
+#import "SCQiNiuUploadManager.h"
 @interface SCMineInfoVC ()
 {
     UIButton    *_saveButton;
@@ -41,7 +44,7 @@ static NSString *cellId = @"Cell";
     
     _saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_saveButton setTitle:@"保存" forState:UIControlStateNormal];
-    [_saveButton setTitleColor:k_Base_Color forState:UIControlStateNormal];
+    [_saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_saveButton addTarget:self action:@selector(p_saveButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     _saveButton.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_28px];
     [self.m_navBar addSubview:_saveButton];
@@ -72,39 +75,42 @@ static NSString *cellId = @"Cell";
     }
     sender.enabled = NO;
     if (_hasChangeImage) {
-//        UIImage *image = _avatar.image;
-//        image = [image scaleToSize:CGSizeMake(_avatar.fWidth * 4, _avatar.fWidth * 4)];
-//        NSData *imageData = UIImageJPEGRepresentation(image, 1);
-//        
-//        MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"获取上传token.." showAddTo:self.view delay:NO];
-//        _WEAKSELF(ws);
-//        self.httpOperation = [HYBNetwork getUploadPicTokenWithSuccess:^(SCUploadTokenModel *model) {
-//            if (model.success.boolValue) {
-//                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//                formatter.dateFormat = @"yyyyMMddHHmmss";
-//                NSString *dateStr = [formatter stringFromDate:[NSDate date]];
-//                NSString *fileName = [NSString stringWithFormat:@"%@_%@.jpg", dateStr, [HYBUserInfoTool uid]];
-//                fileName = [fileName stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//                QNUploadManager *upManager = [[QNUploadManager alloc] init];
-//                [HUD hide:YES];
-//                MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"上传头像中..." showAddTo:self.view delay:NO];
-//                
-//                [upManager putData:imageData key:fileName token:model.data.uploadToken complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
-//                    [HUD hide:YES];
-//                    NSString *downloadUrl = [NSString stringWithFormat:@"%@/%@", model.data.spaceUrl, key];
-//                    [HYBUserInfoTool setHeadImageView:downloadUrl];
-//                    [ws p_save];
-//                } option:nil];
-//            }else {
-//                [ws postErrorMessage:model.message];
-//                [HUD hide:YES];
-//                sender.enabled = YES;
-//            }
-//        } fail:^(NSError *error) {
-//            kShowNetworkError;
-//            [HUD hide:YES];
-//            sender.enabled = YES;
-//        }];
+        UIImage *image = _avatar.image;
+        image = [image scaleToSize:CGSizeMake(_avatar.fWidth * 4, _avatar.fWidth * 4)];
+        NSData *imageData = UIImageJPEGRepresentation(image, 1);
+        
+        MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"获取上传token.." showAddTo:self.view delay:NO];
+        _WEAKSELF(ws);
+        self.sessionTask = [SCNetwork getUploadTokenWithSuccess:^(SCUploadTokenModel *model) {
+            if (model.success.boolValue) {
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                formatter.dateFormat = @"yyyyMMddHHmmss";
+                NSString *dateStr = [formatter stringFromDate:[NSDate date]];
+                NSString *fileName = [NSString stringWithFormat:@"%@_%@.jpg", dateStr, [SCUserInfoManager uid]];
+                fileName = [fileName stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                
+                [HUD hideAnimated:YES];
+                MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"上传头像中..." showAddTo:self.view delay:NO];
+                
+                [[SCQiNiuUploadManager shared] uploadWithData:imageData fileName:fileName token:model.data.uploadToken complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+                    [HUD hideAnimated:YES];
+                    NSString *downloadUrl = [NSString stringWithFormat:@"%@/%@", model.data.spaceUrl, key];
+                    SCUserModel *model = [SCUserInfoManager userInfo];
+                    model.avatar = downloadUrl;
+                    [SCUserInfoManager setUserInfo:model];
+                    [ws p_save];
+                } option:nil];
+                
+            }else {
+                [ws postErrorMessage:model.message];
+                [HUD hideAnimated:YES];
+                sender.enabled = YES;
+            }
+        } message:^(NSString *resultMsg) {
+            [HUD hideAnimated:YES];
+            [self postMessage:resultMsg];
+            sender.enabled = YES;
+        }];
     } else {
         [self p_save];
     }
@@ -113,11 +119,11 @@ static NSString *cellId = @"Cell";
 - (void)p_save {
     MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"保存中..." showAddTo:self.view delay:NO];
     
-    self.sessionTask = [SCNetwork userUpdateWithAvatar:@"" nickname:_name success:^(SCResponseModel *model) {
+    self.sessionTask = [SCNetwork userUpdateWithAvatar:[SCUserInfoManager avatar] nickname:_name success:^(SCResponseModel *model) {
         [HUD hideAnimated:YES];
-        self.m_navBar.rightButton.enabled = YES;
+        _saveButton.enabled = YES;
         [self postSuccessMessage:@"保存成功"];
-        SCUserModel *userModel = [[SCUserModel alloc] init];
+        SCUserModel *userModel = [SCUserInfoManager userInfo];
         userModel.name = _name;
         [SCUserInfoManager setUserInfo:userModel];
         [self.navigationController popViewControllerAnimated:YES];
@@ -125,7 +131,7 @@ static NSString *cellId = @"Cell";
     } message:^(NSString *resultMsg) {
         [HUD hideAnimated:YES];
         [self postMessage:resultMsg];
-        self.m_navBar.rightButton.enabled = YES;
+        _saveButton.enabled = YES;
     }];
 }
 

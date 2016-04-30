@@ -10,4 +10,6 @@
 
 @interface SCNewsDetailVC : SCBaseRefreshVC_iPhone
 
+@property (nonatomic, assign) UIViewController *parentVC;
+
 @end

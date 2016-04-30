@@ -15,6 +15,7 @@ SCImageModel
 @interface SCImageModel : SCBaseModel
 
 @property (nonatomic, copy) NSString<Optional> *url;
+@property (nonatomic, copy) NSString<Optional> *title;
 @property (nonatomic, copy) NSString<Optional> *width;
 @property (nonatomic, copy) NSString<Optional> *height;
 @property (nonatomic, copy) NSString<Optional> *size;

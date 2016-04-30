@@ -12,6 +12,16 @@
 
 #pragma mark - **************************************************************
 
+#pragma mark - 获取游戏列表
+/**
+ *  获取游戏列表
+ *
+ *  @return
+ */
++ (NSString *)gameListUrl {
+    return [self p_wrap:@"/static/channel/list"];
+}
+
 #pragma mark - app版本更新
 /**
  *  app版本更新
@@ -19,7 +29,17 @@
  *  @return
  */
 + (NSString *)appUpdateUrl {
-    return [self p_wrap:@"/app/update"];
+    return [self p_wrap:@"/static/package/version"];
+}
+
+#pragma mark - 上传apnsToken
+/**
+ *  上传apnsToken
+ *
+ *  @return
+ */
++ (NSString *)uploadApnsTokenUrl {
+    return [self p_wrap:@"/static/apns/token"];
 }
 
 #pragma mark - **************************************************************
@@ -100,7 +120,7 @@
  *  @return
  */
 + (NSString *)userUpdateInfoUrl {
-    return [self p_wrap:@"/user/update/info"];
+    return [self p_wrap:@"/user/update"];
 }
 
 #pragma mark - 上传图片
@@ -113,16 +133,14 @@
     return [self p_wrap:@"/account/master/password/update"];
 }
 
-#pragma mark - **************************************************************
-
-#pragma mark - 获取游戏列表
+#pragma mark - 获取七牛云上传token
 /**
- *  获取游戏列表
+ *  获取七牛云上传token
  *
  *  @return
  */
-+ (NSString *)gameListUrl {
-    return [self p_wrap:@"/gamelist"];
++ (NSString *)qiNiuTokenUrl {
+    return [self p_wrap:@"/static/getUploadPictureToken"];
 }
 
 #pragma mark - **************************************************************
@@ -179,10 +197,77 @@
 
 #pragma mark - **************************************************************
 
+#pragma mark - 帖子列表
+/**
+ *  帖子列表
+ *
+ *  @return
+ */
++ (NSString *)topicListUrl {
+    return [self p_wrap:@"/topic/list"];
+}
 
+#pragma mark - 帖子详情
+/**
+ *  帖子详情
+ *
+ *  @return
+ */
++ (NSString *)topicInfoUrl {
+    return [self p_wrap:@"/topic/info"];
+}
 
+#pragma mark - 帖子评论列表
+/**
+ *  帖子评论列表
+ *
+ *  @return
+ */
++ (NSString *)topicCommentListUrl {
+    return [self p_wrap:@"/topic/comment/list"];
+}
+
+#pragma mark - 增加评论
+/**
+ *  增加评论
+ *
+ *  @return
+ */
++ (NSString *)topicCommentAddUrl {
+    return [self p_wrap:@"/topic/comment/add"];
+}
+
+#pragma mark - 支持该帖
+/**
+ *  支持该帖
+ *
+ *  @return
+ */
++ (NSString *)topicLikeAddUrl {
+    return [self p_wrap:@"/topic/like/add"];
+}
+
+#pragma mark - 发帖
+/**
+ *  发帖
+ *
+ *  @return
+ */
++ (NSString *)topicAddUrl {
+    return [self p_wrap:@"/topic/add"];
+}
 
 #pragma mark - **************************************************************
+
+#pragma mark - 赛事banner
+/**
+ *   赛事banner
+ *
+ *  @return
+ */
++ (NSString *)matchBannerUrl {
+    return [self p_wrap:@"/match/banner"];
+}
 
 #pragma mark - 查询赛事
 /**

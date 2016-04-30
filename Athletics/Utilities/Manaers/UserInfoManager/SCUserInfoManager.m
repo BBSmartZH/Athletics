@@ -7,7 +7,6 @@
 //
 
 #import "SCUserInfoManager.h"
-#import "SCUserModel.h"
 
 
 static NSString *k_login             = @"k_login_key";

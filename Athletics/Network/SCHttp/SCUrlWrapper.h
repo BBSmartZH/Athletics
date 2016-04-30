@@ -12,6 +12,14 @@
 
 #pragma mark - **************************************************************
 
+#pragma mark - 获取游戏列表
+/**
+ *  获取游戏列表
+ *
+ *  @return
+ */
++ (NSString *)gameListUrl;
+
 #pragma mark - app版本更新
 /**
  *  app版本更新
@@ -20,6 +28,13 @@
  */
 + (NSString *)appUpdateUrl;
 
+#pragma mark - 上传apnsToken
+/**
+ *  上传apnsToken
+ *
+ *  @return
+ */
++ (NSString *)uploadApnsTokenUrl;
 
 #pragma mark - **************************************************************
 #pragma mark - 注册
@@ -94,15 +109,13 @@
  */
 + (NSString *)uploadImageUrl;
 
-#pragma mark - **************************************************************
-
-#pragma mark - 获取游戏列表
+#pragma mark - 获取七牛云上传token
 /**
- *  获取游戏列表
+ *  获取七牛云上传token
  *
  *  @return
  */
-+ (NSString *)gameListUrl;
++ (NSString *)qiNiuTokenUrl;
 
 #pragma mark - **************************************************************
 
@@ -147,10 +160,65 @@
 + (NSString *)newsCommentClickedUrl;
 #pragma mark - **************************************************************
 
+#pragma mark - 帖子列表
+/**
+ *  帖子列表
+ *
+ *  @return
+ */
++ (NSString *)topicListUrl;
 
+#pragma mark - 帖子详情
+/**
+ *  帖子详情
+ *
+ *  @return
+ */
++ (NSString *)topicInfoUrl;
+
+#pragma mark - 帖子评论列表
+/**
+ *  帖子评论列表
+ *
+ *  @return
+ */
++ (NSString *)topicCommentListUrl;
+
+#pragma mark - 增加评论
+/**
+ *  增加评论
+ *
+ *  @return
+ */
++ (NSString *)topicCommentAddUrl;
+
+#pragma mark - 支持该帖
+/**
+ *  支持该帖
+ *
+ *  @return
+ */
++ (NSString *)topicLikeAddUrl;
+
+#pragma mark - 发帖
+/**
+ *  发帖
+ *
+ *  @return
+ */
++ (NSString *)topicAddUrl;
 
 
 #pragma mark - **************************************************************
+
+
+#pragma mark - 赛事banner
+/**
+ *   赛事banner
+ *
+ *  @return
+ */
++ (NSString *)matchBannerUrl;
 
 #pragma mark - 查询赛事
 /**

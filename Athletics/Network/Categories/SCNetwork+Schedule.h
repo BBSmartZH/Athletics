@@ -8,9 +8,21 @@
 
 #import "SCNetwork.h"
 
-@class SCMatchLiveListModel, SCMatchListModel, SCMatchDetailModel, SCScheduleVideoListModel, SCTeletextListModel;
+@class SCMatchLiveListModel, SCMatchListModel, SCMatchDetailModel, SCScheduleVideoListModel, SCTeletextListModel, SCMatchBannerModel;
 
 @interface SCNetwork (Schedule)
+
+
+/**
+ *  赛事banner
+ *
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)matchBannerWithSuccess:(void (^)(SCMatchBannerModel *model))success
+                                         message:(SCMessageBlock)message;
 
 /**
  *  查询赛事
