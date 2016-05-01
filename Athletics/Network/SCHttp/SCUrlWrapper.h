@@ -133,6 +133,14 @@
  */
 + (NSString *)qiNiuTokenUrl;
 
+#pragma mark - 我的预约
+/**
+ *  我的预约
+ *
+ *  @return
+ */
++ (NSString *)appointmentListUrl;
+
 #pragma mark - **************************************************************
 
 #pragma mark - 资讯列表
@@ -183,6 +191,14 @@
  *  @return
  */
 + (NSString *)topicListUrl;
+
+#pragma mark - 我的帖子
+/**
+ *  我的帖子
+ *
+ *  @return
+ */
++ (NSString *)userTopicListUrl;
 
 #pragma mark - 帖子详情
 /**

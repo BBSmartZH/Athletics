@@ -10,7 +10,7 @@
 
 #import "SCNetworkHelper.h"
 
-@class SCGameListModel, SCLoginModel, SCUserInfoModel, SCUploadTokenModel, SCAppUpdateModel, SCGameListModel, SCNewsBannerListModel;
+@class SCGameListModel, SCLoginModel, SCUserInfoModel, SCUploadTokenModel, SCAppUpdateModel, SCGameListModel, SCNewsBannerListModel, SCMatchListModel;
 
 @interface SCNetwork : NSObject
 #pragma mark - 注册
@@ -250,6 +250,16 @@
                                               success:(void(^)(SCNewsBannerListModel *model))success
                                               message:(SCMessageBlock)message;
 
-
+#pragma mark - 我的预约
+/**
+ *  我的预约
+ *
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)appointmentListWithSuccess:(void(^)(SCMatchListModel *model))success
+                                             message:(SCMessageBlock)message;
 
 @end

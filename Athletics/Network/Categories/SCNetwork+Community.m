@@ -158,7 +158,48 @@
     }];
 }
 
+#pragma mark - 发帖
+/**
+ *  发帖
+ *
+ *  @param title        标题
+ *  @param content      内容
+ *  @param imageJsonStr 图片
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
+//+ (NSURLSessionDataTask *)topicAddWithTitle:(NSString *)title
+//                                    content:(NSString *)content
+//                               imageJsonStr:(NSString *)imageJsonStr
+//                                    success:(void (^)(SCCommunityListModel *model))success
+//                                    message:(SCMessageBlock)message {
+//    
+//}
 
-
+#pragma mark - 我的帖子
+/**
+ *  我的帖子
+ *
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)userTopicListWithSuccess:(void (^)(SCCommunityListModel *model))success
+                                           message:(SCMessageBlock)message {
+    return [SCNetworkHelper getWithUrl:[SCUrlWrapper userTopicListUrl] params:[SCParamsWrapper userTopicListParams] success:^(NSDictionary *result) {
+        NSError *error;
+        SCCommunityListModel *model = [[SCCommunityListModel alloc] initWithDictionary:result error:&error];
+        if (!error) {
+            success(model);
+        }else {
+            message(error.localizedDescription);
+        }
+    } message:^(NSString *resultMsg) {
+        message(resultMsg);
+    }];
+}
 
 @end

@@ -111,4 +111,21 @@
                                imageJsonStr:(NSString *)imageJsonStr
                                     success:(void (^)(SCResponseModel *model))success
                                     message:(SCMessageBlock)message;
+
+
+
+#pragma mark - 我的帖子
+/**
+ *  我的帖子
+ *
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)userTopicListWithSuccess:(void (^)(SCCommunityListModel *model))success
+                                           message:(SCMessageBlock)message;
+
+
+
 @end

@@ -163,6 +163,16 @@
     return [self p_wrap:@"/static/getUploadPictureToken"];
 }
 
+#pragma mark - 我的预约
+/**
+ *  我的预约
+ *
+ *  @return
+ */
++ (NSString *)appointmentListUrl {
+    return [self p_wrap:@"/user/appointment/list"];
+}
+
 #pragma mark - **************************************************************
 
 #pragma mark - 资讯列表
@@ -225,6 +235,16 @@
  */
 + (NSString *)topicListUrl {
     return [self p_wrap:@"/topic/list"];
+}
+
+#pragma mark - 我的帖子
+/**
+ *  我的帖子
+ *
+ *  @return
+ */
++ (NSString *)userTopicListUrl {
+    return [self p_wrap:@"/topic/list/user"];
 }
 
 #pragma mark - 帖子详情

@@ -17,6 +17,7 @@
 #import "SCAppUpdateModel.h"
 #import "SCGameListModel.h"
 #import "SCNewsBannerListModel.h"
+#import "SCMatchListModel.h"
 
 @implementation SCNetwork
 #pragma mark - 注册
@@ -419,7 +420,6 @@
 }
 
 #pragma mark - 获取banner
-#pragma mark - 获取banner
 /**
  *  获取banner
  *
@@ -437,6 +437,30 @@
     return [SCNetworkHelper getWithUrl:[SCUrlWrapper newsBannerListUrl] params:[SCParamsWrapper newsBannerListParamsWithChannelId:channelId type:type] success:^(NSDictionary *result) {
         NSError *error;
         SCNewsBannerListModel *model = [[SCNewsBannerListModel alloc] initWithDictionary:result error:&error];
+        if (!error) {
+            success(model);
+        }else {
+            message(error.localizedDescription);
+        }
+    } message:^(NSString *resultMsg) {
+        message(resultMsg);
+    }];
+}
+
+#pragma mark - 我的预约
+/**
+ *  我的预约
+ *
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)appointmentListWithSuccess:(void(^)(SCMatchListModel *model))success
+                                                      message:(SCMessageBlock)message {
+    return [SCNetworkHelper postWithUrl:[SCUrlWrapper appointmentListUrl] params:[SCParamsWrapper appointmentListParams] success:^(NSDictionary *result) {
+        NSError *error;
+        SCMatchListModel *model = [[SCMatchListModel alloc] initWithDictionary:result error:&error];
         if (!error) {
             success(model);
         }else {

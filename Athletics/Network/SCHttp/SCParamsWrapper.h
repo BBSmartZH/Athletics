@@ -147,6 +147,14 @@
  */
 + (NSDictionary *)qiNiuTokenParams;
 
+#pragma mark - 我的预约
+/**
+ *  我的预约
+ *
+ *  @return
+ */
++ (NSDictionary *)appointmentListParams;
+
 #pragma mark - **************************************************************
 
 #pragma mark - 资讯列表
@@ -203,6 +211,13 @@
 + (NSDictionary *)topicListParamsWithChannelId:(NSString *)channelId
                                           type:(int)type
                                           page:(int)page;
+#pragma mark - 我的帖子
+/**
+ *  我的帖子
+ *
+ *  @return
+ */
++ (NSDictionary *)userTopicListParams;
 
 #pragma mark - 帖子详情
 /**

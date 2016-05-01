@@ -73,6 +73,19 @@
     return [self salt:@{@"uid":[SCUserInfoManager uid], @"channelId":channelId, @"type":@(type)} isDynamic:NO];
 }
 
+#pragma mark - 我的预约
+/**
+ *  我的预约
+ *
+ *  @return
+ */
++ (NSDictionary *)appointmentListParams {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return nil;
+    }
+    return [self salt:@{@"uid":[SCUserInfoManager uid]} isDynamic:NO];
+}
+
 #pragma mark -  *******************    登录找回密码    *********************************
 #pragma mark - 注册
 /**
@@ -331,6 +344,19 @@
         return [self salt:@{@"channelId":channelId, @"type":@(type), @"page":@(page)} isDynamic:NO];
     }
     return [self salt:@{@"uid":[SCUserInfoManager uid], @"channelId":channelId, @"type":@(type), @"page":@(page)} isDynamic:NO];
+}
+
+#pragma mark - 我的帖子
+/**
+ *  我的帖子
+ *
+ *  @return
+ */
++ (NSDictionary *)userTopicListParams {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return nil;
+    }
+    return [self salt:@{@"uid":[SCUserInfoManager uid]} isDynamic:NO];
 }
 
 #pragma mark - 帖子详情
