@@ -97,6 +97,7 @@
     [self.view bringSubviewToFront:_inputView];
     
     self.photosVC = [[SCNewsImageVC alloc] init];
+    self.photosVC.newsId = _newsId;
     self.photosVC.parentVC = self;
     __weak typeof(self) weakSelf = self;
 
@@ -117,6 +118,7 @@
     [_scrollView addSubview:self.photosVC.view];
     
     self.commentVC = [[SCCommentListVC alloc] init];
+    self.commentVC.newsId = _newsId;
     self.commentVC.view.frame = CGRectMake(_scrollView.fWidth, self.m_navBar.bottom, _scrollView.fWidth, _scrollView.fHeight - self.m_navBar.fHeight);
     [_scrollView addSubview:self.commentVC.view];
     

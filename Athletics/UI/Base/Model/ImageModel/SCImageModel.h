@@ -21,4 +21,7 @@ SCImageModel
 @property (nonatomic, copy) NSString<Optional> *size;
 @property (nonatomic, copy) NSString<Optional> *type;
 
+//自用
+@property (nonatomic, strong) UIImage<Ignore> *image;
+
 @end

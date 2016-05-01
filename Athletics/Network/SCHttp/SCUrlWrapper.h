@@ -308,6 +308,14 @@
  */
 + (NSString *)matchCommentAddUrl;
 
+#pragma mark - 赛事预约
+/**
+ *  赛事预约
+ *
+ *  @return
+ */
++ (NSString *)matchAppointmentAddUrl;
+
 #pragma mark - **************************************************************
 
 #pragma mark - 查询赛事栏目视频

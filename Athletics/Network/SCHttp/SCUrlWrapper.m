@@ -379,6 +379,16 @@
     return [self p_wrap:@"/match/comment/add"];
 }
 
+#pragma mark - 赛事预约
+/**
+ *  赛事预约
+ *
+ *  @return
+ */
++ (NSString *)matchAppointmentAddUrl {
+    return [self p_wrap:@"/match/appointment/add"];
+}
+
 #pragma mark - **************************************************************
 
 #pragma mark - 查询赛事栏目视频

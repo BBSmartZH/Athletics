@@ -31,7 +31,8 @@
     _tableView.frame = CGRectMake(0, self.m_navBar.bottom, self.view.fWidth, self.view.fHeight - self.m_navBar.fHeight);
     _tableView.separatorColor = k_Border_Color;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    [self headerEndRefreshing];
+    
+    [self headerBeginRefreshing];
 }
 
 -(void)refreshData

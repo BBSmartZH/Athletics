@@ -10,6 +10,7 @@
 
 #import "SCNewsListModel.h"
 #import "SCContentListModel.h"
+#import "SCAdModel.h"
 
 @protocol
 SCNewsDetailDataModel
@@ -19,7 +20,7 @@ SCNewsDetailDataModel
 
 @property (nonatomic, copy) NSString<Optional> *title;
 @property (nonatomic, copy) NSString<Optional> *abstract;
-@property (nonatomic, strong) NSArray<SCContentListModel, Optional> *content;
+@property (nonatomic, strong) NSArray<SCContentListModel, Optional> *contents;
 @property (nonatomic, copy) NSString<Optional> *url;
 @property (nonatomic, copy) NSString<Optional> *pub_time;
 @property (nonatomic, copy) NSString<Optional> *atype;
@@ -27,6 +28,9 @@ SCNewsDetailDataModel
 @property (nonatomic, copy) NSString<Optional> *targetId;
 @property (nonatomic, copy) NSString<Optional> *commentNum;
 @property (nonatomic, strong) NSArray<SCNewsListDataModel, Optional> *relate;
+
+@property (nonatomic, strong) SCAdModel<Optional> *ad;
+
 
 
 @end

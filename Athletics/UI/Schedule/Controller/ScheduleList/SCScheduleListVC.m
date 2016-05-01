@@ -13,7 +13,7 @@
 #import "SCScheduleDetailVC.h"
 #import "SCMatchListModel.h"
 
-@interface SCScheduleListVC ()
+@interface SCScheduleListVC ()<SCScheduleListCellDelegate>
 {
     SCMatchListModel *_model;
 }
@@ -87,7 +87,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SCScheduleListCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCScheduleListCell cellIdentifier] forIndexPath:indexPath];
-    
+    cell.delegate = self;
     SCMatchGroupListModel *model = [_datasource objectAtIndex:indexPath.section];
     SCMatchListDataModel *listModel = [model.matchUnit objectAtIndex:indexPath.row];
     
@@ -133,6 +133,30 @@
     SCScheduleDetailVC *detailVC = [[SCScheduleDetailVC alloc]init];
     detailVC.matchUnitId = listModel.matchUnitId;
     [self.navigationController pushViewController:detailVC animated:YES];
+}
+
+- (void)appointButtonClicked:(UIButton *)sender type:(SCMacthAppointType)type model:(SCMatchListDataModel *)model {
+    int aType = 1;
+    if (type == SCMacthAppointTypeCancel) {
+        aType = 2;
+    }
+    sender.enabled = NO;
+    [SCNetwork matchAppointmentAddWithMatchUnitId:model.matchUnitId type:type success:^(SCResponseModel *aModel) {
+        sender.enabled = YES;
+        NSString *message = @"预约成功";
+        sender.selected = YES;
+        model.isApporint = @"1";
+        if (aType == 2) {
+            message = @"取消预约成功";
+            sender.selected = NO;
+            model.isApporint = @"0";
+        }
+        [self postMessage:message];
+    } message:^(NSString *resultMsg) {
+        sender.enabled = YES;
+        [self postMessage:resultMsg];
+    }];
+    
 }
 
 - (void)didReceiveMemoryWarning {

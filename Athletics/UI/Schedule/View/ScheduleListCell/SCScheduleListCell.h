@@ -8,8 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, SCMacthAppointType) {
+    SCMacthAppointTypeAppoint,
+    SCMacthAppointTypeCancel,
+};
+
 @class SCMatchListDataModel;
+
+@protocol SCScheduleListCellDelegate <NSObject>
+
+- (void)appointButtonClicked:(UIButton *)sender type:(SCMacthAppointType)type model:(SCMatchListDataModel *)model;
+
+@end
+
 @interface SCScheduleListCell : UITableViewCell
+
+@property (nonatomic, assign) id<SCScheduleListCellDelegate> delegate;
 
 + (NSString *)cellIdentifier;
 

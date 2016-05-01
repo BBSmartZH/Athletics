@@ -177,7 +177,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    SCMatchLiveListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+    SCMatchLiveListDataModel *model = [_datasource objectAtIndex:indexPath.section];
     
     SCScheduleCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCScheduleCell cellIdentifier] forIndexPath:indexPath];
     [cell createLayoutWith:model];
@@ -197,7 +197,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    SCMatchLiveListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+    SCMatchLiveListDataModel *model = [_datasource objectAtIndex:indexPath.section];
     SCScheduleListVC *listVC = [[SCScheduleListVC alloc] init];
     listVC.matchId =  model.matchId;
     listVC.liveTitle = model.title;
@@ -206,7 +206,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    SCMatchLiveListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+    SCMatchLiveListDataModel *model = [_datasource objectAtIndex:indexPath.section];
 
     return [tableView fd_heightForCellWithIdentifier:[SCScheduleCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCScheduleCell *cell) {
         [cell createLayoutWith:model];

@@ -20,6 +20,7 @@
     UIImageView *_stateImageV;
     UILabel     *_stateLabel;
     UIButton    *_appointButton;
+    SCMatchListDataModel *_model;
 }
 
 @end
@@ -140,6 +141,14 @@ static CGFloat k_left = 10.0f;
 
 - (void)appointButtonClicked:(UIButton *)sender {
     
+    SCMacthAppointType type = SCMacthAppointTypeAppoint;
+    if (sender.isSelected) {
+        type = SCMacthAppointTypeCancel;
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(appointButtonClicked:type:model:)]) {
+        [self.delegate appointButtonClicked:sender type:type model:_model];
+    }
 }
 
 + (NSString *)cellIdentifier {
@@ -147,7 +156,7 @@ static CGFloat k_left = 10.0f;
 }
 
 - (void)createLayoutWith:(SCMatchListDataModel*)model {
-
+    _model = model;
     _stateImageV.hidden = YES;
     
     _leftLabel.text = model.leftTeamName;
@@ -159,12 +168,19 @@ static CGFloat k_left = 10.0f;
     _scoreLabel.text = [NSString stringWithFormat:@"%@ : %@",model.leftTeamGoal,model.rightTeamGoal];
     _stateLabel.text =[self stateWithModel:model];
     
-    if ([SCGlobaUtil getInt:model.status] == 0) {
+    if ([SCGlobaUtil getInt:model.isApporint] == 1) {
+        _appointButton.selected = YES;
+    }else {
+        _appointButton.selected = NO;
+    }
+    
+    if ([SCGlobaUtil getInt:model.status] == 1) {
         //未开始
         _appointButton.hidden = NO;
-        _scoreLabel.text = @"0 : 0";
+        _scoreLabel.hidden = YES;
     }else {
         _appointButton.hidden = YES;
+        _scoreLabel.hidden = NO;
     }
 }
 

@@ -86,25 +86,34 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return _model.content.count;
+        if (_model.ad) {
+            return _model.contents.count + 1;
+        }
+        return _model.contents.count;
     }
     return _model.relate.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        SCContentListModel *contentModel = [_model.content objectAtIndex:indexPath.row];
         
-        if ([SCGlobaUtil getInt:contentModel.type] == 2) {
-            SCNewsDetailImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsDetailImageCell cellIdentifier] forIndexPath:indexPath];
-            [cell createLayoutWith:contentModel];
-        }else if ([SCGlobaUtil getInt:contentModel.type] == 3) {
-            SCNewsDetailVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsDetailVideoCell cellIdentifier] forIndexPath:indexPath];
-            [cell createLayoutWith:contentModel];
+        if (indexPath.row == _model.contents.count) {
+            SCPostsAdCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsAdCell cellIdentifier] forIndexPath:indexPath];
+            [cell createLayoutWith:_model.ad];
+            return cell;
         }
         
-//        SCPostsAdCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsAdCell cellIdentifier] forIndexPath:indexPath];
-//        [cell createLayoutWith:@1];
+        SCContentListModel *contentModel = [_model.contents objectAtIndex:indexPath.row];
+        
+        if ([SCGlobaUtil getInt:contentModel.type] == 3) {
+            SCNewsDetailImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsDetailImageCell cellIdentifier] forIndexPath:indexPath];
+            [cell createLayoutWith:contentModel];
+            return cell;
+        }else if ([SCGlobaUtil getInt:contentModel.type] == 2) {
+            SCNewsDetailVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsDetailVideoCell cellIdentifier] forIndexPath:indexPath];
+            [cell createLayoutWith:contentModel];
+            return cell;
+        }
         
         SCNewsDetailTextCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsDetailTextCell cellIdentifier] forIndexPath:indexPath];
         [cell createLayoutWith:contentModel];
@@ -127,18 +136,18 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        SCContentListModel *contentModel = [_model.content objectAtIndex:indexPath.row];
+        if (indexPath.row == _model.contents.count) {
+            return [SCPostsAdCell cellHeightWith:_model.ad];
+        }
         
-        if ([SCGlobaUtil getInt:contentModel.type] == 2) {
+        SCContentListModel *contentModel = [_model.contents objectAtIndex:indexPath.row];
+        
+        if ([SCGlobaUtil getInt:contentModel.type] == 3) {
             return [SCNewsDetailImageCell cellHeightWith:contentModel];
-        }else if ([SCGlobaUtil getInt:contentModel.type] == 3) {
+        }else if ([SCGlobaUtil getInt:contentModel.type] == 2) {
             return [SCNewsDetailVideoCell cellHeightWith:contentModel];
         }
         
-        //        SCPostsAdCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCPostsAdCell cellIdentifier] forIndexPath:indexPath];
-        //        [cell createLayoutWith:@1];
-//        return [SCPostsAdCell cellHeightWith:@1];
-
         return [tableView fd_heightForCellWithIdentifier:[SCNewsDetailTextCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCNewsDetailTextCell *cell) {
             [cell createLayoutWith:contentModel];
         }];
@@ -183,62 +192,64 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.fWidth, 0)];
-        view.backgroundColor = [UIColor whiteColor];
-        
-        _titleLabel = [[UILabel alloc] init];
-        _titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:kWord_Font_32px];
-        _titleLabel.text = _model.title;
-        _titleLabel.numberOfLines = 0;
-        _titleLabel.textColor = kWord_Color_High;
-        [view addSubview:_titleLabel];
-        
-        _timeLabel = [[UILabel alloc] init];
-        _timeLabel.font = [UIFont systemFontOfSize:kWord_Font_20px];
-        _timeLabel.textColor = kWord_Color_Low;
-        _timeLabel.text = _model.pub_time;
-        [view addSubview:_timeLabel];
-        
-        [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(view).offset(15);
-            make.right.equalTo(view).offset(-15);
-            make.top.equalTo(view).offset(20);
-        }];
-        [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.equalTo(_titleLabel);
-            make.top.equalTo(_titleLabel.mas_bottom).offset(10);
-            make.bottom.equalTo(view).offset(-15);
-        }];
-        
-        return view;
-    }else {
-        UIView *view = [[UIView alloc] init];
-        view.backgroundColor = [UIColor whiteColor];
-        
-        _relatedLabel = [[UILabel alloc] init];
-        _relatedLabel.text = @"相关阅读";
-        _relatedLabel.font = [UIFont systemFontOfSize:kWord_Font_28px];
-        _relatedLabel.textColor = kWord_Color_High;
-        [view addSubview:_relatedLabel];
-        
-        UIView *line = [[UIView alloc] init];
-        line.backgroundColor = k_Border_Color;
-        [view addSubview:line];
-        
-        [_relatedLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
-        [_relatedLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(view.mas_bottom);
-            make.left.equalTo(view).offset(10);
-        }];
-        [line mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(_relatedLabel);
-            make.right.equalTo(view);
-            make.height.mas_equalTo(@.5f);
-            make.left.equalTo(_relatedLabel.mas_right).offset(30);
-        }];
-        
-        return view;
+    if (_model) {
+        if (section == 0) {
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.fWidth, 0)];
+            view.backgroundColor = [UIColor whiteColor];
+            
+            _titleLabel = [[UILabel alloc] init];
+            _titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:kWord_Font_32px];
+            _titleLabel.text = _model.title;
+            _titleLabel.numberOfLines = 0;
+            _titleLabel.textColor = kWord_Color_High;
+            [view addSubview:_titleLabel];
+            
+            _timeLabel = [[UILabel alloc] init];
+            _timeLabel.font = [UIFont systemFontOfSize:kWord_Font_20px];
+            _timeLabel.textColor = kWord_Color_Low;
+            _timeLabel.text = _model.pub_time;
+            [view addSubview:_timeLabel];
+            
+            [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(view).offset(15);
+                make.right.equalTo(view).offset(-15);
+                make.top.equalTo(view).offset(20);
+            }];
+            [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.equalTo(_titleLabel);
+                make.top.equalTo(_titleLabel.mas_bottom).offset(10);
+                make.bottom.equalTo(view).offset(-15);
+            }];
+            
+            return view;
+        }else {
+            UIView *view = [[UIView alloc] init];
+            view.backgroundColor = [UIColor whiteColor];
+            
+            _relatedLabel = [[UILabel alloc] init];
+            _relatedLabel.text = @"相关阅读";
+            _relatedLabel.font = [UIFont systemFontOfSize:kWord_Font_28px];
+            _relatedLabel.textColor = kWord_Color_High;
+            [view addSubview:_relatedLabel];
+            
+            UIView *line = [[UIView alloc] init];
+            line.backgroundColor = k_Border_Color;
+            [view addSubview:line];
+            
+            [_relatedLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
+            [_relatedLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.bottom.equalTo(view.mas_bottom);
+                make.left.equalTo(view).offset(10);
+            }];
+            [line mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(_relatedLabel);
+                make.right.equalTo(view);
+                make.height.mas_equalTo(@.5f);
+                make.left.equalTo(_relatedLabel.mas_right).offset(30);
+            }];
+            
+            return view;
+        }
     }
     return NULL;
 }

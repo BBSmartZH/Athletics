@@ -218,7 +218,7 @@ static CGFloat showButtonH = 22.0f;
         _statusLabel.hidden = YES;
         _timeLabel.text = model.createTime;
         
-        _title = model.title;
+        _title = model.title ? model.title : @"";
         
         NSMutableAttributedString *titleAttStr = [[NSMutableAttributedString alloc] initWithString:_title];
         

@@ -107,6 +107,7 @@
  *  @return
  */
 + (NSURLSessionDataTask *)topicAddWithTitle:(NSString *)title
+                                  channelId:(NSString *)channelId
                                     content:(NSString *)content
                                imageJsonStr:(NSString *)imageJsonStr
                                     success:(void (^)(SCResponseModel *model))success

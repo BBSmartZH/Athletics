@@ -427,7 +427,29 @@
 }
 
 #pragma mark - 发帖
-
+/**
+ *  发帖
+ *
+ *  @return
+ */
++ (NSDictionary *)topicAddParamsWithTitle:(NSString *)title
+                                channelId:(NSString *)channelId
+                                  content:(NSString *)content
+                             imageJsonStr:(NSString *)imageJsonStr {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:title] || [SCGlobaUtil isEmpty:content]) {
+        return nil;
+    }
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:@{@"uid":[SCUserInfoManager uid], @"content":content, @"content":content}];
+    if (![SCGlobaUtil isEmpty:imageJsonStr]) {
+        [dict setObject:imageJsonStr forKey:@"image"];
+    }
+    if (![SCGlobaUtil isEmpty:channelId]) {
+        [dict setObject:channelId forKey:@"channelId"];
+    }
+    
+    return [self salt:dict isDynamic:NO];
+}
 
 #pragma mark - **************************************************************
 
@@ -544,6 +566,20 @@
         return nil;
     }
     return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchUnitId":matchUnitId, @"comment":comment} isDynamic:NO];
+}
+
+#pragma mark - 赛事预约
+/**
+ *  赛事预约
+ *
+ *  @return
+ */
++ (NSDictionary *)matchAppointmentAddParamsWithMatchUnitId:(NSString *)matchUnitId
+                                                      type:(int)type {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:matchUnitId]) {
+        return nil;
+    }
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchUnitId":matchUnitId, @"type":@(type)} isDynamic:NO];
 }
 
 #pragma mark - **************************************************************

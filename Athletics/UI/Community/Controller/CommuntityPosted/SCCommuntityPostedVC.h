@@ -10,4 +10,6 @@
 
 @interface SCCommuntityPostedVC : SCBaseRefreshVC_iPhone
 
+@property (nonatomic, copy) NSString *channelId;
+
 @end

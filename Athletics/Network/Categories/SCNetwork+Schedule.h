@@ -127,7 +127,20 @@
                                                  success:(void (^)(SCResponseModel *model))success
                                                  message:(SCMessageBlock)message;
 
-
+/**
+ *  赛事预约
+ *
+ *  @param matchUnitId 赛事id
+ *  @param type        type 1 预约  2 取消
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)matchAppointmentAddWithMatchUnitId:(NSString *)matchUnitId
+                                                        type:(int)type
+                                                     success:(void (^)(SCResponseModel *model))success
+                                                     message:(SCMessageBlock)message;
 
 
 

@@ -9,6 +9,10 @@
 #import "SCCommuntityPostedVC.h"
 
 #import "SCPostedImageCell.h"
+#import "SCImageModel.h"
+#import "SCPhotoManager.h"
+#import "SCUploadTokenModel.h"
+#import "SCQiNiuUploadManager.h"
 
 @interface SCCommuntityPostedVC ()<UITextFieldDelegate, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, SCPostedImageCellDelegate>
 {
@@ -62,7 +66,6 @@ static NSString *commentCellId = @"CommentCollectionViewCellId";
     [_postdButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _postdButton.titleLabel.font = [UIFont systemFontOfSize:14.0f];
     [self.m_navBar addSubview:_postdButton];
-    _postdButton.enabled = NO;
     
     _textFiled = [[UITextField alloc] initWithFrame:CGRectMake(0, self.m_navBar.bottom, self.view.fWidth, 44)];
     _textFiled.delegate = self;
@@ -137,40 +140,84 @@ static NSString *commentCellId = @"CommentCollectionViewCellId";
     _descLabel.textAlignment = NSTextAlignmentCenter;
     [_choosePicView addSubview:_descLabel];
     
-    _descLabel.text = @"已添加3张，还可以添加6张";
-    
-    UIImage *image = [UIImage imageNamed:@"mine_background"];
-    [_imageArray addObject:image];
+    _descLabel.text = @"已添加0张，还可以添加9张";
     
     [_textFiled becomeFirstResponder];
     
 }
 
 -(void)rightBarButtonClicked:(UIButton *)sender {
+    //发帖
     
+    if ([SCGlobaUtil isEmpty:_textFiled.text]) {
+        [self postMessage:@"标题不能为空"];
+        return;
+    }
+    if ([SCGlobaUtil isEmpty:_textView.text]) {
+        [self postMessage:@"内容不能为空"];
+        return;
+    }
+    if (_textView.text.length < 15) {
+        [self postMessage:@"内容不能少于15个字"];
+        return;
+    }
+    
+    NSString *imageJsonStr = @"[";
+
+    for (int i = 0; i < _imageArray.count; i++) {
+        SCImageModel *model = [_imageArray objectAtIndex:i];
+        NSString *json = [model toJSONStringWithKeys:@[@"url", @"width", @"height", @"size"]];
+        imageJsonStr = [imageJsonStr stringByAppendingString:[NSString stringWithFormat:@"%@,", json]];
+    }
+    
+    imageJsonStr = [imageJsonStr stringByAppendingString:@"]"];
+    
+    MBProgressHUD *hud = [SCProgressHUD MBHudWithText:@"发帖中" showAddTo:self.view delay:NO];
+    self.sessionTask = [SCNetwork topicAddWithTitle:_textView.text channelId:_channelId content:_textView.text imageJsonStr:imageJsonStr success:^(SCResponseModel *model) {
+        [self postMessage:@"发帖成功，等待审核"];
+        [hud hideAnimated:YES];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popViewControllerAnimated:YES];
+        });
+    } message:^(NSString *resultMsg) {
+        [hud hideAnimated:YES];
+        [self postMessage:resultMsg];
+    }];
     
 }
 
 - (void)choosePicButtonClicked:(UIButton *)sender {
     [self.view endEditing:YES];
-
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return _imageArray.count + 1;
+    NSInteger count = 0;
+    if (_imageArray.count < 9) {
+        count = _imageArray.count + 1;
+    }else {
+        count = 9;
+    }
+    return count;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SCPostedImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[SCPostedImageCell cellIdeatifier] forIndexPath:indexPath];
 
-    if (indexPath.item == _imageArray.count) {
+    if (_imageArray.count != 9 && indexPath.item == _imageArray.count) {
         //+hao
         cell.hiddenDeleteButton = YES;
         cell.image = nil;
     }else {
         cell.hiddenDeleteButton = NO;
-        cell.image = [_imageArray objectAtIndex:indexPath.item];
-        cell.size = @"520KB";
+        SCImageModel *model = [_imageArray objectAtIndex:indexPath.item];
+        cell.image = model.image;
+        NSString *size = @"0K";
+        if ([SCGlobaUtil getFloat:model.size] > 1024 * 1024) {
+            size = [NSString stringWithFormat:@"%dK", [SCGlobaUtil getInt:model.size] / 1024];
+        }else {
+            size = [NSString stringWithFormat:@"%dM", [SCGlobaUtil getInt:model.size] / (1024 * 1024)];
+        }
+        cell.size = size;
     }
     cell.indexPath = indexPath;
     cell.delegate = self;
@@ -190,8 +237,9 @@ static NSString *commentCellId = @"CommentCollectionViewCellId";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.item == _imageArray.count) {
         //添加
-        
-        
+        [[SCPhotoManager shared] showActionSheetInView:self.view fromController:self completion:^(UIImage *image) {
+            [self uploadImage:image];
+        } cancel:^{}];
     }
 }
 
@@ -201,6 +249,41 @@ static NSString *commentCellId = @"CommentCollectionViewCellId";
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     return 0.0f;
+}
+
+- (void)uploadImage:(UIImage *)image {
+    
+    NSData *imageData = UIImageJPEGRepresentation(image, 1);
+    
+    MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"上传中.." showAddTo:self.view delay:NO];
+    self.sessionTask = [SCNetwork getUploadTokenWithSuccess:^(SCUploadTokenModel *model) {
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyyMMddHHmmss";
+        NSString *dateStr = [formatter stringFromDate:[NSDate date]];
+        NSString *fileName = [NSString stringWithFormat:@"%@_%@.jpg", dateStr, [SCUserInfoManager uid]];
+        fileName = [fileName stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        [HUD hideAnimated:YES];
+        MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"上传中.." showAddTo:self.view delay:NO];
+        [[SCQiNiuUploadManager shared] uploadWithData:imageData fileName:fileName token:model.data.uploadToken complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+            [HUD hideAnimated:YES];
+            NSString *downloadUrl = [NSString stringWithFormat:@"%@/%@", model.data.spaceUrl, key];
+            SCImageModel *model = [[SCImageModel alloc] init];
+            model.size = [NSString stringWithFormat:@"%ld", imageData.length];
+            model.width = [NSString stringWithFormat:@"%f", floorf(image.size.width)];
+            model.height = [NSString stringWithFormat:@"%f", floorf(image.size.height)];
+            model.url = downloadUrl;
+            model.image = image;
+            [_imageArray addObject:model];
+            [_collectionView reloadData];
+            _descLabel.text = [NSString stringWithFormat:@"已添加%ld张，还可以添加%ld张", _imageArray.count, 9 - _imageArray.count];
+        } option:nil];
+
+    } message:^(NSString *resultMsg) {
+        [HUD hideAnimated:YES];
+        [self postMessage:resultMsg];
+    }];
 }
 
 #pragma mark - keyboard

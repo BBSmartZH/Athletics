@@ -29,7 +29,7 @@ SCNewsListDataModel
 
 @property (nonatomic, copy) NSString<Optional> *commentsNum;
 
-@property (nonatomic, copy) NSString<Optional> *imageUrl;
+@property (nonatomic, copy) NSString<Optional> *imgUrl;
 
 @property (nonatomic, copy) NSString<Optional> *img_count;
 

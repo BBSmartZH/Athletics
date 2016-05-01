@@ -43,7 +43,7 @@ static float scale = 0.65;
     
     _leftImageV = [[UIImageView alloc]init];
     _leftImageV.contentMode = UIViewContentModeScaleAspectFill;
-    _leftImageV.backgroundColor = [UIColor redColor];
+    _leftImageV.clipsToBounds = YES;
     [self.contentView addSubview:_leftImageV];
     
     _markImageV = [[UIImageView alloc]init];
@@ -139,7 +139,7 @@ static float scale = 0.65;
     }else {
         _markImageV.hidden = YES;
     }
-    [_leftImageV scImageWithURL:_model.imageUrl placeholderImage:nil];
+    [_leftImageV scImageWithURL:_model.imgUrl placeholderImage:nil];
 }
 
 + (NSString *)cellIdentifier {

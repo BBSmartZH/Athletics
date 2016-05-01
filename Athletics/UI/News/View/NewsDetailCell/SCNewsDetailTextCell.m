@@ -61,7 +61,7 @@ static CGFloat k_left = 10.0f;
 
 - (void)createLayoutWith:(SCContentListModel *)model {
     _model = model;
-    _text = _model.info;
+    _text = _model.content ? _model.content : @"";
     
     NSMutableAttributedString *textAttStr = [[NSMutableAttributedString alloc] initWithString:_text];
     

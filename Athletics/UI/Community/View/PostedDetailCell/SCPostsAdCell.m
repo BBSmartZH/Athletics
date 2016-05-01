@@ -106,15 +106,8 @@ static CGFloat k_top = 15.0f;
 
 - (void)createLayoutWith:(SCAdModel *)model {
     _model = model;
-    CGSize imageSize = CGSizeZero;
-    
-    NSInteger number = ((NSNumber *)model).integerValue;
-    if (number == 1) {
-        imageSize = CGSizeMake(349, 250);
-    }else {
-        imageSize = CGSizeMake(690, 120);
-    }
-    _imageView.backgroundColor = [UIColor cyanColor];
+
+    [_imageView scImageWithURL:model.pic placeholderImage:nil];
 }
 
 + (CGFloat)cellHeightWith:(SCAdModel *)model {
@@ -124,16 +117,12 @@ static CGFloat k_top = 15.0f;
     height += 5;
     height += 14;
 
-    CGSize imageSize = CGSizeZero;
-    
-    NSInteger number = ((NSNumber *)model).integerValue;
-    if (number == 1) {
-        imageSize = CGSizeMake(349, 250);
-    }else {
-        imageSize = CGSizeMake(690, 300);
+    CGFloat sale = [SCGlobaUtil getFloat:model.width] / [SCGlobaUtil getFloat:model.height];
+    if (sale <= 0) {
+        sale = 9 / 16.0;
     }
     
-    height = ([UIScreen mainScreen].bounds.size.width - 2 * k_left) * (imageSize.height / imageSize.width);
+    height = floorf(([UIScreen mainScreen].bounds.size.width - 2 * k_left) * sale);
     height += 1;
     height += k_top;
     

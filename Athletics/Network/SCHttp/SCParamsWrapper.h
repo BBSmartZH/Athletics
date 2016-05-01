@@ -262,6 +262,7 @@
  *  @return
  */
 + (NSDictionary *)topicAddParamsWithTitle:(NSString *)title
+                                channelId:(NSString *)channelId
                                   content:(NSString *)content
                              imageJsonStr:(NSString *)imageJsonStr;
 
@@ -328,6 +329,15 @@
  */
 + (NSDictionary *)matchCommentAddParamsWithMatchUnitId:(NSString *)matchUnitId
                                                comment:(NSString *)comment;
+
+#pragma mark - 赛事预约
+/**
+ *  赛事预约
+ *
+ *  @return
+ */
++ (NSDictionary *)matchAppointmentAddParamsWithMatchUnitId:(NSString *)matchUnitId
+                                                      type:(int)type;
 
 #pragma mark - **************************************************************
 

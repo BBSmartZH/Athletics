@@ -170,13 +170,25 @@
  *
  *  @return
  */
-//+ (NSURLSessionDataTask *)topicAddWithTitle:(NSString *)title
-//                                    content:(NSString *)content
-//                               imageJsonStr:(NSString *)imageJsonStr
-//                                    success:(void (^)(SCCommunityListModel *model))success
-//                                    message:(SCMessageBlock)message {
-//    
-//}
++ (NSURLSessionDataTask *)topicAddWithTitle:(NSString *)title
+                                  channelId:(NSString *)channelId
+                                    content:(NSString *)content
+                               imageJsonStr:(NSString *)imageJsonStr
+                                    success:(void (^)(SCResponseModel *model))success
+                                    message:(SCMessageBlock)message {
+    return [SCNetworkHelper postWithUrl:[SCUrlWrapper topicAddUrl] params:[SCParamsWrapper topicAddParamsWithTitle:title channelId:channelId content:content imageJsonStr:imageJsonStr] success:^(NSDictionary *result) {
+        NSError *error;
+        SCResponseModel *model = [[SCResponseModel alloc] initWithDictionary:result error:&error];
+        if (!error) {
+            success(model);
+        }else {
+            message(error.localizedDescription);
+        }
+    } message:^(NSString *resultMsg) {
+        message(resultMsg);
+    }];
+
+}
 
 #pragma mark - 我的帖子
 /**

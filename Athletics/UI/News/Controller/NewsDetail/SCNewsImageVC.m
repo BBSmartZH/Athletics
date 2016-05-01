@@ -10,6 +10,7 @@
 
 #import "SCPhotosScrollView.h"
 #import "SCPhotoZoomView.h"
+#import "SCNewsDetailModel.h"
 
 #import "SCPhotoCollectionViewCell.h"
 
@@ -28,9 +29,10 @@
     UIView *_titleView;
     UILabel *_titleLabel;
     
-    //Test
-    NSArray *_imageArray;
-    NSArray *_textArray;
+    NSMutableArray *_imageArray;
+    NSMutableArray *_textArray;
+    SCNewsDetailDataModel *_model;
+
 }
 
 @end
@@ -46,9 +48,12 @@ static CGFloat imageSpace = 10.0f;
     
     self.m_navBar.hidden = YES;
     
-    _imageArray = @[@"http://img.dota2.com.cn/dota2/1d/a3/1da37587e354ec6e9b6d4f9722ae6be61461641722.jpg", @"http://img.dota2.com.cn/dota2/e1/1f/e11f335e2689860cbd14ae0ef0ece64b1461641722.jpg"];
-    _textArray = @[@"6.87更新日志中有诸多内容亟待您的探索。", @"随着更新的发布，本周还将见证马尼拉特级锦标赛预选赛的开锣，中国区预选赛比赛报名时间为2016年4月26日 至 2016年4月30日，比赛时间为4月29日-5月2日。"];
-    _number = _imageArray.count;
+//    _imageArray = @[@"http://img.dota2.com.cn/dota2/1d/a3/1da37587e354ec6e9b6d4f9722ae6be61461641722.jpg", @"http://img.dota2.com.cn/dota2/e1/1f/e11f335e2689860cbd14ae0ef0ece64b1461641722.jpg"];
+//    _textArray = @[@"6.87更新日志中有诸多内容亟待您的探索。", @"随着更新的发布，本周还将见证马尼拉特级锦标赛预选赛的开锣，中国区预选赛比赛报名时间为2016年4月26日 至 2016年4月30日，比赛时间为4月29日-5月2日。"];
+//    _number = _imageArray.count;
+    
+    _imageArray = [NSMutableArray array];
+    _textArray = [NSMutableArray array];
     
     _offset = 0.0;
     _scale = 1.0;
@@ -75,6 +80,7 @@ static CGFloat imageSpace = 10.0f;
     
     _titleView = [[UIView alloc] init];
     _titleView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.8];
+    _titleView.hidden = YES;
     [self.view addSubview:_titleView];
     
     _titleLabel = [[UILabel alloc] init];
@@ -94,6 +100,34 @@ static CGFloat imageSpace = 10.0f;
         make.center.equalTo(_titleView);
         make.left.top.equalTo(_titleView).offset(10);
         make.right.bottom.equalTo(_titleView).offset(-10);
+    }];
+    
+    [self prepareData];
+    
+}
+
+- (void)prepareData {
+    
+    [self startActivityAnimation];
+    self.sessionTask = [SCNetwork newsInfoWithNewsId:_newsId success:^(SCNewsDetailModel *model) {
+        [self stopActivityAnimation];
+        _model = model.data;
+        for (int i = 0; i < _model.contents.count; i++) {
+            SCContentListModel *content = [_model.contents objectAtIndex:i];
+            if ([SCGlobaUtil getInt:content.type] == 3) {
+                [_imageArray addObject:content.image.url];
+            }
+            if ([SCGlobaUtil getInt:content.type] == 1) {
+                [_textArray addObject:content.content];
+            }
+            if (_textArray.count > 0) {
+                _titleView.hidden = NO;
+            }
+        }
+        [_collectionView reloadData];
+    } message:^(NSString *resultMsg) {
+        [self postMessage:resultMsg];
+        [self stopActivityAnimation];
     }];
     
 }
@@ -145,7 +179,12 @@ static CGFloat imageSpace = 10.0f;
 {
     if (scrollView == _collectionView) {
         NSInteger pag = scrollView.contentOffset.x / scrollView.bounds.size.width;
-        _titleLabel.text = [_textArray objectAtIndex:pag];
+        if (pag < _textArray.count) {
+            _titleView.hidden = NO;
+            _titleLabel.text = [_textArray objectAtIndex:pag];
+        }else {
+            _titleView.hidden = YES;
+        }
     }
 }
 

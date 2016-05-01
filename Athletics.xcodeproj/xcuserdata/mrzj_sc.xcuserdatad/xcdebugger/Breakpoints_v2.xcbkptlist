@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Athletics/UI/Base/View/CDPVideoPlayer/CDPVideoPlayer.m"
-            timestampString = "483778547.260554"
+            filePath = "Athletics/UI/News/View/NewsDetailCell/SCNewsDetailImageCell.m"
+            timestampString = "483794074.592985"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "473"
-            endingLineNumber = "473"
-            landmarkName = "-playWithNewUrl:"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "-createLayoutWith:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

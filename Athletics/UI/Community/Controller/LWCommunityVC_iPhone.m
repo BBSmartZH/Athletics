@@ -29,6 +29,7 @@
     BOOL _isDragging;
     
     UIButton *_postedButton;
+    NSString *_currentChannelId;
 }
 
 @end
@@ -144,6 +145,7 @@
             if (result) {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     SCCommuntityPostedVC *postedVC = [[SCCommuntityPostedVC alloc] init];
+                    postedVC.channelId = _currentChannelId;
                     postedVC.hidesBottomBarWhenPushed = YES;
                     [self.navigationController pushViewController:postedVC animated:YES];
                 });
@@ -158,6 +160,7 @@
 
 - (void)topScrollButtonClicked:(SCTopButton *)sender {
     SCCommuntityContentVC *contentVC = [_vcArray objectAtIndex:sender.index];
+    _currentChannelId = contentVC.channelId;
     if (!contentVC.isUpdated) {
         [contentVC updateData];
     }

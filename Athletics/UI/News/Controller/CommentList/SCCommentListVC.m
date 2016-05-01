@@ -17,7 +17,7 @@
 @interface SCCommentListVC ()<LrdOutputViewDelegate, LWCommentListCellDelegate>
 {
 //    UIView *_inputView;
-    BOOL _needUpdate;
+    BOOL _isUpdated;
     UIButton *_commentButton;
 }
 
@@ -48,7 +48,7 @@
 }
 
 - (BOOL)isUpdated {
-    return !_needUpdate;
+    return _isUpdated;
 }
 
 - (void)updateData {
@@ -64,6 +64,7 @@
     
     self.sessionTask = [SCNetwork newsCommentListWithNewsId:_newsId page:_currentPageIndex success:^(SCNewsCommentListModel *model) {
         [self headerEndRefreshing];
+        _isUpdated = YES;
         
         [_datasource removeAllObjects];
         [_datasource addObjectsFromArray:model.data];

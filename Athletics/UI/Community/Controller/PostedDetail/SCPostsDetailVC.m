@@ -19,6 +19,7 @@
 #import "SCCommunityDetailModel.h"
 #import "LrdOutputView.h"
 #import "SCLoginVC.h"
+#import "SCBaseWebVC.h"
 
 @interface SCPostsDetailVC ()<SCCommentInputViewDelegate, SCPostsTopViewDelegate, LrdOutputViewDelegate>
 {
@@ -358,6 +359,17 @@
     if (indexPath.section == 0) {
         if ([_inputView.inputTextView isFirstResponder]) {
             [self.view endEditing:YES];
+        }
+        
+        if (indexPath.section == 0) {
+            if (indexPath.row == _model.images.count) {
+                //AD
+                if (![SCGlobaUtil isEmpty:_model.ad.url]) {
+                    SCBaseWebVC *webVC = [[SCBaseWebVC alloc] init];
+                    webVC.webUrl = _model.ad.url;
+                    [self.navigationController pushViewController:webVC animated:YES];
+                }
+            }
         }
     }
     
