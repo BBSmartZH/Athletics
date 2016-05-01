@@ -169,13 +169,17 @@
             }
         }];
     }else {
-        [SCNetwork newsCommentClickedParamsWithNewsCommentId:model.commentId success:^(SCResponseModel * aModel) {
-            [self postMessage:@"点赞成功"];
-            sender.enabled = NO;
-            model.isLike = @"1";
-        } message:^(NSString *resultMsg) {
-            [self postMessage:resultMsg];
-        }];
+        if (![SCUserInfoManager isMyWith:model.userId]) {
+            [SCNetwork newsCommentClickedParamsWithNewsCommentId:model.commentId success:^(SCResponseModel * aModel) {
+                [self postMessage:@"点赞成功"];
+                sender.enabled = NO;
+                model.isLike = @"1";
+            } message:^(NSString *resultMsg) {
+                [self postMessage:resultMsg];
+            }];
+        }else {
+            [self postMessage:@"亲，不能给自己点哦~~"];
+        }
     }
 }
 

@@ -323,7 +323,7 @@
     if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:newsCommentId]) {
         return nil;
     }
-    return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchUnitId":newsCommentId} isDynamic:NO];
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"commentId":newsCommentId} isDynamic:NO];
 }
 
 #pragma mark - **************************************************************

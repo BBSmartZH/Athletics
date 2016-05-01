@@ -184,7 +184,7 @@
     
     SCNewsListDataModel *model = [_datasource objectAtIndex:indexPath.row];
     NSString *commentNum = @"0";
-    if ([SCGlobaUtil isEmpty:model.commentsNum]) {
+    if (![SCGlobaUtil isEmpty:model.commentsNum]) {
         commentNum = model.commentsNum;
     }
     if ([SCGlobaUtil getInt:model.type] == 3 && model.images.count > 0) {

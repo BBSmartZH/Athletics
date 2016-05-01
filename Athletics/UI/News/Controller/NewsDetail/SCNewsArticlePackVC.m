@@ -153,6 +153,7 @@
         [HUD hideAnimated:YES];
         _inputView.inputTextView.text = nil;
         [self postMessage:@"发表成功"];
+        [self.commentVC updateData];
     } message:^(NSString *resultMsg) {
         [HUD hideAnimated:YES];
         [self postMessage:resultMsg];

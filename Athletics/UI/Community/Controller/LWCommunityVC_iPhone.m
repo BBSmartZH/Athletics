@@ -153,6 +153,7 @@
         }];
     }else {
         SCCommuntityPostedVC *postedVC = [[SCCommuntityPostedVC alloc] init];
+        postedVC.channelId = _currentChannelId;
         postedVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:postedVC animated:YES];
     }

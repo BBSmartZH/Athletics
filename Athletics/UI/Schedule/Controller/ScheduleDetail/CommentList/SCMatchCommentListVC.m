@@ -13,7 +13,7 @@
 #import "SCNewsCommentListModel.h"
 #import "SCLoginVC.h"
 
-@interface SCMatchCommentListVC ()<LrdOutputViewDelegate>
+@interface SCMatchCommentListVC ()<LrdOutputViewDelegate, LWCommentListCellDelegate>
 {
     BOOL _isUpdated;
 }
@@ -112,7 +112,7 @@
     
     SCNewsCommentListDataModel *model = [_datasource objectAtIndex:indexPath.row];
     LWCommentListCell *cell = [tableView dequeueReusableCellWithIdentifier:[LWCommentListCell cellidentifier] forIndexPath:indexPath];
-    
+    cell.delegate = self;
     [cell createLayoutWith:model];
     return cell;
 }
@@ -153,6 +153,31 @@
     };
     
     [self.outPutView pop];
+}
+
+#pragma mark - LWCommentListCellDelegate
+- (void)praiseButtonClicked:(UIButton *)sender withModel:(SCNewsCommentListDataModel *)model {
+    if (![SCUserInfoManager isLogin]) {
+        SCLoginVC *loginVC = [[SCLoginVC alloc] init];
+        [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+            if (result) {
+                [self headerBeginRefreshing];
+            }
+        }];
+    }else {
+        if (![SCUserInfoManager isMyWith:model.userId]) {
+            [SCNetwork newsCommentClickedParamsWithNewsCommentId:model.matchCommentId success:^(SCResponseModel * aModel) {
+                [self postMessage:@"点赞成功"];
+                sender.enabled = NO;
+                model.isLike = @"1";
+            } message:^(NSString *resultMsg) {
+                [self postMessage:resultMsg];
+            }];
+        }else {
+            [self postMessage:@"亲，不能给自己点哦~~"];
+        }
+    }
+
 }
 
 #pragma mark - LrdOutputViewDelegate

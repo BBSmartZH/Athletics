@@ -425,18 +425,27 @@
 
 - (void)supportButtonClicked:(UIButton *)sender {
     //点赞
-    if (![SCUserInfoManager isMyWith:_model.userId]) {
-        [SCNetwork topicLikeAddWithTopicId:_topicId success:^(SCResponseModel *model) {
-            [self postMessage:@"点赞成功"];
-            _model.isLike = @"1";
-            _model.likeCount = [NSString stringWithFormat:@"%d", [SCGlobaUtil getInt:_model.likeCount] + 1];
-            _supportLabel.text = _model.likeCount;
-            sender.enabled = NO;
-        } message:^(NSString *resultMsg) {
-            [self postMessage:resultMsg];
+    if (![SCUserInfoManager isLogin]) {
+        SCLoginVC *loginVC = [[SCLoginVC alloc] init];
+        [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+            if (result) {
+                [self headerBeginRefreshing];
+            }
         }];
     }else {
-        [self postMessage:@"亲，不能给自己点哦~~"];
+        if (![SCUserInfoManager isMyWith:_model.userId]) {
+            [SCNetwork topicLikeAddWithTopicId:_topicId success:^(SCResponseModel *model) {
+                [self postMessage:@"点赞成功"];
+                _model.isLike = @"1";
+                _model.likeCount = [NSString stringWithFormat:@"%d", [SCGlobaUtil getInt:_model.likeCount] + 1];
+                _supportLabel.text = _model.likeCount;
+                sender.enabled = NO;
+            } message:^(NSString *resultMsg) {
+                [self postMessage:resultMsg];
+            }];
+        }else {
+            [self postMessage:@"亲，不能给自己点哦~~"];
+        }
     }
 }
 
