@@ -10,4 +10,8 @@
 
 @interface SCVideoDetailVC : SCBaseRefreshVC_iPhone
 
+@property (nonatomic, copy) NSString *videoId;
+
+@property (nonatomic, copy) NSString *videoTitle;
+
 @end

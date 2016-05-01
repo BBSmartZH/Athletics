@@ -32,6 +32,10 @@ static NSString *k_user_info         = @"k_user_info_key";
     return login.boolValue;
 }
 
++ (BOOL)isMyWith:(NSString *)userId {
+    return ([userId isEqualToString:[self uid]]);
+}
+
 + (void)setUserInfo:(SCUserModel *)model {
 
     NSData *userInfo = [NSKeyedArchiver archivedDataWithRootObject:model];

@@ -11,6 +11,7 @@
 #import "LWCommentListCell.h"
 #import "LrdOutputView.h"
 #import "SCNewsCommentListModel.h"
+#import "SCLoginVC.h"
 
 @interface SCMatchCommentListVC ()<LrdOutputViewDelegate>
 {
@@ -160,14 +161,30 @@
     //举报
     SCNewsCommentListDataModel *model = [_datasource objectAtIndex:indexPath.row];
     
-    MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"举报中" showAddTo:self.parentVC.view delay:NO];
-    [SCNetwork userReportWithCommentId:model.commentId type:3 success:^(SCResponseModel *model) {
-        [HUD hideAnimated:YES];
-        [self.parentVC postMessage:@"举报成功"];
-    } message:^(NSString *resultMsg) {
-        [HUD hideAnimated:YES];
-        [self.parentVC postMessage:resultMsg];
-    }];
+    if (![SCUserInfoManager isLogin]) {
+        SCLoginVC *loginVC = [[SCLoginVC alloc] init];
+        [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+            if (result) {
+                MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"举报中" showAddTo:self.parentVC.view delay:NO];
+                [SCNetwork userReportWithCommentId:model.matchCommentId type:3 success:^(SCResponseModel *model) {
+                    [HUD hideAnimated:YES];
+                    [self.parentVC postMessage:@"举报成功"];
+                } message:^(NSString *resultMsg) {
+                    [HUD hideAnimated:YES];
+                    [self.parentVC postMessage:resultMsg];
+                }];
+            }
+        }];
+    }else {
+        MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"举报中" showAddTo:self.parentVC.view delay:NO];
+        [SCNetwork userReportWithCommentId:model.matchCommentId type:3 success:^(SCResponseModel *model) {
+            [HUD hideAnimated:YES];
+            [self.parentVC postMessage:@"举报成功"];
+        } message:^(NSString *resultMsg) {
+            [HUD hideAnimated:YES];
+            [self.parentVC postMessage:resultMsg];
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

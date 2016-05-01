@@ -95,6 +95,8 @@
     
     self.sessionTask = [SCNetwork topicListWithChannelId:_channelId type:_type page:_currentPageIndex success:^(SCCommunityListModel *model) {
         [self headerEndRefreshing];
+        [self footerHidden:YES];
+
         _needUpdate = YES;
         [_datasource removeAllObjects];
         [_datasource addObjectsFromArray:model.data];

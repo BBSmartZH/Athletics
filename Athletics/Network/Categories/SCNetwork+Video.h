@@ -8,7 +8,7 @@
 
 #import "SCNetwork.h"
 
-@class SCVideoListModel, SCVideoDetailModel, SCVideoCoverModel, SCVideoCommentListModel;
+@class SCVideoListModel, SCVideoDetailModel, SCVideoCoverModel, SCNewsCommentListModel;
 
 @interface SCNetwork (Video)
 
@@ -67,7 +67,7 @@
  */
 + (NSURLSessionDataTask *)matchVideoCommentListWithVideoId:(NSString *)videoId
                                                       page:(int)page
-                                                   success:(void (^)(SCVideoCommentListModel *model))success
+                                                   success:(void (^)(SCNewsCommentListModel *model))success
                                                    message:(SCMessageBlock)message;
 
 /**

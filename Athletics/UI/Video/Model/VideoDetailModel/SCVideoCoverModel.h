@@ -23,6 +23,9 @@ SCVideoCoverDataModel
 @property(nonatomic, copy) NSString<Optional> *videoLength;
 @property(nonatomic, copy) NSString<Optional> *uploadDate;
 
+//自用
+@property (nonatomic, copy) NSString<Ignore>  *isPlaying;//正在播放
+
 
 @end
 

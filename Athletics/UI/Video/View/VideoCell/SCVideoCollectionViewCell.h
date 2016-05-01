@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class SCVideoCoverDataModel;
+
 static CGFloat SCVideoCollectionViewCellHeight = 120;
 static CGFloat SCVideoCollectionViewCellWidth = 100;
 
 @interface SCVideoCollectionViewCell : UICollectionViewCell
 
-- (void)createLayoutWith:(id)model;
+- (void)createLayoutWith:(SCVideoCoverDataModel *)model;
 
 + (NSString *)cellIdentifier;
 

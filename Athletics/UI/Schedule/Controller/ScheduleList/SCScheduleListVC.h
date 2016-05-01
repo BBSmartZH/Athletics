@@ -11,6 +11,7 @@
 @interface SCScheduleListVC : SCBaseRefreshVC_iPhone
 
 @property (nonatomic, copy) NSString *matchId;
+@property (nonatomic, copy) NSString *liveTitle;
 
 @property (nonatomic, assign, readonly) BOOL isUpdated;
 

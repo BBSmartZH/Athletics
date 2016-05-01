@@ -147,9 +147,8 @@ static CGFloat k_left = 10.0f;
 }
 
 - (void)createLayoutWith:(SCMatchListDataModel*)model {
-//    _leftImageV.backgroundColor = [UIColor cyanColor];
-//    _rightImageV.backgroundColor = [UIColor cyanColor];
-    _stateImageV.backgroundColor = [UIColor cyanColor];
+
+    _stateImageV.hidden = YES;
     
     _leftLabel.text = model.leftTeamName;
     [_leftImageV scImageWithURL:model.leftTeamBadge placeholderImage:nil];
@@ -157,9 +156,39 @@ static CGFloat k_left = 10.0f;
     [_rightImageV scImageWithURL:model.rightTeamBadge placeholderImage:nil];
 
     _appointButton.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.4];
-    _scoreLabel.text = [NSString stringWithFormat:@"%@:%@",model.leftTeamGoal,model.rightTeamGoal];
-    _stateLabel.text = @"看视频";
-    _timeLabel.text = model.beginTime;
+    _scoreLabel.text = [NSString stringWithFormat:@"%@ : %@",model.leftTeamGoal,model.rightTeamGoal];
+    _stateLabel.text =[self stateWithModel:model];
+    
+    if ([SCGlobaUtil getInt:model.status] == 0) {
+        //未开始
+        _appointButton.hidden = NO;
+        _scoreLabel.text = @"0 : 0";
+    }else {
+        _appointButton.hidden = YES;
+    }
+}
+
+- (NSString *)stateWithModel:(SCMatchListDataModel *)model {
+    NSString *state = @"";
+    
+    switch ([SCGlobaUtil getInt:model.status]) {
+        case 1:
+            state = @"未开始";
+            break;
+        case 2:
+            state = @"正在进行";
+            break;
+        case 3:
+            state = @"已结束";
+            break;
+        case 4:
+            state = @"已取消";
+            break;
+        default:
+            break;
+    }
+    
+    return state;
 }
 
 - (void)awakeFromNib {

@@ -12,7 +12,7 @@
 
 #import "SCVideoListModel.h"
 #import "SCVideoDetailModel.h"
-#import "SCVideoCommentListModel.h"
+#import "SCNewsCommentListModel.h"
 #import "SCVideoCoverModel.h"
 
 @implementation SCNetwork (Video)
@@ -108,11 +108,11 @@
  */
 + (NSURLSessionDataTask *)matchVideoCommentListWithVideoId:(NSString *)videoId
                                                       page:(int)page
-                                                   success:(void (^)(SCVideoCommentListModel *model))success
+                                                   success:(void (^)(SCNewsCommentListModel *model))success
                                                    message:(SCMessageBlock)message {
     return [SCNetworkHelper postWithUrl:[SCUrlWrapper matchVideoCommentListUrl] params:[SCParamsWrapper matchVideoCommentListParamsWithVideoId:videoId page:page] success:^(NSDictionary *result) {
         NSError *error;
-        SCVideoCommentListModel *model = [[SCVideoCommentListModel alloc] initWithDictionary:result error:&error];
+        SCNewsCommentListModel *model = [[SCNewsCommentListModel alloc] initWithDictionary:result error:&error];
         if (!error) {
             success(model);
         }else {

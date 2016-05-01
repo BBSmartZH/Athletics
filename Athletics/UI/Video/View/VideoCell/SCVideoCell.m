@@ -44,6 +44,7 @@ static float scale = 0.75;
     
     _leftImageV = [[UIImageView alloc]init];
     _leftImageV.contentMode = UIViewContentModeScaleAspectFill;
+    _leftImageV.clipsToBounds = YES;
     _leftImageV.backgroundColor = [UIColor redColor];
     [self.contentView addSubview:_leftImageV];
     
@@ -104,10 +105,10 @@ static float scale = 0.75;
 
 - (void)createLayoutWith:(SCVideoListDataModel *)model {
     _model = model;
-    [_leftImageV scImageWithURL:@"http://img.dota2.com.cn/dota2/5a/91/5a91b4e0c0f3f06a91b2047629ad1ffb1450093189.jpg" placeholderImage:nil];
-    _titleLabel.text = @"大神学院 W33欧服第一人（地卜师）超神第一视角教学";
-    _timeLabel.text = @"11-23";//5秒前  12分钟前   2016-04-04
-    _durationLabel.text = @"45分34秒";
+    [_leftImageV scImageWithURL:model.image.url placeholderImage:nil];
+    _titleLabel.text = _model.title;
+    _timeLabel.text = _model.uploadDate;//5秒前  12分钟前   2016-04-04
+    _durationLabel.text = _model.videoLength;
 }
 
 + (NSString *)cellIdentifier {

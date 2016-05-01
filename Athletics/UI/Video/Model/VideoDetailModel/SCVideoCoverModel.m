@@ -8,6 +8,10 @@
 
 #import "SCVideoCoverModel.h"
 
+@implementation SCVideoCoverDataModel
+
+@end
+
 @implementation SCVideoCoverModel
 
 @end

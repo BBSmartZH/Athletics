@@ -16,6 +16,8 @@ SCNewsCommentListDataModel
 
 @interface SCNewsCommentListDataModel : SCBaseModel
 
+@property (nonatomic, copy) NSString<Optional> *matchCommentId;
+@property (nonatomic, copy) NSString<Optional> *videoCommentId;
 @property (nonatomic, copy) NSString<Optional> *commentId;
 @property (nonatomic, copy) NSString<Optional> *userId;
 @property (nonatomic, copy) NSString<Optional> *userAvatar;

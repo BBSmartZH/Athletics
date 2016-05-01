@@ -200,6 +200,7 @@
     SCMatchLiveListDataModel *model = [_datasource objectAtIndex:indexPath.row];
     SCScheduleListVC *listVC = [[SCScheduleListVC alloc] init];
     listVC.matchId =  model.matchId;
+    listVC.liveTitle = model.title;
     listVC.hidesBottomBarWhenPushed = YES;
     [self.parentVC.navigationController pushViewController:listVC animated:YES];
 }

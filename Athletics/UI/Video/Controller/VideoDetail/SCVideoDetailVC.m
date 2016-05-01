@@ -11,6 +11,9 @@
 #import "CDPVideoPlayer.h"
 #import "LWCommentListCell.h"
 #import "SCVideoCollectionViewCell.h"
+#import "SCVideoDetailModel.h"
+#import "SCVideoCoverModel.h"
+#import "SCNewsCommentListModel.h"
 
 @interface SCVideoDetailVC ()<CDPVideoPlayerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
@@ -18,10 +21,14 @@
     CGFloat   _playerHeight;
     UIButton  *_playButton;
     BOOL _statusBarHidden;
-    UICollectionView *_collectionView;
     UIView *_headerView;
     UILabel *_titleLabel;
+    
+    NSMutableArray *_coverArray;
+    SCVideoDetailDataModel *_model;
 }
+
+@property (nonatomic, strong) UICollectionView *collectionView;
 
 @end
 
@@ -55,13 +62,12 @@
     
     _playerHeight = self.view.bounds.size.width * (9 / 16.0f);
     
-    _player = [[CDPVideoPlayer alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, _playerHeight) url:@"http://msgpush.dota2.com.cn/m3u8/1461687771473.m3u8" delegate:self haveOriginalUI:YES];
+    _player = [[CDPVideoPlayer alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, _playerHeight) url:nil delegate:self haveOriginalUI:YES];
     [self.view addSubview:_player];
     [self.view bringSubviewToFront:self.m_navBar];
-
-    _player.title = @"上海特级赛EHOME";
     
-    self.title = @"上海特级赛EHOME";
+    self.title = _videoTitle;
+    
     self.m_navBar.titleLabel.alpha = 0.0f;
     self.m_navBar.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_32px];
     
@@ -93,23 +99,31 @@
     _titleLabel.font = [UIFont systemFontOfSize:kWord_Font_30px];
     [_headerView addSubview:_titleLabel];
     
-    _titleLabel.text = @"Dota2大神学院";
+    _coverArray = [NSMutableArray array];
     
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
-    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, _titleLabel.bottom + 12, _headerView.fWidth, SCVideoCollectionViewCellHeight) collectionViewLayout:layout];
-    _collectionView.delegate = self;
-    _collectionView.dataSource = self;
-    _collectionView.showsVerticalScrollIndicator = NO;
-    _collectionView.showsHorizontalScrollIndicator = NO;
-    _collectionView.backgroundColor = [UIColor whiteColor];
-    [_headerView addSubview:_collectionView];
-    [_collectionView setContentSize:CGSizeMake(_collectionView.fWidth + 1, _collectionView.fHeight)];
-    [_collectionView registerClass:[SCVideoCollectionViewCell class] forCellWithReuseIdentifier:[SCVideoCollectionViewCell cellIdentifier]];
+    [self prepareData];
+}
+
+- (UICollectionView *)collectionView {
+    if (!_collectionView) {
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
+        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, _titleLabel.bottom + 12, _headerView.fWidth, SCVideoCollectionViewCellHeight) collectionViewLayout:layout];
+        _collectionView.delegate = self;
+        _collectionView.dataSource = self;
+        _collectionView.showsVerticalScrollIndicator = NO;
+        _collectionView.showsHorizontalScrollIndicator = NO;
+        _collectionView.backgroundColor = [UIColor whiteColor];
+        [_headerView addSubview:_collectionView];
+        [_collectionView setContentSize:CGSizeMake(_collectionView.fWidth + 1, _collectionView.fHeight)];
+        [_collectionView registerClass:[SCVideoCollectionViewCell class] forCellWithReuseIdentifier:[SCVideoCollectionViewCell cellIdentifier]];
+        
+        _headerView.frame = CGRectMake(0, 0, _headerView.fWidth, _collectionView.bottom + 15);
+        _tableView.tableHeaderView = _headerView;
+    }
     
-    _headerView.frame = CGRectMake(0, 0, _headerView.fWidth, _collectionView.bottom + 15);
-    _tableView.tableHeaderView = _headerView;
+    return _collectionView;
 }
 
 - (void)playButtonClicked:(UIButton *)sender {
@@ -118,28 +132,107 @@
     [_player play];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+- (void)prepareData {
+    
+    //视频详情
+    [self startActivityAnimation];
+    [SCNetwork matchVideoDetailWithVideoId:_videoId success:^(SCVideoDetailModel *model) {
+        [self stopActivityAnimation];
+        _model = model.data;
+        
+        [self updateData];
+    } message:^(NSString *resultMsg) {
+        [self stopActivityAnimation];
+        [self postMessage:resultMsg];
+    }];
+    
+    //视频相关
+    [SCNetwork matchVideoRelatedListWithVideoId:_videoId success:^(SCVideoCoverModel *model) {
+        [_coverArray removeAllObjects];
+        [_coverArray addObjectsFromArray:model.data];
+        [self.collectionView reloadData];
+    } message:^(NSString *resultMsg) {
+        [self postMessage:resultMsg];
+    }];
+}
+
+- (void)refreshData {
+    
+    if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
+        [self.sessionTask cancel];
+        self.sessionTask = nil;
+    }
+    
+    self.sessionTask = [SCNetwork matchVideoCommentListWithVideoId:_videoId page:_currentPageIndex success:^(SCNewsCommentListModel *model) {
+        [self headerEndRefreshing];
+        
+        [_datasource removeAllObjects];
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex++;
+            [self footerHidden:NO];
+        }else {
+            [self noticeNoMoreData];
+        }
+    } message:^(NSString *resultMsg) {
+        [self headerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
+    
+}
+
+- (void)loadModeData {
+    
+    if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
+        [self.sessionTask cancel];
+        self.sessionTask = nil;
+    }
+    
+    self.sessionTask = [SCNetwork matchVideoCommentListWithVideoId:_videoId page:_currentPageIndex success:^(SCNewsCommentListModel *model) {
+        [self footerEndRefreshing];
+        
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+            _currentPageIndex++;
+        }else {
+            [self noticeNoMoreData];
+        }
+    } message:^(NSString *resultMsg) {
+        [self footerEndRefreshing];
+        [self postMessage:resultMsg];
+    }];
+}
+
+- (void)updateData {
+    
+    [self headerBeginRefreshing];
+    _titleLabel.text = _videoTitle;
+    _player.title = _model.title;
+    
+    [_player playWithNewUrl:_model.url];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 1;
-    }
-    return 20;
+    return _datasource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    SCNewsCommentListDataModel *model = [_datasource objectAtIndex:indexPath.row];
     LWCommentListCell *cell = [tableView dequeueReusableCellWithIdentifier:[LWCommentListCell cellidentifier] forIndexPath:indexPath];
     
-    [cell createLayoutWith:@1];
+    [cell createLayoutWith:model];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    SCNewsCommentListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+
     return [tableView fd_heightForCellWithIdentifier:[LWCommentListCell cellidentifier] cacheByIndexPath:indexPath configuration:^(LWCommentListCell *cell) {
-        [cell createLayoutWith:@1];
+        [cell createLayoutWith:model];
     }];
 }
 
@@ -162,14 +255,15 @@
 
 #pragma mark - CollectionViewDelegate
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 20;
+    return _coverArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    SCVideoCoverDataModel *model = [_coverArray objectAtIndex:indexPath.item];
+    
     SCVideoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[SCVideoCollectionViewCell cellIdentifier] forIndexPath:indexPath];
     
-    
-    [cell createLayoutWith:@1];
+    [cell createLayoutWith:model];
     return cell;
 }
 

@@ -16,6 +16,8 @@ typedef void (^SCBoolResultBlock)(BOOL result);
 + (void)setIsLogin:(BOOL)isLogin;
 + (BOOL)isLogin;
 
++ (BOOL)isMyWith:(NSString *)userId;
+
 + (void)setUserInfo:(SCUserModel *)model;
 + (void)updateUserInfo:(SCUserModel *)model;
 + (SCUserModel *)userInfo;

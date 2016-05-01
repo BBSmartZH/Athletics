@@ -23,6 +23,8 @@
     
     SCTopScrollView *_topScrollView;
     BOOL _isDragging;
+    
+    
 }
 
 

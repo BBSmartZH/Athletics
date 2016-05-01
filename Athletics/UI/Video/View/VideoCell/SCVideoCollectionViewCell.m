@@ -7,6 +7,7 @@
 //
 
 #import "SCVideoCollectionViewCell.h"
+#import "SCVideoCoverModel.h"
 
 @interface SCVideoCollectionViewCell ()
 {
@@ -33,6 +34,7 @@ static CGFloat k_left = 10.0f;
     _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.fWidth, 60)];
     _imageView.clipsToBounds = YES;
     _imageView.contentMode = UIViewContentModeScaleAspectFill;
+    _imageView.clipsToBounds = YES;
     [self.contentView addSubview:_imageView];
     
     _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(_imageView.fWidth - 60, _imageView.fHeight - 16, 60, 16)];
@@ -50,12 +52,16 @@ static CGFloat k_left = 10.0f;
     
 }
 
-- (void)createLayoutWith:(id)model {
-    [_imageView scImageWithURL:@"http://img.dota2.com.cn/dota2/a8/9a/a89aa88c789aafac4e76be8190d7bdf71450093189.jpg" placeholderImage:nil];
-    _timeLabel.text = @"50:23";
-    _titleLabel.text = @"大神学院 S4（玛格纳斯）绝地大翻盘第一视角教学";
+- (void)createLayoutWith:(SCVideoCoverDataModel *)model {
+    [_imageView scImageWithURL:model.image.url placeholderImage:nil];
+    _timeLabel.text = model.videoLength;
+    _titleLabel.text = model.title;
     //选中title变红色
-//    _titleLabel.textColor = [UIColor redColor];
+    if ([SCGlobaUtil getInt:model.isPlaying] == 1) {
+        _titleLabel.textColor = [UIColor redColor];
+    }else {
+        _titleLabel.textColor = kWord_Color_High;
+    }
 }
 
 + (NSString *)cellIdentifier {

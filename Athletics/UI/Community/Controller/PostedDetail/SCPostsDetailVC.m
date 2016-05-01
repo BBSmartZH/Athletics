@@ -18,6 +18,7 @@
 #import "SCCommentInputView.h"
 #import "SCCommunityDetailModel.h"
 #import "LrdOutputView.h"
+#import "SCLoginVC.h"
 
 @interface SCPostsDetailVC ()<SCCommentInputViewDelegate, SCPostsTopViewDelegate, LrdOutputViewDelegate>
 {
@@ -28,6 +29,10 @@
     UIImageView *_imageV;
     SCCommunityDetailDataModel  *_model;
     int       k;
+    int _floorSort;
+    NSString *_provId;
+    int _reportType;
+    NSString *_reportId;
 }
 
 @property (nonatomic, strong) SCCommentInputView *inputView;
@@ -118,6 +123,10 @@
     CGFloat x = rect.origin.x / 2.0;
     CGFloat y = rect.origin.y + rect.size.height;
     
+    _floorSort = 0;
+    _provId = @"";
+    _reportType = 5;
+    _reportId = _topicId;
     LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"回复" imageName:@"item_school"];
     LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"举报" imageName:@"item_battle"];
     self.outPutView = [[LrdOutputView alloc] initWithDataArray:@[one, two] origin:CGPointMake(x, y) width:80 height:36 direction:kLrdOutputViewDirectionLeft];
@@ -130,29 +139,32 @@
     [self.outPutView pop];
 }
 
-- (void)prepareData {
+-(void)refreshData
+{
     [SCNetwork topicInfoWithTopicId:_topicId success:^(SCCommunityDetailModel *model) {
         _model = model.data;
+        [self headerEndRefreshing];
+        
+        [self loadCommentData];
+
         [_tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
         [_headerView setModel:_model];
         _headerView.frame = CGRectMake(0, 0, _headerView.fWidth, [_headerView topViewHeight]);
         _tableView.tableHeaderView = _headerView;
     } message:^(NSString *resultMsg) {
+        [self headerEndRefreshing];
         [self postMessage:resultMsg];
     }];
+    
 }
 
--(void)refreshData
-{
-    [self prepareData];
-    
+- (void)loadCommentData {
     if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
         [self.sessionTask cancel];
         self.sessionTask = nil;
     }
     
     self.sessionTask = [SCNetwork topicCommentListWithTopicId:_topicId page:_currentPageIndex success:^(SCTopicReplayListModel *model) {
-        [self headerEndRefreshing];
         [_datasource removeAllObjects];
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
@@ -163,9 +175,10 @@
             [self noticeNoMoreData];
         }
     } message:^(NSString *resultMsg) {
-        
+        [self postMessage:resultMsg];
     }];
 }
+
 -(void)loadModeData
 {
     
@@ -261,88 +274,82 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 0) {
-        if (k == 0) {
-            return 120;
-        }else if ( k >0 && k < 7){
-            return 167.0f;
-        }else{
-            return 214.0f;
+    if (_model) {
+        if (section == 0) {
+            int minSpace = 15;
+            int counts = 0;
+            counts = (kScreenWidth -minSpace)/(32+minSpace);
+
+            if (k == 0) {
+                return 120;
+            }else if ( k >0 && k < counts){
+                return 167.0f;
+            }else{
+                return 214.0f;
+            }
         }
     }
-    return 1.0f;
+    return 0.01f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (section == 0) {
-        UIView *view = [[UIView alloc] init];
-        view.backgroundColor = [UIColor whiteColor];
-        _supportLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2.0-50, 20, 100, 20)];
-        _supportLabel.font = [UIFont systemFontOfSize:kWord_Font_20px];
-        _supportLabel.textAlignment = NSTextAlignmentCenter;
-        _supportLabel.textColor = kWord_Color_Low;
-        _supportLabel.text = _model.likeCount;
-        [view addSubview:_supportLabel];
-        
-        _supportButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _supportButton.frame = CGRectMake(kScreenWidth/2.0-25, CGRectGetMaxY(_supportLabel.frame)+10, 50, 50);
-        [_supportButton setImage:[UIImage imageNamed:@"news_suppourt_nor"] forState:UIControlStateNormal];
-        [_supportButton setImage:[UIImage imageNamed:@"news_suppourt_press"] forState:UIControlStateDisabled];
-        [_supportButton addTarget:self action:@selector(supportButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        _supportButton.layer.cornerRadius = 25;
-        _supportButton.layer.borderColor = k_Border_Color.CGColor;
-        _supportButton.layer.borderWidth = .5f;
-        
-        if ([SCGlobaUtil getInt:_model.isLike] == 1) {
-            _supportButton.enabled = NO;
-        }else {
-            _supportButton.enabled = YES;
+    if (_model) {
+        if (section == 0) {
+            UIView *view = [[UIView alloc] init];
+            view.backgroundColor = [UIColor whiteColor];
+            _supportLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2.0-50, 20, 100, 20)];
+            _supportLabel.font = [UIFont systemFontOfSize:kWord_Font_20px];
+            _supportLabel.textAlignment = NSTextAlignmentCenter;
+            _supportLabel.textColor = kWord_Color_Low;
+            _supportLabel.text = _model.likeCount;
+            [view addSubview:_supportLabel];
+            
+            _supportButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            _supportButton.frame = CGRectMake(kScreenWidth/2.0-25, CGRectGetMaxY(_supportLabel.frame)+10, 50, 50);
+            [_supportButton setImage:[UIImage imageNamed:@"news_suppourt_nor"] forState:UIControlStateNormal];
+            [_supportButton setImage:[UIImage imageNamed:@"news_suppourt_press"] forState:UIControlStateDisabled];
+            [_supportButton addTarget:self action:@selector(supportButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+            _supportButton.layer.cornerRadius = 25;
+            _supportButton.layer.borderColor = k_Border_Color.CGColor;
+            _supportButton.layer.borderWidth = .5f;
+            
+            if ([SCGlobaUtil getInt:_model.isLike] == 1) {
+                _supportButton.enabled = NO;
+            }else {
+                _supportButton.enabled = YES;
+            }
+            
+            [view addSubview:_supportButton];
+            
+            int minSpace = 15;
+            int counts = 0;
+            counts = (kScreenWidth -minSpace)/(32+minSpace);
+            
+            for (int i = 0 ; i < k; i++) {
+                _imageV = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-32*counts)/(counts+1) *(i%counts+1)+i%counts*32,CGRectGetMaxY(_supportButton.frame)+15+i/counts*(15+32) , 32, 32)];
+                
+                _imageV.clipsToBounds = YES;
+                _imageV.contentMode = UIViewContentModeScaleAspectFill;
+                _imageV.layer.cornerRadius = 16;
+                _imageV.backgroundColor = [UIColor redColor];
+                [view addSubview:_imageV];
+            }
+            if (k==0) {
+                view.frame = CGRectMake(0, 0, _tableView.fWidth,120);
+                
+            }else if(k > 0 && k < counts){
+                view.frame = CGRectMake(0, 0, _tableView.fWidth,167);
+                
+            }else{
+                view.frame = CGRectMake(0, 0, _tableView.fWidth,214);
+                
+            }
+            
+            return view;
         }
-        
-        [view addSubview:_supportButton];
-        
-        int minSpace = 15;
-        int counts = 0;
-        counts = (kScreenWidth -minSpace)/(32+minSpace);
-
-        for (int i = 0 ; i < k; i++) {
-            _imageV = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-32*counts)/(counts+1) *(i%counts+1)+i%counts*32,CGRectGetMaxY(_supportButton.frame)+15+i/counts*(15+32) , 32, 32)];
- 
-            _imageV.clipsToBounds = YES;
-            _imageV.contentMode = UIViewContentModeScaleAspectFill;
-            _imageV.layer.cornerRadius = 16;
-            _imageV.backgroundColor = [UIColor redColor];
-            [view addSubview:_imageV];
-        }
-        if (k==0) {
-            view.frame = CGRectMake(0, 0, _tableView.fWidth,120);
-
-        }else if(k > 0 && k < 7){
-            view.frame = CGRectMake(0, 0, _tableView.fWidth,167);
-
-        }else{
-            view.frame = CGRectMake(0, 0, _tableView.fWidth,214);
-
-        }
-        
-        return view;
     }
-//    }else {
-//        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.fWidth, 0)];
-//        view.backgroundColor = [UIColor whiteColor];
-//        UIView *line = [[UIView alloc] init];
-//        line.backgroundColor = k_Border_Color;
-//        [view addSubview:line];
-//        
-//        [line mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.equalTo(view).offset(10);
-//            make.top.bottom.right.equalTo(view);
-//        }];
-//        
-//        return view;
-//    }
+
     return NULL;
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -355,35 +362,46 @@
     }
     
     if (indexPath.section > 0) {
-        if (indexPath.row ==0) {
-            //弹出回复或举报
-            if ([_inputView.inputTextView isFirstResponder]) {
-                [self.view endEditing:YES];
+        SCTopicReplayListDataModel *replayModel = [_datasource objectAtIndex:indexPath.row];
+        if (![SCUserInfoManager isMyWith:replayModel.uid]) {
+            _floorSort = [SCGlobaUtil getInt:replayModel.floorSort];
+            _provId = replayModel.provId;
+            if ([SCGlobaUtil getInt:replayModel.provId] != 0 && ![SCGlobaUtil isEmpty:replayModel.provId]) {
+                if ([_inputView.inputTextView isFirstResponder]) {
+                    [self.view endEditing:YES];
+                }else {
+                    [_inputView.inputTextView becomeFirstResponder];
+                    _inputView.inputTextView.text = nil;
+                    _inputView.inputTextView.placeHolder = [NSString stringWithFormat:@"回复：%@", replayModel.userName];
+                }
+            }else {
+                //弹出回复或举报
+                _reportType = 2;
+                _reportId = replayModel.commentId;
+                if ([_inputView.inputTextView isFirstResponder]) {
+                    [self.view endEditing:YES];
+                }
+                LandlordCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+                
+                CGRect rect = [cell.avatar convertRect:cell.avatar.frame toView:[UIApplication sharedApplication].keyWindow];
+                
+                CGFloat x = rect.origin.x / 2.0;
+                CGFloat y = rect.origin.y + rect.size.height;
+                
+                LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"回复" imageName:@"item_school"];
+                LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"举报" imageName:@"item_battle"];
+                self.outPutView = [[LrdOutputView alloc] initWithDataArray:@[one, two] origin:CGPointMake(x, y) width:80 height:36 direction:kLrdOutputViewDirectionLeft];
+                _outPutView.delegate = self;
+                _outPutView.dismissOperation = ^(){
+                    //设置成nil，以防内存泄露
+                    _outPutView = nil;
+                };
+                
+                [self.outPutView pop];
             }
-            LandlordCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-            
-            CGRect rect = [cell.avatar convertRect:cell.avatar.frame toView:[UIApplication sharedApplication].keyWindow];
-            
-            CGFloat x = rect.origin.x / 2.0;
-            CGFloat y = rect.origin.y + rect.size.height;
-            
-            LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"回复" imageName:@"item_school"];
-            LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"举报" imageName:@"item_battle"];
-            self.outPutView = [[LrdOutputView alloc] initWithDataArray:@[one, two] origin:CGPointMake(x, y) width:80 height:36 direction:kLrdOutputViewDirectionLeft];
-            _outPutView.delegate = self;
-            _outPutView.dismissOperation = ^(){
-                //设置成nil，以防内存泄露
-                _outPutView = nil;
-            };
-            
-            [self.outPutView pop];
         }else {
             if ([_inputView.inputTextView isFirstResponder]) {
                 [self.view endEditing:YES];
-            }else {
-                [_inputView.inputTextView becomeFirstResponder];
-                _inputView.inputTextView.text = nil;
-                _inputView.inputTextView.placeHolder = @"回复：哈哈哈";
             }
         }
     }
@@ -397,14 +415,19 @@
 
 - (void)supportButtonClicked:(UIButton *)sender {
     //点赞
-    [SCNetwork topicLikeAddWithTopicId:_topicId success:^(SCResponseModel *model) {
-        [self postMessage:@"点赞成功"];
-        _model.isLike = @"1";
-        _model.likeCount = [NSString stringWithFormat:@"%d", [SCGlobaUtil getInt:_model.likeCount] + 1];
-        sender.enabled = NO;
-    } message:^(NSString *resultMsg) {
-        [self postMessage:resultMsg];
-    }];
+    if (![SCUserInfoManager isMyWith:_model.userId]) {
+        [SCNetwork topicLikeAddWithTopicId:_topicId success:^(SCResponseModel *model) {
+            [self postMessage:@"点赞成功"];
+            _model.isLike = @"1";
+            _model.likeCount = [NSString stringWithFormat:@"%d", [SCGlobaUtil getInt:_model.likeCount] + 1];
+            _supportLabel.text = _model.likeCount;
+            sender.enabled = NO;
+        } message:^(NSString *resultMsg) {
+            [self postMessage:resultMsg];
+        }];
+    }else {
+        [self postMessage:@"亲，不能给自己点哦~~"];
+    }
 }
 
 #pragma mark - LrdOutputViewDelegate
@@ -412,15 +435,77 @@
     NSLog(@"你选择了%ld行", indexPath.row);
     if (indexPath.row == 0) {
         //回复
-        
+        if (![SCUserInfoManager isLogin]) {
+            SCLoginVC *loginVC = [[SCLoginVC alloc] init];
+            [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+                if (result) {
+                    [_inputView.inputTextView becomeFirstResponder];
+                }
+            }];
+        }else {
+            [_inputView.inputTextView becomeFirstResponder];
+        }
     }else {
         //举报
-        
+        if (![SCUserInfoManager isLogin]) {
+            SCLoginVC *loginVC = [[SCLoginVC alloc] init];
+            [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+                if (result) {
+                    MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"举报中" showAddTo:self.view delay:NO];
+                    
+                    [SCNetwork userReportWithCommentId:_reportId type:_reportType success:^(SCResponseModel *model) {
+                        [HUD hideAnimated:YES];
+                        [self postMessage:@"举报成功"];
+                    } message:^(NSString *resultMsg) {
+                        [HUD hideAnimated:YES];
+                        [self postMessage:resultMsg];
+                    }];
+                }
+            }];
+        }else {
+            MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"举报中" showAddTo:self.view delay:NO];
+            [SCNetwork userReportWithCommentId:_reportId type:_reportType success:^(SCResponseModel *model) {
+                [HUD hideAnimated:YES];
+                [self postMessage:@"举报成功"];
+            } message:^(NSString *resultMsg) {
+                [HUD hideAnimated:YES];
+                [self postMessage:resultMsg];
+            }];
+        }
     }
 }
 
 - (void)inputViewDidChangedFrame:(CGRect)frame {
     _inputView.frame = frame;
+}
+
+- (void)inputTextViewWillBeginEditing:(SCMessageTextView *)inputTextView {
+    if (![SCUserInfoManager isLogin]) {
+        [self.view endEditing:YES];
+        SCLoginVC *loginVC = [[SCLoginVC alloc] init];
+        [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+            if (result) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [_inputView.inputTextView becomeFirstResponder];
+                });
+            }
+        }];
+    }
+}
+
+- (void)inputTextViewDidSendMessage:(SCMessageTextView *)inputTextView {
+    
+    MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"回复中" showAddTo:self.view delay:NO];
+    
+    [SCNetwork topicCommentAddWithTopicId:_topicId parentId:_provId comment:inputTextView.text floorSort:_floorSort success:^(SCResponseModel *model) {
+        [HUD hideAnimated:YES];
+        _inputView.inputTextView.text = nil;
+        [self postMessage:@"发表成功"];
+        [self loadCommentData];
+    } message:^(NSString *resultMsg) {
+        [HUD hideAnimated:YES];
+        [self postMessage:resultMsg];
+    }];
 }
 
 #pragma mark - keyboard

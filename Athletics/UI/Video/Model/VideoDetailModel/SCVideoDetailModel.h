@@ -16,6 +16,7 @@ SCVideoDetailDataModel
 @interface SCVideoDetailDataModel : SCBaseModel
 
 @property(nonatomic, copy) NSString<Optional> *url;
+@property(nonatomic, copy) NSString<Optional> *title;
 @property(nonatomic, strong) SCImageModel<Optional> *image;
 
 @end

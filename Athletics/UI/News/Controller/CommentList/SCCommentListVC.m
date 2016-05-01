@@ -189,7 +189,7 @@
         [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
             if (result) {
                 MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"举报中" showAddTo:self.parentVC.view delay:NO];
-                [SCNetwork userReportWithCommentId:model.commentId type:3 success:^(SCResponseModel *model) {
+                [SCNetwork userReportWithCommentId:model.commentId type:1 success:^(SCResponseModel *model) {
                     [HUD hideAnimated:YES];
                     [self postMessage:@"举报成功"];
                 } message:^(NSString *resultMsg) {
@@ -200,7 +200,7 @@
         }];
     }else {
         MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"举报中" showAddTo:self.parentVC.view delay:NO];
-        [SCNetwork userReportWithCommentId:model.commentId type:3 success:^(SCResponseModel *model) {
+        [SCNetwork userReportWithCommentId:model.commentId type:1 success:^(SCResponseModel *model) {
             [HUD hideAnimated:YES];
             [self postMessage:@"举报成功"];
         } message:^(NSString *resultMsg) {

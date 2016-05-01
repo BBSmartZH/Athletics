@@ -21,6 +21,7 @@
     UIButton *_currentButton;
     UIView   *_slideLine;
     BOOL _needUpdate;
+    int _type;
 }
 
 @end
@@ -71,7 +72,7 @@
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
     
-    
+    _type = 1;
     
 }
 
@@ -87,10 +88,10 @@
 - (void)refreshData {
     _needUpdate = NO;
     
-    
-    self.sessionTask = [SCNetwork matchVideoListWithChannelId:_channelId type:0 page:_currentPageIndex success:^(SCVideoListModel *model) {
+    self.sessionTask = [SCNetwork matchVideoListWithChannelId:_channelId type:_type page:_currentPageIndex success:^(SCVideoListModel *model) {
         [self headerEndRefreshing];
-        
+        [self footerHidden:YES];
+
         [_datasource removeAllObjects];
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
@@ -107,8 +108,6 @@
         [self postMessage:resultMsg];
     }];
     
-    
-    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self headerEndRefreshing];
         [_tableView reloadData];
@@ -118,7 +117,7 @@
 }
 
 - (void)loadModeData {
-    self.sessionTask = [SCNetwork matchVideoListWithChannelId:_channelId type:0 page:_currentPageIndex success:^(SCVideoListModel *model) {
+    self.sessionTask = [SCNetwork matchVideoListWithChannelId:_channelId type:_type page:_currentPageIndex success:^(SCVideoListModel *model) {
         [self footerEndRefreshing];
         
         [_datasource addObjectsFromArray:model.data];
@@ -157,12 +156,17 @@
     CGRect rect = CGRectZero;
     if (sender == _matchButton) {
         rect = CGRectMake(_matchButton.left + 10, _slideLine.top, _slideLine.fWidth, _slideLine.fHeight);
+        _type = 1;
     }else if (sender == _newsButton) {
         rect = CGRectMake(_newsButton.left + 10, _slideLine.top, _slideLine.fWidth, _slideLine.fHeight);
+        _type = 2;
     }else if (sender == _amusementButton) {
         rect = CGRectMake(_amusementButton.left + 10, _slideLine.top, _slideLine.fWidth, _slideLine.fHeight);
+        _type = 3;
     }
     
+    [self headerBeginRefreshing];
+
     [UIView animateWithDuration:0.25 animations:^{
         _slideLine.frame = rect;
     }];
@@ -181,21 +185,23 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    SCVideoDetailVC *detailVC = [[SCVideoDetailVC alloc] init];
-    detailVC.hidesBottomBarWhenPushed = YES;
-    [self.parentVC.navigationController pushViewController:detailVC animated:YES];
-    
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     SCVideoListDataModel *model = [_datasource objectAtIndex:indexPath.row];
 
     return [tableView fd_heightForCellWithIdentifier:[SCVideoCell cellIdentifier] cacheByIndexPath:indexPath configuration:^(SCVideoCell *cell) {
         [cell createLayoutWith:model];
     }];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    SCVideoListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+    
+    SCVideoDetailVC *detailVC = [[SCVideoDetailVC alloc] init];
+    detailVC.videoId = model.videoId;
+    detailVC.hidesBottomBarWhenPushed = YES;
+    [self.parentVC.navigationController pushViewController:detailVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
