@@ -88,11 +88,10 @@ static NSString *commentCellId = @"CommentCollectionViewCellId";
     [self.view addSubview:_chooseButtonView];
     
     UIButton *choosePicButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [choosePicButton setImage:nil forState:UIControlStateNormal];
-    [choosePicButton setImage:nil forState:UIControlStateSelected];
+    [choosePicButton setImage:[UIImage imageNamed:@"news_images"] forState:UIControlStateNormal];
+    [choosePicButton setImage:[UIImage imageNamed:@"news_images"] forState:UIControlStateSelected];
     [choosePicButton addTarget:self action:@selector(choosePicButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     choosePicButton.frame = CGRectMake(20, (_chooseButtonView.fHeight - 24.0) / 2.0, 24.0, 24.0);
-    choosePicButton.backgroundColor = [UIColor cyanColor];
     [_chooseButtonView addSubview:choosePicButton];
     _choosePicButton = choosePicButton;
     
