@@ -18,6 +18,7 @@ SCNewsBannerListDataModel
 @property (nonatomic, copy) NSString<Optional> *imgUrl;
 @property (nonatomic, copy) NSString<Optional> *title;
 @property (nonatomic, copy) NSString<Optional> *type;
+@property (nonatomic, copy) NSString<Optional> *showType; //1.普通资讯（文本），2 图片 3 url
 @property (nonatomic, copy) NSString<Optional> *target;
 
 @end

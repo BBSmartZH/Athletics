@@ -172,7 +172,7 @@ static NSString *commentCellId = @"CommentCollectionViewCellId";
     imageJsonStr = [imageJsonStr stringByAppendingString:@"]"];
     
     MBProgressHUD *hud = [SCProgressHUD MBHudWithText:@"发帖中" showAddTo:self.view delay:NO];
-    self.sessionTask = [SCNetwork topicAddWithTitle:_textView.text channelId:_channelId content:_textView.text imageJsonStr:imageJsonStr success:^(SCResponseModel *model) {
+    self.sessionTask = [SCNetwork topicAddWithTitle:_textFiled.text channelId:_channelId content:_textView.text imageJsonStr:imageJsonStr success:^(SCResponseModel *model) {
         [self postMessage:@"发帖成功，等待审核"];
         [hud hideAnimated:YES];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -270,9 +270,9 @@ static NSString *commentCellId = @"CommentCollectionViewCellId";
             [HUD hideAnimated:YES];
             NSString *downloadUrl = [NSString stringWithFormat:@"%@/%@", model.data.spaceUrl, key];
             SCImageModel *model = [[SCImageModel alloc] init];
-            model.size = [NSString stringWithFormat:@"%ld", imageData.length];
-            model.width = [NSString stringWithFormat:@"%f", floorf(image.size.width)];
-            model.height = [NSString stringWithFormat:@"%f", floorf(image.size.height)];
+            model.size = [NSString stringWithFormat:@"%ld", lroundf(imageData.length)];
+            model.width = [NSString stringWithFormat:@"%ld", lroundf(image.size.width)];
+            model.height = [NSString stringWithFormat:@"%ld", lroundf(image.size.height)];
             model.url = downloadUrl;
             model.image = image;
             [_imageArray addObject:model];

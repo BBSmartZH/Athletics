@@ -440,7 +440,7 @@
         return nil;
     }
     
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:@{@"uid":[SCUserInfoManager uid], @"content":content, @"content":content}];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:@{@"uid":[SCUserInfoManager uid], @"content":content, @"title":title}];
     if (![SCGlobaUtil isEmpty:imageJsonStr]) {
         [dict setObject:imageJsonStr forKey:@"image"];
     }

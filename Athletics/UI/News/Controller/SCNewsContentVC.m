@@ -16,6 +16,7 @@
 
 #import "SCNewsListModel.h"
 #import "SCNewsBannerListModel.h"
+#import "SCBaseWebVC.h"
 
 @interface SCNewsContentVC ()
 {
@@ -56,8 +57,35 @@
         _adView.placeHoldImage = [UIImage imageNamed:@"place"];
         _adView.pageControlShowStyle = SCPageControlShowStyleRight;
         _adView.adTitleStyle = SCAdTitleShowStyleLeft;
+        __weak SCNewsBannerListModel *bModel = _bannerModel;
+        _WEAKSELF(ws);
         _adView.tapAdCallBack = ^(NSInteger index) {
-            NSLog(@"%ld", (long)index);
+            SCNewsBannerListDataModel *model = [bModel.data objectAtIndex:index];
+            if ([SCGlobaUtil getInt:model.showType] == 1) {
+                //普通资讯
+                if (![SCGlobaUtil isEmpty:model.target]) {
+                    SCNewsArticlePackVC *articleVC = [[SCNewsArticlePackVC alloc] init];
+                    articleVC.newsId = model.target;
+                    articleVC.hidesBottomBarWhenPushed = YES;
+                    [ws.parentVC.navigationController pushViewController:articleVC animated:YES];
+                }
+            }else if ([SCGlobaUtil getInt:model.showType] == 2) {
+                //图片资讯
+                if (![SCGlobaUtil isEmpty:model.target]) {
+                    SCNewsPhotosPackVC *photosVC = [[SCNewsPhotosPackVC alloc] init];
+                    photosVC.newsId = model.target;
+                    photosVC.hidesBottomBarWhenPushed = YES;
+                    [ws.parentVC.navigationController pushViewController:photosVC animated:YES];
+                }
+            }else if ([SCGlobaUtil getInt:model.showType] == 3) {
+                //url
+                if (![SCGlobaUtil isEmpty:model.target]) {
+                    SCBaseWebVC *weVC = [[SCBaseWebVC alloc] init];
+                    weVC.webUrl = model.target;
+                    weVC.hidesBottomBarWhenPushed = YES;
+                    [ws.parentVC.navigationController pushViewController:weVC animated:YES];
+                }
+            }
         };
         _tableView.tableHeaderView = _adView;
     }

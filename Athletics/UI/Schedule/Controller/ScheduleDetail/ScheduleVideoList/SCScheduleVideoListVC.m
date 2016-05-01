@@ -22,6 +22,13 @@
 
 @implementation SCScheduleVideoListVC
 
+- (instancetype)initWithStyle:(UITableViewStyle)style {
+    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+        
+    }
+    return self;
+}
+
 - (void)dealloc {
     [_player close];
     _player = nil;
@@ -33,8 +40,6 @@
     
     self.m_navBar.hidden = YES;
     
-    self.view.backgroundColor = [UIColor yellowColor];
-
     _tableView.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight - _topHeight);
     
     [_tableView registerClass:[SCVideoListCell class] forCellReuseIdentifier:[SCVideoListCell cellIdentifier]];
@@ -107,14 +112,14 @@
 
 }
 
-- (void)videoButtonClicked:(UIButton *)sender inCell:(SCVideoListCell *)inCell {
+- (void)videoButtonClicked:(UIButton *)sender inCell:(SCVideoListCell *)inCell withModel:(SCScheduleVideoListDataModel *)model {
     [_player pause];
     [_player removeFromSuperview];
     
-    _player.title = @"上海特级赛EHOME";
+    _player.title = model.title;
     _player.frame = inCell.videoFrame;
     [inCell addSubview:_player];
-    [_player playWithNewUrl:@"http://v.theonion.com/onionstudios/video/3158/640.mp4"];
+    [_player playWithNewUrl:model.url];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

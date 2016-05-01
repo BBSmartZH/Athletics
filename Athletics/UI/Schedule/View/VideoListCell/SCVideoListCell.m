@@ -7,12 +7,14 @@
 //
 
 #import "SCVideoListCell.h"
+#import "SCScheduleVideoListModel.h"
 
 @interface SCVideoListCell ()
 {
     UIImageView *_imageView;
     UIButton *_playButton;
     NSString *_url;
+    SCScheduleVideoListDataModel *_model;
 }
 
 @end
@@ -69,17 +71,18 @@ static CGFloat k_left = 10.0f;
 
 - (void)playButtonClicked:(UIButton *)sender {
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(videoButtonClicked:inCell:)]) {
-        [self.delegate videoButtonClicked:sender inCell:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(videoButtonClicked:inCell:withModel:)]) {
+        [self.delegate videoButtonClicked:sender inCell:self withModel:_model];
     }
 }
 
-- (void)createLayoutWith:(id)model {
-    _url = @"http://v.theonion.com/onionstudios/video/3158/640.mp4";
-    _imageView.backgroundColor = [UIColor cyanColor];
+- (void)createLayoutWith:(SCScheduleVideoListDataModel *)model {
+    _model = model;
+    _url = model.url;
+    [_imageView scImageWithURL:model.image.url placeholderImage:nil];
 }
 
-+ (CGFloat)heightForCellWith:(id)model {
++ (CGFloat)heightForCellWith:(SCScheduleVideoListDataModel *)model {
     CGFloat height = 0.0;
     
     height += k_top;

@@ -145,7 +145,7 @@
         
         [self loadCommentData];
 
-        [_tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+        [_tableView reloadData];
         [_headerView setModel:_model];
         _headerView.frame = CGRectMake(0, 0, _headerView.fWidth, [_headerView topViewHeight]);
         _tableView.tableHeaderView = _headerView;

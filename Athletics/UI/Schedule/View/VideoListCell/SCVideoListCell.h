@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class SCVideoListCell;
+@class SCVideoListCell, SCScheduleVideoListDataModel;
 
 @protocol SCVideoListCellDelegate <NSObject>
 
-- (void)videoButtonClicked:(UIButton *)sender  inCell:(SCVideoListCell *)inCell;
+- (void)videoButtonClicked:(UIButton *)sender inCell:(SCVideoListCell *)inCell withModel:(SCScheduleVideoListDataModel *)model;
 
 @end
 
@@ -21,9 +21,9 @@
 @property (nonatomic, assign) id<SCVideoListCellDelegate> delegate;
 @property (nonatomic, assign, readonly) CGRect videoFrame;
 
-- (void)createLayoutWith:(id)model;
+- (void)createLayoutWith:(SCScheduleVideoListDataModel *)model;
 
-+ (CGFloat)heightForCellWith:(id)model;
++ (CGFloat)heightForCellWith:(SCScheduleVideoListDataModel *)model;
 
 + (NSString *)cellIdentifier;
 

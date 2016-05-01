@@ -14,6 +14,7 @@
 
 #import "SCMatchLiveListModel.h"
 #import "SCMatchBannerModel.h"
+#import "SCBaseWebVC.h"
 
 @interface SCScheduleContentVC ()
 {
@@ -61,9 +62,20 @@
         _adView.placeHoldImage = [UIImage imageNamed:@"place"];
         _adView.pageControlShowStyle = SCPageControlShowStyleRight;
         _adView.adTitleStyle = SCAdTitleShowStyleLeft;
+        
+        __weak SCMatchBannerModel *bModel = _bannerModel;
+        _WEAKSELF(ws);
         _adView.tapAdCallBack = ^(NSInteger index) {
-            NSLog(@"%ld", (long)index);
+            SCMatchBannerDataModel *model = [bModel.data objectAtIndex:index];
+            //url
+            if (![SCGlobaUtil isEmpty:model.url]) {
+                SCBaseWebVC *weVC = [[SCBaseWebVC alloc] init];
+                weVC.webUrl = model.url;
+                weVC.hidesBottomBarWhenPushed = YES;
+                [ws.parentVC.navigationController pushViewController:weVC animated:YES];
+            }
         };
+        
         _tableView.tableHeaderView = _adView;
     }
     return _adView;
