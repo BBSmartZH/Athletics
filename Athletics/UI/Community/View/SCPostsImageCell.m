@@ -246,10 +246,10 @@ static CGFloat k_WHratio = 0.8;
     
     [_headImageV scImageWithURL:model.userAvatar placeholderImage:nil];
     _nameLabel.text = model.userName;
-    _thumbImagev.backgroundColor = k_Base_Color;
     _thumbNumLabel.text = model.likeCount;
-    _messageImageV.backgroundColor = k_Base_Color;
     _messageNumLabel.text = model.commentCount;
+    _thumbImagev.image = [UIImage imageNamed:@"news_suppourt_nor"];
+    _messageImageV.image = [UIImage imageNamed:@"comment_normal"];
     _tilteLable.text = model.title;
     _summaryLabel.text = model.summary;
     if (model.images.count == 1) {

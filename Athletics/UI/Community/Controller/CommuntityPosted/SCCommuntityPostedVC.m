@@ -89,7 +89,7 @@ static NSString *commentCellId = @"CommentCollectionViewCellId";
     
     UIButton *choosePicButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [choosePicButton setImage:[UIImage imageNamed:@"news_images"] forState:UIControlStateNormal];
-    [choosePicButton setImage:[UIImage imageNamed:@"news_images"] forState:UIControlStateSelected];
+    [choosePicButton setImage:[UIImage imageNamed:@"news_selected_images"] forState:UIControlStateSelected];
     [choosePicButton addTarget:self action:@selector(choosePicButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     choosePicButton.frame = CGRectMake(20, (_chooseButtonView.fHeight - 24.0) / 2.0, 24.0, 24.0);
     [_chooseButtonView addSubview:choosePicButton];
@@ -186,6 +186,7 @@ static NSString *commentCellId = @"CommentCollectionViewCellId";
 }
 
 - (void)choosePicButtonClicked:(UIButton *)sender {
+    sender.selected = YES;
     [self.view endEditing:YES];
 }
 
@@ -205,7 +206,7 @@ static NSString *commentCellId = @"CommentCollectionViewCellId";
     if (_imageArray.count != 9 && indexPath.item == _imageArray.count) {
         //+hao
         cell.hiddenDeleteButton = YES;
-        cell.image = nil;
+        cell.image =[UIImage imageNamed:@"add_images"];
     }else {
         cell.hiddenDeleteButton = NO;
         SCImageModel *model = [_imageArray objectAtIndex:indexPath.item];

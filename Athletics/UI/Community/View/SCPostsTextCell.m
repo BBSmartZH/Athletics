@@ -159,9 +159,9 @@ static CGFloat k_small = 2.0;
     
     [_headImageV scImageWithURL:model.userAvatar placeholderImage:nil];
     _nameLabel.text = model.userName;
-    _thumbImagev.backgroundColor = k_Base_Color;
+    _thumbImagev.image = [UIImage imageNamed:@"news_suppourt_nor"];
     _thumbNumLabel.text = model.likeCount;
-    _messageImageV.backgroundColor = k_Base_Color;
+    _messageImageV.image = [UIImage imageNamed:@"comment_normal"];
     _messageNumLabel.text = model.commentCount;
     _tilteLable.text = model.title;
     _summaryLabel.text = model.summary;
