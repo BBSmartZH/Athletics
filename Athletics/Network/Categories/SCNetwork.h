@@ -259,7 +259,8 @@
  *
  *  @return
  */
-+ (NSURLSessionDataTask *)appointmentListWithSuccess:(void(^)(SCMatchListModel *model))success
++ (NSURLSessionDataTask *)appointmentListWithPage:(int)page
+                                          Success:(void(^)(SCMatchListModel *model))success
                                              message:(SCMessageBlock)message;
 
 @end

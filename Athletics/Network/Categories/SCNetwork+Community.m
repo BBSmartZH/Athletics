@@ -187,9 +187,10 @@
  *
  *  @return
  */
-+ (NSURLSessionDataTask *)userTopicListWithSuccess:(void (^)(SCCommunityListModel *model))success
++ (NSURLSessionDataTask *)userTopicListWithPage:(int)page
+                                        Success:(void (^)(SCCommunityListModel *model))success
                                            message:(SCMessageBlock)message {
-    return [SCNetworkHelper getWithUrl:[SCUrlWrapper userTopicListUrl] params:[SCParamsWrapper userTopicListParams] success:^(NSDictionary *result) {
+    return [SCNetworkHelper getWithUrl:[SCUrlWrapper userTopicListUrl] params:[SCParamsWrapper userTopicListParamsWithPage:page] success:^(NSDictionary *result) {
         NSError *error;
         SCCommunityListModel *model = [[SCCommunityListModel alloc] initWithDictionary:result error:&error];
         if (!error) {

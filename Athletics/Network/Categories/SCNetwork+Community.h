@@ -123,7 +123,8 @@
  *
  *  @return
  */
-+ (NSURLSessionDataTask *)userTopicListWithSuccess:(void (^)(SCCommunityListModel *model))success
++ (NSURLSessionDataTask *)userTopicListWithPage:(int)page
+                                        Success:(void (^)(SCCommunityListModel *model))success
                                            message:(SCMessageBlock)message;
 
 

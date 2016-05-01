@@ -153,7 +153,7 @@
  *
  *  @return
  */
-+ (NSDictionary *)appointmentListParams;
++ (NSDictionary *)appointmentListParamsWithPage:(int)page;
 
 #pragma mark - **************************************************************
 
@@ -217,7 +217,7 @@
  *
  *  @return
  */
-+ (NSDictionary *)userTopicListParams;
++ (NSDictionary *)userTopicListParamsWithPage:(int)page;
 
 #pragma mark - 帖子详情
 /**

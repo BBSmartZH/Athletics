@@ -130,8 +130,6 @@
 {
     SCMatchGroupListModel *model = [_datasource objectAtIndex:indexPath.section];
     SCMatchListDataModel *listModel = [model.matchUnit objectAtIndex:indexPath.row];
-
-    
     SCScheduleDetailVC *detailVC = [[SCScheduleDetailVC alloc]init];
     detailVC.matchUnitId = listModel.matchUnitId;
     [self.navigationController pushViewController:detailVC animated:YES];

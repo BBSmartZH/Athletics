@@ -456,9 +456,10 @@
  *
  *  @return
  */
-+ (NSURLSessionDataTask *)appointmentListWithSuccess:(void(^)(SCMatchListModel *model))success
-                                                      message:(SCMessageBlock)message {
-    return [SCNetworkHelper postWithUrl:[SCUrlWrapper appointmentListUrl] params:[SCParamsWrapper appointmentListParams] success:^(NSDictionary *result) {
++ (NSURLSessionDataTask *)appointmentListWithPage:(int)page
+                                          Success:(void(^)(SCMatchListModel *model))success
+                                          message:(SCMessageBlock)message{
+    return [SCNetworkHelper postWithUrl:[SCUrlWrapper appointmentListUrl] params:[SCParamsWrapper appointmentListParamsWithPage:page] success:^(NSDictionary *result) {
         NSError *error;
         SCMatchListModel *model = [[SCMatchListModel alloc] initWithDictionary:result error:&error];
         if (!error) {

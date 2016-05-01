@@ -79,11 +79,11 @@
  *
  *  @return
  */
-+ (NSDictionary *)appointmentListParams {
++ (NSDictionary *)appointmentListParamsWithPage:(int)page {
     if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
         return nil;
     }
-    return [self salt:@{@"uid":[SCUserInfoManager uid]} isDynamic:NO];
+    return [self salt:@{@"uid":[SCUserInfoManager uid],@"page":@(page)} isDynamic:NO];
 }
 
 #pragma mark -  *******************    登录找回密码    *********************************
@@ -352,11 +352,11 @@
  *
  *  @return
  */
-+ (NSDictionary *)userTopicListParams {
++ (NSDictionary *)userTopicListParamsWithPage:(int)page {
     if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
         return nil;
     }
-    return [self salt:@{@"uid":[SCUserInfoManager uid]} isDynamic:NO];
+    return [self salt:@{@"uid":[SCUserInfoManager uid],@"page":@(page)} isDynamic:NO];
 }
 
 #pragma mark - 帖子详情
