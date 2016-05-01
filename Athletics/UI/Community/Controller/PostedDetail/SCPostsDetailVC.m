@@ -330,7 +330,8 @@
                 _imageV.clipsToBounds = YES;
                 _imageV.contentMode = UIViewContentModeScaleAspectFill;
                 _imageV.layer.cornerRadius = 16;
-                _imageV.backgroundColor = [UIColor redColor];
+                SCTopicLikeModel *likeModel = [_model.topicLikes objectAtIndex:i];
+                [_imageV scImageWithURL:likeModel.userAvatar placeholderImage:nil];
                 [view addSubview:_imageV];
             }
             if (k==0) {
