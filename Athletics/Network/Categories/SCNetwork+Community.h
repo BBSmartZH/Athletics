@@ -95,7 +95,17 @@
                                           message:(SCMessageBlock)message;
 
 #pragma mark - 发帖
-
+/**
+ *  发帖
+ *
+ *  @param title        标题
+ *  @param content      内容
+ *  @param imageJsonStr 图片
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
 + (NSURLSessionDataTask *)topicAddWithTitle:(NSString *)title
                                     content:(NSString *)content
                                imageJsonStr:(NSString *)imageJsonStr
