@@ -85,13 +85,6 @@ static CGFloat k_WHratio = 0.7;
     [self.contentView addSubview:_scanLabel];
     
     
-    
-    NSArray *imageArray = @[@1, @2, @3];
-    if (imageArray.count == 1) {
-        
-    }else {
-        
-    }
     [_scanLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
     [_scanImageV setContentCompressionResistancePriority:750 forAxis:UILayoutConstraintAxisHorizontal];
     [_scanLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
@@ -131,7 +124,7 @@ static CGFloat k_WHratio = 0.7;
     }];
     [_commentsImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_commentsLabel.mas_left).offset(-k_small);
-        make.size.mas_equalTo(CGSizeMake(9, 9));
+        make.size.mas_equalTo(CGSizeMake(16, 16));
         make.centerY.equalTo(_commentsLabel);
     }];
     [_scanLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -141,7 +134,7 @@ static CGFloat k_WHratio = 0.7;
     [_scanImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_scanLabel.mas_left).offset(-k_small);
         make.centerY.equalTo(_scanLabel);
-        make.size.mas_equalTo(CGSizeMake(9, 9));
+        make.size.mas_equalTo(CGSizeMake(16, 16));
     }];
     
 }
@@ -149,12 +142,10 @@ static CGFloat k_WHratio = 0.7;
 {
     _model = model;
     _titleLabel.text = model.title;
-    
+    _scanLabel.text = model.img_count;
     _commentsLabel.text = _model.commentsNum;
-    _commentsImageV.backgroundColor = k_Bg_Color;
-    //暂时不用
-    _scanImageV.hidden = YES;
-    _scanLabel.hidden = YES;
+    _commentsImageV.image = [UIImage imageNamed:@"comment_normal"];
+    _scanImageV.image = [UIImage imageNamed:@"news_images"];
     
     if(_model.images.count == 1){
         _leftImageV.hidden = NO;
@@ -177,7 +168,7 @@ static CGFloat k_WHratio = 0.7;
         _rightImageV.hidden = NO;
         SCImageModel *leftImage = [_model.images objectAtIndex:0];
         SCImageModel *middleImage = [_model.images objectAtIndex:1];
-        SCImageModel *rightImage = [_model.images objectAtIndex:1];
+        SCImageModel *rightImage = [_model.images objectAtIndex:2];
         [_leftImageV scImageWithURL:leftImage.url placeholderImage:nil];
         [_middleImageV scImageWithURL:middleImage.url placeholderImage:nil];
         [_rightImageV scImageWithURL:rightImage.url placeholderImage:nil];

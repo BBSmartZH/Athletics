@@ -117,7 +117,7 @@ static CGFloat k_small = 2.0;
     [_messageImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_messageNumLabel.mas_left).offset(-k_small);
         make.centerY.equalTo(_messageNumLabel);
-        make.size.mas_equalTo(CGSizeMake(9, 9));
+        make.size.mas_equalTo(CGSizeMake(16, 16));
     }];
     
     [_thumbNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -128,7 +128,7 @@ static CGFloat k_small = 2.0;
     [_thumbImagev mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_thumbNumLabel.mas_left).offset(-k_small);
         make.centerY.equalTo(_thumbNumLabel);
-        make.size.mas_equalTo(CGSizeMake(9, 9));
+        make.size.mas_equalTo(CGSizeMake(16, 16));
     }];
     
     [_tilteLable mas_makeConstraints:^(MASConstraintMaker *make) {

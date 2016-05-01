@@ -78,7 +78,6 @@ static float scale = 0.65;
     
     _commentImageV = [[UIImageView alloc]init];
     _commentImageV.contentMode = UIViewContentModeScaleAspectFill;
-    _commentImageV.backgroundColor = [UIColor greenColor];
     [self.contentView addSubview:_commentImageV];
     
     [_timeLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
@@ -117,7 +116,7 @@ static float scale = 0.65;
         make.left.equalTo(_timeLabel.mas_right).offset(5);
         make.right.equalTo(_commentLabel.mas_left).offset(-2);
         make.centerY.equalTo(_commentLabel);
-        make.size.mas_equalTo(CGSizeMake(14, 14));
+        make.size.mas_equalTo(CGSizeMake(16, 16));
     }];
     
     [_commentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -134,6 +133,7 @@ static float scale = 0.65;
     _timeLabel.text = _model.pub_time;
     _commentLabel.text = [NSString stringWithFormat:@"%@", _model.commentsNum];
     _commentImageV.hidden = NO;
+    _commentImageV.image = [UIImage imageNamed:@"comment_normal"];
     if ([SCGlobaUtil getInt:_model.type] == 2) {
         _markImageV.hidden = NO;
     }else {

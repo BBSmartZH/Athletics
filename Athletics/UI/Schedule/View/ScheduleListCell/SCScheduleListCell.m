@@ -76,7 +76,7 @@ static CGFloat k_left = 10.0f;
     [self.contentView addSubview:_stateImageV];
     
     _appointButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_appointButton setImage:[UIImage imageNamed:@"appoint_normarl"] forState:UIControlStateNormal];
+    [_appointButton setImage:[UIImage imageNamed:@"appoint_normar"] forState:UIControlStateNormal];
     [_appointButton setImage:[UIImage imageNamed:@"appoint_hightlight"] forState:UIControlStateSelected];
     [_appointButton addTarget:self action:@selector(appointButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_appointButton];
