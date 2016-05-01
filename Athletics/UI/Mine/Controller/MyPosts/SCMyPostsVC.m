@@ -7,7 +7,7 @@
 //
 
 #import "SCMyPostsVC.h"
-
+#import "SCCommunityListModel.h"
 #import "SCPostsTextCell.h"
 #import "SCPostsImageCell.h"
 
@@ -31,6 +31,11 @@
     _tableView.frame = CGRectMake(0, self.m_navBar.bottom, self.view.fWidth, self.view.fHeight - self.m_navBar.fHeight);
     _tableView.separatorColor = k_Border_Color;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+}
+
+-(void)refreshData
+{
+    self.sessionTask = [SCNetwork ]
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

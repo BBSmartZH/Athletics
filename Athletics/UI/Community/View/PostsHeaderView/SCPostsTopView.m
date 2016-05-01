@@ -227,7 +227,7 @@ static CGFloat showButtonH = 22.0f;
         [titleAttStr addAttribute:NSFontAttributeName value:_titleFont range:NSMakeRange(0, titleAttStr.length)];
         _titleLabel.attributedText = titleAttStr;
         
-        _content = model.summary;
+        _content = model.content ? model.content :@"";
         
 //        _content = @"内容这是内容这是内容是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这内,,,,,,,,,,,,,,,容这是内容";
         NSMutableAttributedString *contentAttStr = [[NSMutableAttributedString alloc] initWithString:_content];

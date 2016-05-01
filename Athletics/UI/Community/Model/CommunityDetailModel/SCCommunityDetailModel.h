@@ -40,7 +40,7 @@ SCCommunityDetailDataModel
 @property (nonatomic, copy) NSString<Optional> *lastReplyTime;
 @property (nonatomic, copy) NSString<Optional> *userId;
 @property (nonatomic, copy) NSString<Optional> *userName;
-@property (nonatomic, copy) NSString<Optional> *summary;
+@property (nonatomic, copy) NSString<Optional> *content;
 @property (nonatomic, copy) NSString<Optional> *title;
 
 @property (nonatomic, copy) NSString<Optional> *userAvatar;
