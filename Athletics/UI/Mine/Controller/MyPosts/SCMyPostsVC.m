@@ -31,15 +31,36 @@
     _tableView.frame = CGRectMake(0, self.m_navBar.bottom, self.view.fWidth, self.view.fHeight - self.m_navBar.fHeight);
     _tableView.separatorColor = k_Border_Color;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    [self headerEndRefreshing];
 }
 
 -(void)refreshData
 {
-    self.sessionTask = [SCNetwork ]
+    self.sessionTask = [SCNetwork userTopicListWithSuccess:^(SCCommunityListModel *model) {
+        [self headerEndRefreshing];
+        [_datasource removeAllObjects];
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+    } message:^(NSString *resultMsg) {
+        [self headerEndRefreshing];
+        [self postErrorMessage:resultMsg];
+    }];
+}
+
+-(void)loadModeData{
+    self.sessionTask = [SCNetwork userTopicListWithSuccess:^(SCCommunityListModel *model) {
+        [self footerEndRefreshing];
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+    } message:^(NSString *resultMsg) {
+        [self footerEndRefreshing];
+        [self postErrorMessage:resultMsg];
+    }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 20;
+    return _datasource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
