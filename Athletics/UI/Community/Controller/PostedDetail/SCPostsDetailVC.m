@@ -84,8 +84,6 @@
     [[[IQKeyboardManager sharedManager] disabledToolbarClasses] addObject:[self class]];
     
     self.title = @"帖子详情";
-    k = 0;
-
     [_tableView registerClass:[SCPostsTextImageCell class] forCellReuseIdentifier:[SCPostsTextImageCell cellIdentifier]];
     [_tableView registerClass:[SCPostsAdCell class] forCellReuseIdentifier:[SCPostsAdCell cellIdentifier]];
     [_tableView registerClass:[LandlordCell class] forCellReuseIdentifier:[LandlordCell cellIdentifier]];
@@ -143,7 +141,8 @@
 {
     [SCNetwork topicInfoWithTopicId:_topicId success:^(SCCommunityDetailModel *model) {
         _model = model.data;
-        [self headerEndRefreshing];
+        k = (int)_model.images.count;
+       [self headerEndRefreshing];
         
         [self loadCommentData];
 

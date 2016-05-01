@@ -7,7 +7,7 @@
 //
 
 #import "SCVideoDetailVC.h"
-
+#import "SCCommentInputView.h"
 #import "CDPVideoPlayer.h"
 #import "LWCommentListCell.h"
 #import "SCVideoCollectionViewCell.h"
@@ -15,7 +15,7 @@
 #import "SCVideoCoverModel.h"
 #import "SCNewsCommentListModel.h"
 
-@interface SCVideoDetailVC ()<CDPVideoPlayerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface SCVideoDetailVC ()<CDPVideoPlayerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,SCCommentInputViewDelegate>
 {
     CDPVideoPlayer *_player;
     CGFloat   _playerHeight;
@@ -29,6 +29,8 @@
 }
 
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic,strong)  SCCommentInputView  *inputView;
+
 
 @end
 
@@ -49,11 +51,21 @@
 -(BOOL)shouldAutorotate{
     return !_player.isSwitch;
 }
-
+- (SCCommentInputView *)inputView {
+    if (!_inputView) {
+        _inputView = [[SCCommentInputView alloc] initWithFrame:CGRectMake(0, self.view.fHeight - 44, self.view.fWidth, 44)];
+        _inputView.backgroundColor = k_Bg_Color;
+        _inputView.delegate = self;
+        _inputView.layer.borderWidth = .5f;
+        _inputView.layer.borderColor = k_Border_Color.CGColor;
+        _inputView.isComment = NO;
+        _inputView.inputTextView.placeHolder = @"别憋着，来两句..";
+    }
+    return _inputView;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     
     //http://v.theonion.com/onionstudios/video/3158/640.mp4
     //http://msgpush.dota2.com.cn/m3u8/1460455034449.m3u8
@@ -72,7 +84,7 @@
     self.m_navBar.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_32px];
     
     [_tableView registerClass:[LWCommentListCell class] forCellReuseIdentifier:[LWCommentListCell cellidentifier]];
-    _tableView.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight);
+    _tableView.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight-_inputView.fHeight);
     _tableView.separatorColor = k_Border_Color;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     _tableView.contentInset = UIEdgeInsetsMake(_playerHeight, 0, 0, 0);
