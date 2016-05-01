@@ -29,7 +29,6 @@
     UILabel  *_supportLabel;
     UIImageView *_imageV;
     SCCommunityDetailDataModel  *_model;
-    int       k;
     int _floorSort;
     NSString *_provId;
     int _reportType;
@@ -142,7 +141,6 @@
 {
     [SCNetwork topicInfoWithTopicId:_topicId success:^(SCCommunityDetailModel *model) {
         _model = model.data;
-        k = (int)_model.images.count;
        [self headerEndRefreshing];
         
         [self loadCommentData];
@@ -280,9 +278,9 @@
             int counts = 0;
             counts = (kScreenWidth -minSpace)/(32+minSpace);
 
-            if (k == 0) {
+            if (_model.topicLikes.count == 0) {
                 return 120;
-            }else if ( k >0 && k < counts){
+            }else if ( _model.topicLikes.count >0 && _model.topicLikes.count < counts){
                 return 167.0f;
             }else{
                 return 214.0f;
@@ -325,7 +323,7 @@
             int counts = 0;
             counts = (kScreenWidth -minSpace)/(32+minSpace);
             
-            for (int i = 0 ; i < k; i++) {
+            for (int i = 0 ; i < _model.topicLikes.count; i++) {
                 _imageV = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-32*counts)/(counts+1) *(i%counts+1)+i%counts*32,CGRectGetMaxY(_supportButton.frame)+15+i/counts*(15+32) , 32, 32)];
                 
                 _imageV.clipsToBounds = YES;
@@ -335,10 +333,10 @@
                 [_imageV scImageWithURL:likeModel.userAvatar placeholderImage:nil];
                 [view addSubview:_imageV];
             }
-            if (k==0) {
+            if (_model.topicLikes.count==0) {
                 view.frame = CGRectMake(0, 0, _tableView.fWidth,120);
                 
-            }else if(k > 0 && k < counts){
+            }else if(_model.topicLikes.count > 0 && _model.topicLikes.count < counts){
                 view.frame = CGRectMake(0, 0, _tableView.fWidth,167);
                 
             }else{

@@ -116,10 +116,10 @@ static CGFloat k_top = 15.0f;
     height += 14;
     height += 5;
     height += 14;
-
-    CGFloat sale = [SCGlobaUtil getFloat:model.width] / [SCGlobaUtil getFloat:model.height];
-    if (sale <= 0) {
-        sale = 9 / 16.0;
+    
+    float sale = 9 / 16.0;
+    if ([SCGlobaUtil getFloat:model.width] != 0.0 && [SCGlobaUtil getFloat:model.height] != 0.0) {
+        sale = ([SCGlobaUtil getFloat:model.width] / [SCGlobaUtil getFloat:model.height]);
     }
     
     height = floorf(([UIScreen mainScreen].bounds.size.width - 2 * k_left) * sale);

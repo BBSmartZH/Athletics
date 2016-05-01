@@ -145,11 +145,11 @@
         sender.enabled = YES;
         NSString *message = @"预约成功";
         sender.selected = YES;
-        model.isApporint = @"1";
+        model.appoint = @"1";
         if (aType == 2) {
             message = @"取消预约成功";
             sender.selected = NO;
-            model.isApporint = @"0";
+            model.appoint = @"0";
         }
         [self postMessage:message];
     } message:^(NSString *resultMsg) {

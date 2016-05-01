@@ -76,8 +76,8 @@ static CGFloat k_left = 10.0f;
     [self.contentView addSubview:_stateImageV];
     
     _appointButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_appointButton setImage:nil forState:UIControlStateNormal];
-    [_appointButton setImage:nil forState:UIControlStateSelected];
+    [_appointButton setImage:[UIImage imageNamed:@"appoint_normarl"] forState:UIControlStateNormal];
+    [_appointButton setImage:[UIImage imageNamed:@"appoint_hightlight"] forState:UIControlStateSelected];
     [_appointButton addTarget:self action:@selector(appointButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_appointButton];
     
@@ -164,11 +164,10 @@ static CGFloat k_left = 10.0f;
     _rightLabel.text = model.rightTeamName;
     [_rightImageV scImageWithURL:model.rightTeamBadge placeholderImage:nil];
 
-    _appointButton.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.4];
     _scoreLabel.text = [NSString stringWithFormat:@"%@ : %@",model.leftTeamGoal,model.rightTeamGoal];
     _stateLabel.text =[self stateWithModel:model];
     
-    if ([SCGlobaUtil getInt:model.isApporint] == 1) {
+    if ([SCGlobaUtil getInt:model.appoint] == 1) {
         _appointButton.selected = YES;
     }else {
         _appointButton.selected = NO;

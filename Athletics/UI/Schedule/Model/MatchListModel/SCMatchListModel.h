@@ -29,7 +29,7 @@ SCMatchListDataModel
 @property (nonatomic, copy) NSString<Optional> *rightTeamGoal;
 @property (nonatomic, copy) NSString<Optional> *rightTeamAble;
 @property (nonatomic, copy) NSString<Optional> *beginTime;
-@property (nonatomic, copy) NSString<Optional> *isApporint;
+@property (nonatomic, copy) NSString<Optional> *appoint;
 
 @end
 
