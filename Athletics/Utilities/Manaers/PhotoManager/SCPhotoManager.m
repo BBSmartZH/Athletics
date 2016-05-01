@@ -137,7 +137,7 @@
 // 选择了图片或者拍照了
 - (void)imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [aPicker dismissViewControllerAnimated:YES completion:nil];
-    __block UIImage *image = [info valueForKey:UIImagePickerControllerEditedImage];
+    __block UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
     
     if (image && self.completion) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
