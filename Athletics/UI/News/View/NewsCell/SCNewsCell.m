@@ -133,7 +133,7 @@ static float scale = 0.65;
     _commentLabel.text = [NSString stringWithFormat:@"%@", _model.commentsNum];
     _commentImageV.hidden = NO;
     _commentImageV.image = [UIImage imageNamed:@"comment_normal"];
-    if ([SCGlobaUtil getInt:_model.type] == 1) {
+    if ([SCGlobaUtil getInt:_model.type] == 2) {
         _markImageV.hidden = NO;
         _markImageV.image = [UIImage imageNamed:@"video_image"];
     }else {
