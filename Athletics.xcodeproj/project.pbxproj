@@ -86,6 +86,7 @@
 		826408AA1CB95C3C00AF4126 /* LWMineVC_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 826408A91CB95C3C00AF4126 /* LWMineVC_iPhone.m */; };
 		826408AD1CB9EBB200AF4126 /* XWDragCellCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 826408AC1CB9EBB200AF4126 /* XWDragCellCollectionView.m */; };
 		826408B01CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 826408AF1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m */; };
+		82A9B4341CD716B000BCEB48 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 82A9B4331CD716B000BCEB48 /* Default-736h@3x.png */; };
 		82B85FC01CD4749500F45245 /* SCMatchCommentListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B85FBF1CD4749500F45245 /* SCMatchCommentListModel.m */; };
 		9B1AD48D1CCDC01D00DD3C15 /* SCGameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1AD48C1CCDC01D00DD3C15 /* SCGameModel.m */; };
 		9B1AD4911CCDC04D00DD3C15 /* SCImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1AD4901CCDC04D00DD3C15 /* SCImageModel.m */; };
@@ -494,6 +495,7 @@
 		826408AC1CB9EBB200AF4126 /* XWDragCellCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XWDragCellCollectionView.m; sourceTree = "<group>"; };
 		826408AE1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LWCustomizeVC_iPhone.h; sourceTree = "<group>"; };
 		826408AF1CB9EC6F00AF4126 /* LWCustomizeVC_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LWCustomizeVC_iPhone.m; sourceTree = "<group>"; };
+		82A9B4331CD716B000BCEB48 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
 		82B85FBE1CD4749500F45245 /* SCMatchCommentListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMatchCommentListModel.h; sourceTree = "<group>"; };
 		82B85FBF1CD4749500F45245 /* SCMatchCommentListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMatchCommentListModel.m; sourceTree = "<group>"; };
 		9B1AD48B1CCDC01D00DD3C15 /* SCGameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCGameModel.h; sourceTree = "<group>"; };
@@ -1057,6 +1059,7 @@
 				826408171CB92C8A00AF4126 /* UI */,
 				826408261CB92C8A00AF4126 /* Utilities */,
 				8264075D1CB90B0300AF4126 /* Assets.xcassets */,
+				82A9B4331CD716B000BCEB48 /* Default-736h@3x.png */,
 				8264075F1CB90B0300AF4126 /* LaunchScreen.storyboard */,
 				826407621CB90B0300AF4126 /* Info.plist */,
 				826407571CB90B0300AF4126 /* Supporting Files */,
@@ -3112,6 +3115,7 @@
 				9BAA200A1CBCED780053F1C0 /* CDPSlider@3x.png in Resources */,
 				9BAA205A1CBDE7D60053F1C0 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				9BAA20041CBCED780053F1C0 /* CDPBack@3x.png in Resources */,
+				82A9B4341CD716B000BCEB48 /* Default-736h@3x.png in Resources */,
 				9BAA200E1CBCED780053F1C0 /* CDPZoomOut@2x.png in Resources */,
 				8264075E1CB90B0300AF4126 /* Assets.xcassets in Resources */,
 				9B68BE5A1CC5DB8E006EE4B9 /* IQKeyboardManager.bundle in Resources */,
