@@ -42,7 +42,7 @@ static CGFloat k_left = 10.0f;
     [self.contentView addSubview:_imageView];
     
     _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _playButton.backgroundColor = [UIColor blueColor];
+    [_playButton setImage:[UIImage imageNamed:@"video_begain"] forState:UIControlStateNormal];
     [_playButton addTarget:self action:@selector(playButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_imageView addSubview:_playButton];
     

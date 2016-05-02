@@ -36,7 +36,7 @@
         [self.contentView addSubview:_titleLabel];
         
         _addImageView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width - 20, 0, 20, 20)];
-        _addImageView.backgroundColor = [UIColor purpleColor];
+        _addImageView.image = [UIImage imageNamed:@"add_customsize"];
         [self.contentView addSubview:_addImageView];
     }
     return self;

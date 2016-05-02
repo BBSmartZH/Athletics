@@ -50,7 +50,6 @@ static float scale = 0.65;
     _markImageV.layer.cornerRadius = 8;
     _markImageV.clipsToBounds = YES;
     _markImageV.contentMode = UIViewContentModeScaleAspectFill;
-    _markImageV.backgroundColor = [UIColor cyanColor];
     _markImageV.hidden = YES;
     [_leftImageV addSubview:_markImageV];
     
@@ -92,8 +91,8 @@ static float scale = 0.65;
     }];
     
     [_markImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_leftImageV.mas_right).offset(-10);
-        make.bottom.equalTo(_leftImageV).offset(-10);
+        make.right.equalTo(_leftImageV.mas_right).offset(-3);
+        make.bottom.equalTo(_leftImageV).offset(-3);
         make.size.mas_equalTo(CGSizeMake(16, 16));
     }];
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -134,10 +133,12 @@ static float scale = 0.65;
     _commentLabel.text = [NSString stringWithFormat:@"%@", _model.commentsNum];
     _commentImageV.hidden = NO;
     _commentImageV.image = [UIImage imageNamed:@"comment_normal"];
-    if ([SCGlobaUtil getInt:_model.type] == 2) {
+    if ([SCGlobaUtil getInt:_model.type] == 1) {
         _markImageV.hidden = NO;
+        _markImageV.image = [UIImage imageNamed:@"video_image"];
     }else {
         _markImageV.hidden = YES;
+     
     }
     [_leftImageV scImageWithURL:_model.imgUrl placeholderImage:nil];
 }
