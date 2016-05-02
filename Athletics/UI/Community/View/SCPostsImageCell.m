@@ -244,7 +244,7 @@ static CGFloat k_WHratio = 0.8;
         make.size.equalTo(_middleImageV);
     }];
     
-    [_headImageV scImageWithURL:model.userAvatar placeholderImage:nil];
+    [_headImageV scImageWithURL:model.userAvatar placeholderImage:[UIImage imageNamed:@"mine_default_avatar"]];
     _nameLabel.text = model.userName;
     _thumbNumLabel.text = model.likeCount;
     _messageNumLabel.text = model.commentCount;
@@ -253,14 +253,14 @@ static CGFloat k_WHratio = 0.8;
     _tilteLable.text = model.title;
     _summaryLabel.text = model.summary;
     if (model.images.count == 1) {
-        [_leftImageV scImageWithURL:((SCImageModel*)[model.images firstObject]).url  placeholderImage:nil];
+        [_leftImageV scImageWithURL:((SCImageModel*)[model.images firstObject]).url  placeholderImage:[UIImage imageNamed:@"default_image"]];
     }else if (model.images.count == 2){
-        [_leftImageV scImageWithURL:((SCImageModel*)[model.images firstObject]).url  placeholderImage:nil];
-        [_middleImageV scImageWithURL:((SCImageModel*)[model.images objectAtIndex:1]).url placeholderImage:nil];
+        [_leftImageV scImageWithURL:((SCImageModel*)[model.images firstObject]).url  placeholderImage:[UIImage imageNamed:@"default_image"]];
+        [_middleImageV scImageWithURL:((SCImageModel*)[model.images objectAtIndex:1]).url placeholderImage:[UIImage imageNamed:@"default_image"]];
     }else{
-        [_leftImageV scImageWithURL:((SCImageModel*)[model.images firstObject]).url  placeholderImage:nil];
-        [_middleImageV scImageWithURL:((SCImageModel*)[model.images objectAtIndex:1]).url placeholderImage:nil];
-        [_rightImageV scImageWithURL:((SCImageModel*)[model.images lastObject]).url placeholderImage:nil];
+        [_leftImageV scImageWithURL:((SCImageModel*)[model.images firstObject]).url  placeholderImage:[UIImage imageNamed:@"default_image"]];
+        [_middleImageV scImageWithURL:((SCImageModel*)[model.images objectAtIndex:1]).url placeholderImage:[UIImage imageNamed:@"default_image"]];
+        [_rightImageV scImageWithURL:((SCImageModel*)[model.images lastObject]).url placeholderImage:[UIImage imageNamed:@"default_image"]];
     }
     
     _dateLabel.text = model.createTime;

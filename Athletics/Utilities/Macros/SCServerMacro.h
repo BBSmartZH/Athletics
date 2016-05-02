@@ -16,15 +16,15 @@
 
 //正式环境
 
-#define kBaseUrl @"http://venus.meirongzongjian.com"
-
+#define kBaseUrl @"http://218.244.131.231:8080"
+//   /esports
 #else
 
 //测试环境
 
-#define kBaseUrl @"http://218.244.131.231:8080"
+//#define kBaseUrl @"http://218.244.131.231:8080"
 //#define kBaseUrl @"http://127.0.0.1:8080"
-//#define kBaseUrl @"http://192.168.1.103:8080"
+#define kBaseUrl @"http://192.168.1.103:8080"
 
 
 #endif
@@ -39,13 +39,13 @@
 
 //正式环境
 
-#define kBaseUrl @"http://venus.meirongzongjian.com"
+#define kBaseUrl @"http://218.244.131.231:8080"
 
 #else
 
 //测试环境
 
-#define kBaseUrl @"http://training.venus.meirongzongjian.com"
+#define kBaseUrl @"http://192.168.1.103:8080"
 
 #endif
 

@@ -29,14 +29,14 @@
     companyLabel.textColor = kWord_Color_Event;
     companyLabel.numberOfLines = 0;
     companyLabel.font = [UIFont systemFontOfSize:kWord_Font_24px];
-    companyLabel.text = @"      北京宸宸科技有限公司成立于2014年，是一家专注美容行业服务的移动互联网公司。致力于依托移动互联网的方式，为传统美容行业开创新的模式和未来。";
+    companyLabel.text = @"      Google（中文名：谷歌），是一家美国的跨国科技企业，致力于互联网搜索、云计算、广告技术等领域，开发并提供大量基于互联网的产品与服务，其主要利润来自于AdWords等广告服务。Google由当时在斯坦福大学攻读理工博士的拉里·佩奇和谢尔盖·布卢姆共同创建，因此两人也被称为“Google Guys”";
     [self.view addSubview:companyLabel];
     
     UILabel *productLabel = [[UILabel alloc] init];
     productLabel.textColor = kWord_Color_Event;
     productLabel.numberOfLines = 0;
     productLabel.font = [UIFont systemFontOfSize:kWord_Font_24px];
-    productLabel.text = @"      “美容总监”是中国首家上门美容服务的O2O应用，为女性消费者提供顶级的上门美容服务。让消费者随时随地选择和预约自己中意的技师，足不出户就享受舒适、便捷、放心和良好效果的美容服务。";
+    productLabel.text = @"      1998年9月4日，Google以私营公司的形式创立，设计并管理一个互联网搜索引擎“Google搜索”。Google网站则于1999年下半年启用。Google的使命是整合全球信息，使人人皆可访问并从中受益。Google是第一个被公认为全球最大的搜索引擎，在全球范围内拥有无数的用户。谷歌于美国时间2015年8月10日宣布对企业架构进行调整，创办一家名为Alphabet的“伞形公司”（Umbrella Company），Google成为Alphabet旗下子公司。";
     [self.view addSubview:productLabel];
     
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
@@ -46,7 +46,7 @@
     copyrightLabel.font = [UIFont systemFontOfSize:kWord_Font_20px];
     copyrightLabel.textAlignment = NSTextAlignmentCenter;
     copyrightLabel.numberOfLines = 0;
-    copyrightLabel.text = [NSString stringWithFormat:@"版本v%@\nCopyright © 2014-2016 meirongzongjian.com\n北京宸宸科技有限公司", version];
+    copyrightLabel.text = [NSString stringWithFormat:@"版本v%@\nCopyright © 1990-2016 google.com\n*********科技有限公司", version];
     [self.view addSubview:copyrightLabel];
     
     _WEAKSELF(ws);

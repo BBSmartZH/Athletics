@@ -18,6 +18,7 @@ typedef void(^SCPickerCancelBlock)();
 
 - (void)showActionSheetInView:(UIView *)inView
                fromController:(UIViewController *)fromController
+                        isCut:(BOOL)isCut
                    completion:(SCPickerCompelitionBlock)completion
                        cancel:(SCPickerCancelBlock)cancel;
 

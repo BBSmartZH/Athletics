@@ -10,9 +10,11 @@
 
 typedef void(^TapHiddenBlack)(BOOL isHidden);
 
+
+@class SCNewsPhotosPackVC;
 @interface SCNewsImageVC : LWBaseVC_iPhone
 
-@property (nonatomic, assign) UIViewController *parentVC;
+@property (nonatomic, assign) SCNewsPhotosPackVC *parentVC;
 @property (nonatomic, copy) NSString *newsId;
 
 @property (nonatomic, copy) TapHiddenBlack tapBlock;

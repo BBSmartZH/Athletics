@@ -10,6 +10,9 @@
 #import "UIImage+Scale.h"
 
 @interface SCPhotoManager ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
+{
+    BOOL _isCut;
+}
 
 @property (nonatomic, weak)     UIViewController          *fromController;
 @property (nonatomic, copy)     SCPickerCompelitionBlock  completion;
@@ -35,11 +38,13 @@
 
 - (void)showActionSheetInView:(UIView *)inView
                fromController:(UIViewController *)fromController
+                        isCut:(BOOL)isCut
                    completion:(SCPickerCompelitionBlock)completion
                        cancel:(SCPickerCancelBlock)cancel {
     self.completion = [completion copy];
     self.cancel = [cancel copy];
     self.fromController = fromController;
+    _isCut = isCut;
     
     dispatch_async(kGlobalThread, ^{
         UIActionSheet *actionSheet = nil;
@@ -138,6 +143,9 @@
 - (void)imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [aPicker dismissViewControllerAnimated:YES completion:nil];
     __block UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+    if (_isCut) {
+        image = [info valueForKey:UIImagePickerControllerEditedImage];
+    }
     
     if (image && self.completion) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
@@ -145,24 +153,10 @@
             [self.fromController setNeedsStatusBarAppearanceUpdate];
         }
         
-        dispatch_async(kGlobalThread, ^{
-            CGFloat w = image.size.width;
-            CGFloat h = image.size.height;
-            if (w > kScreenWidth * 2.0) {
-                w = kScreenWidth * 2.0;
-            }
-            if (h > kScreenHeight * 2.0) {
-                h = kScreenHeight * 2.0;
-            }
-            
-            image = [image scaleToSize:CGSizeMake(w, h)];
-            dispatch_async(kMainThread, ^{
-                if (self.completion) {
-                    self.completion(image);
-                }
-                [aPicker dismissViewControllerAnimated:YES completion:NULL];
-            });
-        });
+        if (self.completion) {
+            self.completion(image);
+        }
+        [aPicker dismissViewControllerAnimated:YES completion:NULL];
     }
     return;
 }

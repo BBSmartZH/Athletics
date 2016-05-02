@@ -63,22 +63,25 @@
         _adView.pageControlShowStyle = SCPageControlShowStyleRight;
         _adView.adTitleStyle = SCAdTitleShowStyleLeft;
         
-        __weak SCMatchBannerModel *bModel = _bannerModel;
         _WEAKSELF(ws);
         _adView.tapAdCallBack = ^(NSInteger index) {
-            SCMatchBannerDataModel *model = [bModel.data objectAtIndex:index];
-            //url
-            if (![SCGlobaUtil isEmpty:model.url]) {
-                SCBaseWebVC *weVC = [[SCBaseWebVC alloc] init];
-                weVC.webUrl = model.url;
-                weVC.hidesBottomBarWhenPushed = YES;
-                [ws.parentVC.navigationController pushViewController:weVC animated:YES];
-            }
+            [ws adViewClickedWith:index];
         };
         
         _tableView.tableHeaderView = _adView;
     }
     return _adView;
+}
+
+- (void)adViewClickedWith:(NSInteger)index {
+    SCMatchBannerDataModel *model = [_bannerModel.data objectAtIndex:index];
+    //url
+    if (![SCGlobaUtil isEmpty:model.url]) {
+        SCBaseWebVC *weVC = [[SCBaseWebVC alloc] init];
+        weVC.webUrl = model.url;
+        weVC.hidesBottomBarWhenPushed = YES;
+        [self.parentVC.navigationController pushViewController:weVC animated:YES];
+    }
 }
 
 - (void)getMatchBanner {

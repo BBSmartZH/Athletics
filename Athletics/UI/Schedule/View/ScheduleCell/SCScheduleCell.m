@@ -129,7 +129,7 @@ static float scale = 0.75;
     _titleLabel.text = model.title;
     _timeLabel.text = [NSString stringWithFormat:@"%@ 到 %@", model.startTime, model.endTime];
     _markImageV.hidden = YES;
-    [_leftImageV scImageWithURL:model.image.url placeholderImage:nil];
+    [_leftImageV scImageWithURL:model.image.url placeholderImage:[UIImage imageNamed:@"default_image"]];
     [self setState:[SCGlobaUtil getInt:model.status]];
 }
 

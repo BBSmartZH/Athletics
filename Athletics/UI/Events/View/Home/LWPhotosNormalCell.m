@@ -152,7 +152,7 @@ static CGFloat k_WHratio = 0.7;
         _middleImageV.hidden = YES;
         _rightImageV.hidden = YES;
         SCImageModel *leftImage = [_model.images objectAtIndex:0];
-        [_leftImageV scImageWithURL:leftImage.url placeholderImage:nil];
+        [_leftImageV scImageWithURL:leftImage.url placeholderImage:[UIImage imageNamed:@"default_image"]];
     }else if(_model.images.count == 2){
         _leftImageV.hidden = NO;
         _middleImageV.hidden = NO;
@@ -160,8 +160,8 @@ static CGFloat k_WHratio = 0.7;
         SCImageModel *leftImage = [_model.images objectAtIndex:0];
         SCImageModel *middleImage = [_model.images objectAtIndex:1];
 
-        [_leftImageV scImageWithURL:leftImage.url placeholderImage:nil];
-        [_middleImageV scImageWithURL:middleImage.url placeholderImage:nil];
+        [_leftImageV scImageWithURL:leftImage.url placeholderImage:[UIImage imageNamed:@"default_image"]];
+        [_middleImageV scImageWithURL:middleImage.url placeholderImage:[UIImage imageNamed:@"default_image"]];
     }else if (_model.images.count >2){
         _leftImageV.hidden = NO;
         _middleImageV.hidden = NO;
@@ -169,14 +169,14 @@ static CGFloat k_WHratio = 0.7;
         SCImageModel *leftImage = [_model.images objectAtIndex:0];
         SCImageModel *middleImage = [_model.images objectAtIndex:1];
         SCImageModel *rightImage = [_model.images objectAtIndex:2];
-        [_leftImageV scImageWithURL:leftImage.url placeholderImage:nil];
-        [_middleImageV scImageWithURL:middleImage.url placeholderImage:nil];
-        [_rightImageV scImageWithURL:rightImage.url placeholderImage:nil];
+        [_leftImageV scImageWithURL:leftImage.url placeholderImage:[UIImage imageNamed:@"default_image"]];
+        [_middleImageV scImageWithURL:middleImage.url placeholderImage:[UIImage imageNamed:@"default_image"]];
+        [_rightImageV scImageWithURL:rightImage.url placeholderImage:[UIImage imageNamed:@"default_image"]];
     }else {
         _leftImageV.hidden = NO;
         _middleImageV.hidden = YES;
         _rightImageV.hidden = YES;
-        [_leftImageV scImageWithURL:@"" placeholderImage:nil];
+        [_leftImageV scImageWithURL:@"" placeholderImage:[UIImage imageNamed:@"default_image"]];
     }
 
 }

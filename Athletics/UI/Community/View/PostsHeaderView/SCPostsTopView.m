@@ -213,7 +213,7 @@ static CGFloat showButtonH = 22.0f;
         _model = model;
         [_avatar scImageWithURL:model.userAvatar placeholderImage:[UIImage imageNamed:@"mine_default_avatar"]];
         _nameLabel.text = model.userName;
-        _descLabel.text = @"Dota2";
+        _descLabel.text = [SCGlobaUtil isEmpty:model.channelName] ? @"其他" : model.channelName;
         _statusLabel.text = @"";
         _statusLabel.hidden = YES;
         _timeLabel.text = model.createTime;

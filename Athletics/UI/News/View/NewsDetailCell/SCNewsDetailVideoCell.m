@@ -71,7 +71,7 @@ static CGFloat k_left = 10.0f;
 
 - (void)createLayoutWith:(SCContentListModel *)model {
     _model = model;
-    [_imageView scImageWithURL:_model.video.image.url placeholderImage:nil];
+    [_imageView scImageWithURL:_model.video.image.url placeholderImage:[UIImage imageNamed:@"default_image"]];
 }
 
 + (CGFloat)cellHeightWith:(SCContentListModel *)model {

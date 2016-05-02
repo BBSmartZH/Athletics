@@ -101,6 +101,20 @@
     [self.view endEditing:YES];
 }
 
+- (void)setCommentNum:(NSString *)commentNum {
+    _commentNum = commentNum;
+    if (_inputView && ![_commentNum isEqualToString:commentNum]) {
+        NSString *norStr = [NSString stringWithFormat:@"%@评", _commentNum];
+        NSMutableAttributedString *norAttStr = [[NSMutableAttributedString alloc] initWithString:norStr];
+        [norAttStr addAttribute:NSForegroundColorAttributeName value:k_Base_Color range:NSMakeRange(0, norAttStr.length - 1)];
+        [norAttStr addAttribute:NSForegroundColorAttributeName value:kWord_Color_Event range:NSMakeRange(norAttStr.length - 1, 1)];
+        [_inputView.commentButton setAttributedTitle:norAttStr forState:UIControlStateNormal];
+        
+        NSAttributedString *disAttStr = [[NSAttributedString alloc] initWithString:norStr attributes:@{NSForegroundColorAttributeName : kWord_Color_Low}];
+        [_inputView.commentButton setAttributedTitle:disAttStr forState:UIControlStateDisabled];
+    }
+}
+
 #pragma mark - SCCommentInputViewDelegate
 
 - (void)commentButtonClicked:(UIButton *)sender {

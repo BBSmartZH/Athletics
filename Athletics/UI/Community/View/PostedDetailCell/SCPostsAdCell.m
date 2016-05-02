@@ -107,7 +107,7 @@ static CGFloat k_top = 15.0f;
 - (void)createLayoutWith:(SCAdModel *)model {
     _model = model;
 
-    [_imageView scImageWithURL:model.pic placeholderImage:nil];
+    [_imageView scImageWithURL:model.pic placeholderImage:[UIImage imageNamed:@"default_image"]];
 }
 
 + (CGFloat)cellHeightWith:(SCAdModel *)model {

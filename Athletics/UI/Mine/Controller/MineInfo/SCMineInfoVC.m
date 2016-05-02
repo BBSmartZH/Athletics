@@ -190,7 +190,7 @@ static NSString *cellId = @"Cell";
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.row == 0) {
-        [[SCPhotoManager shared] showActionSheetInView:self.view fromController:self completion:^(UIImage *image) {
+        [[SCPhotoManager shared] showActionSheetInView:self.view fromController:self isCut:YES completion:^(UIImage *image) {
             _avatar.image = image;
             _saveButton.hidden = NO;
             _hasChangeImage = YES;

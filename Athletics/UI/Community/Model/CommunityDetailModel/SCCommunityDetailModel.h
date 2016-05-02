@@ -42,6 +42,7 @@ SCCommunityDetailDataModel
 @property (nonatomic, copy) NSString<Optional> *userName;
 @property (nonatomic, copy) NSString<Optional> *content;
 @property (nonatomic, copy) NSString<Optional> *title;
+@property (nonatomic, copy) NSString<Optional> *channelName;
 
 @property (nonatomic, copy) NSString<Optional> *userAvatar;
 @property (nonatomic, copy) NSString<Optional> *channelId;

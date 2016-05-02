@@ -38,7 +38,7 @@
  *  @return
  */
 + (NSString *)feedbackUrl{
-    return [self p_wrap:@"api/static/feedback"];
+    return [self p_wrap:@"/static/feedback"];
 }
 
 #pragma mark - 上传apnsToken
@@ -472,7 +472,7 @@
 
 #pragma mark - Private
 + (NSString *)p_wrap:(NSString *)url {
-    return [NSString stringWithFormat:@"/esports/api%@", url];
+    return [NSString stringWithFormat:@"/api%@", url];///esports
 }
 
 @end

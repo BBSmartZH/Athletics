@@ -27,7 +27,7 @@
         return [self salt:@{@"version":@([SCGlobaUtil getFloat:version]), @"appId":@"1", @"platform":@"ios"} isDynamic:NO];
     }
     
-    return [self salt:@{@"uid":[SCUserInfoManager uid], @"appId":@"", @"platform":@""} isDynamic:NO];}
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"appId":@"1", @"platform":@"ios"} isDynamic:NO];}
 
 #pragma mark - 意见反馈
 /**
@@ -44,7 +44,7 @@
         return [self salt:@{@"version":@([SCGlobaUtil getFloat:version]), @"appId":@"1", @"platform":@"ios",@"content":content} isDynamic:NO];
     }
     
-    return [self salt:@{@"uid":[SCUserInfoManager uid], @"appId":@"", @"platform":@"",@"content":content} isDynamic:NO];
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"appId":@"1", @"platform":@"ios",@"content":content} isDynamic:NO];
 }
 #pragma mark - 获取游戏列表
 /**
@@ -532,9 +532,9 @@
         return nil;
     }
     if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
-        return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchRondaId":matchRondaId, @"page":@(page)} isDynamic:NO];
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchRoundGamesId":matchRondaId, @"page":@(page)} isDynamic:NO];
     }
-    return [self salt:@{@"matchRondaId":matchRondaId, @"page":@(page)} isDynamic:NO];
+    return [self salt:@{@"matchRoundGamesId":matchRondaId, @"page":@(page)} isDynamic:NO];
 }
 
 #pragma mark - 查询比赛视频
@@ -595,7 +595,7 @@
     if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:matchUnitId]) {
         return nil;
     }
-    return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchUnitId":matchUnitId} isDynamic:NO];
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchCommentId":matchUnitId} isDynamic:NO];
 }
 
 #pragma mark - 赛事预约

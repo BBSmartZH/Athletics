@@ -30,13 +30,12 @@
     return self;
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
+- (void)dealloc {
     if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
         [self.sessionTask cancel];
     }
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -166,23 +165,6 @@
 - (void)postErrorMessage:(NSString *)message {
     [self postMessage:message];
 }
-
-//- (void)setHttpOperation:(AFHTTPRequestOperation *)httpOperation {
-//    if (_httpOperation != httpOperation) {
-//        // 注意先取消连接
-//        _cancelledOperation = nil;
-//        _cancelledOperation = _httpOperation;
-//        
-//        [_httpOperation pause];
-//        [_httpOperation cancel];
-//        _httpOperation = nil;
-//        _httpOperation = httpOperation;
-//    }
-//}
-//
-//- (AFHTTPRequestOperation *)foreCancelHttpOperation {
-//    return _cancelledOperation;
-//}
 
 - (void)fadeInWithView:(UIView *)fadeView duration:(NSTimeInterval)duration {
     CATransition *animation = [CATransition animation];

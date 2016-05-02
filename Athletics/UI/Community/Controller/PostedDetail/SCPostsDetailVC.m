@@ -144,11 +144,12 @@
        [self headerEndRefreshing];
         
         [self loadCommentData];
+        
+        [_headerView setModel:_model];
+        _headerView.frame = CGRectMake(_headerView.left, _headerView.top, _headerView.fWidth, [_headerView topViewHeight]);
+        _tableView.tableHeaderView = _headerView;
 
         [_tableView reloadData];
-        [_headerView setModel:_model];
-        _headerView.frame = CGRectMake(0, 0, _headerView.fWidth, [_headerView topViewHeight]);
-        _tableView.tableHeaderView = _headerView;
     } message:^(NSString *resultMsg) {
         [self headerEndRefreshing];
         [self postMessage:resultMsg];
@@ -165,7 +166,7 @@
     self.sessionTask = [SCNetwork topicCommentListWithTopicId:_topicId page:_currentPageIndex success:^(SCTopicReplayListModel *model) {
         [_datasource removeAllObjects];
         [_datasource addObjectsFromArray:model.data];
-        [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+        [_tableView reloadData];
         if (_currentPageIndex < [SCGlobaUtil getInt:model.paging]) {
             _currentPageIndex ++;
             [self footerHidden:NO];
@@ -330,7 +331,7 @@
                 _imageV.contentMode = UIViewContentModeScaleAspectFill;
                 _imageV.layer.cornerRadius = 16;
                 SCTopicLikeModel *likeModel = [_model.topicLikes objectAtIndex:i];
-                [_imageV scImageWithURL:likeModel.userAvatar placeholderImage:nil];
+                [_imageV scImageWithURL:likeModel.userAvatar placeholderImage:[UIImage imageNamed:@"mine_default_avatar"]];
                 [view addSubview:_imageV];
             }
             if (_model.topicLikes.count==0) {
@@ -434,17 +435,20 @@
         }];
     }else {
         if (![SCUserInfoManager isMyWith:_model.userId]) {
+            sender.userInteractionEnabled = NO;
             [SCNetwork topicLikeAddWithTopicId:_topicId success:^(SCResponseModel *model) {
                 [self postMessage:@"点赞成功"];
                 _model.isLike = @"1";
                 _model.likeCount = [NSString stringWithFormat:@"%d", [SCGlobaUtil getInt:_model.likeCount] + 1];
                 _supportLabel.text = _model.likeCount;
+                sender.userInteractionEnabled = YES;
                 sender.enabled = NO;
             } message:^(NSString *resultMsg) {
+                sender.userInteractionEnabled = YES;
                 [self postMessage:resultMsg];
             }];
         }else {
-            [self postMessage:@"亲，不能给自己点哦~~"];
+            [self postMessage:@"亲，不能给自己点赞哦~~"];
         }
     }
 }

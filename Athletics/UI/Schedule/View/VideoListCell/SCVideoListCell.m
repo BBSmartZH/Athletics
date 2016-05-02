@@ -79,7 +79,7 @@ static CGFloat k_left = 10.0f;
 - (void)createLayoutWith:(SCScheduleVideoListDataModel *)model {
     _model = model;
     _url = model.url;
-    [_imageView scImageWithURL:model.image.url placeholderImage:nil];
+    [_imageView scImageWithURL:model.image.url placeholderImage:[UIImage imageNamed:@"default_image"]];
 }
 
 + (CGFloat)heightForCellWith:(SCScheduleVideoListDataModel *)model {

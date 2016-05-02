@@ -57,39 +57,44 @@
         _adView.placeHoldImage = [UIImage imageNamed:@"place"];
         _adView.pageControlShowStyle = SCPageControlShowStyleRight;
         _adView.adTitleStyle = SCAdTitleShowStyleLeft;
-        __weak SCNewsBannerListModel *bModel = _bannerModel;
         _WEAKSELF(ws);
         _adView.tapAdCallBack = ^(NSInteger index) {
-            SCNewsBannerListDataModel *model = [bModel.data objectAtIndex:index];
-            if ([SCGlobaUtil getInt:model.showType] == 1) {
-                //普通资讯
-                if (![SCGlobaUtil isEmpty:model.target]) {
-                    SCNewsArticlePackVC *articleVC = [[SCNewsArticlePackVC alloc] init];
-                    articleVC.newsId = model.target;
-                    articleVC.hidesBottomBarWhenPushed = YES;
-                    [ws.parentVC.navigationController pushViewController:articleVC animated:YES];
-                }
-            }else if ([SCGlobaUtil getInt:model.showType] == 2) {
-                //图片资讯
-                if (![SCGlobaUtil isEmpty:model.target]) {
-                    SCNewsPhotosPackVC *photosVC = [[SCNewsPhotosPackVC alloc] init];
-                    photosVC.newsId = model.target;
-                    photosVC.hidesBottomBarWhenPushed = YES;
-                    [ws.parentVC.navigationController pushViewController:photosVC animated:YES];
-                }
-            }else if ([SCGlobaUtil getInt:model.showType] == 3) {
-                //url
-                if (![SCGlobaUtil isEmpty:model.target]) {
-                    SCBaseWebVC *weVC = [[SCBaseWebVC alloc] init];
-                    weVC.webUrl = model.target;
-                    weVC.hidesBottomBarWhenPushed = YES;
-                    [ws.parentVC.navigationController pushViewController:weVC animated:YES];
-                }
-            }
+            [ws adViewClickedWith:index];
         };
         _tableView.tableHeaderView = _adView;
     }
     return _adView;
+}
+
+- (void)adViewClickedWith:(NSInteger)index {
+    SCNewsBannerListDataModel *model = [_bannerModel.data objectAtIndex:index];
+    if ([SCGlobaUtil getInt:model.type] == 1) {
+        //普通资讯
+        if (![SCGlobaUtil isEmpty:model.target]) {
+            SCNewsArticlePackVC *articleVC = [[SCNewsArticlePackVC alloc] init];
+            articleVC.newsId = model.target;
+            articleVC.commentNum = @"0";
+            articleVC.hidesBottomBarWhenPushed = YES;
+            [self.parentVC.navigationController pushViewController:articleVC animated:YES];
+        }
+    }else if ([SCGlobaUtil getInt:model.type] == 2) {
+        //图片资讯
+        if (![SCGlobaUtil isEmpty:model.target]) {
+            SCNewsPhotosPackVC *photosVC = [[SCNewsPhotosPackVC alloc] init];
+            photosVC.newsId = model.target;
+            photosVC.commentNum = @"0";
+            photosVC.hidesBottomBarWhenPushed = YES;
+            [self.parentVC.navigationController pushViewController:photosVC animated:YES];
+        }
+    }else if ([SCGlobaUtil getInt:model.type] == 3) {
+        //url
+        if (![SCGlobaUtil isEmpty:model.target]) {
+            SCBaseWebVC *weVC = [[SCBaseWebVC alloc] init];
+            weVC.webUrl = model.target;
+            weVC.hidesBottomBarWhenPushed = YES;
+            [self.parentVC.navigationController pushViewController:weVC animated:YES];
+        }
+    }
 }
 
 - (void)getMatchBanner {

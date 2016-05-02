@@ -105,7 +105,7 @@ static float scale = 0.75;
 
 - (void)createLayoutWith:(SCVideoListDataModel *)model {
     _model = model;
-    [_leftImageV scImageWithURL:model.image.url placeholderImage:nil];
+    [_leftImageV scImageWithURL:model.image.url placeholderImage:[UIImage imageNamed:@"default_image"]];
     _titleLabel.text = _model.title;
     _timeLabel.text = _model.uploadDate;//5秒前  12分钟前   2016-04-04
     _durationLabel.text = _model.videoLength;

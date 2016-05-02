@@ -160,9 +160,9 @@ static CGFloat k_left = 10.0f;
     _stateImageV.hidden = YES;
     
     _leftLabel.text = model.leftTeamName;
-    [_leftImageV scImageWithURL:model.leftTeamBadge placeholderImage:nil];
+    [_leftImageV scImageWithURL:model.leftTeamBadge placeholderImage:[UIImage imageNamed:@"default_image"]];
     _rightLabel.text = model.rightTeamName;
-    [_rightImageV scImageWithURL:model.rightTeamBadge placeholderImage:nil];
+    [_rightImageV scImageWithURL:model.rightTeamBadge placeholderImage:[UIImage imageNamed:@"default_image"]];
 
     _scoreLabel.text = [NSString stringWithFormat:@"%@ : %@",model.leftTeamGoal,model.rightTeamGoal];
     _stateLabel.text =[self stateWithModel:model];

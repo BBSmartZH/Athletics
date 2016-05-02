@@ -52,7 +52,7 @@
 - (void)setImageUrl:(NSString *)imageUrl {
     if (![_imageUrl isEqualToString:imageUrl]) {
         _imageUrl = imageUrl;
-        [_imageView scImageWithURL:_imageUrl placeholderImage:nil];
+        [_imageView scImageWithURL:_imageUrl placeholderImage:[UIImage imageNamed:@"default_image"]];
     }
 }
 

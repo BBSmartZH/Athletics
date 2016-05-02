@@ -372,8 +372,8 @@ static CGFloat k_left = 10.0f;
 
 - (void)updateData {
     self.title = _model.name;
-    [_leftImageV scImageWithURL:_model.leftTeamBadge placeholderImage:nil];
-    [_rightImageV scImageWithURL:_model.rightTeamBadge placeholderImage:nil];
+    [_leftImageV scImageWithURL:_model.leftTeamBadge placeholderImage:[UIImage imageNamed:@"default_image"]];
+    [_rightImageV scImageWithURL:_model.rightTeamBadge placeholderImage:[UIImage imageNamed:@"default_image"]];
     
     _leftLabel.text = _model.leftTeamName;
     _rightLabel.text = _model.rightTeamName;

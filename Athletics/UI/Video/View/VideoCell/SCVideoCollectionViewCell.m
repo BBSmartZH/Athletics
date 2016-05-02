@@ -53,7 +53,7 @@ static CGFloat k_left = 10.0f;
 }
 
 - (void)createLayoutWith:(SCVideoCoverDataModel *)model {
-    [_imageView scImageWithURL:model.image.url placeholderImage:nil];
+    [_imageView scImageWithURL:model.image.url placeholderImage:[UIImage imageNamed:@"default_image"]];
     _timeLabel.text = model.videoLength;
     _titleLabel.text = model.title;
     //选中title变红色

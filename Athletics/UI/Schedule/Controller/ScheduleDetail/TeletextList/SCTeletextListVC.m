@@ -149,24 +149,8 @@
         [self headerEndRefreshing];
         
         [_datasource removeAllObjects];
-        [_datasource addObjectsFromArray:model.data.list];
+        [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
-        
-        if ([SCGlobaUtil getInt:model.data.status] == 0) {
-            [self postMessage:@"本场比赛未开始"];
-        }else if ([SCGlobaUtil getInt:model.data.status] == 3) {
-            [self postMessage:@"本场比赛已取消"];
-        }
-        
-        if ([SCGlobaUtil getInt:model.data.status] == 1) {
-            if (![self.timer isValid]) {
-                [self.timer fire];
-            }
-        }else {
-            if ([self.timer isValid]) {
-                [self.timer invalidate];
-            }
-        }
         
         if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex++;
@@ -191,18 +175,8 @@
     self.sessionTask = [SCNetwork matchUnitliveListWithMatchRondaId:_rondaId page:_currentPageIndex success:^(SCTeletextListModel *model) {
         [self footerEndRefreshing];
         
-        [_datasource addObjectsFromArray:model.data.list];
+        [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
-        
-        if ([SCGlobaUtil getInt:model.data.status] == 1) {
-            if (![self.timer isValid]) {
-                [self.timer fire];
-            }
-        }else {
-            if ([self.timer isValid]) {
-                [self.timer invalidate];
-            }
-        }
         
         if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex++;

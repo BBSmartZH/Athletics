@@ -237,7 +237,7 @@ static NSString *commentCellId = @"CommentCollectionViewCellId";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.item == _imageArray.count) {
         //添加
-        [[SCPhotoManager shared] showActionSheetInView:self.view fromController:self completion:^(UIImage *image) {
+        [[SCPhotoManager shared] showActionSheetInView:self.view fromController:self isCut:NO completion:^(UIImage *image) {
             [self uploadImage:image];
         } cancel:^{}];
     }

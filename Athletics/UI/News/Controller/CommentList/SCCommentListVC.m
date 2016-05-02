@@ -170,17 +170,20 @@
         }];
     }else {
         if (![SCUserInfoManager isMyWith:model.userId]) {
+            sender.userInteractionEnabled = NO;
             [SCNetwork newsCommentClickedParamsWithNewsCommentId:model.commentId success:^(SCResponseModel * aModel) {
                 [self postMessage:@"点赞成功"];
+                sender.userInteractionEnabled = YES;
                 sender.enabled = NO;
                 model.isLike = @"1";
                 model.likeCount = [NSString stringWithFormat:@"%d", [SCGlobaUtil getInt:model.likeCount] + 1];
                 [_tableView reloadData];
             } message:^(NSString *resultMsg) {
+                sender.userInteractionEnabled = YES;
                 [self postMessage:resultMsg];
             }];
         }else {
-            [self postMessage:@"亲，不能给自己点哦~~"];
+            [self postMessage:@"亲，不能给自己点赞哦~~"];
         }
     }
 }

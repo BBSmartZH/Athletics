@@ -151,8 +151,7 @@ static CGFloat kImageH = 32.0f;
 
 -(void)creatLayoutWith:(SCTeletextListDataModel *)model
 {
-    [_photoImageV scImageWithURL:model.liverAvatar placeholderImage:nil];
-    [_photoImageV scImageWithURL:model.liverAvatar placeholderImage:nil];
+    [_headerImageV scImageWithURL:model.liverAvatar placeholderImage:[UIImage imageNamed:@"mine_default_avatar"]];
     _nameLabel.text = [NSString stringWithFormat:@"直播员：%@", model.liverName];
     _descLabel.text = model.content;
     _scoreLabel.text = model.goalStr;
@@ -160,7 +159,7 @@ static CGFloat kImageH = 32.0f;
     
     if ([SCGlobaUtil isEmpty:model.image.url]) {
         _photoImageV.hidden = NO;
-        [_photoImageV scImageWithURL:model.image.url placeholderImage:nil];
+        [_photoImageV scImageWithURL:model.image.url placeholderImage:[UIImage imageNamed:@"default_image"]];
         
         CGFloat imageW = 0.0f;
         CGFloat imageH = 0.0f;

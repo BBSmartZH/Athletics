@@ -20,6 +20,7 @@
 #import "SCNewsArticlePackVC.h"
 #import "SCFullVideoPlayingVC.h"
 #import "LWBaseNavVC_iPhone.h"
+#import "SCNewsArticlePackVC.h"
 
 @interface SCNewsDetailVC ()<SCNewsDetailVideoCellDelegate>
 {
@@ -71,6 +72,7 @@
         [self stopActivityAnimation];
         _model = model.data;
         [_tableView reloadData];
+        [self.parentVC setCommentNum:[SCGlobaUtil isEmpty:_model.commentNum] ? @"0" : _model.commentNum];
     } message:^(NSString *resultMsg) {
         [self postMessage:resultMsg];
         [self stopActivityAnimation];

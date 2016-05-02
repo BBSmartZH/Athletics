@@ -57,10 +57,12 @@
     if (self.zoomScale == self.maximumZoomScale) {//缩小
         [self setZoomScale:1.0 animated:YES];
     } else {//放大
-        CGRect zoomRect;
+        CGRect zoomRect = CGRectZero;
         zoomRect.origin.x = touchPoint.x;
         zoomRect.origin.y = touchPoint.y;
         [self zoomToRect:zoomRect animated:YES];
+//        [self setZoomScale:2.0 animated:YES];
+
         
     }
 }
@@ -133,7 +135,7 @@
     if (self.mainImageView.image == nil || self.mainImageView.image.size.width == 0 || self.mainImageView.image.size.height == 0) {
         imageH = self.bounds.size.height;
         imageW = self.bounds.size.width;
-        self.mainImageView.image = [UIImage imageNamed:@"none"];
+        self.mainImageView.image = nil;
     }else {
         imageW = self.mainImageView.image.size.width;
         imageH = self.mainImageView.image.size.height;
