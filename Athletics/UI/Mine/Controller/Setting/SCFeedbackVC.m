@@ -66,7 +66,17 @@
         [self postMessage:@"请填写您的宝贵意见"];
     }
     else {
-        
+        [self startActivityAnimation];
+        self.sessionTask = [SCNetwork feedbackWithContent:_textView.text Success:^(SCResponseModel *model) {
+            [self stopActivityAnimation];
+            [self postErrorMessage:@"提交成功，感谢反馈"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+
+            });
+        } message:^(NSString *resultMsg) {
+            [self postErrorMessage:resultMsg];
+        }];
     }
 }
 

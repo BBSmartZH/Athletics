@@ -368,7 +368,28 @@
         message(resultMsg);
     }];
 }
+#pragma mark - 意见反馈
+/**
+ *  意见反馈
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)feedbackWithContent:(NSString*)content
+                                      Success:(void(^)(SCResponseModel*model))success
+                                      message:(SCMessageBlock)message{
+    return [SCNetworkHelper postWithUrl:[SCUrlWrapper feedbackUrl] params:[SCParamsWrapper feedbackParamsWith:content] success:^(NSDictionary *result) {
+        NSError *error;
+        SCResponseModel *model = [[SCResponseModel alloc] initWithDictionary:result error:&error];
+        if (!error) {
+            success(model);
+        }else {
+            message(error.localizedDescription);
+        }
 
+    } message:^(NSString *resultMsg) {
+        
+    }];
+}
 #pragma mark - 获取游戏列表
 /**
  *  获取游戏列表

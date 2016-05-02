@@ -28,6 +28,14 @@
  */
 + (NSString *)appUpdateUrl;
 
+#pragma mark - 意见反馈
+/**
+ *  意见反馈
+ *
+ *  @return
+ */
++ (NSString *)feedbackUrl;
+
 #pragma mark - 上传apnsToken
 /**
  *  上传apnsToken

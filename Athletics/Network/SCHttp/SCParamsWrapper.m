@@ -27,8 +27,25 @@
         return [self salt:@{@"version":@([SCGlobaUtil getFloat:version]), @"appId":@"1", @"platform":@"ios"} isDynamic:NO];
     }
     
-    return [self salt:@{@"userId":[SCUserInfoManager uid], @"appId":@"", @"platform":@""} isDynamic:NO];}
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"appId":@"", @"platform":@""} isDynamic:NO];}
 
+#pragma mark - 意见反馈
+/**
+ *  意见反馈
+ *
+ *  @return
+ */
++ (NSDictionary *)feedbackParamsWith:(NSString*)content{
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    if ([SCGlobaUtil isEmpty:content]) {
+        return nil;
+    }
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
+        return [self salt:@{@"version":@([SCGlobaUtil getFloat:version]), @"appId":@"1", @"platform":@"ios",@"content":content} isDynamic:NO];
+    }
+    
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"appId":@"", @"platform":@"",@"content":content} isDynamic:NO];
+}
 #pragma mark - 获取游戏列表
 /**
  *  获取游戏列表
@@ -53,7 +70,7 @@
         return [self salt:@{@"token":token, @"idfa":[SCGlobaUtil getIDFA], @"uuid":[SCGlobaUtil getUUID]} isDynamic:NO];
     }
     
-    return [self salt:@{@"userId":[SCUserInfoManager uid], @"token":token, @"idfa":[SCGlobaUtil getIDFA], @"uuid":[SCGlobaUtil getUUID]} isDynamic:NO];
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"token":token, @"idfa":[SCGlobaUtil getIDFA], @"uuid":[SCGlobaUtil getUUID]} isDynamic:NO];
 }
 
 #pragma mark - 获取banner

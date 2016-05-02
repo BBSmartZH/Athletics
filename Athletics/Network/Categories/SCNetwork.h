@@ -208,6 +208,16 @@
 + (NSURLSessionDataTask *)appUpdateWithSuccess:(void(^)(SCAppUpdateModel *model))success
                                        message:(SCMessageBlock)message;
 
+
+#pragma mark - 意见反馈
+/**
+ *  意见反馈
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)feedbackWithContent:(NSString*)content
+                                      Success:(void(^)(SCResponseModel*model))success
+                                      message:(SCMessageBlock)message;
 #pragma mark - 获取游戏列表
 /**
  *  获取游戏列表

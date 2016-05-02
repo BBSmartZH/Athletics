@@ -19,7 +19,13 @@
  *  @return
  */
 + (NSDictionary *)appUpdateParams;
-
+#pragma mark - 意见反馈
+/**
+ *  意见反馈
+ *
+ *  @return
+ */
++ (NSDictionary *)feedbackParamsWith:(NSString*)content;
 #pragma mark - 获取游戏列表
 /**
  *  获取游戏列表

@@ -140,7 +140,7 @@ static float scale = 0.65;
         _markImageV.hidden = YES;
      
     }
-    [_leftImageV scImageWithURL:_model.imgUrl placeholderImage:nil];
+    [_leftImageV scImageWithURL:_model.imgUrl placeholderImage:[UIImage imageNamed:@"default_image"]];
 }
 
 + (NSString *)cellIdentifier {

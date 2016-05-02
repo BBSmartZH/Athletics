@@ -31,6 +31,15 @@
 + (NSString *)appUpdateUrl {
     return [self p_wrap:@"/static/package/version"];
 }
+#pragma mark - 意见反馈
+/**
+ *  意见反馈
+ *
+ *  @return
+ */
++ (NSString *)feedbackUrl{
+    return [self p_wrap:@"api/static/feedback"];
+}
 
 #pragma mark - 上传apnsToken
 /**
