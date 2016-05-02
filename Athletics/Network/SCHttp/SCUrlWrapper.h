@@ -308,6 +308,14 @@
  */
 + (NSString *)matchCommentAddUrl;
 
+#pragma mark - 比赛评论点赞
+/**
+ *  比赛评论点赞
+ *
+ *  @return
+ */
++ (NSString *)matchCommentLikeUrl;
+
 #pragma mark - 赛事预约
 /**
  *  赛事预约

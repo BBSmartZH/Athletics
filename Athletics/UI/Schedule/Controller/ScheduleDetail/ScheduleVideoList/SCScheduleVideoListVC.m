@@ -9,12 +9,13 @@
 #import "SCScheduleVideoListVC.h"
 
 #import "SCVideoListCell.h"
-#import "CDPVideoPlayer.h"
 #import "SCScheduleVideoListModel.h"
+#import "SCScheduleDetailVC.h"
+#import "SCFullVideoPlayingVC.h"
+#import "LWBaseNavVC_iPhone.h"
 
-@interface SCScheduleVideoListVC ()<SCVideoListCellDelegate, CDPVideoPlayerDelegate>
+@interface SCScheduleVideoListVC ()<SCVideoListCellDelegate>
 {
-    CDPVideoPlayer *_player;
     BOOL _isUpdated;
 }
 
@@ -29,11 +30,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [_player close];
-    _player = nil;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -44,7 +40,6 @@
     
     [_tableView registerClass:[SCVideoListCell class] forCellReuseIdentifier:[SCVideoListCell cellIdentifier]];
     
-    _player = [[CDPVideoPlayer alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth - 20, (self.view.fWidth - 20) * (9 / 16.0)) url:nil delegate:self haveOriginalUI:YES];
     [self.view bringSubviewToFront:self.m_navBar];
     
 }
@@ -113,13 +108,12 @@
 }
 
 - (void)videoButtonClicked:(UIButton *)sender inCell:(SCVideoListCell *)inCell withModel:(SCScheduleVideoListDataModel *)model {
-    [_player pause];
-    [_player removeFromSuperview];
     
-    _player.title = model.title;
-    _player.frame = inCell.videoFrame;
-    [inCell addSubview:_player];
-    [_player playWithNewUrl:model.url];
+    SCFullVideoPlayingVC *fullVC = [[SCFullVideoPlayingVC alloc] init];
+    fullVC.videoTitle = model.title;
+    fullVC.playUrl = model.url;
+    LWBaseNavVC_iPhone *navVC = [[LWBaseNavVC_iPhone alloc] initWithRootViewController:fullVC];
+    [self.parentVC.navigationController presentViewController:navVC animated:NO completion:nil];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -153,7 +147,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    SCScheduleVideoListDataModel *model = [_datasource objectAtIndex:indexPath.section];
+//    SCScheduleVideoListDataModel *model = [_datasource objectAtIndex:indexPath.section];
 
 }
 

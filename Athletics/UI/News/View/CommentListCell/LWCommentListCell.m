@@ -80,7 +80,7 @@ static CGFloat headerImageH = 24.0f;
     [_praiseButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(ws.contentView).offset(-k_left);
         make.centerY.equalTo(_headerImageV);
-        make.size.mas_equalTo(CGSizeMake(16, 16));
+        make.size.mas_equalTo(CGSizeMake(24, 24));
     }];
     [_numLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
     [_numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -93,7 +93,7 @@ static CGFloat headerImageH = 24.0f;
         make.top.equalTo(_headerImageV.mas_bottom).offset(k_left);
         make.left.equalTo(_nameLabel);
         make.right.equalTo(ws.contentView).offset(-k_left);
-        make.bottom.equalTo(ws.contentView).offset(-k_left);
+        make.bottom.lessThanOrEqualTo(ws.contentView).offset(-k_left);
     }];
     
     

@@ -8,7 +8,7 @@
 
 #import "SCBaseRefreshVC_iPhone.h"
 
-@interface SCNewsDetailVC : SCBaseRefreshVC_iPhone
+@interface SCNewsDetailVC : LWBaseTableVC_iPhone
 
 @property (nonatomic, assign) UIViewController *parentVC;
 @property (nonatomic, copy) NSString *newsId;

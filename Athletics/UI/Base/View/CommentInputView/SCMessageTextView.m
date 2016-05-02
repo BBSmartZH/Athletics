@@ -32,7 +32,6 @@
 - (void)p_setUp {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(p_didReceiveTextDidChangeNotification:) name:UITextViewTextDidChangeNotification object:self];
     _placeHolderTextColor = [UIColor lightGrayColor];
-    
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.scrollIndicatorInsets = UIEdgeInsetsMake(5.0f, 0.0f, 5.0f, 0.0f);
     self.contentInset = UIEdgeInsetsZero;

@@ -8,13 +8,11 @@
 
 #import "SCNewsDetailVideoCell.h"
 
-#import "CDPVideoPlayer.h"
 #import "SCContentListModel.h"
 
-@interface SCNewsDetailVideoCell ()<CDPVideoPlayerDelegate>
+@interface SCNewsDetailVideoCell ()
 {
     UIImageView *_imageView;
-    CDPVideoPlayer *_player;
     UIButton *_playButton;
     NSString *_url;
     SCContentListModel *_model;
@@ -27,11 +25,6 @@ static CGFloat k_left = 10.0f;
 
 @implementation SCNewsDetailVideoCell
 
-- (void)dealloc {
-    [_player close];
-    _player = nil;
-}
-
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -42,10 +35,6 @@ static CGFloat k_left = 10.0f;
 }
 
 - (void)uiConfig {
-    
-    CGFloat height = ([UIScreen mainScreen].bounds.size.width - 2 * k_left) * (9.0 / 16.0);
-    _player = [[CDPVideoPlayer alloc] initWithFrame:CGRectMake(k_left, k_top, [UIScreen mainScreen].bounds.size.width - 2 * k_left, height) url:nil delegate:self haveOriginalUI:YES];
-    [self.contentView addSubview:_player];
     
     _imageView = [[UIImageView alloc] init];
     _imageView.clipsToBounds = YES;
@@ -75,15 +64,14 @@ static CGFloat k_left = 10.0f;
 }
 
 - (void)playButtonClicked:(UIButton *)sender {
-    _imageView.hidden = YES;
-    [_player playWithNewUrl:_url];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(playButtonClickedWith:)]) {
+        [self.delegate playButtonClickedWith:_model];
+    }
 }
 
 - (void)createLayoutWith:(SCContentListModel *)model {
     _model = model;
-    _player.title = _model.title;
-    _url = _model.vid;
-    [_imageView scImageWithURL:_model.image.url placeholderImage:nil];
+    [_imageView scImageWithURL:_model.video.image.url placeholderImage:nil];
 }
 
 + (CGFloat)cellHeightWith:(SCContentListModel *)model {

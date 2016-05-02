@@ -159,17 +159,19 @@
 - (void)praiseButtonClicked:(UIButton *)sender withModel:(SCNewsCommentListDataModel *)model {
     if (![SCUserInfoManager isLogin]) {
         SCLoginVC *loginVC = [[SCLoginVC alloc] init];
-        [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+        [loginVC loginWithPresentController:self.parentVC successCompletion:^(BOOL result) {
             if (result) {
                 [self headerBeginRefreshing];
             }
         }];
     }else {
         if (![SCUserInfoManager isMyWith:model.userId]) {
-            [SCNetwork newsCommentClickedParamsWithNewsCommentId:model.matchCommentId success:^(SCResponseModel * aModel) {
+            [SCNetwork matchCommentLikeWithMatchUnitId:model.matchCommentId success:^(SCResponseModel * aModel) {
                 [self postMessage:@"点赞成功"];
                 sender.enabled = NO;
                 model.isLike = @"1";
+                model.likeCount = [NSString stringWithFormat:@"%d", [SCGlobaUtil getInt:model.likeCount] + 1];
+                [_tableView reloadData];
             } message:^(NSString *resultMsg) {
                 [self postMessage:resultMsg];
             }];
@@ -188,7 +190,7 @@
     
     if (![SCUserInfoManager isLogin]) {
         SCLoginVC *loginVC = [[SCLoginVC alloc] init];
-        [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+        [loginVC loginWithPresentController:self.parentVC successCompletion:^(BOOL result) {
             if (result) {
                 MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"举报中" showAddTo:self.parentVC.view delay:NO];
                 [SCNetwork userReportWithCommentId:model.matchCommentId type:3 success:^(SCResponseModel *model) {

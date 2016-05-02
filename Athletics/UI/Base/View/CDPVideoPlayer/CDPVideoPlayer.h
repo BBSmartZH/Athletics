@@ -76,9 +76,13 @@ typedef enum{
 
 //非全屏下返回键点击回调(仅限默认UI)
 -(void)back;
+//initFull全屏下返回键点击回调(仅限默认UI)
+- (void)initFullBack;
 
 //每次点击切换全屏键回调(仅限默认UI)
 -(void)switchSizeClickToFullScreen:(BOOL)toFullScreen;
+//切换完成调用
+- (void)transformFinishedToFullScreen:(BOOL)toFullScreen;
 
 @end
 
@@ -127,6 +131,8 @@ typedef enum{
 
 //播放新的url资源
 - (void)playWithNewUrl:(NSString *)url;
+//全屏播放
+- (void)playFullWithNewUrl:(NSString *)url;
 
 //播放并判断是否重新加载当前url资源
 -(void)play;

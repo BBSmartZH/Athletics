@@ -568,6 +568,19 @@
     return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchUnitId":matchUnitId, @"comment":comment} isDynamic:NO];
 }
 
+#pragma mark - 比赛评论点赞
+/**
+ *  比赛评论点赞
+ *
+ *  @return
+ */
++ (NSDictionary *)matchCommentLikeParamsWithMatchUnitId:(NSString *)matchUnitId {
+    if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]] || [SCGlobaUtil isEmpty:matchUnitId]) {
+        return nil;
+    }
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchUnitId":matchUnitId} isDynamic:NO];
+}
+
 #pragma mark - 赛事预约
 /**
  *  赛事预约

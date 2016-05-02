@@ -66,7 +66,6 @@
     }
     
     SCMessageTextView *textView = [[SCMessageTextView alloc] initWithFrame:CGRectZero];
-    textView.backgroundColor = [UIColor whiteColor];
     textView.returnKeyType = UIReturnKeySend;
     textView.enablesReturnKeyAutomatically = YES;
     textView.placeHolderTextColor = kWord_Color_Low;
@@ -79,7 +78,6 @@
     CGFloat width = CGRectGetWidth(self.bounds) - (_isComment ? _commentButton.bounds.size.width + 10 : 0) - 20;
     
     _inputTextView.frame = CGRectMake(10, 7, width, 30);
-    _inputTextView.backgroundColor = [UIColor clearColor];
     _inputTextView.layer.borderColor = k_Border_Color.CGColor;
     _inputTextView.layer.borderWidth = .5f;
     

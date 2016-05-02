@@ -166,8 +166,8 @@ static CGFloat k_left = 10.0f;
 
     _scoreLabel.text = [NSString stringWithFormat:@"%@ : %@",model.leftTeamGoal,model.rightTeamGoal];
     _stateLabel.text =[self stateWithModel:model];
-    
-    if ([SCGlobaUtil getInt:model.appoint] == 1) {
+    _timeLabel.text = model.beginTime;
+    if ([SCGlobaUtil getInt:model.appointType] == 1) {
         _appointButton.selected = YES;
     }else {
         _appointButton.selected = NO;
@@ -177,9 +177,11 @@ static CGFloat k_left = 10.0f;
         //未开始
         _appointButton.hidden = NO;
         _scoreLabel.hidden = YES;
+        _timeLabel.hidden = NO;
     }else {
         _appointButton.hidden = YES;
         _scoreLabel.hidden = NO;
+        _timeLabel.hidden = YES;
     }
 }
 
@@ -188,18 +190,31 @@ static CGFloat k_left = 10.0f;
     
     switch ([SCGlobaUtil getInt:model.status]) {
         case 1:
+        {
             state = @"未开始";
+            _stateLabel.textColor = kWord_Color_Event;
+        }
             break;
         case 2:
+        {
             state = @"正在进行";
+            _stateLabel.textColor = k_Base_Color;
+        }
             break;
         case 3:
+        {
             state = @"已结束";
+            _stateLabel.textColor = kWord_Color_High;
+        }
             break;
         case 4:
+        {
             state = @"已取消";
+            _stateLabel.textColor = kWord_Color_Low;
+        }
             break;
         default:
+            _stateLabel.textColor = kWord_Color_Event;
             break;
     }
     

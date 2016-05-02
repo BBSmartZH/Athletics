@@ -14,10 +14,12 @@
 #import "SCVideoDetailModel.h"
 #import "SCVideoCoverModel.h"
 #import "SCNewsCommentListModel.h"
+#import "SCLoginVC.h"
+#import "LrdOutputView.h"
 
-@interface SCVideoDetailVC ()<CDPVideoPlayerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,SCCommentInputViewDelegate>
+
+@interface SCVideoDetailVC ()<CDPVideoPlayerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, SCCommentInputViewDelegate, LWCommentListCellDelegate, LrdOutputViewDelegate>
 {
-    CDPVideoPlayer *_player;
     CGFloat   _playerHeight;
     UIButton  *_playButton;
     BOOL _statusBarHidden;
@@ -30,6 +32,8 @@
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic,strong)  SCCommentInputView  *inputView;
+@property (nonatomic,strong)  CDPVideoPlayer  *player;
+@property (nonatomic, strong) LrdOutputView *outPutView;
 
 
 @end
@@ -43,6 +47,20 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboareWillShowNotif:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboareWillHiddenNotif:) name:UIKeyboardWillHideNotification object:nil];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)dealloc {
     [_player close];
     _player = nil;
@@ -51,6 +69,7 @@
 -(BOOL)shouldAutorotate{
     return !_player.isSwitch;
 }
+
 - (SCCommentInputView *)inputView {
     if (!_inputView) {
         _inputView = [[SCCommentInputView alloc] initWithFrame:CGRectMake(0, self.view.fHeight - 44, self.view.fWidth, 44)];
@@ -63,28 +82,32 @@
     }
     return _inputView;
 }
+
+- (CDPVideoPlayer *)player {
+    if (!_player) {
+        _player = [[CDPVideoPlayer alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, _playerHeight) url:nil delegate:self haveOriginalUI:YES];
+    }
+    return _player;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    //http://v.theonion.com/onionstudios/video/3158/640.mp4
-    //http://msgpush.dota2.com.cn/m3u8/1460455034449.m3u8
+    [[[IQKeyboardManager sharedManager] disabledDistanceHandlingClasses] addObject:[self class]];
+    [[[IQKeyboardManager sharedManager] disabledToolbarClasses] addObject:[self class]];
     
     self.m_navBar.bg_alpha = 0.0f;
-    
     _playerHeight = self.view.bounds.size.width * (9 / 16.0f);
-    
-    _player = [[CDPVideoPlayer alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, _playerHeight) url:nil delegate:self haveOriginalUI:YES];
-    [self.view addSubview:_player];
-    [self.view bringSubviewToFront:self.m_navBar];
-    
+
     self.title = _videoTitle;
+    
     
     self.m_navBar.titleLabel.alpha = 0.0f;
     self.m_navBar.titleLabel.font = [UIFont systemFontOfSize:kWord_Font_32px];
     
     [_tableView registerClass:[LWCommentListCell class] forCellReuseIdentifier:[LWCommentListCell cellidentifier]];
-    _tableView.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight-_inputView.fHeight);
+    _tableView.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight - 44);
     _tableView.separatorColor = k_Border_Color;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     _tableView.contentInset = UIEdgeInsetsMake(_playerHeight, 0, 0, 0);
@@ -104,15 +127,15 @@
     
     _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _tableView.fWidth, 44)];
     _headerView.backgroundColor = [UIColor whiteColor];
+    _headerView.hidden = YES;
     _tableView.tableHeaderView = _headerView;
     
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 12, _headerView.fWidth - 20, 20)];
     _titleLabel.textColor = kWord_Color_High;
     _titleLabel.font = [UIFont systemFontOfSize:kWord_Font_30px];
     [_headerView addSubview:_titleLabel];
-    
+
     _coverArray = [NSMutableArray array];
-    
     [self prepareData];
 }
 
@@ -130,7 +153,7 @@
         [_headerView addSubview:_collectionView];
         [_collectionView setContentSize:CGSizeMake(_collectionView.fWidth + 1, _collectionView.fHeight)];
         [_collectionView registerClass:[SCVideoCollectionViewCell class] forCellWithReuseIdentifier:[SCVideoCollectionViewCell cellIdentifier]];
-        
+        _headerView.hidden = NO;
         _headerView.frame = CGRectMake(0, 0, _headerView.fWidth, _collectionView.bottom + 15);
         _tableView.tableHeaderView = _headerView;
     }
@@ -151,7 +174,6 @@
     [SCNetwork matchVideoDetailWithVideoId:_videoId success:^(SCVideoDetailModel *model) {
         [self stopActivityAnimation];
         _model = model.data;
-        
         [self updateData];
     } message:^(NSString *resultMsg) {
         [self stopActivityAnimation];
@@ -162,7 +184,10 @@
     [SCNetwork matchVideoRelatedListWithVideoId:_videoId success:^(SCVideoCoverModel *model) {
         [_coverArray removeAllObjects];
         [_coverArray addObjectsFromArray:model.data];
-        [self.collectionView reloadData];
+        if (_coverArray.count) {
+            _titleLabel.text = @"相关视频";
+            [self.collectionView reloadData];
+        }
     } message:^(NSString *resultMsg) {
         [self postMessage:resultMsg];
     }];
@@ -220,12 +245,17 @@
 }
 
 - (void)updateData {
-    
-    [self headerBeginRefreshing];
-    _titleLabel.text = _videoTitle;
+    [self.view addSubview:self.player];
     _player.title = _model.title;
-    
     [_player playWithNewUrl:_model.url];
+    [self.view bringSubviewToFront:self.m_navBar];
+
+    [self.view addSubview:self.inputView];
+    _titleLabel.text = [SCGlobaUtil isEmpty:_model.title] ? @"视频" : _model.title;
+    _headerView.hidden = NO;
+    self.title = _model.title;
+
+    [self headerBeginRefreshing];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -235,7 +265,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SCNewsCommentListDataModel *model = [_datasource objectAtIndex:indexPath.row];
     LWCommentListCell *cell = [tableView dequeueReusableCellWithIdentifier:[LWCommentListCell cellidentifier] forIndexPath:indexPath];
-    
+    cell.delegate = self;
     [cell createLayoutWith:model];
     return cell;
 }
@@ -259,10 +289,85 @@
     return 0.01f;
 }
 
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //弹出回复或举报
+    [self.view endEditing:YES];
     
+    LWCommentListCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
+    CGRect rect = [cell.avatar convertRect:cell.avatar.frame toView:[UIApplication sharedApplication].keyWindow];
+    
+    CGFloat x = rect.origin.x / 2.0;
+    CGFloat y = rect.origin.y + rect.size.height;
+    
+    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"举报" imageName:@"item_battle"];
+    self.outPutView = [[LrdOutputView alloc] initWithDataArray:@[one] origin:CGPointMake(x, y) width:80 height:36 direction:kLrdOutputViewDirectionLeft];
+    _outPutView.delegate = self;
+    _outPutView.dismissOperation = ^(){
+        //设置成nil，以防内存泄露
+        _outPutView = nil;
+    };
+    
+    [self.outPutView pop];
+}
+
+#pragma mark - LWCommentListCellDelegate
+- (void)praiseButtonClicked:(UIButton *)sender withModel:(SCNewsCommentListDataModel *)model {
+    if (![SCUserInfoManager isLogin]) {
+        SCLoginVC *loginVC = [[SCLoginVC alloc] init];
+        [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+            if (result) {
+                [self headerBeginRefreshing];
+            }
+        }];
+    }else {
+        if (![SCUserInfoManager isMyWith:model.userId]) {
+            [SCNetwork matchVideoCommentLikeWithVideoCommentId:model.videoCommentId success:^(SCResponseModel * aModel) {
+                [self postMessage:@"点赞成功"];
+                sender.enabled = NO;
+                model.isLike = @"1";
+                model.likeCount = [NSString stringWithFormat:@"%d", [SCGlobaUtil getInt:model.likeCount] + 1];
+                [_tableView reloadData];
+            } message:^(NSString *resultMsg) {
+                [self postMessage:resultMsg];
+            }];
+        }else {
+            [self postMessage:@"亲，不能给自己点哦~~"];
+        }
+    }
+    
+}
+
+#pragma mark - LrdOutputViewDelegate
+- (void)didSelectedAtIndexPath:(NSIndexPath *)indexPath {
+    //举报
+    SCNewsCommentListDataModel *model = [_datasource objectAtIndex:indexPath.row];
+    
+    if (![SCUserInfoManager isLogin]) {
+        SCLoginVC *loginVC = [[SCLoginVC alloc] init];
+        [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+            if (result) {
+                MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"举报中" showAddTo:self.view delay:NO];
+                [SCNetwork userReportWithCommentId:model.videoCommentId type:4 success:^(SCResponseModel *model) {
+                    [HUD hideAnimated:YES];
+                    [self postMessage:@"举报成功"];
+                } message:^(NSString *resultMsg) {
+                    [HUD hideAnimated:YES];
+                    [self postMessage:resultMsg];
+                }];
+            }
+        }];
+    }else {
+        MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"举报中" showAddTo:self.view delay:NO];
+        [SCNetwork userReportWithCommentId:model.videoCommentId type:4 success:^(SCResponseModel *model) {
+            [HUD hideAnimated:YES];
+            [self postMessage:@"举报成功"];
+        } message:^(NSString *resultMsg) {
+            [HUD hideAnimated:YES];
+            [self postMessage:resultMsg];
+        }];
+    }
 }
 
 #pragma mark - CollectionViewDelegate
@@ -295,29 +400,42 @@
     
 }
 
-- (void)updatePlayerStatus:(CDPVideoPlayerStatus)status {
-    if (status == CDPVideoPlayerPlay) {
-        [UIView animateWithDuration:0.15 animations:^{
-            _player.frame = CGRectMake(0, 0, _player.fWidth, _player.fHeight);
+- (void)inputViewDidChangedFrame:(CGRect)frame {
+    _inputView.frame = frame;
+}
+
+- (void)inputTextViewWillBeginEditing:(SCMessageTextView *)inputTextView {
+    if (![SCUserInfoManager isLogin]) {
+        [self.view endEditing:YES];
+        SCLoginVC *loginVC = [[SCLoginVC alloc] init];
+        [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+            if (result) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [_inputView.inputTextView becomeFirstResponder];
+                });
+            }
         }];
-    }else if (status == CDPVideoPlayerEnd) {
-        //播放下一个
-        [_player playWithNewUrl:@"http://v.theonion.com/onionstudios/video/3158/640.mp4"];
     }
 }
 
+- (void)inputTextViewDidSendMessage:(SCMessageTextView *)inputTextView {
+    
+    MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"评价中" showAddTo:self.view delay:NO];
+    
+    [SCNetwork matchVideoCommentAddWithVideoId:_videoId comment:inputTextView.text success:^(SCResponseModel *model) {
+        [HUD hideAnimated:YES];
+        _inputView.inputTextView.text = nil;
+        [self postMessage:@"发表成功"];
+        [self refreshData];
+    } message:^(NSString *resultMsg) {
+        [HUD hideAnimated:YES];
+        [self postMessage:resultMsg];
+    }];
+}
 
-
-- (void)switchSizeClickToFullScreen:(BOOL)toFullScreen {
-    if (toFullScreen) {
-        if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
-            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
-            [[UIApplication sharedApplication] setStatusBarHidden:NO];
-        }
-    }else {
-        if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
-            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
-        }
+- (void)transformFinishedToFullScreen:(BOOL)toFullScreen {
+    if (!toFullScreen) {
+        [self.view bringSubviewToFront:self.m_navBar];
     }
 }
 
@@ -358,6 +476,31 @@
             }
         }
     }
+}
+
+#pragma mark - keyboard
+- (void)keyboareWillShowNotif:(NSNotification *)notification {
+    // 键盘信息字典
+    NSDictionary* info = [notification userInfo];
+    CGFloat duration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    
+    NSValue *aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGFloat keyboardHeight = CGRectGetHeight([aValue CGRectValue]);
+    
+    [UIView animateWithDuration:duration animations:^{
+        _inputView.frame = CGRectMake(0, self.view.fHeight - keyboardHeight - _inputView.fHeight, _inputView.fWidth, _inputView.fHeight);
+    }];
+}
+
+- (void)keyboareWillHiddenNotif:(NSNotification *)notification {
+    // 键盘信息字典
+    NSDictionary* info = [notification userInfo];
+    
+    CGFloat duration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    
+    [UIView animateWithDuration:duration animations:^{
+        _inputView.frame = CGRectMake(0, self.view.fHeight - _inputView.fHeight, _inputView.fWidth, _inputView.fHeight);
+    }];
 }
 
 

@@ -12,6 +12,7 @@
 
 #import "SCScheduleDetailVC.h"
 #import "SCMatchListModel.h"
+#import "SCLoginVC.h"
 
 @interface SCScheduleListVC ()<SCScheduleListCellDelegate>
 {
@@ -136,27 +137,36 @@
 }
 
 - (void)appointButtonClicked:(UIButton *)sender type:(SCMacthAppointType)type model:(SCMatchListDataModel *)model {
-    int aType = 1;
-    if (type == SCMacthAppointTypeCancel) {
-        aType = 2;
-    }
-    sender.enabled = NO;
-    [SCNetwork matchAppointmentAddWithMatchUnitId:model.matchUnitId type:type success:^(SCResponseModel *aModel) {
-        sender.enabled = YES;
-        NSString *message = @"预约成功";
-        sender.selected = YES;
-        model.appoint = @"1";
-        if (aType == 2) {
-            message = @"取消预约成功";
-            sender.selected = NO;
-            model.appoint = @"0";
-        }
-        [self postMessage:message];
-    } message:^(NSString *resultMsg) {
-        sender.enabled = YES;
-        [self postMessage:resultMsg];
-    }];
     
+    if (![SCUserInfoManager isLogin]) {
+        SCLoginVC *loginVC = [[SCLoginVC alloc] init];
+        [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+            if (result) {
+                [self headerBeginRefreshing];
+            }
+        }];
+    }else {
+        int aType = 1;
+        if (type == SCMacthAppointTypeCancel) {
+            aType = 2;
+        }
+        sender.enabled = NO;
+        [SCNetwork matchAppointmentAddWithMatchUnitId:model.matchUnitId type:aType success:^(SCResponseModel *aModel) {
+            sender.enabled = YES;
+            NSString *message = @"预约成功";
+            sender.selected = YES;
+            model.appointType = @"1";
+            if (aType == 2) {
+                message = @"取消预约成功";
+                sender.selected = NO;
+                model.appointType = @"0";
+            }
+            [self postMessage:message];
+        } message:^(NSString *resultMsg) {
+            sender.enabled = YES;
+            [self postMessage:resultMsg];
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

@@ -281,7 +281,7 @@ static NSString *commonCellId = @"SCCommonCell";
 
 #pragma mark - TableViewDatasouse
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -310,10 +310,12 @@ static NSString *commonCellId = @"SCCommonCell";
             cell.leftImage = [UIImage imageNamed:@"icon_member_combo"];
             cell.leftLabel.text = @"我的预约";
         }
-    }else if (indexPath.section == 1) {
-        cell.leftImage = [UIImage imageNamed:@"icon_member_combo"];
-        cell.leftLabel.text = @"消息";
-    }else {
+    }
+//    else if (indexPath.section == 1) {
+//        cell.leftImage = [UIImage imageNamed:@"icon_member_combo"];
+//        cell.leftLabel.text = @"消息";
+//    }
+    else {
         cell.leftImage = [UIImage imageNamed:@"icon_member_combo"];
         cell.leftLabel.text = @"设置";
     }
@@ -343,7 +345,8 @@ static NSString *commonCellId = @"SCCommonCell";
     
     NSInteger section = indexPath.section;
     
-    if (section == 0 || section == 1) {
+    if (section == 0) {
+//        if (section == 0 || section == 1) {
         //未登录需要登录
         if (![SCUserInfoManager isLogin]) {
             SCLoginVC *loginVC = [[SCLoginVC alloc] init];

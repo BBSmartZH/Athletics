@@ -128,6 +128,19 @@
                                                  message:(SCMessageBlock)message;
 
 /**
+ *  为比赛评论点赞
+ *
+ *  @param matchUnitId 比赛id
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)matchCommentLikeWithMatchUnitId:(NSString *)matchUnitId
+                                                  success:(void (^)(SCResponseModel *model))success
+                                                  message:(SCMessageBlock)message;
+
+/**
  *  赛事预约
  *
  *  @param matchUnitId 赛事id

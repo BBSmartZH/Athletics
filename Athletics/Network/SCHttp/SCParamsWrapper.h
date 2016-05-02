@@ -330,6 +330,14 @@
 + (NSDictionary *)matchCommentAddParamsWithMatchUnitId:(NSString *)matchUnitId
                                                comment:(NSString *)comment;
 
+#pragma mark - 比赛评论点赞
+/**
+ *  比赛评论点赞
+ *
+ *  @return
+ */
++ (NSDictionary *)matchCommentLikeParamsWithMatchUnitId:(NSString *)matchUnitId;
+
 #pragma mark - 赛事预约
 /**
  *  赛事预约

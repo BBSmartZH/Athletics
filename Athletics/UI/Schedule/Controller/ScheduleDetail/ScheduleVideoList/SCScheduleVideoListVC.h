@@ -8,11 +8,12 @@
 
 #import "SCBaseRefreshVC_iPhone.h"
 
+@class SCScheduleDetailVC;
 @interface SCScheduleVideoListVC : SCBaseRefreshVC_iPhone
 
 @property (nonatomic, assign) CGFloat topHeight;
 
-@property (nonatomic, assign) UIViewController *parentVC;
+@property (nonatomic, assign) SCScheduleDetailVC *parentVC;
 
 @property (nonatomic, copy) NSString *matchUnitId;
 

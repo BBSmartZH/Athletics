@@ -11,18 +11,32 @@
 #import "SCImageModel.h"
 
 @protocol
+SCContentVideoModel
+@end
+
+@interface SCContentVideoModel : SCBaseModel
+
+@property (nonatomic, copy) NSString<Optional> *vId;
+@property (nonatomic, copy) NSString<Optional> *title;
+@property (nonatomic, copy) NSString<Optional> *url;
+@property (nonatomic, copy) NSString<Optional> *image_id;
+@property (nonatomic, strong) SCImageModel<Optional> *image;
+@property (nonatomic, copy) NSString<Optional> *videoLength;
+
+@end
+
+@protocol
 SCContentListModel
 @end
 
 @interface SCContentListModel : SCBaseModel
 
 @property (nonatomic, copy) NSString<Optional> *type;
-@property (nonatomic, copy) NSString<Optional> *vid;
+@property (nonatomic, strong) SCContentVideoModel<Optional> *video;
 @property (nonatomic, strong) SCImageModel<Optional> *image;
 @property (nonatomic, copy) NSString<Optional> *title;
 @property (nonatomic, copy) NSString<Optional> *desc;
-@property (nonatomic, copy) NSString<Optional> *duration;
 @property (nonatomic, copy) NSString<Optional> *content;
-@property (nonatomic, copy) NSString<Optional> *itype;
+@property (nonatomic, copy) NSString<Optional> *img_id;
 
 @end

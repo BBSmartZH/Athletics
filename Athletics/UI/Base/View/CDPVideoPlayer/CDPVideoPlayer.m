@@ -61,6 +61,8 @@
     UIProgressView *_progressView;//缓冲进度条
     
     MBProgressHUD *_progressHUD;
+    
+    BOOL _initFullPlaying;
 
     UIView *_superView;
     CGRect _windowRect;
@@ -91,7 +93,7 @@
         
         //开始播放
         [self checkAndUpdateStatus:CDPVideoPlayerReadyPlay];
-        [_player play];
+//        [_player play];
     }
     return self;
 }
@@ -496,6 +498,16 @@
     [self checkAndUpdateStatus:CDPVideoPlayerReadyPlay];
     [_player play];
 }
+
+- (void)playFullWithNewUrl:(NSString *)url {
+    [self playWithNewUrl:url];
+    
+    _initFullPlaying = YES;
+    [self switchClick];
+    _backButton.hidden = NO;
+    _switchButton.hidden = YES;
+}
+
 //播放
 -(void)play{
     //记录最后一次显示开始时间
@@ -556,7 +568,7 @@
         _superView = self.superview;
         
         UIWindow *window = [UIApplication sharedApplication].keyWindow;
-        _windowRect = [self convertRect:self.bounds toView:window];
+        _windowRect = [self convertRect:self.frame toView:window];
         
         self.frame = _windowRect;
         [window addSubview:self];
@@ -567,6 +579,10 @@
         }completion:^(BOOL finished) {
             _backButton.hidden = NO;
             _isSwitch=NO;
+            
+            if (self.delegate && [self.delegate respondsToSelector:@selector(transformFinishedToFullScreen:)]) {
+                [self.delegate transformFinishedToFullScreen:_isFullScreen];
+            }
         }];
     }
     else{
@@ -582,6 +598,9 @@
             _isSwitch=NO;
             self.frame = _initFrame;
             [_superView addSubview:self];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(transformFinishedToFullScreen:)]) {
+                [self.delegate transformFinishedToFullScreen:_isFullScreen];
+            }
         }];
     }
 }
@@ -658,7 +677,10 @@
         self.frame = CGRectMake(0,0,CDPSHEIGHT,CDPSWIDTH);
 
         _playerLayer.frame=self.bounds;
-        self.center=self.window.center;
+        
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+
+        self.center = window.center;
         
         if (_haveOriginalUI==YES&&_topBar&&_footBar) {
             [self restoreOrChangeAlpha:YES];
@@ -688,14 +710,15 @@
 -(void)tapGR:(UITapGestureRecognizer *)tapGR{
     if(tapGR.numberOfTapsRequired == 2) {
         //双击
-        if ([_delegate respondsToSelector:@selector(doubleClick)]) {
-            [_delegate doubleClick];
+        if (!_initFullPlaying) {
+            if ([_delegate respondsToSelector:@selector(doubleClick)]) {
+                [_delegate doubleClick];
+            }
+            if (_haveOriginalUI==YES) {
+                [self switchClick];
+            }
         }
-        if (_haveOriginalUI==YES) {
-            [self switchClick];
-        }
-    }
-    else{
+    }else{
         //单击
         if (_isShowBar==YES) {
             [self hideBar];
@@ -800,18 +823,27 @@
 }
 //返回
 -(void)backClick{
-    //记录最后一次显示开始时间
-    _lastShowBarTime=[[NSDate date] timeIntervalSince1970];
-    
-    if (_isFullScreen==YES) {
-        //取消全屏
-        [self switchClick];
-    }
-    else{
-        //返回
-        if ([_delegate respondsToSelector:@selector(back)]) {
-            [_delegate back];
+    if (!_initFullPlaying) {
+        //记录最后一次显示开始时间
+        _lastShowBarTime=[[NSDate date] timeIntervalSince1970];
+        
+        if (_isFullScreen==YES) {
+            //取消全屏
+            [self switchClick];
+        }else{
+            //返回
+            if ([_delegate respondsToSelector:@selector(back)]) {
+                [_delegate back];
+            }
         }
+    }else {
+        [self switchClick];
+        if ([_delegate respondsToSelector:@selector(initFullBack)]) {
+            [_delegate initFullBack];
+        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self close];
+        });
     }
 }
 //播放、暂停

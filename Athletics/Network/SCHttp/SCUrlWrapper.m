@@ -379,6 +379,16 @@
     return [self p_wrap:@"/match/comment/add"];
 }
 
+#pragma mark - 比赛评论点赞
+/**
+ *  比赛评论点赞
+ *
+ *  @return
+ */
++ (NSString *)matchCommentLikeUrl {
+    return [self p_wrap:@"/match/comment/like/add"];
+}
+
 #pragma mark - 赛事预约
 /**
  *  赛事预约

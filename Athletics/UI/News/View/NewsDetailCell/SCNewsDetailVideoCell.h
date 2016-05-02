@@ -9,7 +9,16 @@
 #import <UIKit/UIKit.h>
 
 @class SCContentListModel;
+
+@protocol SCNewsDetailVideoCellDelegate <NSObject>
+
+- (void)playButtonClickedWith:(SCContentListModel *)model;
+
+@end
+
 @interface SCNewsDetailVideoCell : UITableViewCell
+
+@property (nonatomic, assign) id<SCNewsDetailVideoCellDelegate> delegate;
 
 - (void)createLayoutWith:(SCContentListModel *)model;
 

@@ -256,6 +256,7 @@
 		9BAA21481CC248420053F1C0 /* SCNewsDetailVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA21471CC248420053F1C0 /* SCNewsDetailVideoCell.m */; };
 		9BAA214B1CC26D3A0053F1C0 /* SCCustomizeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA214A1CC26D3A0053F1C0 /* SCCustomizeHeaderView.m */; };
 		9BAA214F1CC333110053F1C0 /* SCCommentInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BAA214E1CC333110053F1C0 /* SCCommentInputView.m */; };
+		9BDC521A1CD6C693001E211E /* SCFullVideoPlayingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDC52191CD6C693001E211E /* SCFullVideoPlayingVC.m */; };
 		9BE052541CD3018800698D13 /* SCMatchBannerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BE052531CD3018800698D13 /* SCMatchBannerModel.m */; };
 		9BE052581CD309CE00698D13 /* SCUploadTokenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BE052571CD309CE00698D13 /* SCUploadTokenModel.m */; };
 		9BE0525C1CD30DD300698D13 /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BE0525B1CD30DD300698D13 /* UIImage+Scale.m */; };
@@ -836,6 +837,8 @@
 		9BAA214A1CC26D3A0053F1C0 /* SCCustomizeHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCCustomizeHeaderView.m; sourceTree = "<group>"; };
 		9BAA214D1CC333110053F1C0 /* SCCommentInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCCommentInputView.h; sourceTree = "<group>"; };
 		9BAA214E1CC333110053F1C0 /* SCCommentInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCCommentInputView.m; sourceTree = "<group>"; };
+		9BDC52181CD6C693001E211E /* SCFullVideoPlayingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCFullVideoPlayingVC.h; sourceTree = "<group>"; };
+		9BDC52191CD6C693001E211E /* SCFullVideoPlayingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCFullVideoPlayingVC.m; sourceTree = "<group>"; };
 		9BE052521CD3018800698D13 /* SCMatchBannerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMatchBannerModel.h; sourceTree = "<group>"; };
 		9BE052531CD3018800698D13 /* SCMatchBannerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCMatchBannerModel.m; sourceTree = "<group>"; };
 		9BE052561CD309CE00698D13 /* SCUploadTokenModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCUploadTokenModel.h; sourceTree = "<group>"; };
@@ -2439,6 +2442,7 @@
 				9BAA20DA1CBE50C40053F1C0 /* SCVideoVC.m */,
 				9BAA20D61CBE50AE0053F1C0 /* SCVideoContentVC.h */,
 				9BAA20D71CBE50AE0053F1C0 /* SCVideoContentVC.m */,
+				9BDC52171CD6C66F001E211E /* FullVideoPlaying */,
 				9BAA20DC1CBE52F90053F1C0 /* VideoDetail */,
 			);
 			path = Controller;
@@ -2640,6 +2644,15 @@
 				9B2A3CE91CC478FD003D22C6 /* SCMessageTextView.m */,
 			);
 			path = CommentInputView;
+			sourceTree = "<group>";
+		};
+		9BDC52171CD6C66F001E211E /* FullVideoPlaying */ = {
+			isa = PBXGroup;
+			children = (
+				9BDC52181CD6C693001E211E /* SCFullVideoPlayingVC.h */,
+				9BDC52191CD6C693001E211E /* SCFullVideoPlayingVC.m */,
+			);
+			path = FullVideoPlaying;
 			sourceTree = "<group>";
 		};
 		9BE052511CD3017000698D13 /* MatchBannerModel */ = {
@@ -3356,6 +3369,7 @@
 				9BAA20ED1CBECA2B0053F1C0 /* SCScheduleContentVC.m in Sources */,
 				9B68BE4D1CC5DB8E006EE4B9 /* IQUIScrollView+Additions.m in Sources */,
 				9BE0530E1CD32FE500698D13 /* QNALAssetFile.m in Sources */,
+				9BDC521A1CD6C693001E211E /* SCFullVideoPlayingVC.m in Sources */,
 				9BAA21311CC08DCE0053F1C0 /* SCPostsTopView.m in Sources */,
 				9BAA20D81CBE50AE0053F1C0 /* SCVideoContentVC.m in Sources */,
 				9BF8B0CB1CD4C154001EC187 /* SCNewsBannerListModel.m in Sources */,

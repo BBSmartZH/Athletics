@@ -163,7 +163,7 @@
     
     if (![SCUserInfoManager isLogin]) {
         SCLoginVC *loginVC = [[SCLoginVC alloc] init];
-        [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+        [loginVC loginWithPresentController:self.parentVC successCompletion:^(BOOL result) {
             if (result) {
                 [self headerBeginRefreshing];
             }
@@ -174,6 +174,8 @@
                 [self postMessage:@"点赞成功"];
                 sender.enabled = NO;
                 model.isLike = @"1";
+                model.likeCount = [NSString stringWithFormat:@"%d", [SCGlobaUtil getInt:model.likeCount] + 1];
+                [_tableView reloadData];
             } message:^(NSString *resultMsg) {
                 [self postMessage:resultMsg];
             }];
@@ -191,7 +193,7 @@
     
     if (![SCUserInfoManager isLogin]) {
         SCLoginVC *loginVC = [[SCLoginVC alloc] init];
-        [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+        [loginVC loginWithPresentController:self.parentVC successCompletion:^(BOOL result) {
             if (result) {
                 MBProgressHUD *HUD = [SCProgressHUD MBHudWithText:@"举报中" showAddTo:self.parentVC.view delay:NO];
                 [SCNetwork userReportWithCommentId:model.commentId type:1 success:^(SCResponseModel *model) {

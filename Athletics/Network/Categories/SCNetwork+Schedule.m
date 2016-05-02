@@ -232,6 +232,31 @@
 }
 
 /**
+ *  为比赛评论点赞
+ *
+ *  @param matchUnitId 比赛id
+ *  @param success
+ *  @param message
+ *
+ *  @return
+ */
++ (NSURLSessionDataTask *)matchCommentLikeWithMatchUnitId:(NSString *)matchUnitId
+                                                  success:(void (^)(SCResponseModel *model))success
+                                                  message:(SCMessageBlock)message {
+    return [SCNetworkHelper postWithUrl:[SCUrlWrapper matchCommentLikeUrl] params:[SCParamsWrapper matchCommentLikeParamsWithMatchUnitId:matchUnitId] success:^(NSDictionary *result) {
+        NSError *error;
+        SCResponseModel *model = [[SCResponseModel alloc] initWithDictionary:result error:&error];
+        if (!error) {
+            success(model);
+        }else {
+            message(error.localizedDescription);
+        }
+    } message:^(NSString *resultMsg) {
+        message(resultMsg);
+    }];
+}
+
+/**
  *  赛事预约
  *
  *  @param matchUnitId 赛事id

@@ -18,8 +18,10 @@
 
 #import "SCNewsPhotosPackVC.h"
 #import "SCNewsArticlePackVC.h"
+#import "SCFullVideoPlayingVC.h"
+#import "LWBaseNavVC_iPhone.h"
 
-@interface SCNewsDetailVC ()
+@interface SCNewsDetailVC ()<SCNewsDetailVideoCellDelegate>
 {
     UILabel *_titleLabel;
     UILabel *_timeLabel;
@@ -111,6 +113,7 @@
             return cell;
         }else if ([SCGlobaUtil getInt:contentModel.type] == 2) {
             SCNewsDetailVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:[SCNewsDetailVideoCell cellIdentifier] forIndexPath:indexPath];
+            cell.delegate = self;
             [cell createLayoutWith:contentModel];
             return cell;
         }
@@ -269,6 +272,17 @@
             articleVC.hidesBottomBarWhenPushed = YES;
             [self.parentVC.navigationController pushViewController:articleVC animated:YES];
         }
+    }
+}
+
+#pragma mark - SCNewsDetailVideoCellDelegate
+- (void)playButtonClickedWith:(SCContentListModel *)model {
+    if (![SCGlobaUtil isEmpty:model.video.url]) {
+        SCFullVideoPlayingVC *playVC = [[SCFullVideoPlayingVC alloc] init];
+        playVC.videoTitle = model.title;
+        playVC.playUrl = model.video.url;
+        LWBaseNavVC_iPhone *navVC = [[LWBaseNavVC_iPhone alloc] initWithRootViewController:playVC];
+        [self.parentVC.navigationController presentViewController:navVC animated:NO completion:nil];
     }
 }
 
