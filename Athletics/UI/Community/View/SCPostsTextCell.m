@@ -157,7 +157,7 @@ static CGFloat k_small = 2.0;
 
 - (void)createLayoutWith:(SCCommunityListDataModel*)model {
     
-    [_headImageV scImageWithURL:model.userAvatar placeholderImage:nil];
+    [_headImageV scImageWithURL:model.userAvatar placeholderImage:[UIImage imageNamed:@"mine_default_avatar"]];
     _nameLabel.text = model.userName;
     _thumbImagev.image = [UIImage imageNamed:@"news_suppourt_nor"];
     _thumbNumLabel.text = model.likeCount;

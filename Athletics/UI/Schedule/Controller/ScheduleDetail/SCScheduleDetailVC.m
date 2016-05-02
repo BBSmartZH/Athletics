@@ -96,7 +96,7 @@ static CGFloat k_left = 10.0f;
         _topBgImageView = [[UIImageView alloc] init];
         _topBgImageView.contentMode = UIViewContentModeScaleAspectFill;
         _topBgImageView.clipsToBounds = YES;
-        _topBgImageView.backgroundColor = [UIColor cyanColor];
+        _topBgImageView.image = [UIImage imageNamed:@"schedule_bg"];
         [_topView addSubview:_topBgImageView];
         
         [_topBgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
