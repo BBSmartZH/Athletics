@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class SCTeletextListDataModel;
 @interface SCTeletexListCell : UITableViewCell
--(void)creatLayoutWith:(id)model;
+
+-(void)creatLayoutWith:(SCTeletextListDataModel *)model;
 +(NSString*)cellIdentifier;
+
 @end

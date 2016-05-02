@@ -8,11 +8,14 @@
 
 #import "SCBaseRefreshVC_iPhone.h"
 
+@class SCRoundGameModel;
 @interface SCTeletextListVC : SCBaseRefreshVC_iPhone
 
 @property (nonatomic, assign) CGFloat topHeight;
 
 @property (nonatomic, assign) UIViewController *parentVC;
+
+@property (nonatomic, strong) NSArray<SCRoundGameModel *> *roundGames;
 
 @property (nonatomic, copy) NSString *matchUnitId;
 

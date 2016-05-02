@@ -60,6 +60,7 @@ static CGFloat kImageH = 32.0f;
     _commentLabel = [[UILabel alloc]init];
     _commentLabel.textColor = kWord_Color_High;
     _commentLabel.font = [UIFont systemFontOfSize:kWord_Font_28px];
+    _commentLabel.numberOfLines = 0;
     [self.contentView addSubview:_commentLabel];
     
     _WEAKSELF(ws);

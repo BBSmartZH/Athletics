@@ -44,7 +44,7 @@ SCMatchDetailDataModel
 @property (nonatomic, copy) NSString<Optional> *rightTeamAble;
 @property (nonatomic, copy) NSString<Optional> *beginTime;
 
-@property (nonatomic, strong) NSArray<SCRoundGameModel, Optional> *data;
+@property (nonatomic, strong) NSArray<SCRoundGameModel, Optional> *roundGames;
 
 @end
 

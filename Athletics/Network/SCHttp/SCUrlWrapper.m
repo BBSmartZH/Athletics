@@ -472,7 +472,7 @@
 
 #pragma mark - Private
 + (NSString *)p_wrap:(NSString *)url {
-    return [NSString stringWithFormat:@"/api%@", url];
+    return [NSString stringWithFormat:@"/esports/api%@", url];
 }
 
 @end

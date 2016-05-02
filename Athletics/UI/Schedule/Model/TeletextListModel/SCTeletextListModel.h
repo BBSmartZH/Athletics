@@ -25,8 +25,20 @@ SCTeletextListDataModel
 
 @end
 
+@protocol
+SCTeletextModel
+@end
+
+@interface SCTeletextModel : SCBaseModel
+
+@property (nonatomic, copy) NSString<Optional> *status;
+@property (nonatomic, strong) NSArray<SCTeletextListDataModel, Optional> *list;
+
+
+@end
+
 @interface SCTeletextListModel : SCResponseModel
 
-@property (nonatomic, strong) NSArray<SCTeletextListDataModel, Optional> *data;
+@property (nonatomic, strong) SCTeletextModel<Optional> *data;
 
 @end

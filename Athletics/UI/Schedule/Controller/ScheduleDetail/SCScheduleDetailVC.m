@@ -293,6 +293,7 @@ static CGFloat k_left = 10.0f;
     self.teletextListVC = [[SCTeletextListVC alloc] init];
     self.teletextListVC.parentVC = self;
     self.teletextListVC.matchUnitId = _matchUnitId;
+    self.teletextListVC.roundGames = _model.roundGames;
     self.teletextListVC.topHeight = _selectedView.bottom + _inputView.fHeight;
     self.teletextListVC.view.frame = CGRectMake(_scrollView.fWidth, 0, _scrollView.fWidth, _scrollView.fHeight);
     [_scrollView addSubview:self.teletextListVC.view];

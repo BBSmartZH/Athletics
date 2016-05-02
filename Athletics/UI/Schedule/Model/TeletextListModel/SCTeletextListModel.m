@@ -12,6 +12,10 @@
 
 @end
 
+@implementation SCTeletextModel
+
+@end
+
 @implementation SCTeletextListModel
 
 @end

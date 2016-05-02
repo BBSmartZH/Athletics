@@ -28,6 +28,7 @@
     
     NSMutableArray *_coverArray;
     SCVideoDetailDataModel *_model;
+    NSIndexPath *_playingIndexPath;
 }
 
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -397,7 +398,49 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if (indexPath.item < _coverArray.count) {
+        if (_playingIndexPath) {
+            SCVideoCoverDataModel *preModel = [_coverArray objectAtIndex:_playingIndexPath.item];
+            preModel.isPlaying = @"0";
+        }
+        if (!_playingIndexPath) {
+            SCVideoCoverDataModel *model = [_coverArray objectAtIndex:indexPath.item];
+            [_player playWithNewUrl:model.url];
+            model.isPlaying = @"1";
+            _playingIndexPath = indexPath;
+            [_collectionView reloadData];
+        }else {
+            if (_playingIndexPath.item != indexPath.item) {
+                SCVideoCoverDataModel *model = [_coverArray objectAtIndex:indexPath.item];
+                [_player playWithNewUrl:model.url];
+                model.isPlaying = @"1";
+                _playingIndexPath = indexPath;
+                [_collectionView reloadData];
+            }
+        }
+    }
+}
+
+- (void)updatePlayerStatus:(CDPVideoPlayerStatus)status {
+    if (status == CDPVideoPlayerEnd) {
+        if (!_playingIndexPath) {
+            if (_coverArray.count) {
+                SCVideoCoverDataModel *model = [_coverArray objectAtIndex:0];
+                [_player playWithNewUrl:model.url];
+                model.isPlaying = @"1";
+                _playingIndexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+                [_collectionView reloadData];
+            }
+        }else if (_playingIndexPath.item + 1 < _coverArray.count) {
+            SCVideoCoverDataModel *preModel = [_coverArray objectAtIndex:_playingIndexPath.item];
+            preModel.isPlaying = @"0";
+            SCVideoCoverDataModel *model = [_coverArray objectAtIndex:_playingIndexPath.item + 1];
+            [_player playWithNewUrl:model.url];
+            model.isPlaying = @"1";
+            _playingIndexPath = [NSIndexPath indexPathForItem:_playingIndexPath.item + 1 inSection:0];
+            [_collectionView reloadData];
+        }
+    }
 }
 
 - (void)inputViewDidChangedFrame:(CGRect)frame {

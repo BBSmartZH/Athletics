@@ -58,7 +58,7 @@ static CGFloat k_left = 10.0f;
     _titleLabel.text = model.title;
     //选中title变红色
     if ([SCGlobaUtil getInt:model.isPlaying] == 1) {
-        _titleLabel.textColor = [UIColor redColor];
+        _titleLabel.textColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.6];
     }else {
         _titleLabel.textColor = kWord_Color_High;
     }

@@ -7,6 +7,7 @@
 //
 
 #import "SCTeletexListCell.h"
+#import "SCTeletextListModel.h"
 
 @interface SCTeletexListCell ()
 {
@@ -44,25 +45,28 @@ static CGFloat kImageH = 32.0f;
     _circleImageV = [[UIImageView alloc]init];
     _circleImageV.contentMode = UIViewContentModeScaleAspectFill;
     _circleImageV.clipsToBounds = YES;
+    _circleImageV.layer.cornerRadius = 5;
+    _circleImageV.backgroundColor = [UIColor blueColor];
     [self.contentView addSubview:_circleImageV];
     
-    _headerImageV = [[UIImageView alloc]init];
+    _headerImageV = [[UIImageView alloc] init];
     _headerImageV.contentMode = UIViewContentModeScaleAspectFill;
     _headerImageV.clipsToBounds = YES;
     _headerImageV.layer.cornerRadius = kImageH/2.0;
     [self.contentView addSubview:_headerImageV];
     
-    _nameLabel = [[UILabel alloc]init];
+    _nameLabel = [[UILabel alloc] init];
     _nameLabel.textColor = kWord_Color_Event;
     _nameLabel.font = [UIFont systemFontOfSize:kWord_Font_28px];
     [self.contentView addSubview:_nameLabel];
     
-    _imageV = [[UIImageView alloc]init];
+    _imageV = [[UIImageView alloc] init];
     _imageV.contentMode = UIViewContentModeScaleAspectFill;
     _imageV.clipsToBounds = YES;
+    _imageV.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:_imageV];
     
-    _descLabel = [[UILabel alloc]init];
+    _descLabel = [[UILabel alloc] init];
     _descLabel.textColor = kWord_Color_Low;
     _descLabel.numberOfLines = 0;
     _descLabel.font = [UIFont systemFontOfSize:kWord_Font_24px];
@@ -82,8 +86,8 @@ static CGFloat kImageH = 32.0f;
     [_imageV addSubview:_scoreView];
     
     _scoreLabel = [[UILabel alloc]init];
-    _scoreLabel.textColor = kWord_Color_Low;
     _scoreLabel.font = [UIFont systemFontOfSize:kWord_Font_24px];
+    _scoreLabel.textColor = [UIColor whiteColor];
     [_scoreView addSubview:_scoreLabel];
     
     _WEAKSELF(ws);
@@ -97,7 +101,7 @@ static CGFloat kImageH = 32.0f;
     [_circleImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(_lineView);
         make.centerY.equalTo(_headerImageV);
-        make.size.mas_equalTo(CGSizeMake(9, 9));
+        make.size.mas_equalTo(CGSizeMake(10, 10));
     }];
     
     [_headerImageV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -123,18 +127,18 @@ static CGFloat kImageH = 32.0f;
         make.left.equalTo(_imageV).offset(k_left);
         make.top.equalTo(_imageV).offset(k_left);
         make.right.equalTo(_imageV).offset(-k_left);
+        make.bottom.lessThanOrEqualTo(_imageV);
     }];
     
     [_photoImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_descLabel.mas_bottom).offset(k_left);
         make.left.equalTo(_descLabel);
-        make.size.mas_equalTo(CGSizeMake(100, 80));
-        make.bottom.equalTo(_imageV).offset(-k_left);
+        make.size.mas_equalTo(CGSizeMake(0, 0));
     }];
     
     [_scoreView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(_imageV.mas_right).offset(-k_left);
-        make.top.equalTo(_photoImageV);
+        make.centerY.equalTo(_imageV);
         make.left.equalTo(_scoreLabel).offset(-k_left);
     }];
     [_scoreLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -145,24 +149,55 @@ static CGFloat kImageH = 32.0f;
     
 }
 
--(void)creatLayoutWith:(id)model
+-(void)creatLayoutWith:(SCTeletextListDataModel *)model
 {
-    _photoImageV.backgroundColor = [UIColor cyanColor];
-    _headerImageV.backgroundColor = k_Base_Color;
-    _circleImageV.backgroundColor = [UIColor blueColor];
-    _imageV.backgroundColor = [UIColor whiteColor];
-    _nameLabel.text = @"直播员：李宝宝";
-    _descLabel.text = @"nfd放得开扫色妞奥阿塔就复读啊的酒瓯热啊哎额啊啊啊诶他啊饿欧体安防";
-    _imageV.backgroundColor = [UIColor whiteColor];
-    _scoreLabel.text = @"人头：0:1";
-    _photoImageV.hidden = NO;
+    [_photoImageV scImageWithURL:model.liverAvatar placeholderImage:nil];
+    [_photoImageV scImageWithURL:model.liverAvatar placeholderImage:nil];
+    _nameLabel.text = [NSString stringWithFormat:@"直播员：%@", model.liverName];
+    _descLabel.text = model.content;
+    _scoreLabel.text = model.goalStr;
     _scoreView.hidden = NO;
     
+    if ([SCGlobaUtil isEmpty:model.image.url]) {
+        _photoImageV.hidden = NO;
+        [_photoImageV scImageWithURL:model.image.url placeholderImage:nil];
+        
+        CGFloat imageW = 0.0f;
+        CGFloat imageH = 0.0f;
+        
+        
+        if ([SCGlobaUtil getFloat:model.image.width] == 0 || [SCGlobaUtil getFloat:model.image.height] == 0) {
+            imageW = self.fWidth / 3.0;
+            imageH = self.fWidth / 3.0;
+        }else {
+            float scal = [SCGlobaUtil getFloat:model.image.height] / [SCGlobaUtil getFloat:model.image.width];
+            
+            if ([SCGlobaUtil getFloat:model.image.width] > self.fWidth / 3.0) {
+                imageW = self.fWidth / 3.0;
+                imageH = imageW * scal;
+            }else {
+                imageW = [SCGlobaUtil getFloat:model.image.width];
+                imageH = [SCGlobaUtil getFloat:model.image.height];
+            }
+        }
+        
+        [_photoImageV mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_descLabel.mas_bottom).offset(k_left);
+            make.left.equalTo(_descLabel);
+            make.size.mas_equalTo(CGSizeMake(imageW, imageH));
+            make.bottom.equalTo(_imageV).offset(-k_left);
+        }];
+    }else {
+        _photoImageV.hidden = YES;
+        [_photoImageV mas_remakeConstraints:^(MASConstraintMaker *make) {}];
+    }
 }
+
 +(NSString *)cellIdentifier
 {
     return @"SCTeletextListCellIdentifier";
 }
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
