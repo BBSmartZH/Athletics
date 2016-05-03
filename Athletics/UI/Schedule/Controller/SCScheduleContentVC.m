@@ -59,7 +59,7 @@
 - (SCAdView *)adView {
     if (!_adView) {
         _adView = [[SCAdView alloc] initWithFrame:CGRectMake(0, 0, _tableView.fWidth, _tableView.fWidth * 0.4)];
-        _adView.placeHoldImage = [UIImage imageNamed:@"place"];
+        _adView.placeHoldImage = [UIImage imageNamed:@"default_image"];
         _adView.pageControlShowStyle = SCPageControlShowStyleRight;
         _adView.adTitleStyle = SCAdTitleShowStyleLeft;
         
@@ -85,18 +85,6 @@
 }
 
 - (void)getMatchBanner {
-    
-//    NSArray *imagesURL = @[
-//                           @"http://img.dota2.com.cn/dota2/38/5b/385bdfec72352d362c86ae46d95e0dca1461307283.jpg",
-//                           @"http://img.dota2.com.cn/dota2/de/fc/defc5969e325b72d5fb155a5a75370ec1461307258.jpg",
-//                           @"http://www.dota2.com.cn/resources/jpg/150205/10251423116795949.jpg"
-//                           ];
-//    
-//    NSArray *titles = @[@"Empire.Ramzes专访",
-//                        @"ESL ONE马尼拉前瞻",
-//                        @"意见反馈",
-//                        ];
-
     
     [SCNetwork matchBannerWithSuccess:^(SCMatchBannerModel *model) {
         _bannerModel = model;

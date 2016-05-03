@@ -30,7 +30,6 @@
 
 static CGFloat k_left = 10.0;
 static CGFloat k_small = 2.0;
-static CGFloat k_WHratio = 0.8;
 
 @implementation SCPostsImageCell
 
@@ -173,7 +172,7 @@ static CGFloat k_WHratio = 0.8;
     [_leftImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_summaryLabel.mas_bottom).offset(k_left);
         make.left.equalTo(_headImageV);
-        make.size.mas_equalTo(CGSizeMake(imageWidth,imageWidth * k_WHratio));
+        make.size.mas_equalTo(CGSizeMake(imageWidth,imageWidth * k_ImageWH_Scale));
     }];
     
     [_middleImageV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -204,7 +203,7 @@ static CGFloat k_WHratio = 0.8;
     
     _imageCounts = model.images.count;
     
-    CGFloat imageWidth = floorf(([UIScreen mainScreen].bounds.size.width - 4 * k_left) / 3.0f);
+    CGFloat imageWidth = k_ListImage_Width;
 
     
     if (_imageCounts == 0) {
@@ -217,7 +216,6 @@ static CGFloat k_WHratio = 0.8;
         _middleImageV.hidden = YES;
         
     }else if (_imageCounts >= 2){
-        imageWidth = floorf(([UIScreen mainScreen].bounds.size.width - 4 * k_left) / 3.0f);
         _leftImageV.hidden = NO;
         _middleImageV.hidden = NO;
         if (_imageCounts == 2) {
@@ -230,7 +228,7 @@ static CGFloat k_WHratio = 0.8;
     [_leftImageV mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_summaryLabel.mas_bottom).offset(k_left);
         make.left.equalTo(_headImageV);
-        make.size.mas_equalTo(CGSizeMake(imageWidth,imageWidth * k_WHratio));
+        make.size.mas_equalTo(CGSizeMake(imageWidth , floorf(imageWidth * k_ImageWH_Scale)));
     }];
     [_middleImageV mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_leftImageV.mas_right).offset(k_left);

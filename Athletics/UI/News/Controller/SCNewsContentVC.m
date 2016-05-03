@@ -54,7 +54,7 @@
 - (SCAdView *)adView {
     if (!_adView) {
         _adView = [[SCAdView alloc] initWithFrame:CGRectMake(0, 0, _tableView.fWidth, _tableView.fWidth * 0.4)];
-        _adView.placeHoldImage = [UIImage imageNamed:@"place"];
+        _adView.placeHoldImage = [UIImage imageNamed:@"default_image"];
         _adView.pageControlShowStyle = SCPageControlShowStyleRight;
         _adView.adTitleStyle = SCAdTitleShowStyleLeft;
         _WEAKSELF(ws);

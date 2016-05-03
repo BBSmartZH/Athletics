@@ -25,9 +25,6 @@
 
 static CGFloat k_left = 10.0f;
 
-static CGFloat imageW = 90.0f;
-static float scale = 0.65;
-
 @implementation SCNewsCell
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -81,13 +78,13 @@ static float scale = 0.65;
     
     [_timeLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
     [_commentLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
-    CGFloat imageWidth = imageW * ([UIScreen mainScreen].bounds.size.width / 320.0);
+    
     _WEAKSELF(ws);
     [_leftImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(ws.contentView).offset(k_left);
         make.top.equalTo(ws.contentView).offset(k_left);
         make.bottom.lessThanOrEqualTo(ws.contentView).offset(-k_left);
-        make.size.mas_equalTo(CGSizeMake(imageWidth, floorf(imageWidth * scale)));
+        make.size.mas_equalTo(CGSizeMake(k_ListImage_Width, floorf(k_ListImage_Width * k_ImageWH_Scale)));
     }];
     
     [_markImageV mas_makeConstraints:^(MASConstraintMaker *make) {

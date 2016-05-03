@@ -10,7 +10,6 @@
 #import "SCNewsListModel.h"
 static CGFloat k_left = 10.0;
 static CGFloat k_small = 5.0;
-static CGFloat k_WHratio = 0.7;
 
 @interface LWPhotosNormalCell ()
 {
@@ -103,7 +102,7 @@ static CGFloat k_WHratio = 0.7;
     [_leftImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(ws.contentView).offset(k_left);
         make.top.equalTo(_titleLabel.mas_bottom).offset(k_left);
-        make.size.mas_equalTo(CGSizeMake((kScreenWidth-k_left*2-k_left*2)/3.0, floorf((kScreenWidth-k_left*2-k_left*2)/3.0*k_WHratio)));
+        make.size.mas_equalTo(CGSizeMake(k_ListImage_Width, floorf(k_ListImage_Width * k_ImageWH_Scale)));
     }];
     
     [_middleImageV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -188,7 +187,7 @@ static CGFloat k_WHratio = 0.7;
     height += [SCGlobaUtil heightOfLineWithFont:kWord_Font_28px];
     height += k_left;
 
-    height += floorf((kScreenWidth-k_left*2-k_left*2)/3.0*k_WHratio);
+    height += floorf(k_ListImage_Width * k_ImageWH_Scale);
     
     height += k_left;
     height += [SCGlobaUtil heightOfLineWithFont:kWord_Font_20px];

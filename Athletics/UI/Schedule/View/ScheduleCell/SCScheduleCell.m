@@ -24,9 +24,7 @@
 
 static CGFloat k_left = 10.0f;
 
-static CGFloat imageW = 90.0f;
 static CGFloat markImageW = 44;
-static float scale = 0.75;
 
 @implementation SCScheduleCell
 
@@ -59,7 +57,7 @@ static float scale = 0.75;
         make.right.equalTo(ws.contentView).offset(-k_left);
     }];
     
-    _topImageH = kImageWithName(@"icon_sawtooth_enabled").size.height;
+    _topImageH = kImageWithName(@"icon_matchLive_stoped").size.height;
     _topImageV = [[UIImageView alloc] init];
     [backView addSubview:_topImageV];
     
@@ -91,12 +89,11 @@ static float scale = 0.75;
     _markImageV.hidden = YES;
     [backView addSubview:_markImageV];
     
-    CGFloat imageWidth = imageW * ([UIScreen mainScreen].bounds.size.width / 320.0);
     [_leftImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(backView).offset(k_left);
         make.top.equalTo(backView).offset(15 + _topImageH);
         make.bottom.equalTo(backView).offset(-15);
-        make.size.mas_equalTo(CGSizeMake(imageWidth, floorf(imageWidth * scale)));
+        make.size.mas_equalTo(CGSizeMake(k_ListImage_Width, floorf(k_ListImage_Width * k_ImageWH_Scale)));
     }];
     
     [centerView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -135,19 +132,17 @@ static float scale = 0.75;
 
 - (void)setState:(NSInteger)state {
     switch (state) {
-        case 0: {
-            _topImageV.image = [kImageWithName(@"icon_sawtooth_enabled") resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeTile];
-        }
-            break;
         case 1: {
-            _topImageV.image = [kImageWithName(@"icon_sawtooth_unenabled") resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode:UIImageResizingModeTile];
+            _topImageV.image = [kImageWithName(@"icon_matchLive_unstart") resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeTile];
         }
             break;
         case 2: {
-            _topImageV.image = [kImageWithName(@"icon_sawtooth_unenabled") resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode:UIImageResizingModeTile];
+            _topImageV.image = [kImageWithName(@"icon_matchLive_inhand") resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode:UIImageResizingModeTile];
         }
             break;
-        default:
+        default: {
+            _topImageV.image = [kImageWithName(@"icon_matchLive_stoped") resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode:UIImageResizingModeTile];
+        }
             break;
     }
 }

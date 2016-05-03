@@ -24,9 +24,6 @@
 
 static CGFloat k_left = 10.0f;
 
-static CGFloat imageW = 90.0f;
-static float scale = 0.75;
-
 @implementation SCVideoCell
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -71,12 +68,11 @@ static float scale = 0.75;
     
     _WEAKSELF(ws);
     
-    CGFloat imageWidth = imageW * ([UIScreen mainScreen].bounds.size.width / 320.0);
     [_leftImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(ws.contentView).offset(k_left);
         make.top.equalTo(ws.contentView).offset(k_left);
         make.bottom.lessThanOrEqualTo(ws.contentView).offset(-k_left);
-        make.size.mas_equalTo(CGSizeMake(imageWidth, floorf(imageWidth * scale)));
+        make.size.mas_equalTo(CGSizeMake(k_ListImage_Width, floorf(k_ListImage_Width * k_ImageWH_Scale)));
     }];
     
     [_durationBgView mas_makeConstraints:^(MASConstraintMaker *make) {

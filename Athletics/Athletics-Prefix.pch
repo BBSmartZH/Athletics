@@ -148,6 +148,8 @@ alpha:(a)])
 #define k_Bg_Color                      RGB_COLOR(@"#f0f0f0")//全局背景颜色
 
 
+#define k_ListImage_Width ((kScreenWidth - 10 * 4) / 3.0)
+#define k_ImageWH_Scale 0.7
 
 
 #define kAllChannelArrayKey @"AllChannelArrayKey"
