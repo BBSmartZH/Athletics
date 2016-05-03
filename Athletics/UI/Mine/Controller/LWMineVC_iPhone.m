@@ -304,10 +304,10 @@ static NSString *commonCellId = @"SCCommonCell";
     
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            cell.leftImage = [UIImage imageNamed:@"icon_member_combo"];
+            cell.leftImage = [UIImage imageNamed:@"myposts_image"];
             cell.leftLabel.text = @"我的帖子";
         }else {
-            cell.leftImage = [UIImage imageNamed:@"icon_member_combo"];
+            cell.leftImage = [UIImage imageNamed:@"myappoint_image"];
             cell.leftLabel.text = @"我的预约";
         }
     }
@@ -316,7 +316,7 @@ static NSString *commonCellId = @"SCCommonCell";
 //        cell.leftLabel.text = @"消息";
 //    }
     else {
-        cell.leftImage = [UIImage imageNamed:@"icon_member_combo"];
+        cell.leftImage = [UIImage imageNamed:@"set_image"];
         cell.leftLabel.text = @"设置";
     }
     
