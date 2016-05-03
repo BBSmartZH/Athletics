@@ -48,9 +48,20 @@ static CGFloat k_left = 10.0f;
 
 -(void)createLayoutWith:(SCTopicReplayListDataModel *)model
 {
-    NSString *title = [NSString stringWithFormat:@"%@ 回复 %@：", model.userName, model.userName];
-    NSString *commments = model.comment;
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@%@",title,commments]];
+    NSString * userName = @"";
+    if (model.userName) {
+        userName = model.userName;
+    }
+    NSString * provName = @"";
+    if (model.provName) {
+        provName = model.provName;
+    }
+    NSString * comment = @"";
+    if (model.comment) {
+        comment = model.comment;
+    }
+    NSString *title = [NSString stringWithFormat:@"%@ 回复 %@：", userName, provName];
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@%@", title, comment]];
     [string addAttribute:NSForegroundColorAttributeName value:kWord_Color_Low range:NSMakeRange(0, title.length)];
     _label.attributedText = string;
 }

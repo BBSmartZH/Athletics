@@ -33,6 +33,7 @@
     NSString *_provId;
     int _reportType;
     NSString *_reportId;
+    NSString *_replayName;
 }
 
 @property (nonatomic, strong) SCCommentInputView *inputView;
@@ -125,9 +126,10 @@
     _provId = @"";
     _reportType = 5;
     _reportId = _topicId;
-    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"回复" imageName:@"item_school"];
-    LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"举报" imageName:@"item_battle"];
-    self.outPutView = [[LrdOutputView alloc] initWithDataArray:@[one, two] origin:CGPointMake(x, y) width:80 height:36 direction:kLrdOutputViewDirectionLeft];
+    _replayName = _model.userName;
+    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"回复" imageName:@"reply_image"];
+    LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"举报" imageName:@"report_image"];
+    self.outPutView = [[LrdOutputView alloc] initWithDataArray:@[one, two] origin:CGPointMake(x, y) width:100 height:36 direction:kLrdOutputViewDirectionLeft];
     _outPutView.delegate = self;
     _outPutView.dismissOperation = ^(){
         //设置成nil，以防内存泄露
@@ -149,7 +151,7 @@
         _headerView.frame = CGRectMake(_headerView.left, _headerView.top, _headerView.fWidth, [_headerView topViewHeight]);
         _tableView.tableHeaderView = _headerView;
 
-        [_tableView reloadData];
+        [_tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
     } message:^(NSString *resultMsg) {
         [self headerEndRefreshing];
         [self postMessage:resultMsg];
@@ -166,7 +168,7 @@
     self.sessionTask = [SCNetwork topicCommentListWithTopicId:_topicId page:_currentPageIndex success:^(SCTopicReplayListModel *model) {
         [_datasource removeAllObjects];
         [_datasource addObjectsFromArray:model.data];
-        [_tableView reloadData];
+        [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
         if (_currentPageIndex < [SCGlobaUtil getInt:model.paging]) {
             _currentPageIndex ++;
             [self footerHidden:NO];
@@ -372,47 +374,60 @@
         }
     }
     
+    //回复楼层和楼层下面
     if (indexPath.section > 0) {
-        SCTopicReplayListDataModel *replayModel = [_datasource objectAtIndex:indexPath.row];
-        if (![SCUserInfoManager isMyWith:replayModel.uid]) {
-            _floorSort = [SCGlobaUtil getInt:replayModel.floorSort];
-            _provId = replayModel.provId;
-            if ([SCGlobaUtil getInt:replayModel.provId] != 0 && ![SCGlobaUtil isEmpty:replayModel.provId]) {
-                if ([_inputView.inputTextView isFirstResponder]) {
-                    [self.view endEditing:YES];
+        if (![SCUserInfoManager isLogin]) {
+            SCLoginVC *loginVC = [[SCLoginVC alloc] init];
+            [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
+                if (result) {
+                    [self headerBeginRefreshing];
+                }
+            }];
+        }else {
+            SCTopicReplayListDataModel *replayModel = [_datasource objectAtIndex:indexPath.row];
+            if (![SCUserInfoManager isMyWith:replayModel.uid]) {
+                _floorSort = [SCGlobaUtil getInt:replayModel.floorSort];
+                if ([SCGlobaUtil getInt:replayModel.provId] != 0 && ![SCGlobaUtil isEmpty:replayModel.provId]) {
+                    _provId = replayModel.provId;
+                    
+                    if ([_inputView.inputTextView isFirstResponder]) {
+                        [self.view endEditing:YES];
+                    }else {
+                        [_inputView.inputTextView becomeFirstResponder];
+                        _inputView.inputTextView.text = nil;
+                        _inputView.inputTextView.placeHolder = [NSString stringWithFormat:@"回复：%@", replayModel.userName];
+                    }
                 }else {
-                    [_inputView.inputTextView becomeFirstResponder];
-                    _inputView.inputTextView.text = nil;
-                    _inputView.inputTextView.placeHolder = [NSString stringWithFormat:@"回复：%@", replayModel.userName];
+                    //弹出回复或举报
+                    _reportType = 2;
+                    _reportId = replayModel.commentId;
+                    _provId = replayModel.uid;
+                    _replayName = replayModel.userName;
+                    if ([_inputView.inputTextView isFirstResponder]) {
+                        [self.view endEditing:YES];
+                    }
+                    LandlordCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+                    
+                    CGRect rect = [cell.avatar convertRect:cell.avatar.frame toView:[UIApplication sharedApplication].keyWindow];
+                    
+                    CGFloat x = rect.origin.x / 2.0;
+                    CGFloat y = rect.origin.y + rect.size.height;
+                    
+                    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"回复" imageName:@"reply_image"];
+                    LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"举报" imageName:@"report_image"];
+                    self.outPutView = [[LrdOutputView alloc] initWithDataArray:@[one, two] origin:CGPointMake(x, y) width:100 height:36 direction:kLrdOutputViewDirectionLeft];
+                    _outPutView.delegate = self;
+                    _outPutView.dismissOperation = ^(){
+                        //设置成nil，以防内存泄露
+                        _outPutView = nil;
+                    };
+                    
+                    [self.outPutView pop];
                 }
             }else {
-                //弹出回复或举报
-                _reportType = 2;
-                _reportId = replayModel.commentId;
                 if ([_inputView.inputTextView isFirstResponder]) {
                     [self.view endEditing:YES];
                 }
-                LandlordCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                
-                CGRect rect = [cell.avatar convertRect:cell.avatar.frame toView:[UIApplication sharedApplication].keyWindow];
-                
-                CGFloat x = rect.origin.x / 2.0;
-                CGFloat y = rect.origin.y + rect.size.height;
-                
-                LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"回复" imageName:@"item_school"];
-                LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"举报" imageName:@"item_battle"];
-                self.outPutView = [[LrdOutputView alloc] initWithDataArray:@[one, two] origin:CGPointMake(x, y) width:80 height:36 direction:kLrdOutputViewDirectionLeft];
-                _outPutView.delegate = self;
-                _outPutView.dismissOperation = ^(){
-                    //设置成nil，以防内存泄露
-                    _outPutView = nil;
-                };
-                
-                [self.outPutView pop];
-            }
-        }else {
-            if ([_inputView.inputTextView isFirstResponder]) {
-                [self.view endEditing:YES];
             }
         }
     }
@@ -462,10 +477,14 @@
             SCLoginVC *loginVC = [[SCLoginVC alloc] init];
             [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
                 if (result) {
+                    _inputView.inputTextView.text = nil;
+                    _inputView.inputTextView.placeHolder = [NSString stringWithFormat:@"回复：%@", _replayName];
                     [_inputView.inputTextView becomeFirstResponder];
                 }
             }];
         }else {
+            _inputView.inputTextView.text = nil;
+            _inputView.inputTextView.placeHolder = [NSString stringWithFormat:@"回复：%@", _replayName];
             [_inputView.inputTextView becomeFirstResponder];
         }
     }else {

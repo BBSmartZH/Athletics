@@ -21,7 +21,7 @@
         }
     } modelToJSONBlock:^NSString *(NSString *keyName) {
         
-        if ([keyName isEqual:@"tid"]) {
+        if ([keyName isEqual:@"id"]) {
             return @"commentId";
         }else {
             return keyName;

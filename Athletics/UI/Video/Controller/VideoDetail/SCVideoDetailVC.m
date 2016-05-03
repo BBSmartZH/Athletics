@@ -302,8 +302,8 @@
     CGFloat x = rect.origin.x / 2.0;
     CGFloat y = rect.origin.y + rect.size.height;
     
-    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"举报" imageName:@"item_battle"];
-    self.outPutView = [[LrdOutputView alloc] initWithDataArray:@[one] origin:CGPointMake(x, y) width:80 height:36 direction:kLrdOutputViewDirectionLeft];
+    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"举报" imageName:@"report_image"];
+    self.outPutView = [[LrdOutputView alloc] initWithDataArray:@[one] origin:CGPointMake(x, y) width:100 height:36 direction:kLrdOutputViewDirectionLeft];
     _outPutView.delegate = self;
     _outPutView.dismissOperation = ^(){
         //设置成nil，以防内存泄露

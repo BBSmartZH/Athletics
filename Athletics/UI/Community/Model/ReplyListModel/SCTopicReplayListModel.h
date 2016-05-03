@@ -21,6 +21,7 @@ SCTopicReplayListDataModel
 @property(nonatomic, copy) NSString<Optional> *userAvatar;
 @property(nonatomic, copy) NSString<Optional> *title;
 @property(nonatomic, copy) NSString<Optional> *comment;
+@property(nonatomic, copy) NSString<Optional> *provName;
 @property(nonatomic, copy) NSString<Optional> *provId;
 @property(nonatomic, copy) NSString<Optional> *floorSort;//第几楼
 @property(nonatomic, copy) NSString<Optional> *createTime;
