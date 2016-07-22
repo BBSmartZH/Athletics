@@ -21,6 +21,7 @@
 #import "SCFullVideoPlayingVC.h"
 #import "LWBaseNavVC_iPhone.h"
 #import "SCNewsArticlePackVC.h"
+#import "SCBaseWebVC.h"
 
 @interface SCNewsDetailVC ()<SCNewsDetailVideoCellDelegate>
 {
@@ -70,9 +71,12 @@
     [self startActivityAnimation];
     self.sessionTask = [SCNetwork newsInfoWithNewsId:_newsId success:^(SCNewsDetailModel *model) {
         [self stopActivityAnimation];
+        
         _model = model.data;
         [_tableView reloadData];
-        [self.parentVC setCommentNum:[SCGlobaUtil isEmpty:_model.commentNum] ? @"0" : _model.commentNum];
+        if (_numBlock) {
+            _numBlock(_model.commentNum);
+        }
     } message:^(NSString *resultMsg) {
         [self postMessage:resultMsg];
         [self stopActivityAnimation];
@@ -260,6 +264,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0 && indexPath.row == _model.contents.count) {
+        if (![SCGlobaUtil isEmpty:_model.ad.url]) {
+            SCBaseWebVC *webVC = [[SCBaseWebVC alloc] init];
+            webVC.webUrl = _model.ad.url;
+            [self.parentVC.navigationController pushViewController:webVC animated:YES];
+        }
+    }
+    
     if (_model.relate.count && indexPath.section == 1) {
         SCNewsListDataModel *model = [_datasource objectAtIndex:indexPath.row];
         
@@ -275,6 +287,8 @@
             [self.parentVC.navigationController pushViewController:articleVC animated:YES];
         }
     }
+    
+    [self.parentVC.view endEditing:YES];
 }
 
 #pragma mark - SCNewsDetailVideoCellDelegate

@@ -52,7 +52,6 @@
     /**
      *  分享
      */
-    [SCAnalyticsManager startAnalyticsManager];
     [SCShareManager startSocialShare];
     
     // 开启键盘自适应管理功能

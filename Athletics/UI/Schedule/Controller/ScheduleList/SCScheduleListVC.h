@@ -6,9 +6,9 @@
 //  Copyright © 2016年 李宛. All rights reserved.
 //
 
-#import "SCBaseRefreshVC_iPhone.h"
+#import "LWBaseTableVC_iPhone.h"
 
-@interface SCScheduleListVC : SCBaseRefreshVC_iPhone
+@interface SCScheduleListVC : LWBaseTableVC_iPhone
 
 @property (nonatomic, copy) NSString *matchId;
 @property (nonatomic, copy) NSString *liveTitle;

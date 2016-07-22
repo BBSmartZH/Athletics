@@ -277,7 +277,7 @@ static NSString *commentCellId = @"CommentCollectionViewCellId";
             model.image = image;
             [_imageArray addObject:model];
             [_collectionView reloadData];
-            _descLabel.text = [NSString stringWithFormat:@"已添加%ld张，还可以添加%ld张", _imageArray.count, 9 - _imageArray.count];
+            _descLabel.text = [NSString stringWithFormat:@"已添加%ld张，还可以添加%lu张", (unsigned long)_imageArray.count, 9 - _imageArray.count];
         } option:nil];
 
     } message:^(NSString *resultMsg) {

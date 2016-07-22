@@ -247,11 +247,11 @@
 }
 
 #pragma mark - 图片与base64之间的转换
-- (NSString *)toBase64 {
-    NSData *data = UIImageJPEGRepresentation(self, 1.0f);
-    NSString *encodedImageStr = [data base64Encoding];
-    return encodedImageStr;
-}
+//- (NSString *)toBase64 {
+//    NSData *data = UIImageJPEGRepresentation(self, 1.0f);
+//    NSString *encodedImageStr = [data base64Encoding];
+//    return encodedImageStr;
+//}
 
 #define ORIGINAL_MAX_WIDTH (kScreenWidth * 2)
 - (UIImage *)imageByScalingToMaxSize:(UIImage *)sourceImage {

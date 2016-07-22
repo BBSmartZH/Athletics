@@ -11,6 +11,10 @@
 #import "SCProgressHUD.h"
 
 @interface LWBaseVC_iPhone : UIViewController
+{
+    UIView *_emptyView;
+    UIView *_listUpView;
+}
 
 @property (nonatomic, strong) LWNavigationBar *m_navBar;
 

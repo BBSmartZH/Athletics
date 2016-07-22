@@ -8,10 +8,13 @@
 
 #import "SCBaseRefreshVC_iPhone.h"
 
-@class SCNewsArticlePackVC;
+typedef void (^CommentNumBlock)(NSString *num);
+
 @interface SCNewsDetailVC : LWBaseTableVC_iPhone
 
-@property (nonatomic, assign) SCNewsArticlePackVC *parentVC;
+@property (nonatomic, assign) UIViewController *parentVC;
+@property (nonatomic, copy) CommentNumBlock numBlock;
+
 @property (nonatomic, copy) NSString *newsId;
 
 @end

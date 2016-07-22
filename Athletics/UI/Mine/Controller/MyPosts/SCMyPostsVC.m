@@ -35,8 +35,9 @@
     [self headerBeginRefreshing];
 }
 
--(void)refreshData
-{
+- (void)refreshData {
+    [super refreshData];
+    
     if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
         [self.sessionTask cancel];
         self.sessionTask = nil;
@@ -46,7 +47,7 @@
         [_datasource removeAllObjects];
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
-        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total]/[SCGlobaUtil getInt:model.paging.size]) {
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total]/[SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex ++;
             [self headerHidden:NO];
         }else {
@@ -59,7 +60,9 @@
     }];
 }
 
--(void)loadModeData{
+- (void)loadModeData {
+    [super loadModeData];
+    
     if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
         [self.sessionTask cancel];
         self.sessionTask = nil;
@@ -68,7 +71,7 @@
         [self footerEndRefreshing];
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
-        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total]/[SCGlobaUtil getInt:model.paging.size]) {
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total]/[SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex ++;
         }else {
             [self noticeNoMoreData];

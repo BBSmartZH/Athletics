@@ -13,7 +13,6 @@
 #import "SCNewsDetailModel.h"
 
 #import "SCPhotoCollectionViewCell.h"
-#import "SCNewsPhotosPackVC.h"
 
 @interface SCNewsImageVC ()<UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
@@ -110,10 +109,12 @@ static CGFloat imageSpace = 10.0f;
 - (void)prepareData {
     
     [self startActivityAnimation];
+    
+    _WEAKSELF(ws);
     self.sessionTask = [SCNetwork newsInfoWithNewsId:_newsId success:^(SCNewsDetailModel *model) {
-        [self stopActivityAnimation];
+        [ws stopActivityAnimation];
         _model = model.data;
-        [self.parentVC setCommentNum:[SCGlobaUtil isEmpty:_model.commentNum] ? @"0" : _model.commentNum];
+        
         for (int i = 0; i < _model.contents.count; i++) {
             SCContentListModel *content = [_model.contents objectAtIndex:i];
             if ([SCGlobaUtil getInt:content.type] == 3) {
@@ -127,9 +128,12 @@ static CGFloat imageSpace = 10.0f;
             }
         }
         [_collectionView reloadData];
+        if (_numBlock) {
+            _numBlock(_model.commentNum);
+        }
     } message:^(NSString *resultMsg) {
-        [self postMessage:resultMsg];
-        [self stopActivityAnimation];
+        [ws postMessage:resultMsg];
+        [ws stopActivityAnimation];
     }];
     
 }

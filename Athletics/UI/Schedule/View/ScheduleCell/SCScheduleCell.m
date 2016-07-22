@@ -91,7 +91,7 @@ static CGFloat markImageW = 44;
     
     [_leftImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(backView).offset(k_left);
-        make.top.equalTo(backView).offset(15 + _topImageH);
+        make.top.equalTo(backView).offset(25);
         make.bottom.equalTo(backView).offset(-15);
         make.size.mas_equalTo(CGSizeMake(k_ListImage_Width, floorf(k_ListImage_Width * k_ImageWH_Scale)));
     }];
@@ -133,14 +133,17 @@ static CGFloat markImageW = 44;
 - (void)setState:(NSInteger)state {
     switch (state) {
         case 1: {
+            _topImageH = kImageWithName(@"icon_matchLive_unstart").size.height;
             _topImageV.image = [kImageWithName(@"icon_matchLive_unstart") resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0) resizingMode:UIImageResizingModeTile];
         }
             break;
         case 2: {
+            _topImageH = kImageWithName(@"icon_matchLive_inhand").size.height;
             _topImageV.image = [kImageWithName(@"icon_matchLive_inhand") resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode:UIImageResizingModeTile];
         }
             break;
         default: {
+            _topImageH = kImageWithName(@"icon_matchLive_stoped").size.height;
             _topImageV.image = [kImageWithName(@"icon_matchLive_stoped") resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode:UIImageResizingModeTile];
         }
             break;

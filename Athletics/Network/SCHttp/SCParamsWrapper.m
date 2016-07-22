@@ -404,9 +404,9 @@
         return nil;
     }
     if ([SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
-        return [self salt:@{@"topicId":topicId, @"num":@(page)} isDynamic:NO];
+        return [self salt:@{@"topicId":topicId, @"page":@(page)} isDynamic:NO];
     }
-    return [self salt:@{@"uid":[SCUserInfoManager uid], @"topicId":topicId, @"num":@(page)} isDynamic:NO];
+    return [self salt:@{@"uid":[SCUserInfoManager uid], @"topicId":topicId, @"page":@(page)} isDynamic:NO];
 }
 
 #pragma mark - 增加评论
@@ -493,15 +493,14 @@
  *
  *  @return
  */
-+ (NSDictionary *)matchCourseListParamsWithMatchId:(NSString *)matchId
-                                              page:(int)page {
++ (NSDictionary *)matchCourseListParamsWithMatchId:(NSString *)matchId {
     if ([SCGlobaUtil isEmpty:matchId]) {
         return nil;
     }
     if (![SCGlobaUtil isEmpty:[SCUserInfoManager uid]]) {
-        return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchId":matchId, @"page":@(page)} isDynamic:NO];
+        return [self salt:@{@"uid":[SCUserInfoManager uid], @"matchId":matchId} isDynamic:NO];
     }
-    return [self salt:@{@"matchId":matchId, @"page":@(page)} isDynamic:NO];
+    return [self salt:@{@"matchId":matchId} isDynamic:NO];
 }
 
 #pragma mark - 查询比赛

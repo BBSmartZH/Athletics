@@ -34,6 +34,7 @@
     int _reportType;
     NSString *_reportId;
     NSString *_replayName;
+    UITapGestureRecognizer *_endEditTap;
 }
 
 @property (nonatomic, strong) SCCommentInputView *inputView;
@@ -98,7 +99,18 @@
     _headerView.delegate = self;
     _tableView.tableHeaderView = _headerView;
     
+    UITapGestureRecognizer *endEditTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(endEditTap:)];
+    [_headerView addGestureRecognizer:endEditTap];
+    
+    _endEditTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(endEditTap:)];
+    
     [self headerBeginRefreshing];
+}
+
+- (void)endEditTap:(UITapGestureRecognizer *)sender {
+    if ([self.inputView.inputTextView isFirstResponder]) {
+        [self.view endEditing:YES];
+    }
 }
 
 - (void)postsTopViewHeightChanged {
@@ -139,8 +151,9 @@
     [self.outPutView pop];
 }
 
--(void)refreshData
-{
+- (void)refreshData {
+    [super refreshData];
+    
     [SCNetwork topicInfoWithTopicId:_topicId success:^(SCCommunityDetailModel *model) {
         _model = model.data;
        [self headerEndRefreshing];
@@ -168,8 +181,8 @@
     self.sessionTask = [SCNetwork topicCommentListWithTopicId:_topicId page:_currentPageIndex success:^(SCTopicReplayListModel *model) {
         [_datasource removeAllObjects];
         [_datasource addObjectsFromArray:model.data];
-        [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
-        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging]) {
+        [_tableView reloadData];
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex ++;
             [self footerHidden:NO];
         }else{
@@ -180,8 +193,8 @@
     }];
 }
 
--(void)loadModeData
-{
+- (void)loadModeData {
+    [super loadModeData];
     
     if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
         [self.sessionTask cancel];
@@ -191,8 +204,8 @@
     self.sessionTask = [SCNetwork topicCommentListWithTopicId:_topicId page:_currentPageIndex success:^(SCTopicReplayListModel *model) {
         [self footerEndRefreshing];
         [_datasource addObjectsFromArray:model.data];
-        [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
-        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total]/[SCGlobaUtil getInt:model.paging.size]) {
+        [_tableView reloadData];
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex ++;
         }else{
             [self noticeNoMoreData];
@@ -344,8 +357,9 @@
                 
             }else{
                 view.frame = CGRectMake(0, 0, _tableView.fWidth,214);
-                
             }
+            
+            [view addGestureRecognizer:_endEditTap];
             
             return view;
         }

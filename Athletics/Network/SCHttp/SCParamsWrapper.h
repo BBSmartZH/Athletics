@@ -289,8 +289,7 @@
  *
  *  @return
  */
-+ (NSDictionary *)matchCourseListParamsWithMatchId:(NSString *)matchId
-                                              page:(int)page;
++ (NSDictionary *)matchCourseListParamsWithMatchId:(NSString *)matchId;
 
 #pragma mark - 查询比赛
 /**

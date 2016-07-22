@@ -8,9 +8,12 @@
 
 #import "SCBaseRefreshVC_iPhone.h"
 
+typedef void (^CommentNumBlock)(NSString *num);
+
 @interface SCCommentListVC : SCBaseRefreshVC_iPhone
 
 @property (nonatomic, assign) UIViewController *parentVC;
+@property (nonatomic, copy) CommentNumBlock numBlock;
 
 @property (nonatomic, copy) NSString *newsId;
 

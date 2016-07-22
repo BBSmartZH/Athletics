@@ -119,8 +119,22 @@
     
     self.commentVC = [[SCCommentListVC alloc] init];
     self.commentVC.newsId = _newsId;
-    self.commentVC.view.frame = CGRectMake(_scrollView.fWidth, self.m_navBar.bottom, _scrollView.fWidth, _scrollView.fHeight - self.m_navBar.fHeight);
+    self.commentVC.view.frame = CGRectMake(_scrollView.fWidth, self.m_navBar.bottom, _scrollView.fWidth, _scrollView.fHeight - self.m_navBar.fHeight - self.inputView.fHeight);
     [_scrollView addSubview:self.commentVC.view];
+    
+    _WEAKSELF(ws);
+    self.photosVC.numBlock = ^(NSString *num) {
+        if (!num) {
+            num = @"0";
+        }
+        [ws setCommentNum:num];
+    };
+    self.commentVC.numBlock = ^(NSString *num) {
+        if (!num) {
+            num = @"0";
+        }
+        [ws setCommentNum:num];
+    };
     
 }
 

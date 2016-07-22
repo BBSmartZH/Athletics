@@ -69,7 +69,7 @@
 
 // 网络加载图
 -(void)setNetWorkImageWithUrl:(NSString *)urlStr {
-    
+    self.mainImageView.image = nil;
     //初始化一个默认图
     [self setFrameAndZoom];
     self.maximumZoomScale =1;
@@ -80,7 +80,7 @@
     
     typeof(self) __weak weakSelf = self;
     
-    [self.mainImageView scImageWithURL:urlStr placeholderImage:self.mainImageView.image progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+    [self.mainImageView scImageWithURL:urlStr placeholderImage:[UIImage imageNamed:@"default_image"] progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         //加载进度条
         if (expectedSize > 0) {
             

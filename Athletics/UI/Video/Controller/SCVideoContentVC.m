@@ -28,6 +28,13 @@
 
 @implementation SCVideoContentVC
 
+- (instancetype)initWithStyle:(UITableViewStyle)style {
+    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+        
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -74,6 +81,14 @@
     
     _type = 1;
     
+    _listUpView = [self scroll2TopViewWithAction:@selector(upToTop)];
+
+    _emptyView = [self emptyDatasourceDefaultViewWithText:@"暂无该类视频"];
+    [_tableView setBackgroundView:_emptyView];
+}
+
+- (void)upToTop {
+    [_tableView setContentOffset:CGPointZero animated:YES];
 }
 
 - (BOOL)isUpdated {
@@ -86,7 +101,15 @@
 }
 
 - (void)refreshData {
+    [super refreshData];
+    
     _needUpdate = NO;
+    
+    if (!_datasource.count) {
+        _emptyView.hidden = NO;
+    }else {
+        _emptyView.hidden = YES;
+    }
     
     self.sessionTask = [SCNetwork matchVideoListWithChannelId:_channelId type:_type page:_currentPageIndex success:^(SCVideoListModel *model) {
         [self headerEndRefreshing];
@@ -96,13 +119,17 @@
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
         
-        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex++;
             [self footerHidden:NO];
         }else {
             [self noticeNoMoreData];
         }
-        
+        if (!_datasource.count) {
+            _emptyView.hidden = NO;
+        }else {
+            _emptyView.hidden = YES;
+        }
     } message:^(NSString *resultMsg) {
         [self headerEndRefreshing];
         [self postMessage:resultMsg];
@@ -117,13 +144,15 @@
 }
 
 - (void)loadModeData {
+    [super loadModeData];
+    
     self.sessionTask = [SCNetwork matchVideoListWithChannelId:_channelId type:_type page:_currentPageIndex success:^(SCVideoListModel *model) {
         [self footerEndRefreshing];
         
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
         
-        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex++;
         }else {
             [self noticeNoMoreData];
@@ -193,6 +222,14 @@
     }];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.01;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.01;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -203,6 +240,21 @@
     detailVC.hidesBottomBarWhenPushed = YES;
     [self.parentVC.navigationController pushViewController:detailVC animated:YES];
 }
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (_tableView == scrollView) {
+        if (scrollView.contentOffset.y >= 250) {
+            [UIView animateWithDuration:0.25 animations:^{
+                _listUpView.alpha = 1.0;
+            }];
+        }else {
+            [UIView animateWithDuration:0.25 animations:^{
+                _listUpView.alpha = 0.0;
+            }];
+        }
+    }
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

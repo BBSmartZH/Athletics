@@ -73,6 +73,7 @@ static CGFloat k_top = 15.0f;
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(ws.contentView).offset(10);
         make.centerX.equalTo(ws.contentView);
+        make.height.mas_equalTo(@14.0f);
     }];
     [leftLine mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(ws.contentView).offset(k_left);
@@ -89,6 +90,7 @@ static CGFloat k_top = 15.0f;
     [_descBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(titleLabel.mas_bottom).offset(5);
         make.right.equalTo(rightLine);
+        make.height.mas_equalTo(@14.0f);
     }];
     [_descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(_descBgView);
@@ -106,24 +108,39 @@ static CGFloat k_top = 15.0f;
 
 - (void)createLayoutWith:(SCAdModel *)model {
     _model = model;
-
+//    float sale = 9 / 16.0;
+//    if ([SCGlobaUtil getFloat:model.width] != 0.0 && [SCGlobaUtil getFloat:model.height] != 0.0) {
+//        sale = ([SCGlobaUtil getFloat:model.height] / [SCGlobaUtil getFloat:model.width]);
+//    }
+//    
+//    CGFloat height = floorf(([UIScreen mainScreen].bounds.size.width - 2 * k_left) * sale);
+//    _WEAKSELF(ws);
+//    [_imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(_descBgView.mas_bottom).offset(1);
+//        make.left.equalTo(ws.contentView).offset(k_left);
+//        make.right.equalTo(ws.contentView).offset(-k_left);
+//        make.bottom.equalTo(ws.contentView).offset(-k_top);
+//        make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width - 2 * k_left, height));
+//    }];
+    
     [_imageView scImageWithURL:model.pic placeholderImage:[UIImage imageNamed:@"default_image"]];
 }
 
 + (CGFloat)cellHeightWith:(SCAdModel *)model {
     CGFloat height = 0.0;
-    height += 5;
+    height += 10;
     height += 14;
     height += 5;
-    height += 14;
+    height += 16;
+    height += 1;
     
     float sale = 9 / 16.0;
     if ([SCGlobaUtil getFloat:model.width] != 0.0 && [SCGlobaUtil getFloat:model.height] != 0.0) {
-        sale = ([SCGlobaUtil getFloat:model.width] / [SCGlobaUtil getFloat:model.height]);
+        sale = ([SCGlobaUtil getFloat:model.height] / [SCGlobaUtil getFloat:model.width]);
     }
     
     height = floorf(([UIScreen mainScreen].bounds.size.width - 2 * k_left) * sale);
-    height += 1;
+    
     height += k_top;
     
     return height;

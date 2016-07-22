@@ -27,6 +27,13 @@
 
 @implementation SCCommentListVC
 
+- (instancetype)initWithStyle:(UITableViewStyle)style {
+    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+        
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -36,7 +43,6 @@
     
     
     [_tableView registerClass:[LWCommentListCell class] forCellReuseIdentifier:[LWCommentListCell cellidentifier]];
-//    _tableView.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight - _inputView.fHeight);
     _tableView.separatorColor = k_Border_Color;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     
@@ -45,6 +51,14 @@
         make.top.left.right.bottom.equalTo(ws.view);
     }];
     
+    _listUpView = [self scroll2TopViewWithAction:@selector(upToTop)];
+    
+    _emptyView = [self emptyDatasourceDefaultViewWithText:@"暂无评论"];
+    [_tableView setBackgroundView:_emptyView];
+}
+
+- (void)upToTop {
+    [_tableView setContentOffset:CGPointZero animated:YES];
 }
 
 - (BOOL)isUpdated {
@@ -57,9 +71,16 @@
 }
 
 - (void)refreshData {
+    [super refreshData];
     
     if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
         [self.sessionTask cancel];
+    }
+    
+    if (!_datasource.count) {
+        _emptyView.hidden = NO;
+    }else {
+        _emptyView.hidden = YES;
     }
     
     self.sessionTask = [SCNetwork newsCommentListWithNewsId:_newsId page:_currentPageIndex success:^(SCNewsCommentListModel *model) {
@@ -70,11 +91,21 @@
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
         
-        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex++;
             [self footerHidden:NO];
         }else {
             [self noticeNoMoreData];
+        }
+        
+        if (_numBlock) {
+            _numBlock(model.paging.total);
+        }
+        
+        if (!_datasource.count) {
+            _emptyView.hidden = NO;
+        }else {
+            _emptyView.hidden = YES;
         }
         
     } message:^(NSString *resultMsg) {
@@ -85,13 +116,15 @@
 }
 
 - (void)loadModeData {
+    [super loadModeData];
+    
     self.sessionTask = [SCNetwork newsCommentListWithNewsId:_newsId page:_currentPageIndex success:^(SCNewsCommentListModel *model) {
         [self footerEndRefreshing];
         
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
         
-        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex++;
         }else {
             [self noticeNoMoreData];
@@ -217,6 +250,20 @@
             [HUD hideAnimated:YES];
             [self postMessage:resultMsg];
         }];
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (_tableView == scrollView) {
+        if (scrollView.contentOffset.y >= 250) {
+            [UIView animateWithDuration:0.25 animations:^{
+                _listUpView.alpha = 1.0;
+            }];
+        }else {
+            [UIView animateWithDuration:0.25 animations:^{
+                _listUpView.alpha = 0.0;
+            }];
+        }
     }
 }
 

@@ -9,13 +9,14 @@
 #import "LWBaseVC_iPhone.h"
 
 typedef void(^TapHiddenBlack)(BOOL isHidden);
+typedef void (^CommentNumBlock)(NSString *num);
 
-
-@class SCNewsPhotosPackVC;
 @interface SCNewsImageVC : LWBaseVC_iPhone
 
-@property (nonatomic, assign) SCNewsPhotosPackVC *parentVC;
+@property (nonatomic, assign) UIViewController *parentVC;
 @property (nonatomic, copy) NSString *newsId;
+
+@property (nonatomic, copy) CommentNumBlock numBlock;
 
 @property (nonatomic, copy) TapHiddenBlack tapBlock;
 

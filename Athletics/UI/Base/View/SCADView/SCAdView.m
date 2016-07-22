@@ -59,14 +59,20 @@
         _adScrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         
         _leftImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, _adScrollView.bounds.size.width, _adScrollView.bounds.size.height)];
+        _leftImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _leftImageView.clipsToBounds = YES;
         [_adScrollView addSubview:_leftImageView];
         
         _centerImageView = [[UIImageView alloc]initWithFrame:CGRectMake(_adScrollView.bounds.size.width, 0, _adScrollView.bounds.size.width, _adScrollView.bounds.size.height)];
+        _centerImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _centerImageView.clipsToBounds = YES;
         _centerImageView.userInteractionEnabled = YES;
         [_centerImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)]];
         [_adScrollView addSubview:_centerImageView];
         
         _rightImageView = [[UIImageView alloc]initWithFrame:CGRectMake(_adScrollView.bounds.size.width*2, 0, _adScrollView.bounds.size.width, _adScrollView.bounds.size.height)];
+        _rightImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _rightImageView.clipsToBounds = YES;
         [_adScrollView addSubview:_rightImageView];
         
         _isNeedCycleRoll = YES;

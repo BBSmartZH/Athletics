@@ -92,14 +92,27 @@
     self.commentVC.view.frame = CGRectMake(_scrollView.fWidth, 0, _scrollView.fWidth, _scrollView.fHeight);
     [_scrollView addSubview:self.commentVC.view];
 
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchTap:)];
-    [self.view addGestureRecognizer:tap];
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchTap:)];
+//    [self.view addGestureRecognizer:tap];
     
+    _WEAKSELF(ws);
+    self.articleVC.numBlock = ^(NSString *num) {
+        if (!num) {
+            num = @"0";
+        }
+        [ws setCommentNum:num];
+    };
+    self.commentVC.numBlock = ^(NSString *num) {
+        if (!num) {
+            num = @"0";
+        }
+        [ws setCommentNum:num];
+    };
 }
 
-- (void)touchTap:(UITapGestureRecognizer *)tap {
-    [self.view endEditing:YES];
-}
+//- (void)touchTap:(UITapGestureRecognizer *)tap {
+//    [self.view endEditing:YES];
+//}
 
 - (void)setCommentNum:(NSString *)commentNum {
     _commentNum = commentNum;

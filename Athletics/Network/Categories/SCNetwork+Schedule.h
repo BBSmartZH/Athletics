@@ -50,7 +50,6 @@
  *  @return
  */
 + (NSURLSessionDataTask *)matchCourseListWithMatchId:(NSString *)matchId
-                                                page:(int)page
                                              success:(void (^)(SCMatchListModel *model))success
                                              message:(SCMessageBlock)message;
 

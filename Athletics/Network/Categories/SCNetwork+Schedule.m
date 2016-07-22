@@ -82,10 +82,9 @@
  *  @return
  */
 + (NSURLSessionDataTask *)matchCourseListWithMatchId:(NSString *)matchId
-                                                page:(int)page
                                              success:(void (^)(SCMatchListModel *model))success
                                              message:(SCMessageBlock)message {
-    return [SCNetworkHelper postWithUrl:[SCUrlWrapper matchCourseListUrl] params:[SCParamsWrapper matchCourseListParamsWithMatchId:matchId page:page] success:^(NSDictionary *result) {
+    return [SCNetworkHelper postWithUrl:[SCUrlWrapper matchCourseListUrl] params:[SCParamsWrapper matchCourseListParamsWithMatchId:matchId] success:^(NSDictionary *result) {
         NSError *error;
         SCMatchListModel *model = [[SCMatchListModel alloc] initWithDictionary:result error:&error];
         if (!error) {

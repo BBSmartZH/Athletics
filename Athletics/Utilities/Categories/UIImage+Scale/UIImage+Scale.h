@@ -54,6 +54,6 @@
 - (UIImage *)imageByScalingAndCroppingForSourceImage:(UIImage *)sourceImage targetSize:(CGSize)targetSize;
 
 #pragma mark - 图片与base64之间的转换
-- (NSString *)toBase64;
+//- (NSString *)toBase64;
 
 @end

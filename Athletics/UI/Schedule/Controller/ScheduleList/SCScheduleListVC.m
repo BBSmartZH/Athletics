@@ -22,6 +22,13 @@
 
 @implementation SCScheduleListVC
 
+- (instancetype)initWithStyle:(UITableViewStyle)style {
+    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+        
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -34,11 +41,50 @@
     
     _tableView.separatorColor = k_Border_Color;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    [self headerBeginRefreshing];
+    
+    _listUpView = [self scroll2TopViewWithAction:@selector(upToTop)];
+    
+    _emptyView = [self emptyDatasourceDefaultViewWithText:@"该赛事下暂无比赛"];
+    [_tableView setBackgroundView:_emptyView];
+    
+    [self prepareData];
 }
 
--(void)refreshData
-{
+- (void)upToTop {
+    [_tableView setContentOffset:CGPointZero animated:YES];
+}
+
+- (void)prepareData {
+    [self startActivityAnimation];
+    
+    if (!_datasource.count) {
+        _emptyView.hidden = NO;
+    }else {
+        _emptyView.hidden = YES;
+    }
+    
+    self.sessionTask = [SCNetwork matchCourseListWithMatchId:_matchId success:^(SCMatchListModel *model){
+        [self stopActivityAnimation];
+        
+        [_datasource removeAllObjects];
+        [_datasource addObjectsFromArray:model.data];
+        [_tableView reloadData];
+        
+        if (!_datasource.count) {
+            _emptyView.hidden = NO;
+        }else {
+            _emptyView.hidden = YES;
+        }
+    } message:^(NSString *resultMsg) {
+        [self stopActivityAnimation];
+        [self postErrorMessage:resultMsg];
+    }];
+}
+
+/*
+- (void)refreshData {
+    [super refreshData];
+    
     self.sessionTask = [SCNetwork matchCourseListWithMatchId:_matchId page:_currentPageIndex success:^(SCMatchListModel *model){
         [self headerEndRefreshing];
         
@@ -46,7 +92,7 @@
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
         
-        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex ++;
             [self footerHidden:NO];
         }else {
@@ -58,14 +104,15 @@
     }];
 }
 
--(void)loadModeData
-{
+- (void)loadModeData {
+    [super loadModeData];
+    
     self.sessionTask = [SCNetwork matchCourseListWithMatchId:_matchId page:_currentPageIndex success:^(SCMatchListModel *model) {
         
         [self footerEndRefreshing];
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
-        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total]/[SCGlobaUtil getInt:model.paging.size]) {
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total]/[SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex ++;
         }else {
             [self noticeNoMoreData];
@@ -75,6 +122,8 @@
         [self postErrorMessage:resultMsg];
     }];
 }
+*/
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return _datasource.count;
 }
@@ -142,7 +191,7 @@
         SCLoginVC *loginVC = [[SCLoginVC alloc] init];
         [loginVC loginWithPresentController:self successCompletion:^(BOOL result) {
             if (result) {
-                [self headerBeginRefreshing];
+                [self prepareData];
             }
         }];
     }else {
@@ -166,6 +215,20 @@
             sender.enabled = YES;
             [self postMessage:resultMsg];
         }];
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (_tableView == scrollView) {
+        if (scrollView.contentOffset.y >= 250) {
+            [UIView animateWithDuration:0.25 animations:^{
+                _listUpView.alpha = 1.0;
+            }];
+        }else {
+            [UIView animateWithDuration:0.25 animations:^{
+                _listUpView.alpha = 0.0;
+            }];
+        }
     }
 }
 

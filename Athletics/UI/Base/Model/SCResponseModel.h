@@ -14,9 +14,9 @@ SCPageModel
 
 @interface SCPageModel : SCBaseModel
 
-@property (nonatomic, strong) NSNumber<Optional>  *total; // 总页数int
-@property (nonatomic, strong) NSNumber<Optional>  *size;  // 一页多少条int
-@property (nonatomic, strong) NSNumber<Optional>  *page; // 当前第几页int
+@property (nonatomic, strong) NSString<Optional>  *total; // 总页数int
+@property (nonatomic, strong) NSString<Optional>  *size;  // 一页多少条int
+@property (nonatomic, strong) NSString<Optional>  *page; // 当前第几页int
 
 @end
 

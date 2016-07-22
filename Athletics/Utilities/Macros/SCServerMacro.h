@@ -22,10 +22,10 @@
 
 //测试环境
 
-//#define kBaseUrl @"http://218.244.131.231:8080"
+#define kBaseUrl @"http://218.244.131.231:8080"
 //#define kBaseUrl @"http://127.0.0.1:8080"
-//#define kBaseUrl @"http://192.168.1.26:8080"
-#define kBaseUrl @"http://192.168.1.30:8081"
+//#define kBaseUrl @"http://192.168.1.103:8080"
+//#define kBaseUrl @"http://192.168.1.30:8081"
 
 
 #endif

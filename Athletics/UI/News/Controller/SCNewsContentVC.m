@@ -32,6 +32,13 @@
 
 @implementation SCNewsContentVC
 
+- (instancetype)initWithStyle:(UITableViewStyle)style {
+    if (self = [super initWithStyle:UITableViewStyleGrouped]) {
+        
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -49,6 +56,15 @@
     
     _imageUrlArray = [NSMutableArray array];
     _titleArray = [NSMutableArray array];
+    
+    _listUpView = [self scroll2TopViewWithAction:@selector(upToTop)];
+    
+    _emptyView = [self emptyDatasourceDefaultViewWithText:@"暂无该类资讯"];
+    [_tableView setBackgroundView:_emptyView];
+}
+
+- (void)upToTop {
+    [_tableView setContentOffset:CGPointZero animated:YES];
 }
 
 - (SCAdView *)adView {
@@ -132,7 +148,15 @@
 }
 
 - (void)refreshData {
+    [super refreshData];
+    
     [self getMatchBanner];
+    
+    if (!_datasource.count) {
+        _emptyView.hidden = NO;
+    }else {
+        _emptyView.hidden = YES;
+    }
     
     self.sessionTask = [SCNetwork newsListWithChannelId:_channelId page:_currentPageIndex success:^(SCNewsListModel *model) {
         [self headerEndRefreshing];
@@ -142,13 +166,18 @@
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
         
-        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex++;
             [self footerHidden:NO];
         }else {
             [self noticeNoMoreData];
         }
         
+        if (!_datasource.count) {
+            _emptyView.hidden = NO;
+        }else {
+            _emptyView.hidden = YES;
+        }
     } message:^(NSString *resultMsg) {
         [self headerEndRefreshing];
         [self postMessage:resultMsg];
@@ -156,13 +185,15 @@
 }
 
 - (void)loadModeData {
+    [super loadModeData];
+    
     self.sessionTask = [SCNetwork newsListWithChannelId:_channelId page:_currentPageIndex success:^(SCNewsListModel *model) {
         [self footerEndRefreshing];
         
         [_datasource addObjectsFromArray:model.data];
         [_tableView reloadData];
         
-        if (_currentPageIndex < [SCGlobaUtil getInt:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
+        if (_currentPageIndex < [SCGlobaUtil getFloat:model.paging.total] / [SCGlobaUtil getInt:model.paging.size]) {
             _currentPageIndex++;
         }else {
             [self noticeNoMoreData];
@@ -211,6 +242,13 @@
     }];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.01;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.01;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -235,6 +273,19 @@
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (_tableView == scrollView) {
+        if (scrollView.contentOffset.y >= 250) {
+            [UIView animateWithDuration:0.25 animations:^{
+                _listUpView.alpha = 1.0;
+            }];
+        }else {
+            [UIView animateWithDuration:0.25 animations:^{
+                _listUpView.alpha = 0.0;
+            }];
+        }
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
